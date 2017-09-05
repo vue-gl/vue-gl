@@ -1,0 +1,8 @@
+{
+  "devDependencies": {
+    "rollup": "^0.49.2"
+  },
+  "scripts": {
+    "build": "rollup src/index.js -o docs/js/build.js -f iife --name VueGL"
+  }
+}

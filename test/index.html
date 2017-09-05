@@ -1,0 +1,17 @@
+<meta charset="utf-8">
+<title>Unit Tests | vue-gl</title>
+<link href="https://unpkg.com/mocha/mocha.css" rel="stylesheet" />
+<div id="mocha"></div>
+<script src="https://unpkg.com/vue"></script>
+<script src="https://unpkg.com/three"></script>
+<script src="https://unpkg.com/chai/chai.js"></script>
+<script src="https://unpkg.com/mocha/mocha.js"></script>
+<script type="module">
+    mocha.setup("bdd");
+</script>
+<script type="module" src="vgl-abstract.spec.js"></script>
+<script type="module" src="vgl-object3d.spec.js"></script>
+<script type="module">
+    mocha.checkLeaks();
+    mocha.run();
+</script>
