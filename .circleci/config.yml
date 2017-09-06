@@ -2,7 +2,7 @@ version: 2
 jobs:
     build:
         docker:
-            - image: selenium/node-firefox:latest
+            - image: circleci/node:latest-browsers
         steps:
             - run: sudo apt-get -qq update && sudo apt-get -qq -y install git
             - checkout
