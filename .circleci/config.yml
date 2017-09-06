@@ -7,7 +7,9 @@ jobs:
             - checkout
             - run: 
                 name: Install dependencies
-                command: sudo yarn global add selenium-webdriver http-server
+                command: |
+                    npm i selenium-webdriver
+                    npm i -g http-server
             - run:
                 name: Start http server
                 command: http-server ./test
