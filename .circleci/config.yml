@@ -5,6 +5,7 @@ jobs:
             - image: circleci/node:latest-browsers
         steps:
             - checkout
+            - run: npm i geckodriver
             - restore_cache:
                 key: yarn-{{checksum "yarn.lock"}}
             - run: 
@@ -13,7 +14,6 @@ jobs:
             - save_cache:
                 key: yarn-{{checksum "yarn.lock"}}
                 paths: ~/.cache/yarn
-            - run: npm i geckodriver
             - run:
                 name: Run test
                 command: yarn test
