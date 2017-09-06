@@ -1,7 +1,9 @@
 const webdriver = require("selenium-webdriver");
 const firefox = require("selenium-webdriver/firefox");
-const options = new firefox.Options();
-options.addArguments("--allow-file-access-from-files");
+//const options = new firefox.Options();
+const profile = new firefox.Profile();
+const options = new firefox.Options().setProfile(profile);
+//options.addArguments("--allow-file-access-from-files");
 const driver = new webdriver.Builder().withCapabilities(options.toCapabilities()).build();
 
 driver.get("file:///" + __dirname + "/index.html");
