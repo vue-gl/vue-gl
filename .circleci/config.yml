@@ -5,18 +5,15 @@ jobs:
             - image: circleci/node:latest-browsers
         steps:
             - checkout
-            - run: npm i geckodriver
-            - restore_cache:
-                key: yarn-{{checksum "yarn.lock"}}
             - run: 
                 name: Install dependencies
-                command: yarn
-            - save_cache:
-                key: yarn-{{checksum "yarn.lock"}}
-                paths: ~/.cache/yarn
+                command: yarn global add selenium-webdriver http-server
+            - run:
+                name: Start http server
+                command: http-server ./test
             - run:
                 name: Run test
-                command: yarn test
+                command: node .circleci/selenium.js
             - store_artifacts:
                 path: screenshot.png
                 
