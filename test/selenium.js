@@ -14,3 +14,9 @@ driver.wait(webdriver.until.titleMatches(/: Complete$/), 5000).then(() => {
     });
     driver.quit();
 });
+
+driver.manage().logs().get(webdriver.logging.Type.BROWSER).then((entries) => {
+    entries.forEach((entry) => {
+        console.log('[%s] %s', entry.level.name, entry.message);
+    });
+});
