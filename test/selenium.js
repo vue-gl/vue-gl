@@ -1,7 +1,7 @@
 const webdriver = require("selenium-webdriver");
-const chrome = require("selenium-webdriver/chrome");
-const options = new chrome.Options();
-options.addArguments("--disable-web-security");
+const firefox = require("selenium-webdriver/firefox");
+const options = new firefox.Options();
+options.addArguments("--allow-file-access-from-files");
 const driver = new webdriver.Builder().withCapabilities(options.toCapabilities()).build();
 
 driver.get("file:///" + __dirname + "/index.html");
