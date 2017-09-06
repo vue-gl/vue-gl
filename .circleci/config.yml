@@ -5,8 +5,9 @@ jobs:
             - image: circleci/node:latest-browsers
         steps:
             - checkout
-            - run: sudo apt-get install -y -qq gconf2
+            - run: 
+                name: Install dependencies
+                command: yarn
             - run:
                 name: Run test
-                command:
-                    firefox --headless file:///$(pwd)/test/index.html
+                command: yarn test
