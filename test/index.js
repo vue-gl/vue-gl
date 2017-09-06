@@ -4,7 +4,7 @@ const driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.c
 console.log("Loading...");
 driver.get("file://" + __dirname + "/test/index.html");
 driver.takeScreenshot().then((data) => {
-    require("fs").writeFileSync("/screenshot.png", data, "base64");
+    require("fs").writeFileSync("screenshot.png", data, "base64");
 });
 console.log("Wait for test results...");
 driver.findElement(webdriver.By.id("mocha-stats"));
