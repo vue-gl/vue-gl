@@ -8,7 +8,7 @@ jobs:
             - run: 
                 name: Install dependencies
                 command: |
-                    npm i selenium-webdriver
+                    npm i selenium-webdriver geckodriver
                     sudo npm i -g http-server
             - run:
                 name: Start http server
