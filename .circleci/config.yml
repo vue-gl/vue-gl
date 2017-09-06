@@ -9,4 +9,4 @@ jobs:
             - run:
                 name: Run test
                 command:
-                    firefox file:///$(pwd)/test/index.html
+                    firefox --headless file:///$(pwd)/test/index.html
