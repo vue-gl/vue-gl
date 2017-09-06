@@ -6,7 +6,7 @@ driver.get("file://" + __dirname + "/test/index.html");
 console.log("Wait for test results...");
 driver.findElement(webdriver.By.id("mocha-stats"));
 driver.takeScreenshot().then((data) => {
-    require("fs").writeFileSync(__dirname + "screenshot.png", data, "base64");
+    require("fs").writeFileSync("/screenshot.png", data, "base64");
 });
 const result = driver.executeScript(`
     const passedTests = document.querySelectorAll(".test.pass");
