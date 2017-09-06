@@ -1,5 +1,5 @@
 const webdriver = require("selenium-webdriver");
-const driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.firefox()).build();
+const driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.chrome()).build();
 
 driver.get("file://" + __dirname + "/test/index.html");
 driver.findElement(webdriver.By.id("mocha-stats"));
