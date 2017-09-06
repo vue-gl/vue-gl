@@ -13,6 +13,7 @@ jobs:
             - save_cache:
                 key: yarn-{{checksum "yarn.lock"}}
                 paths: ~/.cache/yarn
+            - run: npm i geckodriver
             - run:
                 name: Run test
                 command: yarn test
