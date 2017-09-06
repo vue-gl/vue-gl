@@ -13,7 +13,6 @@ jobs:
             - run:
                 name: Start http server
                 command: http-server ./test &
-            - run: sleep 1s
             - run:
                 name: Run test
                 command: node .circleci/selenium.js
