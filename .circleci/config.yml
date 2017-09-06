@@ -8,12 +8,11 @@ jobs:
             - run: 
                 name: Install dependencies
                 command: |
-                    npm i selenium-webdriver geckodriver
+                    npm i selenium-webdriver
                     sudo npm i -g http-server
             - run:
                 name: Start http server
                 command: http-server ./test &
-                background: true
             - run:
                 name: Run test
                 command: node .circleci/selenium.js

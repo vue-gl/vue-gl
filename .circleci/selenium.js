@@ -1,10 +1,5 @@
 const webdriver = require("selenium-webdriver");
-const firefox = require("selenium-webdriver/firefox");
-//const options = new firefox.Options();
-const profile = new firefox.Profile();
-const options = new firefox.Options().setProfile(profile);
-//options.addArguments("--allow-file-access-from-files");
-const driver = new webdriver.Builder().withCapabilities(options.toCapabilities()).build();
+const driver = new webdriver.Builder().forBrowser("chrome").build();
 
 driver.get("http://localhost:8080/index.html");
 driver.wait(webdriver.until.titleMatches(/: Complete$/), 5000).then(exit).catch(exit);
