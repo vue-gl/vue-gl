@@ -1,5 +1,8 @@
-var VueGL = (function (exports) {
-'use strict';
+(function (global, factory) {
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('../three.js')) :
+	typeof define === 'function' && define.amd ? define(['exports', '../three.js'], factory) :
+	(factory((global.VueGL = {}),global.THREE));
+}(this, (function (exports,three_js) { 'use strict';
 
 const assetTypes = [
     "scenes",
@@ -40,8 +43,6 @@ var VglAbstract = {
     }
 };
 
-const {Object3D, Vector3, Euler} = THREE;
-
 function findParent$1(vm) {
     const parent = vm.$parent;
     if (parent) {
@@ -54,65 +55,65 @@ function findParent$1(vm) {
 
 function position(pos) {
     if (!pos) {
-        return new Vector3();
+        return new three_js.Vector3();
     }
     if (Array.isArray(pos)) {
-        return new Vector3(...pos.map((item) => parseFloat(item)));
+        return new three_js.Vector3(...pos.map((item) => parseFloat(item)));
     }
     if (typeof pos === "object") {
-        return new Vector3(parseFloat(pos.x), parseFloat(pos.y), parseFloat(pos.z));
+        return new three_js.Vector3(parseFloat(pos.x), parseFloat(pos.y), parseFloat(pos.z));
     }
-    return new Vector3(...pos.trim().split(/\s+/).map((item) => parseFloat(item)));
+    return new three_js.Vector3(...pos.trim().split(/\s+/).map((item) => parseFloat(item)));
 }
 
 function rotation(rot) {
     if (!rot) {
-        return new Euler();
+        return new three_js.Euler();
     }
     if (Array.isArray(rot)) {
         const xyz = rot.slice(0, 3).map((item) => parseFloat(item));
         xyz.length = 3;
-        const order = Euler.RotationOrders.indexOf((rot[3] + "").trim()) < 0 ? "XYZ": rot[3].trim();
-        return new Euler(...xyz, order);
+        const order = three_js.Euler.RotationOrders.indexOf((rot[3] + "").trim()) < 0 ? "XYZ": rot[3].trim();
+        return new three_js.Euler(...xyz, order);
     }
     if (typeof rot === "object") {
-        const order = Euler.RotationOrders.indexOf((rot.order + "").trim()) < 0 ? "XYZ": rot.order.trim();
-        return new Euler(parseFloat(rot.x), parseFloat(rot.y), parseFloat(rot.z), order);
+        const order = three_js.Euler.RotationOrders.indexOf((rot.order + "").trim()) < 0 ? "XYZ": rot.order.trim();
+        return new three_js.Euler(parseFloat(rot.x), parseFloat(rot.y), parseFloat(rot.z), order);
     }
     const xyzo = (rot + "").trim().split(/\s+/);
     const xyz = xyzo.slice(0, 3).map((item) => parseFloat(item));
     xyz.length = 3;
-    const order = Euler.RotationOrders.indexOf(xyzo[3]) < 0 ? "XYZ": xyzo[3];
-    return new Euler(...xyz, order);
+    const order = three_js.Euler.RotationOrders.indexOf(xyzo[3]) < 0 ? "XYZ": xyzo[3];
+    return new three_js.Euler(...xyz, order);
 }
 
 function scale(s) {
     if (!s) {
-        return new Vector3(1, 1, 1);
+        return new three_js.Vector3(1, 1, 1);
     }
     if (Array.isArray(s)) {
         if (!s.length) {
-            return new Vector3(1, 1, 1);
+            return new three_js.Vector3(1, 1, 1);
         }
         if (s.length < 2) {
             const t = parseFloat(s[0]) || 1;
-            return new Vector3(t, t, t);
+            return new three_js.Vector3(t, t, t);
         }
         const arr = s.length < 3 ? [...s, 1]: s;
-        return new Vector3(...arr.map((item) => parseFloat(item) || 1));
+        return new three_js.Vector3(...arr.map((item) => parseFloat(item) || 1));
     }
     if (typeof s === "object") {
-        return new Vector3(parseFloat(s.x) || 1, parseFloat(s.y) || 1, parseFloat(s.z) || 1);
+        return new three_js.Vector3(parseFloat(s.x) || 1, parseFloat(s.y) || 1, parseFloat(s.z) || 1);
     }
     const arr = (s + "").trim().split(/\s+/);
     if (arr.length < 2) {
         const t = parseFloat(arr[0]) || 1;
-        return new Vector3(t, t, t);
+        return new three_js.Vector3(t, t, t);
     }
     if (arr.length < 3) {
         arr.push(1);
     }
-    return new Vector3(...arr.map((item) => parseFloat(item) || 1));
+    return new three_js.Vector3(...arr.map((item) => parseFloat(item) || 1));
 }
 
 var vglObject3d = {
@@ -124,7 +125,7 @@ var vglObject3d = {
         "scale"
     ],
     computed: {
-        inst: () => new Object3D()
+        inst: () => new three_js.Object3D()
     },
     created() {
         const inst = this.inst;
@@ -169,6 +170,6 @@ var vglObject3d = {
 exports.VglAbstract = VglAbstract;
 exports.VglObject3d = vglObject3d;
 
-return exports;
+Object.defineProperty(exports, '__esModule', { value: true });
 
-}({}));
+})));
