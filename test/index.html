@@ -16,7 +16,4 @@
     runner.on("end", () => {
         document.title += " : Complete";
     });
-    runner.on("fail", (test, err) => {
-        console.error(test.title + "\n" + err.toString());
-    });
 </script>
