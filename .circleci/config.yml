@@ -4,8 +4,8 @@ jobs:
         docker:
             - image: circleci/node:latest-browsers
         steps:
-            - run: sudo apt-get -qq update && sudo apt-get -qq -y install git
             - checkout
+            - run: sudo apt-get install -y -qq gconf2
             - run:
                 name: Run test
                 command:
