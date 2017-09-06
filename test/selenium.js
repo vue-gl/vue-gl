@@ -8,5 +8,9 @@ driver.wait(webdriver.until.titleMatches(/: Complete$/), 5000).then(() => {
         driver.quit();
     });
 }).catch(() => {
+    driver.takeScreenshot().then((data) => {
+        require("fs").writeFileSync("screenshot.png", data, "base64");
+        driver.quit();
+    });
     driver.quit();
 });
