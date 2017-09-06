@@ -4,7 +4,7 @@ jobs:
         docker:
             - image: selenium/node-firefox:latest
         steps:
-            - run: apt-get -qq update && apt-get -qq -y install git
+            - run: sudo apt-get -qq update && sudo apt-get -qq -y install git
             - checkout
             - run:
                 name: Run test
