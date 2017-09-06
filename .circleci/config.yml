@@ -1,0 +1,11 @@
+version: 2
+jobs:
+    build:
+        docker:
+            - image: circleci/node:latest-browsers
+        steps:
+            - checkout
+            - run:
+                name: Run test
+                command:
+                    - firefox --headless file:///$(pwd)/test/index.html
