@@ -15,7 +15,10 @@ jobs:
                 command: http-server ./test &
             - run:
                 name: Run test
-                command: node .circleci/selenium.js
+                command: |
+                    http-server ./test &
+                    sleep 3s
+                    node .circleci/selenium.js
             - store_artifacts:
                 path: screenshot.png
                 
