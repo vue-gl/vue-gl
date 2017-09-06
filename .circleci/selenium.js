@@ -10,7 +10,7 @@ function exit() {
             console.log('[%s] %s', entry.level.name, entry.message);
         });
     });
-    require("fs").writeFileSync(driver.executeScript("result.html", "return document.documentElement.outerHTML"));
+    require("fs").writeFileSync("result.html", driver.executeScript("return document.documentElement.outerHTML"));
     driver.takeScreenshot().then((data) => {
         require("fs").writeFileSync("screenshot.png", data, "base64");
         driver.quit();
