@@ -17,5 +17,5 @@ jobs:
                     sleep 3s
                     node .circleci/selenium.js
             - store_artifacts:
-                path: screenshot.png
+                path: result.html
                 
