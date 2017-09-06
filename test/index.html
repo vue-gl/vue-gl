@@ -12,5 +12,11 @@
 <script type="module" src="vgl-object3d.spec.js"></script>
 <script type="module">
     mocha.checkLeaks();
-    mocha.run();
+    const runner = mocha.run();
+    runner.on("end", () => {
+        document.title += " : Complete";
+    });
+    runner.on("fail", (test, err) => {
+        console.error(test.title + "\n" + err.toString());
+    });
 </script>

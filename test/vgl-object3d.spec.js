@@ -227,22 +227,19 @@ describe("VglObject3dコンポーネントのテスト", function() {
             });
             });
         });
-        describe.skip("rotationのテスト", function() {
+        describe("rotationのテスト", function() {
             describe("Non-data", function() {
-            it("rotationがundefinedのとき、Euler(0, 0, 0, 'XYZ')を返す。", function() {
-                const vm = {};
-                const result = parsedRotation.call(vm);
-                assert(result.isEuler);
-                assert(new Euler(0, 0, 0, "XYZ").equals(result));
+            it("undefined => 0, 0, 0, \"XYZ\"", function() {
+                assert.isTrue(false);
             });
-            it("rotationがnullのとき、Euler(0, 0, 0, 'XYZ')を返す。", function() {
+            it.skip("rotationがnullのとき、Euler(0, 0, 0, 'XYZ')を返す。", function() {
                 const vm = {rotation: null};
                 const result = parsedRotation.call(vm);
                 assert(result.isEuler);
                 assert(new Euler(0, 0, 0, "XYZ").equals(result));
             });
             });
-            describe("配列", function() {
+            describe.skip("配列", function() {
             it("rotationが配列のとき、変換されたEulerを返す。", function() {
                 const vm = {rotation: [1.2, 3.8, 4.2, "YXZ"]};
                 const result = parsedRotation.call(vm);
@@ -280,7 +277,7 @@ describe("VglObject3dコンポーネントのテスト", function() {
                 assert(new Euler(1.2e4, 3.5e-5, 4.2).equals(result));
             });
             });
-            describe("オブジェクト", function() {
+            describe.skip("オブジェクト", function() {
             it("rotationがオブジェクトのとき、プロパティx, y, zをコピーしたEulerを返す。", function() {
                 const vm = {rotation: {x: -1, y: -5, z: 6.8, order: "XYZ"}};
                 const result = parsedRotation.call(vm);
@@ -306,7 +303,7 @@ describe("VglObject3dコンポーネントのテスト", function() {
                 assert(new Euler(-1, -5e8, 6.8, "XYZ").equals(result));
             });
             });
-            describe("文字列", function() {
+            describe.skip("文字列", function() {
             it("rotationが文字列のとき、スペース区切りの配列としてパースする。", function() {
                 const vm = {rotation: "-1.0 -5e8 6.8 XYZ"};
                 const result = parsedRotation.call(vm);
