@@ -11,12 +11,9 @@ jobs:
                     npm i selenium-webdriver
                     sudo npm i -g http-server
             - run:
-                name: Start http server
-                command: http-server ./test &
-            - run:
                 name: Run test
                 command: |
-                    http-server ./test &
+                    http-server &
                     sleep 3s
                     node .circleci/selenium.js
             - store_artifacts:

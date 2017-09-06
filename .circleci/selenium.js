@@ -1,7 +1,7 @@
 const webdriver = require("selenium-webdriver");
 const driver = new webdriver.Builder().forBrowser("chrome").build();
 
-driver.get("http://localhost:8080/index.html");
+driver.get("http://localhost:8080/test/index.html");
 driver.wait(webdriver.until.titleMatches(/: Complete$/), 5000).then(exit).catch(exit);
 
 function exit() {
