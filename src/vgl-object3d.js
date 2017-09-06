@@ -1,6 +1,6 @@
 import VglAbstract from "./vgl-abstract.js";
 
-const {Object3D, Vector3, Euler} = THREE;
+import {Object3D, Vector3, Euler} from "../three.js";
 
 function findParent(vm) {
     const parent = vm.$parent;
