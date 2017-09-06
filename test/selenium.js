@@ -1,5 +1,8 @@
 const webdriver = require("selenium-webdriver");
-const driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.chrome()).build();
+const chrome = require("selenium-webdriver/chrome");
+const options = new chrome.Options();
+options.addArguments("--allow-file-access-from-files");
+const driver = new webdriver.Builder().withCapabilities(options.toCapabilities()).build();
 
 driver.get("file:///" + __dirname + "/index.html");
 driver.wait(webdriver.until.titleMatches(/: Complete$/), 5000).then(() => {
