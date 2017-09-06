@@ -11,6 +11,7 @@ jobs:
             - run:
                 name: Start http server
                 command: http-server ./test
+                background: true
             - run:
                 name: Run test
                 command: node .circleci/selenium.js
