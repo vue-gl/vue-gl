@@ -12,5 +12,5 @@ jobs:
                 name: Run test
                 command: yarn test
             - store_artifacts:
-                path: ~/out.png
+                path: screenshot.png
                 
