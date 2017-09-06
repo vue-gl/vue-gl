@@ -5,7 +5,7 @@
     "rollup": "^0.49.2"
   },
   "scripts": {
-    "test": "mocha-chrome test/index.html",
+    "test": "mocha-chrome test/index.html --timeout 10",
     "build": "rollup src/index.js -o docs/js/vue-gl.js -f umd --name VueGL --globals $(pwd)/three.js:THREE && mkdir -p dist && babel-minify docs/js/vue-gl.js --out-file dist/vue-gl.min.js"
   }
 }
