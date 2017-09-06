@@ -2,7 +2,7 @@ const webdriver = require("selenium-webdriver");
 const driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.chrome()).build();
 
 console.log("Loading...");
-driver.get("file:///" + __dirname + "/test/index.html");
+driver.get("file:///" + __dirname + "/index.html");
 driver.takeScreenshot().then((data) => {
     require("fs").writeFileSync("screenshot.png", data, "base64");
 });
