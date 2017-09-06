@@ -10,7 +10,9 @@ function exit() {
             console.log('[%s] %s', entry.level.name, entry.message);
         });
     });
-    require("fs").writeFileSync("result.html", driver.executeScript("return document.documentElement.outerHTML"));
+    driver.executeScript("return document.documentElement.outerHTML").then((html) => {
+        require("fs").writeFileSync("result.html", html);
+    });
     driver.takeScreenshot().then((data) => {
         require("fs").writeFileSync("screenshot.png", data, "base64");
         driver.quit();
