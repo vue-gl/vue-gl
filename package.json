@@ -6,6 +6,7 @@
     "rollup": "^0.49.2"
   },
   "scripts": {
+    "test": "open test/index.html",
     "docs": "rollup src/index.js -f iife --name VueGL --globals $(pwd)/src/three.js:THREE | babel --presets=env --out-file docs/js/vue-gl.js",
     "prepare": "mv src/three.js src/three.browser.js && mv src/three.cjs.js src/three.js; rollup src/index.js -f umd --name VueGL --globals three/build/three.module.js:THREE | babel --out-file index.js --presets=env,minify; mv src/three.js src/three.cjs.js && mv src/three.browser.js src/three.js"
   },
