@@ -4,7 +4,7 @@ const driver = new webdriver.Builder().forBrowser("chrome").build();
 
 driver.get("http://localhost:8080/test/");
 driver.wait(webdriver.until.titleMatches(/: Complete$/), 20).then(() => {
-    driver.executeScript(`return document.querySelectorAll("#mocha-report")`).then((rt) => {
+    driver.executeScript(`return document.querySelector("#mocha-report")`).then((rt) => {
         driver.executeScript("return document.documentElement.outerHTML").then((html) => {
             fs.writeFile("test-result.html", html, (err) => {
                 if (err) throw err;
