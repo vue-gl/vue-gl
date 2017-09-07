@@ -36,7 +36,7 @@ Then, the example template below will be rendered as a WebGL canvas.
 ## Examples
 <script src="https://unpkg.com/vue"></script>
 <script src="https://unpkg.com/three"></script>
-<script src="vue-gl.js"></script>
+<script src="js/vue-gl.js"></script>
 <script>
     Object.keys(VueGL).forEach((c) => {
         Vue.component(c, VueGL[c]);
