@@ -5,22 +5,27 @@ jobs:
             - image: circleci/node:latest-browsers
         steps:
             - checkout
-            - run: 
+            - run:
                 name: Install dependencies
                 command: |
                     npm i --silent selenium-webdriver
-                    sudo npm i -g --silent http-server
+                    sudo npm i -g --silent http-server greenkeeper-lockfile
                     yarn
+            - run:
+                name: greenkeeper-lockfile-update
+                command: greenkeeper-lockfile-update
             - run:
                 name: Run unit tests
                 command: |
                     http-server -s &
                     sleep 3s
                     node .circleci/selenium.js
+            - run:
+                name: greenkeeper-lockfile
+                command: greenkeeper-lockfile-upload
             - store_artifacts:
                 path: test-result.html
                 destination: test-result.html
             - store_artifacts:
                 path: test-screenshot.png
                 destination: test-screenshot.png
-                
