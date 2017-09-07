@@ -8,8 +8,8 @@ jobs:
             - run: 
                 name: Install dependencies
                 command: |
-                    npm i selenium-webdriver
-                    sudo npm i -g http-server
+                    npm i --silent selenium-webdriver
+                    sudo npm i -g --silent http-server
             - run:
                 name: Run test
                 command: |
