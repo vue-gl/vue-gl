@@ -37,6 +37,15 @@ driver.wait(webdriver.until.titleMatches(/: Complete$/), 10000).then(() => {
     });
 }).catch((err) => {
     console.error(err);
-    driver.quit();
-    process.exit(1);
+    driver.takeScreenshot().then((data) => {
+        fs.writeFile("test-screenshot.png", data, "base64", (e) => {
+            if (e) throw e;
+            driver.quit();
+            process.exit(1);
+        });
+    }).catch((e) => {
+        console.log(e);
+        driver.quit();
+        process.exit(1);
+    });
 });
