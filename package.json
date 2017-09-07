@@ -4,7 +4,10 @@
     "rollup": "^0.49.2"
   },
   "scripts": {
-    "docs": "rollup src/index.js -o docs/js/vue-gl.js -f umd --name VueGL --globals $(pwd)/three.js:THREE",
-    "prepublish": "rollup src/index.js -o docs/js/vue-gl.js -f umd --name VueGL --globals $(pwd)/three.js:THREE && mkdir -p dist && babel-minify docs/js/vue-gl.js --out-file dist/vue-gl.min.js"
+    "docs": "rollup src/index.js -o docs/js/vue-gl.js -f iife --name VueGL --globals $(pwd)/src/three.js:THREE",
+    "prepublish": "mv src/three.js src/three.browser.js && mv src/three.cjs.js src/three.js; rollup src/index.js -f umd --name VueGL --globals three/build/three.module.js:THREE | babel-minify --out-file index.js; mv src/three.js src/three.cjs.js && mv src/three.browser.js src/three.js"
+  },
+  "dependencies": {
+    "three": "^0.87.1"
   }
 }

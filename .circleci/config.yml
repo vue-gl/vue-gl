@@ -11,7 +11,7 @@ jobs:
                     npm i --silent selenium-webdriver
                     sudo npm i -g --silent http-server
             - run:
-                name: Run test
+                name: Run unit tests
                 command: |
                     http-server -s &
                     sleep 3s

@@ -5,7 +5,7 @@ Vue.js components for reactive 3D rendering. Depends on three.js.
 ### At first
 Via npm, run
 ```
-npm install --save vue-gl
+npm install --save vue vue-gl
 ```
 For browsers, insert
 ```
@@ -15,7 +15,7 @@ For browsers, insert
 ```
 ### Use as global components
 ```
-import Vue from "vue";
+import Vue from "vue/dist/vue.esm.js";
 import * as VueGL from "vue-gl";
 
 Object.keys(VueGL).forEach((componentName) => {

@@ -1,8 +1,5 @@
-(function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('../three.js')) :
-	typeof define === 'function' && define.amd ? define(['exports', '../three.js'], factory) :
-	(factory((global.VueGL = {}),global.THREE));
-}(this, (function (exports,three_js) { 'use strict';
+var VueGL = (function (exports,three_js) {
+'use strict';
 
 const assetTypes = [
     "scenes",
@@ -170,6 +167,6 @@ var vglObject3d = {
 exports.VglAbstract = VglAbstract;
 exports.VglObject3d = vglObject3d;
 
-Object.defineProperty(exports, '__esModule', { value: true });
+return exports;
 
-})));
+}({},THREE));
