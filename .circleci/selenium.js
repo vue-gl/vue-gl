@@ -3,7 +3,7 @@ const webdriver = require("selenium-webdriver");
 const driver = new webdriver.Builder().forBrowser("chrome").build();
 
 driver.get("http://localhost:8080/test/");
-driver.wait(webdriver.until.titleMatches(/: Complete$/), 20).then(() => {
+driver.wait(webdriver.until.titleMatches(/: Complete$/), 10).then(() => {
     driver.executeScript("return document.documentElement.outerHTML").then((html) => {
         fs.writeFile("test-result.html", html, (err) => {
             if (err) throw err;
