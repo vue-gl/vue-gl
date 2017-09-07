@@ -45,7 +45,7 @@ Then, the example template below will be rendered as a WebGL canvas.
 <div id="ex1">
     <div>
         <vgl-abstract>
-            {{msg}}
+            {{"{{msg}}"}}
         </vgl-abstract>
     </div>
 </div>
