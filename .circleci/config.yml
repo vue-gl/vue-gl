@@ -13,7 +13,7 @@ jobs:
             - run:
                 name: Run test
                 command: |
-                    http-server &
+                    http-server -s &
                     sleep 3s
                     node .circleci/selenium.js
             - store_artifacts:
