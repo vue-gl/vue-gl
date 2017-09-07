@@ -22,7 +22,7 @@ describe("VglAbstractコンポーネントのテスト", function() {
                 components: {VglAbstract}
             }).$mount();
             vm.$refs.c.assets.materials.childMaterial = "Child Material Object";
-            assert.strictEqual(vm.$refs.p.assets.materials.childMaterial, undefined);
+            assert.isUndefined(vm.$refs.p.assets.materials.childMaterial);
         });
         it("同じプロパティ名を使い分けられる", function() {
             const vm = new Vue({
@@ -49,7 +49,7 @@ describe("VglAbstractコンポーネントのテスト", function() {
             vm.$refs.p.assets.materials.materialData = "Material Data";
             assert.equal(vm.$refs.c.assets.materials.materialData, "Material Data");
         });
-        it("親Vglコンポーネントが存在しないときは、nullを継承する", function() {
+        it("親Vglコンポーネントが存在しないときは、空のオブジェクトを継承する", function() {
             const vm = new Vue({
                 template: `<parent-component ref="p"><vgl-abstract ref="v" /></parent-component>`,
                 components: {
@@ -58,8 +58,52 @@ describe("VglAbstractコンポーネントのテスト", function() {
                 }
             }).$mount();
             Object.keys(vm.$refs.v.assets).forEach((type) => {
-                assert.strictEqual(Object.getPrototypeOf(vm.$refs.v.assets[type]), null);
+                let count = 0;
+                const proto = Object.getPrototypeOf(vm.$refs.v.assets[type]);
+                for (let _ in proto) {
+                    ++count;
+                }
+                assert.equal(count, 0);
+                assert.isObject(proto);
+                assert.isNull(Object.getPrototypeOf(proto));
             });
+        });
+    });
+    describe("Assetsクラスのテスト", function() {
+        it("setメソッドで親コンポーネントのassetsを更新する", function() {
+            const vm = new Vue({
+                template: `<vgl-abstract ref="p"><vgl-abstract ref="c" /></vgl-abstract>`,
+                components: {VglAbstract}
+            }).$mount();
+            vm.$refs.c.assets.set("materials", "mt1", "Material data");
+            assert.equal(vm.$refs.p.assets.materials.mt1, "Material data");
+        });
+        it("ルートコンポーネントでも自分自身を参照できる", function() {
+            const vm = new Vue(VglAbstract);
+            assert.doesNotThrow(() => {
+                vm.assets.set("materials", "mt2", "Root material");
+            });
+            assert.equal(vm.assets.materials.mt2, "Root material");
+        });
+        it("deleteメソッドで親コンポーネントのassetsを削除する", function() {
+            const vm = new Vue({
+                template: `<vgl-abstract ref="p"><vgl-abstract ref="c" /></vgl-abstract>`,
+                components: {VglAbstract}
+            }).$mount();
+            vm.$refs.c.assets.set("materials", "mt3", "Material will be deleted");
+            assert.equal(vm.$refs.p.assets.materials.mt3, "Material will be deleted");
+            vm.$refs.c.assets.delete("materials", "mt3", "Material will be deleted");
+            assert.isUndefined(vm.$refs.p.assets.materials.mt3);
+        });
+        it("インスタンスが一致しなければ削除しない", function() {
+            const vm = new Vue({
+                template: `<vgl-abstract ref="p"><vgl-abstract ref="c" /></vgl-abstract>`,
+                components: {VglAbstract}
+            }).$mount();
+            vm.$refs.c.assets.set("materials", "mt4", "Material will not be deleted");
+            assert.equal(vm.$refs.p.assets.materials.mt4, "Material will not be deleted");
+            vm.$refs.c.assets.delete("materials", "mt4", "Material will be deleted");
+            assert.equal(vm.$refs.p.assets.materials.mt4, "Material will not be deleted");
         });
     });
 });
