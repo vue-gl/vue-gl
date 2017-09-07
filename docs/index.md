@@ -44,11 +44,16 @@ Then, the example template below will be rendered as a WebGL canvas.
 </script>
 <div id="ex1">
     <div>
-        <vgl-abstract />
+        <vgl-abstract>
+            {{msg}}
+        </vgl-abstract>
     </div>
 </div>
 <script>
     new Vue({
-        el: "#ex1"
+        el: "#ex1",
+        data: {
+            msg: "To check vue is started..."
+        }
     });
 </script>

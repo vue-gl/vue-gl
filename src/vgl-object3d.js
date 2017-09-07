@@ -1,6 +1,6 @@
 import VglAbstract from "./vgl-abstract.js";
 
-import {Object3D, Vector3, Euler} from "./three.js";
+import {Object3D} from "./three.js";
 
 function findParent(vm) {
     const parent = vm.$parent;
@@ -13,22 +13,32 @@ function findParent(vm) {
 }
 
 function position(pos) {
-    if (!pos) {
-        return new Vector3();
+    if (pos) {
+        if (typeof pos === "string") {
+            pos = pos.trim().split(/\s+/);
+        }
+        if (typeof pos === "number") {
+            pos = [pos];
+        }
+        if (Array.isArray(pos)) {
+            return {
+                x: parseFloat(pos[0] || 0),
+                y: parseFloat(pos[1] || 0),
+                z: parseFloat(pos[2] || 0)
+            };
+        }
+        if (typeof pos === "object") {
+            return {
+                x: parseFloat(pos.x || 0),
+                y: parseFloat(pos.y || 0),
+                z: parseFloat(pos.z || 0)
+            };
+        }
     }
-    if (Array.isArray(pos)) {
-        return new Vector3(...pos.map((item) => parseFloat(item)));
-    }
-    if (typeof pos === "object") {
-        return new Vector3(parseFloat(pos.x), parseFloat(pos.y), parseFloat(pos.z));
-    }
-    return new Vector3(...pos.trim().split(/\s+/).map((item) => parseFloat(item)));
 }
 
 function rotation(rot) {
-    if (!rot) {
-        return new Euler();
-    }
+    if (rot) {
     if (Array.isArray(rot)) {
         const xyz = rot.slice(0, 3).map((item) => parseFloat(item));
         xyz.length = 3;
@@ -44,12 +54,11 @@ function rotation(rot) {
     xyz.length = 3;
     const order = Euler.RotationOrders.indexOf(xyzo[3]) < 0 ? "XYZ": xyzo[3];
     return new Euler(...xyz, order);
+    }
 }
 
 function scale(s) {
-    if (!s) {
-        return new Vector3(1, 1, 1);
-    }
+    if (s) {
     if (Array.isArray(s)) {
         if (!s.length) {
             return new Vector3(1, 1, 1);
@@ -73,6 +82,15 @@ function scale(s) {
         arr.push(1);
     }
     return new Vector3(...arr.map((item) => parseFloat(item) || 1));
+    }
+}
+
+function setValues(obj, properties) {
+    if (properties) {
+        Object.keys(properties).forEach((key) => {
+            obj[key] = properties[key];
+        });
+    }
 }
 
 export default {
@@ -88,9 +106,9 @@ export default {
     },
     created() {
         const inst = this.inst;
-        inst.position.copy(position(this.position));
-        inst.rotation.copy(rotation(this.rotation));
-        inst.scale.copy(scale(this.scale));
+        setValues(inst.position, position(this.position));
+        setValues(inst.rotation, rotation(this.rotation));
+        setValues(inst.scale, scale(this.scale));
         const parent = findParent(this);
         if (parent) {
             parent.inst.add(inst);
@@ -103,24 +121,24 @@ export default {
         }
     },
     watch: {
-        parsedPosition(pos) {
-            this.inst.position.copy(position(pos));
+        position(pos) {
+            setValues(this.inst.position, position(pos));
         },
-        parsedRotation(rot) {
-            this.inst.rotation.copy(rotation(rot));
+        rotation(rot) {
+            setValues(this.inst.rotation, rotation(rot));
         },
-        parsedScale(s) {
-            this.inst.scale.copy(scale(s));
+        scale(s) {
+            setValues(this.inst.scale, scale(s));
         },
-        inst(instance, oldInstance) {
-            instance.add(...oldInstance.children);
-            instance.position.copy(position(this.position));
-            instance.rotation.copy(rotation(this.rotation));
-            instance.scale.copy(scale(this.scale));
-            const parent = oldInstance.parent;
+        inst(inst, oldInst) {
+            inst.add(...oldInst.children);
+            inst.position.copy(oldInst.position);
+            inst.rotation.copy(oldInst.rotation);
+            inst.scale.copy(oldInst.scale);
+            const parent = oldInst.parent;
             if (parent) {
-                parent.remove(oldInstance);
-                parent.add(instance);
+                parent.remove(oldInst);
+                parent.add(inst);
             }
         }
     }
