@@ -14,74 +14,65 @@ function findParent(vm) {
 
 function position(pos) {
     if (pos) {
-        if (typeof pos === "string") {
-            pos = pos.trim().split(/\s+/);
-        }
-        if (typeof pos === "number") {
-            pos = [pos];
-        }
-        if (Array.isArray(pos)) {
-            return {
-                x: parseFloat(pos[0] || 0),
-                y: parseFloat(pos[1] || 0),
-                z: parseFloat(pos[2] || 0)
-            };
-        }
-        if (typeof pos === "object") {
-            return {
-                x: parseFloat(pos.x || 0),
-                y: parseFloat(pos.y || 0),
-                z: parseFloat(pos.z || 0)
-            };
+        switch (typeof pos) {
+            case "string":
+            case "number":
+                pos = (pos + "").trim().split(/\s+/);
+            case "object":
+                const isArray = Array.isArray(pos);
+                return {
+                    x: parseFloat(pos[isArray ? 0: "x"] || 0),
+                    y: parseFloat(pos[isArray ? 1: "y"] || 0),
+                    z: parseFloat(pos[isArray ? 2: "z"] || 0)
+                };
         }
     }
 }
 
 function rotation(rot) {
     if (rot) {
-    if (Array.isArray(rot)) {
-        const xyz = rot.slice(0, 3).map((item) => parseFloat(item));
-        xyz.length = 3;
-        const order = Euler.RotationOrders.indexOf((rot[3] + "").trim()) < 0 ? "XYZ": rot[3].trim();
-        return new Euler(...xyz, order);
-    }
-    if (typeof rot === "object") {
-        const order = Euler.RotationOrders.indexOf((rot.order + "").trim()) < 0 ? "XYZ": rot.order.trim();
-        return new Euler(parseFloat(rot.x), parseFloat(rot.y), parseFloat(rot.z), order);
-    }
-    const xyzo = (rot + "").trim().split(/\s+/);
-    const xyz = xyzo.slice(0, 3).map((item) => parseFloat(item));
-    xyz.length = 3;
-    const order = Euler.RotationOrders.indexOf(xyzo[3]) < 0 ? "XYZ": xyzo[3];
-    return new Euler(...xyz, order);
+        switch (typeof rot) {
+            case "string":
+            case "number":
+                rot = (rot + "").trim().split(/\s+/);
+            case "object":
+                const isArray = Array.isArray(rot);
+                let order = (rot[isArray ? 3: "order"] + "").trim();
+                if (!/[XYZ]{3}/.test(order)) {
+                    order = "XYZ";
+                }
+                return {
+                    x: parseFloat(rot[isArray ? 0: "x"] || 0),
+                    y: parseFloat(rot[isArray ? 1: "y"] || 0),
+                    z: parseFloat(rot[isArray ? 2: "z"] || 0),
+                    order
+                };
+        }
     }
 }
 
 function scale(s) {
     if (s) {
-    if (Array.isArray(s)) {
-        if (!s.length) {
-            return new Vector3(1, 1, 1);
+        switch (typeof s) {
+            case "string":
+                s = (s + "").trim().split(/\s+/);
+            case "object":
+                const isArray = Array.isArray(s);
+                if (!(isArray && s.length === 1)) {
+                    return {
+                        x: parseFloat(s[isArray ? 0: "x"] || 0) || 1,
+                        y: parseFloat(s[isArray ? 1: "y"] || 0) || 1,
+                        z: parseFloat(s[isArray ? 2: "z"] || 0) || 1
+                    };
+                }
+                s = parseFloat(s[0]);
+            case "number":
+                return {
+                    x: s,
+                    y: s,
+                    z: s
+                };
         }
-        if (s.length < 2) {
-            const t = parseFloat(s[0]) || 1;
-            return new Vector3(t, t, t);
-        }
-        const arr = s.length < 3 ? [...s, 1]: s;
-        return new Vector3(...arr.map((item) => parseFloat(item) || 1));
-    }
-    if (typeof s === "object") {
-        return new Vector3(parseFloat(s.x) || 1, parseFloat(s.y) || 1, parseFloat(s.z) || 1);
-    }
-    const arr = (s + "").trim().split(/\s+/);
-    if (arr.length < 2) {
-        const t = parseFloat(arr[0]) || 1;
-        return new Vector3(t, t, t);
-    }
-    if (arr.length < 3) {
-        arr.push(1);
-    }
-    return new Vector3(...arr.map((item) => parseFloat(item) || 1));
     }
 }
 

@@ -238,269 +238,368 @@ describe("VglObject3dコンポーネントのテスト", function() {
                     assert.strictEqual(vm.inst.rotation.z, 0);
                     assert.equal(vm.inst.rotation.order, "XYZ");
                 });
-                it.skip("rotationがnullのとき、Euler(0, 0, 0, 'XYZ')を返す。", function() {
-                    const vm = {rotation: null};
-                    const result = parsedRotation.call(vm);
-                    assert(result.isEuler);
-                    assert(new Euler(0, 0, 0, "XYZ").equals(result));
-                });
-            });
-            describe.skip("配列", function() {
-                it("rotationが配列のとき、変換されたEulerを返す。", function() {
-                    const vm = {rotation: [1.2, 3.8, 4.2, "YXZ"]};
-                    const result = parsedRotation.call(vm);
-                    assert(result.isEuler);
-                    assert(new Euler(1.2, 3.8, 4.2, "YXZ").equals(result));
-                }); 
-                it("rotationが短い配列のとき、不足を0で埋める。", function() {
-                    const vm = {rotation: [1.2, 3.8]};
-                    const result = parsedRotation.call(vm);
-                    assert(result.isEuler);
-                    assert(new Euler(1.2, 3.8, 0, "XYZ").equals(result));
-                });
-                it("rotationが長い配列のとき、先頭の3値をx, y, zとする。", function() {
-                    const vm = {rotation: [1.2, 3.8, -4.2, 5.8, -8.2]};
-                    const result = parsedRotation.call(vm);
-                    assert(result.isEuler);
-                    assert(new Euler(1.2, 3.8, -4.2, "XYZ").equals(result));
-                });
-                it("rotationが文字列の配列のとき、変換されたEulerを返す。", function() {
-                    const vm = {rotation: ["1.2", "3.8", "4.2", "XYZ"]};
-                    const result = parsedRotation.call(vm);
-                    assert(result.isEuler);
-                    assert(new Euler(1.2, 3.8, 4.2, "XYZ").equals(result));
-                });
-                it("rotationが空白を含む文字列の配列のとき、変換されたEulerを返す。", function() {
-                    const vm = {rotation: [" 1.2", "3.8 ", " 4.2  ", "XYZ "]};
-                    const result = parsedRotation.call(vm);
-                    assert(result.isEuler);
-                    assert(new Euler(1.2, 3.8, 4.2, "XYZ").equals(result));
-                });
-                it("rotationが数値以外を含む文字列の配列のとき、可能な限り数値に変換する。", function() {
-                    const vm = {rotation: [" 1.2e+4<", "3.5e-5' ", " 4.2eq`  ", "XYZ"]};
-                    const result = parsedRotation.call(vm);
-                    assert(result.isEuler);
-                    assert(new Euler(1.2e4, 3.5e-5, 4.2).equals(result));
-                });
-            });
-            describe.skip("オブジェクト", function() {
-                it("rotationがオブジェクトのとき、プロパティx, y, zをコピーしたEulerを返す。", function() {
-                    const vm = {rotation: {x: -1, y: -5, z: 6.8, order: "XYZ"}};
-                    const result = parsedRotation.call(vm);
-                    assert(result.isEuler);
-                    assert(new Euler(-1, -5, 6.8, "XYZ").equals(result));
-                });
-                it("rotationがオブジェクトでプロパティが文字列のときは、数値に変換する。", function() {
-                    const vm = {rotation: {x: "-1", y: "-5", z: "6.8", order: "XYZ"}};
-                    const result = parsedRotation.call(vm);
-                    assert(result.isEuler);
-                    assert(new Euler(-1, -5, 6.8, "XYZ").equals(result));
-                });
-                it("rotationがオブジェクトでプロパティが空白を含む文字列のときは、数値に変換する。", function() {
-                    const vm = {rotation: {x: "-1 '", y: "　-5", z: " 6.8'", order: "XYZ"}};
-                    const result = parsedRotation.call(vm);
-                    assert(result.isEuler);
-                    assert(new Euler(-1, -5, 6.8, "XYZ").equals(result));
-                });
-                it("rotationがオブジェクトでプロパティが数値でない文字列のときは、可能な限り数値に変換する。", function() {
-                    const vm = {rotation: {x: "-1.0-5 '", y: "-5e8a", z: " 6.8'", order: "XYZ"}};
-                    const result = parsedRotation.call(vm);
-                    assert(result.isEuler);
-                    assert(new Euler(-1, -5e8, 6.8, "XYZ").equals(result));
-                });
-            });
-            describe.skip("文字列", function() {
-                it("rotationが文字列のとき、スペース区切りの配列としてパースする。", function() {
-                    const vm = {rotation: "-1.0 -5e8 6.8 XYZ"};
-                    const result = parsedRotation.call(vm);
-                    assert(result.isEuler);
-                    assert(new Euler(-1, -5e8, 6.8, "XYZ").equals(result));
-                });
-                it("rotationの文字列が重複するスペースを含むとき。", function() {
-                    const vm = {rotation: "-1.0  -5e8   6.8 XZY"};
-                    const result = parsedRotation.call(vm);
-                    assert(result.isEuler);
-                    assert(new Euler(-1, -5e8, 6.8, "XZY").equals(result));
-                });
-                it("rotationの文字列が前後にスペースを含むとき。", function() {
-                    const vm = {rotation: " -1.0  -5e8   6.8   YZX"};
-                    const result = parsedRotation.call(vm);
-                    assert(result.isEuler);
-                    assert(new Euler(-1, -5e8, 6.8, "YZX").equals(result));
-                });
-                it("rotationの文字列が数値以外の文字を含むとき。", function() {
-                    const vm = {rotation: " -1.0ad<'  -5e8'   6.8x9  "};
-                    const result = parsedRotation.call(vm);
-                    assert(result.isEuler);
-                    assert(new Euler(-1, -5e8, 6.8, "XYZ").equals(result));
-                });
-                it("rotationの文字列が表す数値の個数が少ないとき。", function() {
-                    const vm = {rotation: "-1.0  -5e8    "};
-                    const result = parsedRotation.call(vm);
-                    assert(result.isEuler);
-                    assert(new Euler(-1, -5e8, 0, "XYZ").equals(result));
-                });
-                it("rotationが空文字のとき、Euler(0, 0, 0, 'XYZ')を返す。", function() {
-                    const vm = {rotation: ""};
-                    const result = parsedRotation.call(vm);
-                    assert(result.isEuler);
-                    assert(new Euler(0, 0, 0, "XYZ").equals(result));
-                });
-            });
-        });
-        describe.skip("scaleのテスト", function() {
-            describe("Non-data", function() {
-                it("scaleがundefinedのとき、Vector3(1, 1, 1)を返す。", function() {
-                    const vm = {};
-                    const result = parsedScale.call(vm);
-                    assert(result.isVector3);
-                    assert(new Vector3(1, 1, 1).equals(result));
-                });
-                it("scaleがnullのとき、Vector3(1, 1, 1)を返す。", function() {
-                    const vm = {scale: null};
-                    const result = parsedScale.call(vm);
-                    assert(result.isVector3);
-                    assert(new Vector3(1, 1, 1).equals(result));
+                it("null => 0, 0, 0, \"XYZ\"", function() {
+                    const vm = new (Vue.extend(VglObject3d))({
+                        propsData: {rotation: null}
+                    });
+                    assert.strictEqual(vm.inst.rotation.x, 0);
+                    assert.strictEqual(vm.inst.rotation.y, 0);
+                    assert.strictEqual(vm.inst.rotation.z, 0);
+                    assert.equal(vm.inst.rotation.order, "XYZ");
                 });
             });
             describe("配列", function() {
-                it("scaleが配列のとき、変換されたVector3を返す。", function() {
-                    const vm = {scale: [1.2, 3.8, 4.2]};
-                    const result = parsedScale.call(vm);
-                    assert(result.isVector3);
-                    assert(new Vector3(1.2, 3.8, 4.2).equals(result));
+                it("[1.2, 3.8, 4.2, \"YXZ\"] => 1.2, 3.8, 4.2, \"YXZ\"", function() {
+                    const vm = new (Vue.extend(VglObject3d))({
+                        propsData: {rotation: [1.2, 3.8, 4.2, "YXZ"]}
+                    });
+                    assert.strictEqual(vm.inst.rotation.x, 1.2);
+                    assert.strictEqual(vm.inst.rotation.y, 3.8);
+                    assert.strictEqual(vm.inst.rotation.z, 4.2);
+                    assert.equal(vm.inst.rotation.order, "YXZ");
+                }); 
+                it("[1.2, 3.8] => 1.2, 3.8, 0, \"XYZ\"", function() {
+                    const vm = new (Vue.extend(VglObject3d))({
+                        propsData: {rotation: [1.2, 3.8]}
+                    });
+                    assert.strictEqual(vm.inst.rotation.x, 1.2);
+                    assert.strictEqual(vm.inst.rotation.y, 3.8);
+                    assert.strictEqual(vm.inst.rotation.z, 0);
+                    assert.equal(vm.inst.rotation.order, "XYZ");
                 });
-                it("scaleが短い配列のとき、不足を1で埋める。", function() {
-                    const vm = {scale: [1.2, 3.8]};
-                    const result = parsedScale.call(vm);
-                    assert(result.isVector3);
-                    assert(new Vector3(1.2, 3.8, 1).equals(result));
+                it("[1.2, 3.8, -4.2, 5.8, -8.2] => 1.2, 3.8, -4.2, \"XYZ\"", function() {
+                    const vm = new (Vue.extend(VglObject3d))({
+                        propsData: {rotation: [1.2, 3.8, -4.2, 5.8, -8.2]}
+                    });
+                    assert.strictEqual(vm.inst.rotation.x, 1.2);
+                    assert.strictEqual(vm.inst.rotation.y, 3.8);
+                    assert.strictEqual(vm.inst.rotation.z, -4.2);
+                    assert.equal(vm.inst.rotation.order, "XYZ");
                 });
-                it("scaleが長い配列のとき、先頭の3値をx, y, zとする。", function() {
-                    const vm = {scale: [1.2, 3.8, -4.2, 5.8, -8.2]};
-                    const result = parsedScale.call(vm);
-                    assert(result.isVector3);
-                    assert(new Vector3(1.2, 3.8, -4.2).equals(result));
+                it("[\"1.2\", \"3.8\", \"4.2\", \"XYZ\"] => 1.2, 3.8, 4.2, \"XYZ\"", function() {
+                    const vm = new (Vue.extend(VglObject3d))({
+                        propsData: {rotation: ["1.2", "3.8", "4.2", "XYZ"]}
+                    });
+                    assert.strictEqual(vm.inst.rotation.x, 1.2);
+                    assert.strictEqual(vm.inst.rotation.y, 3.8);
+                    assert.strictEqual(vm.inst.rotation.z, 4.2);
+                    assert.equal(vm.inst.rotation.order, "XYZ");
                 });
-                it("scaleが文字列の配列のとき、変換されたVector3を返す。", function() {
-                    const vm = {scale: ["1.2", "3.8", "4.2"]};
-                    const result = parsedScale.call(vm);
-                    assert(result.isVector3);
-                    assert(new Vector3(1.2, 3.8, 4.2).equals(result));
+                it("[\" 1.2\", \"3.8 \", \" 4.2  \", \"XYZ \"] => 1.2, 3.8, 4.2, \"XYZ\"", function() {
+                    const vm = new (Vue.extend(VglObject3d))({
+                        propsData: {rotation: [" 1.2", "3.8 ", " 4.2  ", "XYZ "]}
+                    });
+                    assert.strictEqual(vm.inst.rotation.x, 1.2);
+                    assert.strictEqual(vm.inst.rotation.y, 3.8);
+                    assert.strictEqual(vm.inst.rotation.z, 4.2);
+                    assert.equal(vm.inst.rotation.order, "XYZ");
                 });
-                it("scaleが空白を含む文字列の配列のとき、変換されたVector3を返す。", function() {
-                    const vm = {scale: [" 1.2", "3.8 ", " 4.2  "]};
-                    const result = parsedScale.call(vm);
-                    assert(result.isVector3);
-                    assert(new Vector3(1.2, 3.8, 4.2).equals(result));
-                });
-                it("scaleが数値以外を含む文字列の配列のとき、可能な限り数値に変換する。", function() {
-                    const vm = {scale: [" 1.2e+4<", "3.5e-5' ", " 4.2eq`  "]};
-                    const result = parsedScale.call(vm);
-                    assert(result.isVector3);
-                    assert(new Vector3(1.2e4, 3.5e-5, 4.2).equals(result));
-                });
-                it("scaleがlength:1の配列のとき、全方向同じ倍率にする。", function() {
-                    const vm = {scale: [7.2]};
-                    const result = parsedScale.call(vm);
-                    assert(result.isVector3);
-                    assert(new Vector3(7.2, 7.2, 7.2).equals(result));
-                });
-                it("scaleがlength:1の文字列の配列のとき、全方向同じ倍率にする。", function() {
-                    const vm = {scale: [" 7.2'"]};
-                    const result = parsedScale.call(vm);
-                    assert(result.isVector3);
-                    assert(new Vector3(7.2, 7.2, 7.2).equals(result));
+                it("[\" 1.2e+4<\", \"3.5e-5' \", \" 4.2eq`  \", \"XYZ\"] => 1.2e4, 3.5e-5, 4.2, \"XYZ\"", function() {
+                    const vm = new (Vue.extend(VglObject3d))({
+                        propsData: {rotation: [" 1.2e+4<", "3.5e-5' ", " 4.2eq`  ", "XYZ"]}
+                    });
+                    assert.strictEqual(vm.inst.rotation.x, 1.2e4);
+                    assert.strictEqual(vm.inst.rotation.y, 3.5e-5);
+                    assert.strictEqual(vm.inst.rotation.z, 4.2);
+                    assert.equal(vm.inst.rotation.order, "XYZ");
                 });
             });
             describe("オブジェクト", function() {
-                it("scaleがオブジェクトのとき、プロパティx, y, zをコピーしたVector3を返す。", function() {
-                    const vm = {scale: {x: -1, y: -5, z: 6.8}};
-                    const result = parsedScale.call(vm);
-                    assert(result.isVector3);
-                    assert(new Vector3(-1, -5, 6.8).equals(result));
+                it("{x: -1, y: -5, z: 6.8, order: \"XYZ\"} => -1, -5, 6.8, \"XYZ\"", function() {
+                    const vm = new (Vue.extend(VglObject3d))({
+                        propsData: {rotation: {x: -1, y: -5, z: 6.8, order: "XYZ"}}
+                    });
+                    assert.strictEqual(vm.inst.rotation.x, -1);
+                    assert.strictEqual(vm.inst.rotation.y, -5);
+                    assert.strictEqual(vm.inst.rotation.z, 6.8);
+                    assert.equal(vm.inst.rotation.order, "XYZ");
                 });
-                it("scaleがオブジェクトでプロパティが文字列のときは、数値に変換する。", function() {
-                    const vm = {scale: {x: "-1", y: "-5", z: "6.8"}};
-                    const result = parsedScale.call(vm);
-                    assert(result.isVector3);
-                    assert(new Vector3(-1, -5, 6.8).equals(result));
+                it("{x: \"-1\", y: \"-5\", z: \"6.8\", order: \"XYZ\"} => -1, -5, 6.8, \"XYZ\"", function() {
+                    const vm = new (Vue.extend(VglObject3d))({
+                        propsData: {rotation: {x: "-1", y: "-5", z: "6.8", order: "XYZ"}}
+                    });
+                    assert.strictEqual(vm.inst.rotation.x, -1);
+                    assert.strictEqual(vm.inst.rotation.y, -5);
+                    assert.strictEqual(vm.inst.rotation.z, 6.8);
+                    assert.equal(vm.inst.rotation.order, "XYZ");
                 });
-                it("scaleがオブジェクトでプロパティが空白を含む文字列のときは、数値に変換する。", function() {
-                    const vm = {scale: {x: "-1 '", y: "　-5", z: " 6.8'"}};
-                    const result = parsedScale.call(vm);
-                    assert(result.isVector3);
-                    assert(new Vector3(-1, -5, 6.8).equals(result));
+                it("{x: \"-1 '\", y: \"　-5\", z: \" 6.8'\", order: \"XYZ\"} => -1, -5, 6.8, \"XYZ\"", function() {
+                    const vm = new (Vue.extend(VglObject3d))({
+                        propsData: {rotation: {x: "-1 '", y: "　-5", z: " 6.8'", order: "XYZ"}}
+                    });
+                    assert.strictEqual(vm.inst.rotation.x, -1);
+                    assert.strictEqual(vm.inst.rotation.y, -5);
+                    assert.strictEqual(vm.inst.rotation.z, 6.8);
+                    assert.equal(vm.inst.rotation.order, "XYZ");
                 });
-                it("scaleがオブジェクトでプロパティが数値でない文字列のときは、可能な限り数値に変換する。", function() {
-                    const vm = {scale: {x: "-1.0-5 '", y: "-5e8a", z: " 6.8'"}};
-                    const result = parsedScale.call(vm);
-                    assert(result.isVector3);
-                    assert(new Vector3(-1, -5e8, 6.8).equals(result));
-                });
-                it("scaleが0を含むオブジェクトのとき、0は1に置換する。", function() {
-                    const vm = {scale: {x: 2.1, y: 0, z: 1.2}};
-                    const result = parsedScale.call(vm);
-                    assert(result.isVector3);
-                    assert(new Vector3(2.1, 1, 1.2).equals(result));
+                it("{x: \"-1.0-5 '\", y: \"-5e8a\", z: \" 6.8'\", order: \"ZYX\"} => -1, -5e8, 6.8, \"ZYX\"", function() {
+                    const vm = new (Vue.extend(VglObject3d))({
+                        propsData: {rotation: {x: "-1.0-5 '", y: "-5e8a", z: " 6.8'", order: "ZYX"}}
+                    });
+                    assert.strictEqual(vm.inst.rotation.x, -1);
+                    assert.strictEqual(vm.inst.rotation.y, -5e8);
+                    assert.strictEqual(vm.inst.rotation.z, 6.8);
+                    assert.equal(vm.inst.rotation.order, "ZYX");
                 });
             });
             describe("文字列", function() {
-                it("scaleが文字列のとき、スペース区切りの配列としてパースする。", function() {
-                    const vm = {scale: "-1.0 -5e8 6.8"};
-                    const result = parsedScale.call(vm);
-                    assert(result.isVector3);
-                    assert(new Vector3(-1, -5e8, 6.8).equals(result));
+                it("\"-1.0 -5e8 6.8 XYZ\" => -1, -5e8, 6.8, \"XYZ\"", function() {
+                    const vm = new (Vue.extend(VglObject3d))({
+                        propsData: {rotation: "-1.0 -5e8 6.8 XYZ"}
+                    });
+                    assert.strictEqual(vm.inst.rotation.x, -1);
+                    assert.strictEqual(vm.inst.rotation.y, -5e8);
+                    assert.strictEqual(vm.inst.rotation.z, 6.8);
+                    assert.equal(vm.inst.rotation.order, "XYZ");
                 });
-                it("scaleの文字列が重複するスペースを含むとき。", function() {
-                    const vm = {scale: "-1.0  -5e8   6.8"};
-                    const result = parsedScale.call(vm);
-                    assert(result.isVector3);
-                    assert(new Vector3(-1, -5e8, 6.8).equals(result));
+                it("\"-1.0  -5e8   6.8 XZY\" => -1, -5e8, 6.8, \"XZY\"", function() {
+                    const vm = new (Vue.extend(VglObject3d))({
+                        propsData: {rotation: "-1.0  -5e8   6.8 XZY"}
+                    });
+                    assert.strictEqual(vm.inst.rotation.x, -1);
+                    assert.strictEqual(vm.inst.rotation.y, -5e8);
+                    assert.strictEqual(vm.inst.rotation.z, 6.8);
+                    assert.equal(vm.inst.rotation.order, "XZY");
                 });
-                it("scaleの文字列が前後にスペースを含むとき。", function() {
-                    const vm = {scale: " -1.0  -5e8   6.8  "};
-                    const result = parsedScale.call(vm);
-                    assert(result.isVector3);
-                    assert(new Vector3(-1, -5e8, 6.8).equals(result));
+                it("\" -1.0  -5e8   6.8   YZX\" => -1, -5e8, 6.8, \"YZX\"", function() {
+                    const vm = new (Vue.extend(VglObject3d))({
+                        propsData: {rotation: " -1.0  -5e8   6.8   YZX"}
+                    });
+                    assert.strictEqual(vm.inst.rotation.x, -1);
+                    assert.strictEqual(vm.inst.rotation.y, -5e8);
+                    assert.strictEqual(vm.inst.rotation.z, 6.8);
+                    assert.equal(vm.inst.rotation.order, "YZX");
                 });
-                it("scaleの文字列が数値以外の文字を含むとき。", function() {
-                    const vm = {scale: " -1.0ad<'  -5e8'   6.8x9  "};
-                    const result = parsedScale.call(vm);
-                    assert(result.isVector3);
-                    assert(new Vector3(-1, -5e8, 6.8).equals(result));
+                it("\" -1.0ad<'  -5e8'   6.8x9  \" => -1, -5e8, 6.8, \"XYZ\"", function() {
+                    const vm = new (Vue.extend(VglObject3d))({
+                        propsData: {rotation: " -1.0ad<'  -5e8'   6.8x9  "}
+                    });
+                    assert.strictEqual(vm.inst.rotation.x, -1);
+                    assert.strictEqual(vm.inst.rotation.y, -5e8);
+                    assert.strictEqual(vm.inst.rotation.z, 6.8);
+                    assert.equal(vm.inst.rotation.order, "XYZ");
                 });
-                it("scaleが空文字のとき、Vector3(1, 1, 1)を返す。", function() {
-                    const vm = {scale: ""};
-                    const result = parsedScale.call(vm);
-                    assert(result.isVector3);
-                    assert(new Vector3(1, 1, 1).equals(result));
+                it("\"-1.0  -5e8    \" => -1, -5e8, 0, \"XYZ\"", function() {
+                    const vm = new (Vue.extend(VglObject3d))({
+                        propsData: {rotation: "-1.0  -5e8    "}
+                    });
+                    assert.strictEqual(vm.inst.rotation.x, -1);
+                    assert.strictEqual(vm.inst.rotation.y, -5e8);
+                    assert.strictEqual(vm.inst.rotation.z, 0);
+                    assert.equal(vm.inst.rotation.order, "XYZ");
                 });
-                it("scaleが0を含む配列のとき、0は1に置換する。", function() {
-                    const vm = {scale: [0, -3, 1.2]};
-                    const result = parsedScale.call(vm);
-                    assert(result.isVector3);
-                    assert(new Vector3(1, -3, 1.2).equals(result));
+                it("\"\" => 0, 0, 0, \"XYZ\"", function() {
+                    const vm = new (Vue.extend(VglObject3d))({
+                        propsData: {rotation: ""}
+                    });
+                    assert.strictEqual(vm.inst.rotation.x, 0);
+                    assert.strictEqual(vm.inst.rotation.y, 0);
+                    assert.strictEqual(vm.inst.rotation.z, 0);
+                    assert.equal(vm.inst.rotation.order, "XYZ");
                 });
-                it("scaleが0を含む文字列のとき、0は1に置換する。", function() {
-                    const vm = {scale: "2.1 0  1.2"};
-                    const result = parsedScale.call(vm);
-                    assert(result.isVector3);
-                    assert(new Vector3(2.1, 1, 1.2).equals(result));
+            });
+        });
+        describe("scaleのテスト", function() {
+            describe("Non-data", function() {
+                it("undefined => 1, 1, 1", function() {
+                    const vm = new (Vue.extend(VglObject3d))({
+                        propsData: {}
+                    });
+                    assert.strictEqual(vm.inst.scale.x, 1);
+                    assert.strictEqual(vm.inst.scale.y, 1);
+                    assert.strictEqual(vm.inst.scale.z, 1);
                 });
-                it("scaleが1要素のみ含む文字列のとき、全方向同じ倍率にする。", function() {
-                    const vm = {scale: " 7.2e8a'"};
-                    const result = parsedScale.call(vm);
-                    assert(result.isVector3);
-                    assert(new Vector3(7.2e8, 7.2e8, 7.2e8).equals(result));
+                it("null => 1, 1, 1", function() {
+                    const vm = new (Vue.extend(VglObject3d))({
+                        propsData: {scale: null}
+                    });
+                    assert.strictEqual(vm.inst.scale.x, 1);
+                    assert.strictEqual(vm.inst.scale.y, 1);
+                    assert.strictEqual(vm.inst.scale.z, 1);
+                });
+            });
+            describe("配列", function() {
+                it("[1.2, 3.8, 4.2] => 1.2, 3.8, 4.2", function() {
+                    const vm = new (Vue.extend(VglObject3d))({
+                        propsData: {scale: [1.2, 3.8, 4.2]}
+                    });
+                    assert.strictEqual(vm.inst.scale.x, 1.2);
+                    assert.strictEqual(vm.inst.scale.y, 3.8);
+                    assert.strictEqual(vm.inst.scale.z, 4.2);
+                });
+                it("[1.2, 3.8] => 1.2, 3.8, 1", function() {
+                    const vm = new (Vue.extend(VglObject3d))({
+                        propsData: {scale: [1.2, 3.8]}
+                    });
+                    assert.strictEqual(vm.inst.scale.x, 1.2);
+                    assert.strictEqual(vm.inst.scale.y, 3.8);
+                    assert.strictEqual(vm.inst.scale.z, 1);
+                });
+                it("[1.2, 3.8, -4.2, 5.8, -8.2] => 1.2, 3.8, -4.2", function() {
+                    const vm = new (Vue.extend(VglObject3d))({
+                        propsData: {scale: [1.2, 3.8, -4.2, 5.8, -8.2]}
+                    });
+                    assert.strictEqual(vm.inst.scale.x, 1.2);
+                    assert.strictEqual(vm.inst.scale.y, 3.8);
+                    assert.strictEqual(vm.inst.scale.z, -4.2);
+                });
+                it("[\"1.2\", \"3.8\", \"4.2\"] => 1.2, 3.8, 4.2", function() {
+                    const vm = new (Vue.extend(VglObject3d))({
+                        propsData: {scale: ["1.2", "3.8", "4.2"]}
+                    });
+                    assert.strictEqual(vm.inst.scale.x, 1.2);
+                    assert.strictEqual(vm.inst.scale.y, 3.8);
+                    assert.strictEqual(vm.inst.scale.z, 4.2);
+                });
+                it("[\" 1.2\", \"3.8 \", \" 4.2  \"] => 1.2, 3.8, 4.2", function() {
+                    const vm = new (Vue.extend(VglObject3d))({
+                        propsData: {scale: [" 1.2", "3.8 ", " 4.2  "]}
+                    });
+                    assert.strictEqual(vm.inst.scale.x, 1.2);
+                    assert.strictEqual(vm.inst.scale.y, 3.8);
+                    assert.strictEqual(vm.inst.scale.z, 4.2);
+                });
+                it("[\" 1.2e+4<\", \"3.5e-5' \", \" 4.2eq`  \"] => 1.2e4, 3.5e-5, 4.2", function() {
+                    const vm = new (Vue.extend(VglObject3d))({
+                        propsData: {scale: [" 1.2e+4<", "3.5e-5' ", " 4.2eq`  "]}
+                    });
+                    assert.strictEqual(vm.inst.scale.x, 1.2e4);
+                    assert.strictEqual(vm.inst.scale.y, 3.5e-5);
+                    assert.strictEqual(vm.inst.scale.z, 4.2);
+                });
+                it("[7.2] => 7.2, 7.2, 7.2", function() {
+                    const vm = new (Vue.extend(VglObject3d))({
+                        propsData: {scale: [7.2]}
+                    });
+                    assert.strictEqual(vm.inst.scale.x, 7.2);
+                    assert.strictEqual(vm.inst.scale.y, 7.2);
+                    assert.strictEqual(vm.inst.scale.z, 7.2);
+                });
+                it("[\" 7.2'\"] => 7.2, 7.2, 7.2", function() {
+                    const vm = new (Vue.extend(VglObject3d))({
+                        propsData: {scale: [" 7.2'"]}
+                    });
+                    assert.strictEqual(vm.inst.scale.x, 7.2);
+                    assert.strictEqual(vm.inst.scale.y, 7.2);
+                    assert.strictEqual(vm.inst.scale.z, 7.2);
+                });
+            });
+            describe("オブジェクト", function() {
+                it("{x: -1, y: -5, z: 6.8} => -1, -5, 6.8", function() {
+                    const vm = new (Vue.extend(VglObject3d))({
+                        propsData: {scale: {x: -1, y: -5, z: 6.8}}
+                    });
+                    assert.strictEqual(vm.inst.scale.x, -1);
+                    assert.strictEqual(vm.inst.scale.y, -5);
+                    assert.strictEqual(vm.inst.scale.z, 6.8);
+                });
+                it("{x: \"-1\", y: \"-5\", z: \"6.8\"} => -1, -5, 6.8", function() {
+                    const vm = new (Vue.extend(VglObject3d))({
+                        propsData: {scale: {x: "-1", y: "-5", z: "6.8"}}
+                    });
+                    assert.strictEqual(vm.inst.scale.x, -1);
+                    assert.strictEqual(vm.inst.scale.y, -5);
+                    assert.strictEqual(vm.inst.scale.z, 6.8);
+                });
+                it("{x: \"-1 '\", y: \"　-5\", z: \" 6.8'\"} => -1, -5, 6.8", function() {
+                    const vm = new (Vue.extend(VglObject3d))({
+                        propsData: {scale: {x: "-1 '", y: "　-5", z: " 6.8'"}}
+                    });
+                    assert.strictEqual(vm.inst.scale.x, -1);
+                    assert.strictEqual(vm.inst.scale.y, -5);
+                    assert.strictEqual(vm.inst.scale.z, 6.8);
+                });
+                it("{x: \"-1.0-5 '\", y: \"-5e8a\", z: \" 6.8'\"} => -1, -5e8, 6.8", function() {
+                    const vm = new (Vue.extend(VglObject3d))({
+                        propsData: {scale: {x: "-1.0-5 '", y: "-5e8a", z: " 6.8'"}}
+                    });
+                    assert.strictEqual(vm.inst.scale.x, -1);
+                    assert.strictEqual(vm.inst.scale.y, -5e8);
+                    assert.strictEqual(vm.inst.scale.z, 6.8);
+                });
+                it("{x: 2.1, y: 0, z: 1.2} => 2.1, 1, 1.2", function() {
+                    const vm = new (Vue.extend(VglObject3d))({
+                        propsData: {scale: {x: 2.1, y: 0, z: 1.2}}
+                    });
+                    assert.strictEqual(vm.inst.scale.x, 2.1);
+                    assert.strictEqual(vm.inst.scale.y, 1);
+                    assert.strictEqual(vm.inst.scale.z, 1.2);
+                });
+            });
+            describe("文字列", function() {
+                it("\"-1.0 -5e8 6.8\" => -1, -5e8, 6.8", function() {
+                    const vm = new (Vue.extend(VglObject3d))({
+                        propsData: {scale: "-1.0 -5e8 6.8"}
+                    });
+                    assert.strictEqual(vm.inst.scale.x, -1);
+                    assert.strictEqual(vm.inst.scale.y, -5e8);
+                    assert.strictEqual(vm.inst.scale.z, 6.8);
+                });
+                it("\"-1.0  -5e8   6.8\" => -1, -5e8, 6.8", function() {
+                    const vm = new (Vue.extend(VglObject3d))({
+                        propsData: {scale: "-1.0  -5e8   6.8"}
+                    });
+                    assert.strictEqual(vm.inst.scale.x, -1);
+                    assert.strictEqual(vm.inst.scale.y, -5e8);
+                    assert.strictEqual(vm.inst.scale.z, 6.8);
+                });
+                it("\" -1.0  -5e8   6.8  \" => -1, -5e8, 6.8", function() {
+                    const vm = new (Vue.extend(VglObject3d))({
+                        propsData: {scale: " -1.0  -5e8   6.8  "}
+                    });
+                    assert.strictEqual(vm.inst.scale.x, -1);
+                    assert.strictEqual(vm.inst.scale.y, -5e8);
+                    assert.strictEqual(vm.inst.scale.z, 6.8);
+                });
+                it("\" -1.0ad<'  -5e8'   6.8x9  \" => -1, -5e8, 6.8", function() {
+                    const vm = new (Vue.extend(VglObject3d))({
+                        propsData: {scale: " -1.0ad<'  -5e8'   6.8x9  "}
+                    });
+                    assert.strictEqual(vm.inst.scale.x, -1);
+                    assert.strictEqual(vm.inst.scale.y, -5e8);
+                    assert.strictEqual(vm.inst.scale.z, 6.8);
+                });
+                it("\"\" => 1, 1, 1", function() {
+                    const vm = new (Vue.extend(VglObject3d))({
+                        propsData: {scale: ""}
+                    });
+                    assert.strictEqual(vm.inst.scale.x, 1);
+                    assert.strictEqual(vm.inst.scale.y, 1);
+                    assert.strictEqual(vm.inst.scale.z, 1);
+                });
+                it("[0, -3, 1.2] => 1, -3, 1.2", function() {
+                    const vm = new (Vue.extend(VglObject3d))({
+                        propsData: {scale: [0, -3, 1.2]}
+                    });
+                    assert.strictEqual(vm.inst.scale.x, 1);
+                    assert.strictEqual(vm.inst.scale.y, -3);
+                    assert.strictEqual(vm.inst.scale.z, 1.2);
+                });
+                it("\"2.1 0  1.2\" => 2.1, 1, 1.2", function() {
+                    const vm = new (Vue.extend(VglObject3d))({
+                        propsData: {scale: "2.1 0  1.2"}
+                    });
+                    assert.strictEqual(vm.inst.scale.x, 2.1);
+                    assert.strictEqual(vm.inst.scale.y, 1);
+                    assert.strictEqual(vm.inst.scale.z, 1.2);
+                });
+                it("\" 7.2e8a'\" => 7.2e8, 7.2e8, 7.2e8", function() {
+                    const vm = new (Vue.extend(VglObject3d))({
+                        propsData: {scale: " 7.2e8a'"}
+                    });
+                    assert.strictEqual(vm.inst.scale.x, 7.2e8);
+                    assert.strictEqual(vm.inst.scale.y, 7.2e8);
+                    assert.strictEqual(vm.inst.scale.z, 7.2e8);
                 });
             });
             describe("数値", function() {
-                it("scaleが数値のとき、全方向同じ倍率にする。", function() {
-                    const vm = {scale: 7.2};
-                    const result = parsedScale.call(vm);
-                    assert(result.isVector3);
-                    assert(new Vector3(7.2, 7.2, 7.2).equals(result));
+                it("7.2 => 7.2, 7.2, 7.2", function() {
+                    const vm = new (Vue.extend(VglObject3d))({
+                        propsData: {scale: 7.2}
+                    });
+                    assert.strictEqual(vm.inst.scale.x, 7.2);
+                    assert.strictEqual(vm.inst.scale.y, 7.2);
+                    assert.strictEqual(vm.inst.scale.z, 7.2);
                 });
             });
         });
