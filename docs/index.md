@@ -42,18 +42,13 @@ Then, the example template below will be rendered as a WebGL canvas.
         Vue.component(c, VueGL[c]);
     });
 </script>
-<div id="ex1">
-    <div>
-        <vgl-abstract>
-            {{"{{msg}}"}}
-        </vgl-abstract>
-    </div>
-</div>
+<div id="ex1"></div>
 <script>
     new Vue({
         el: "#ex1",
         data: {
             msg: "To check vue is started..."
-        }
+        },
+        template: `<div>{{msg}}</div>`
     });
 </script>
