@@ -10,6 +10,7 @@ jobs:
                 command: |
                     npm i --silent selenium-webdriver
                     sudo npm i -g --silent http-server
+                    yarn
             - run:
                 name: Run unit tests
                 command: |
