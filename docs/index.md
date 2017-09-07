@@ -43,12 +43,4 @@ Then, the example template below will be rendered as a WebGL canvas.
     });
 </script>
 <div id="ex1"></div>
-<script>
-    new Vue({
-        el: "#ex1",
-        data: {
-            msg: "To check vue is started..."
-        },
-        template: `<div>{{msg}}</div>`
-    });
-</script>
+<script src="js/example-1.js"></script>
