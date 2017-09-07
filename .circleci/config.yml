@@ -20,4 +20,7 @@ jobs:
             - store_artifacts:
                 path: test-result.html
                 destination: test-result.html
+            - store_artifacts:
+                path: test-screenshot.png
+                destination: test-screenshot.png
                 
