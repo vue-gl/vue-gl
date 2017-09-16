@@ -8,6 +8,7 @@ import VglGroup from "./vgl-group.js";
 import VglLight from "./vgl-light.js";
 import VglDirectionalLight from "./vgl-directional-light.js";
 import VglAmbientLight from "./vgl-ambient-light.js";
+import VglMaterial from "./vgl-material.js";
 
 export {
     VglAssets,
@@ -19,5 +20,6 @@ export {
     VglGroup,
     VglLight,
     VglDirectionalLight,
-    VglAmbientLight
+    VglAmbientLight,
+    VglMaterial
 };
