@@ -5,6 +5,7 @@ import VglCamera from "./vgl-camera.js";
 import VglRenderer from "./vgl-renderer.js";
 import VglPerspectiveCamera from "./vgl-perspective-camera.js";
 import VglGroup from "./vgl-group.js";
+import VglLight from "./vgl-light.js";
 
 export {
     VglAssets,
@@ -13,5 +14,6 @@ export {
     VglCamera,
     VglRenderer,
     VglPerspectiveCamera,
-    VglGroup
+    VglGroup,
+    VglLight
 };
