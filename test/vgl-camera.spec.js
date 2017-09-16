@@ -143,7 +143,6 @@ describe("VglCameraコンポーネントのテスト", function() {
                     const expected = new Camera();
                     expected.position.copy(new Vector3().setFromSpherical(new Spherical(2, 1, 5)).add(new Vector3(1, 2, 3)));
                     expected.lookAt(new Vector3(1, 2, 3));
-                    console.log(expected);
                     assert.strictEqual(vm.$refs.c.inst.rotation.x, expected.rotation.x);
                     assert.strictEqual(vm.$refs.c.inst.rotation.y, expected.rotation.y);
                     assert.strictEqual(vm.$refs.c.inst.rotation.z, expected.rotation.z);

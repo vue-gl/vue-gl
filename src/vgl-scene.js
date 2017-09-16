@@ -8,12 +8,10 @@ export default {
         inst: () => new Scene()
     },
     created() {
-        if (this.scenes) {
-            this.$set(this.scenes, this.name, this.inst);
-        }
+        this.$set(this.scenes, this.name, this.inst);
     },
     beforeDestroy() {
-        if (this.scenes && this.scenes[this.name] === this.inst) {
+        if (this.scenes[this.name] === this.inst) {
             this.$delete(this.scenes, this.name);
         }
     },

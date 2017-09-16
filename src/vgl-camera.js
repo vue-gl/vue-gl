@@ -22,12 +22,10 @@ export default {
             }
             inst.lookAt(target);
         }
-        if (this.cameras) {
-            this.$set(this.cameras, this.name, this.inst);
-        }
+        this.$set(this.cameras, this.name, this.inst);
     },
     beforeDestroy() {
-        if (this.cameras && this.cameras[this.name] === this.inst) {
+        if (this.cameras[this.name] === this.inst) {
             this.$delete(this.cameras, this.name);
         }
     },

@@ -630,92 +630,92 @@ describe("VglObject3dコンポーネントのテスト", function() {
                 });
             });
         });
-        describe("インスタンスの置換のテスト", function() {
-            it("置換後のposition", function() {
-                const vm = new (Vue.extend({
-                    mixins: [VglObject3d],
-                    computed: {
-                        inst() {
-                            return this.a ? new Line(): new Mesh();
-                        }
-                    },
-                    data() {
-                        return {a: false};
+    });
+    describe("インスタンスの置換のテスト", function() {
+        it("置換後のposition", function() {
+            const vm = new (Vue.extend({
+                mixins: [VglObject3d],
+                computed: {
+                    inst() {
+                        return this.a ? new Line(): new Mesh();
                     }
-                }))({
-                    propsData: {
-                        position: "8  7^ 9"
-                    }
-                });
-                assert.isTrue(vm.inst.isMesh);
+                },
+                data() {
+                    return {a: false};
+                }
+            }))({
+                propsData: {
+                    position: "8  7^ 9"
+                }
+            });
+            assert.isTrue(vm.inst.isMesh);
+            assert.strictEqual(vm.inst.position.x, 8);
+            assert.strictEqual(vm.inst.position.y, 7);
+            assert.strictEqual(vm.inst.position.z, 9);
+            vm.a = true;
+            vm.$nextTick(() => {
+                assert.isTrue(vm.inst.isLine);
                 assert.strictEqual(vm.inst.position.x, 8);
                 assert.strictEqual(vm.inst.position.y, 7);
                 assert.strictEqual(vm.inst.position.z, 9);
-                vm.a = true;
-                vm.$nextTick(() => {
-                    assert.isTrue(vm.inst.isLine);
-                    assert.strictEqual(vm.inst.position.x, 8);
-                    assert.strictEqual(vm.inst.position.y, 7);
-                    assert.strictEqual(vm.inst.position.z, 9);
-                });
             });
-            it("置換後のrotation", function() {
-                const vm = new (Vue.extend({
-                    mixins: [VglObject3d],
-                    computed: {
-                        inst() {
-                            return this.a ? new Line(): new Mesh();
-                        }
-                    },
-                    data() {
-                        return {a: false};
+        });
+        it("置換後のrotation", function() {
+            const vm = new (Vue.extend({
+                mixins: [VglObject3d],
+                computed: {
+                    inst() {
+                        return this.a ? new Line(): new Mesh();
                     }
-                }))({
-                    propsData: {
-                        rotation: "8  7^ 9 ZYX"
-                    }
-                });
-                assert.isTrue(vm.inst.isMesh);
+                },
+                data() {
+                    return {a: false};
+                }
+            }))({
+                propsData: {
+                    rotation: "8  7^ 9 ZYX"
+                }
+            });
+            assert.isTrue(vm.inst.isMesh);
+            assert.strictEqual(vm.inst.rotation.x, 8);
+            assert.strictEqual(vm.inst.rotation.y, 7);
+            assert.strictEqual(vm.inst.rotation.z, 9);
+            assert.strictEqual(vm.inst.rotation.order, "ZYX");
+            vm.a = true;
+            vm.$nextTick(() => {
+                assert.isTrue(vm.inst.isLine);
                 assert.strictEqual(vm.inst.rotation.x, 8);
                 assert.strictEqual(vm.inst.rotation.y, 7);
                 assert.strictEqual(vm.inst.rotation.z, 9);
                 assert.strictEqual(vm.inst.rotation.order, "ZYX");
-                vm.a = true;
-                vm.$nextTick(() => {
-                    assert.isTrue(vm.inst.isLine);
-                    assert.strictEqual(vm.inst.rotation.x, 8);
-                    assert.strictEqual(vm.inst.rotation.y, 7);
-                    assert.strictEqual(vm.inst.rotation.z, 9);
-                    assert.strictEqual(vm.inst.rotation.order, "ZYX");
-                });
             });
-            it("置換後のscale", function() {
-                const vm = new (Vue.extend({
-                    mixins: [VglObject3d],
-                    computed: {
-                        inst() {
-                            return this.a ? new Line(): new Mesh();
-                        }
-                    },
-                    data() {
-                        return {a: false};
+        });
+        it("置換後のscale", function() {
+            const vm = new (Vue.extend({
+                mixins: [VglObject3d],
+                computed: {
+                    inst() {
+                        return this.a ? new Line(): new Mesh();
                     }
-                }))({
-                    propsData: {
-                        scale: "8  7^ 9"
-                    }
-                });
-                assert.isTrue(vm.inst.isMesh);
+                },
+                data() {
+                    return {a: false};
+                }
+            }))({
+                propsData: {
+                    scale: "8  7^ 9"
+                }
+            });
+            assert.isTrue(vm.inst.isMesh);
+            assert.strictEqual(vm.inst.scale.x, 8);
+            assert.strictEqual(vm.inst.scale.y, 7);
+            assert.strictEqual(vm.inst.scale.z, 9);
+            vm.a = true;
+            vm.$nextTick(() => {
+                assert.isTrue(vm.inst.isLine);
                 assert.strictEqual(vm.inst.scale.x, 8);
                 assert.strictEqual(vm.inst.scale.y, 7);
                 assert.strictEqual(vm.inst.scale.z, 9);
-                vm.a = true;
-                vm.$nextTick(() => {
-                    assert.isTrue(vm.inst.isLine);
-                    assert.strictEqual(vm.inst.scale.x, 8);
-                    assert.strictEqual(vm.inst.scale.y, 7);
-                    assert.strictEqual(vm.inst.scale.z, 9);
-                });
             });
         });
     });
