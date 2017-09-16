@@ -3,18 +3,23 @@ import {Scene} from "./three.js";
 
 export default {
     mixins: [VglObject3d],
+    inject: ["scenes"],
     computed: {
         inst: () => new Scene()
     },
     created() {
-        this.assets.set("scenes", this.name, this.inst);
+        if (this.scenes) {
+            this.$set(this.scenes, this.name, this.inst);
+        }
     },
     beforeDestroy() {
-        this.assets.delete("scenes", this.name, this.inst);
+        if (this.scenes && this.scenes[this.name] === this.inst) {
+            this.$delete(this.scenes, this.name);
+        }
     },
     watch: {
         inst(inst) {
-            this.assets.set("scenes", this.name, inst);
+            this.scenes[this.name] = inst;
         }
     }
 };
