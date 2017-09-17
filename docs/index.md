@@ -57,8 +57,8 @@ Then, the following code will be rendered as a WebGL canvas.
     <div id='app'>
         <vgl-renderer>
             <vgl-scene>
-                <vgl-cube-geometry />
-                <vgl-standard-material />
+                <vgl-sphere-geometry />
+                <vgl-mesh-standard-material />
                 <vgl-mesh />
             </vgl-scene>
             <vgl-camera orbit='radius: 10; phi: 1; theta: 1;' />

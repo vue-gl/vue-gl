@@ -11,6 +11,8 @@ import VglAmbientLight from "./vgl-ambient-light.js";
 import VglMaterial from "./vgl-material.js";
 import VglPointsMaterial from "./vgl-points-material.js";
 import VglGeometry from "./vgl-geometry.js";
+import VglSphereGeometry from "./vgl-sphere-geometry.js";
+import VglMeshStandardMaterial from "./vgl-mesh-standard-material.js";
 
 export {
     VglAssets,
@@ -25,5 +27,7 @@ export {
     VglAmbientLight,
     VglMaterial,
     VglPointsMaterial,
-    VglGeometry
+    VglGeometry,
+    VglSphereGeometry,
+    VglMeshStandardMaterial
 };
