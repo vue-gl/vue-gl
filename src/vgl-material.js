@@ -13,7 +13,8 @@ export default {
     },
     watch: {
         inst(inst) {
-            getParentMaterials(this)[this.name] = inst;
+            const materials = getParentMaterials(this);
+            if (materials) materials[this.name] = inst;
         }
     },
     created() {
