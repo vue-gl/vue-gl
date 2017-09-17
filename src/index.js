@@ -9,6 +9,7 @@ import VglLight from "./vgl-light.js";
 import VglDirectionalLight from "./vgl-directional-light.js";
 import VglAmbientLight from "./vgl-ambient-light.js";
 import VglMaterial from "./vgl-material.js";
+import VglPointsMaterial from "./vgl-points-material.js";
 
 export {
     VglAssets,
@@ -21,5 +22,6 @@ export {
     VglLight,
     VglDirectionalLight,
     VglAmbientLight,
-    VglMaterial
+    VglMaterial,
+    VglPointsMaterial
 };
