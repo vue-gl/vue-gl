@@ -1,46 +1,74 @@
 # VueGL Documentation and Examples
 ## Overview
-Vue.js components for reactive 3D rendering. Depends on three.js.
-## Usage
-### At first
-Via npm, run
-```
-npm install --save vue vue-gl
-```
-For browsers, insert
+[Vue.js](https://vuejs.org) components for reactive 3D rendering. Depends on [three.js](https://threejs.org/).
+## Getting started
+You need to load the vue.js and the three.js scripts with the vue-gl script.
 ```
 <script src="https://unpkg.com/vue"></script>
 <script src="https://unpkg.com/three"></script>
 <script src="https://unpkg.com/vue-gl"></script>
-```
-### Use as global components
-```
-import Vue from "vue/dist/vue.esm.js";
-import * as VueGL from "vue-gl";
-
-Object.keys(VueGL).forEach((componentName) => {
-    Vue.component(componentName, VueGL[componentName]);
-});
-```
-Then, the example template below will be rendered as a WebGL canvas.
-```
-<vgl-renderer>
-    <vgl-scene>
-        <vgl-cube-geometry name="cube" />
-        <vgl-standard-material name="std" />
-        <vgl-mesh geometry="cube" material="std" />
-    </vgl-scene>
-    <vgl-camera orbit="phi: 1; theta: 1; radius: 10" />
-</vgl-renderer>
-```
-## Examples
-<script src="https://unpkg.com/vue"></script>
-<script src="https://unpkg.com/three"></script>
-<script src="js/vue-gl.js"></script>
 <script>
-    Object.keys(VueGL).forEach((c) => {
-        Vue.component(c, VueGL[c]);
+    Object.keys(VueGL).forEach(name => {
+        Vue.component(name, VueGL[name]);
     });
 </script>
-<div id="ex1"></div>
-<script src="js/example-1.js"></script>
+```
+You can also get install via npm. The three.js module will be installed as a dependency.
+```
+npm install --save vue vue-gl
+```
+```
+import * as VueGL from "vue-gl";
+
+Object.keys(VueGL).forEach(name => {
+    Vue.component(name, VueGL[name]);
+});
+```
+Then, the following code will be rendered as a WebGL canvas.
+```
+<div id="app">
+    <vgl-renderer>
+        <vgl-scene>
+            <vgl-cube-geometry name="cube" />
+            <vgl-standard-material name="std" />
+            <vgl-mesh geometry="cube" material="std" />
+        </vgl-scene>
+        <vgl-camera orbit="phi: 1; theta: 1; radius: 10" />
+    </vgl-renderer>
+</div>
+<script>
+    new Vue({
+        el: "#app"
+    });
+</script>
+```
+<iframe srcdoc="
+    <style>
+        body {
+            margin: 0;
+        }
+        #app {
+            height: 100vh;
+        }
+    </style>
+    <script src='https://unpkg.com/vue/dist/vue.min.js'></script>
+    <script src='https://unpkg.com/three/build/three.min.js'></script>
+    <script src='js/vue-gl.js'></script>
+    <div id='app'>
+        <vgl-renderer>
+            <vgl-scene>
+                <vgl-cube-geometry />
+                <vgl-standard-material />
+                <vgl-mesh />
+            </vgl-scene>
+            <vgl-camera orbit='radius: 10; phi: 1; theta: 1;' />
+        </vgl-renderer>
+    </div>
+    <script>
+        new Vue({
+            el: '#app'
+        });
+    </script>
+"></iframe>
+
+

@@ -1,24 +1,15 @@
 {
   "devDependencies": {
     "babel-cli": "^6.26.0",
-    "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.0",
     "babel-preset-minify": "^0.2.0",
-    "css-loader": "^0.28.7",
     "rollup": "^0.50.0",
-    "style-loader": "^0.18.2",
-    "vue": "^2.4.2",
-    "vue-loader": "^13.0.4",
-    "vue-play": "^3.2.1",
-    "vue-template-compiler": "^2.4.2",
-    "webpack": "^3.5.6",
-    "webpack-dev-server": "^2.7.1"
+    "vue": "^2.4.2"
   },
+  "main": ["docs/js/vue-gl.min.js"],
   "scripts": {
     "test": "open test/index.html",
-    "docs": "webpack",
-    "start": "webpack-dev-server --hot",
-    "prepare": "mv src/three.js src/three.browser.js && mv src/three.cjs.js src/three.js ; rollup src/index.js -f umd --name VueGL --globals three/build/three.module.js:THREE | babel --out-file index.js --presets env,minify ; mv src/three.js src/three.cjs.js && mv src/three.browser.js src/three.js"
+    "prepare": "mv src/three.js src/three.browser.js && mv src/three.cjs.js src/three.js ; rollup src/index.js -f umd --name VueGL --globals three/build/three.module.js:THREE | babel --out-file docs/js/vue-gl.min.js --presets env,minify ; mv src/three.js src/three.cjs.js && mv src/three.browser.js src/three.js"
   },
   "dependencies": {
     "three": "^0.87.1"
