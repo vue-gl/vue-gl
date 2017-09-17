@@ -29,11 +29,11 @@ Then, the following code will be rendered as a WebGL canvas.
 <div id="app">
     <vgl-renderer>
         <vgl-scene>
-            <vgl-cube-geometry name="cube" />
-            <vgl-standard-material name="std" />
-            <vgl-mesh geometry="cube" material="std" />
+            <vgl-sphere-geometry />
+            <vgl-mesh-standard-material />
+            <vgl-mesh />
         </vgl-scene>
-        <vgl-camera orbit="phi: 1; theta: 1; radius: 10" />
+        <vgl-camera orbit="radius: 10; phi: 1; theta: 1;" />
     </vgl-renderer>
 </div>
 <script>
