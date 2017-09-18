@@ -14,8 +14,9 @@
         "transform-es2015-modules-umd",
         {
           "globals": {
-            "three.module": "THREE"
-          }
+            "three": "THREE"
+          },
+          "exactGlobals": true
         }
       ],
       [
