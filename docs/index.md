@@ -33,7 +33,7 @@ Then, the following code will be rendered as a WebGL canvas.
             <vgl-mesh-standard-material />
             <vgl-mesh />
         </vgl-scene>
-        <vgl-camera orbit="radius: 10; phi: 1; theta: 1;" />
+        <vgl-perspective-camera orbit="radius: 10; phi: 1; theta: 1;" />
     </vgl-renderer>
 </div>
 <script>
@@ -61,7 +61,7 @@ Then, the following code will be rendered as a WebGL canvas.
                 <vgl-mesh-standard-material />
                 <vgl-mesh />
             </vgl-scene>
-            <vgl-camera orbit='radius: 10; phi: 1; theta: 1;' />
+            <vgl-perspective-camera orbit='radius: 10; phi: 1; theta: 1;' />
         </vgl-renderer>
     </div>
     <script>
