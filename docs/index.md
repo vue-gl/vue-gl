@@ -65,6 +65,7 @@ Then, the following code will be rendered as a WebGL canvas.
         </vgl-renderer>
     </div>
     <script>
+        
         new Vue({
             el: '#app'
         });
