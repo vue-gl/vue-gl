@@ -53,7 +53,7 @@ Then, the following code will be rendered as a WebGL canvas.
     </style>
     <script src='https://unpkg.com/vue/dist/vue.min.js'></script>
     <script src='https://unpkg.com/three/build/three.min.js'></script>
-    <script src='js/vue-gl.min.js'></script>
+    <script src='js/vue-gl.js'></script>
     <div id='app'>
         <vgl-renderer>
             <vgl-scene>

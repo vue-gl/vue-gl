@@ -1,15 +1,18 @@
 {
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-plugin-transform-es2015-modules-umd": "^6.24.1",
     "babel-preset-env": "^1.6.0",
     "babel-preset-minify": "^0.2.0",
     "rollup": "^0.50.0",
     "vue": "^2.4.2"
   },
-  "main": ["docs/js/vue-gl.min.js"],
+  "main": [
+    "docs/js/vue-gl.js"
+  ],
   "scripts": {
     "test": "open test/index.html",
-    "prepare": "mv src/three.js src/three.browser.js && mv src/three.cjs.js src/three.js ; rollup src/index.js -f umd --name VueGL --globals three/build/three.module.js:THREE | babel --out-file docs/js/vue-gl.min.js --presets env,minify ; mv src/three.js src/three.cjs.js && mv src/three.browser.js src/three.js"
+    "prepare": "mv src/three.js src/three.browser.js && mv src/three.cjs.js src/three.js ; rollup src/index.js -f es -e three/build/three.module.js | babel --presets env,minify --plugins transform-es2015-modules-umd > docs/js/vue-gl.js ; mv src/three.js src/three.cjs.js && mv src/three.browser.js src/three.js"
   },
   "dependencies": {
     "three": "^0.87.1"
