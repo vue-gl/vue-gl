@@ -50,5 +50,6 @@
   },
   "peerDependencies": {
     "vue": "^2.4.4"
-  }
+  },
+  "version": "0.0.1"
 }
