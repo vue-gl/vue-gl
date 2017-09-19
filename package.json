@@ -1,4 +1,48 @@
 {
+  "name": "vue-gl",
+  "version": "0.0.2",
+  "description": "Vue.js components rendering 3D graphics reactively via three.js",
+  "keywords": [
+    "Vue",
+    "Vuejs",
+    "WebGL",
+    "three",
+    "threejs",
+    "3D",
+    "Graphics",
+    "Canvas"
+  ],
+  "homepage": "https://1stop-st.github.io/vue-gl/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/1stop-st/vue-gl.git"
+  },
+  "bugs": {
+    "url": "https://github.com/1stop-st/vue-gl/issues"
+  },
+  "license": "MIT",
+  "main": [
+    "docs/js/vue-gl.js"
+  ],
+  "scripts": {
+    "test": "open test/index.html",
+    "docs": "cd docs && jekyll serve",
+    "prepare": "echo 'export * from \"https://unpkg.com/three@'$(cat node_modules/three/package.json | json version)'/build/three.module.js\";' > src/three.js ; rollup src/index.js -f es -e https://unpkg.com/three@$(cat node_modules/three/package.json | json version)/build/three.module.js | babel --presets minify > docs/js/vue-gl.module.js && babel docs/js/vue-gl.module.js > docs/js/vue-gl.js"
+  },
+  "dependencies": {
+    "three": "^0.87.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-rename-import": "^2.1.1",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-minify": "^0.2.0",
+    "json": "^9.0.6",
+    "rollup": "^0.50.0"
+  },
+  "peerDependencies": {
+    "vue": "^2.4.4"
+  },
   "babel": {
     "presets": [
       [
@@ -28,28 +72,5 @@
       ]
     ],
     "moduleId": "VueGL"
-  },
-  "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-plugin-transform-rename-import": "^2.1.1",
-    "babel-preset-env": "^1.6.0",
-    "babel-preset-minify": "^0.2.0",
-    "json": "^9.0.6",
-    "rollup": "^0.50.0"
-  },
-  "main": [
-    "docs/js/vue-gl.js"
-  ],
-  "scripts": {
-    "test": "open test/index.html",
-    "docs": "cd docs && jekyll serve",
-    "prepare": "echo 'export * from \"https://unpkg.com/three@'$(cat node_modules/three/package.json | json version)'/build/three.module.js\";' > src/three.js ; rollup src/index.js -f es -e https://unpkg.com/three@$(cat node_modules/three/package.json | json version)/build/three.module.js | babel --presets minify > docs/js/vue-gl.module.js && babel docs/js/vue-gl.module.js > docs/js/vue-gl.js"
-  },
-  "dependencies": {
-    "three": "^0.87.1"
-  },
-  "peerDependencies": {
-    "vue": "^2.4.4"
-  },
-  "version": "0.0.1"
+  }
 }
