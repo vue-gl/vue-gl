@@ -14,6 +14,7 @@ import VglGeometry from "./vgl-geometry.js";
 import VglSphereGeometry from "./vgl-sphere-geometry.js";
 import VglMeshStandardMaterial from "./vgl-mesh-standard-material.js";
 import VglMesh from "./vgl-mesh.js";
+import VglPoints from "./vgl-points.js";
 
 export {
     VglAssets,
@@ -31,5 +32,6 @@ export {
     VglGeometry,
     VglSphereGeometry,
     VglMeshStandardMaterial,
-    VglMesh
+    VglMesh,
+    VglPoints
 };
