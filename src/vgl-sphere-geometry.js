@@ -1,6 +1,10 @@
 import VglGeometry from "./vgl-geometry.js";
 import {SphereGeometry} from "./three.js";
 
+function parseNumber(num) {
+    return typeof num === "string" ? parseFloat(num): num;
+}
+
 export default {
     mixins: [VglGeometry],
     props: [
@@ -15,13 +19,13 @@ export default {
     computed: {
         inst() {
             return new SphereGeometry(
-                parseFloat(this.radius),
-                parseFloat(this.widthSegments),
-                parseFloat(this.heightSegments),
-                parseFloat(this.phiStart),
-                parseFloat(this.phiLength),
-                parseFloat(this.thetaStart),
-                parseFloat(this.thetaLength)
+                parseNumber(this.radius),
+                parseNumber(this.widthSegments),
+                parseNumber(this.heightSegments),
+                parseNumber(this.phiStart),
+                parseNumber(this.phiLength),
+                parseNumber(this.thetaStart),
+                parseNumber(this.thetaLength)
             );
         }
     }

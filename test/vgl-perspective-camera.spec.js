@@ -67,6 +67,24 @@ describe("VglPerspectiveCameraコンポーネントのテスト", function() {
                 assert.strictEqual(vm.$refs.c.inst.far, 100);
             });
         });
+        describe("fovのテスト", function() {
+            it("undefined -> 50", function() {
+                const vm = new Vue({
+                    template: `<vgl-perspective-camera ref="c" />`,
+                    components: {VglPerspectiveCamera},
+                    provide: {cameras: Object.create(null)}
+                }).$mount();
+                assert.strictEqual(vm.$refs.c.inst.fov, 50);
+            });
+            it("75 -> 75", function() {
+                const vm = new Vue({
+                    template: `<vgl-perspective-camera fov="75" ref="c" />`,
+                    components: {VglPerspectiveCamera},
+                    provide: {cameras: Object.create(null)}
+                }).$mount();
+                assert.strictEqual(vm.$refs.c.inst.fov, 75);
+            });
+        });
     });
     describe("プロパティの変更のテスト", function() {
         describe("zoomを変更", function() {
@@ -113,6 +131,22 @@ describe("VglPerspectiveCameraコンポーネントのテスト", function() {
                 vm.f = 3500;
                 vm.$nextTick(() => {
                     assert.strictEqual(vm.$refs.c.inst.far, 3500);
+                    done();
+                });
+            });
+        });
+        describe("fovを変更", function() {
+            it("75 -> 80", function(done) {
+                const vm = new Vue({
+                    template: `<vgl-perspective-camera :fov="f" ref="c" />`,
+                    components: {VglPerspectiveCamera},
+                    data: {f: 75},
+                    provide: {cameras: Object.create(null)}
+                }).$mount();
+                assert.strictEqual(vm.$refs.c.inst.fov, 75);
+                vm.f = 80;
+                vm.$nextTick(() => {
+                    assert.strictEqual(vm.$refs.c.inst.fov, 80);
                     done();
                 });
             });

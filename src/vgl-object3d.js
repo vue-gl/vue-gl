@@ -5,7 +5,7 @@ import {Object3D} from "./three.js";
 function findParent(vm) {
     const parent = vm.$parent;
     if (parent) {
-        if (parent.inst && parent.inst.isObject3D) {
+        if (parent.$options.isVglObject3d) {
             return parent;
         }
         return findParent(parent);
@@ -13,6 +13,7 @@ function findParent(vm) {
 }
 
 export default {
+    isVglObject3d: true,
     mixins: [VglAssets],
     props: [
         "name",

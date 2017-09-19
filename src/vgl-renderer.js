@@ -29,8 +29,7 @@ export default {
     provide() {
         return {
             cameras: this.cameras,
-            scenes: this.scenes,
-            render: this.render
+            scenes: this.scenes
         };
     },
     data() {
@@ -56,7 +55,7 @@ export default {
         },
         inst() {
             return new WebGLRenderer(Object.assign({
-                canvas: this.$refs.renderer
+                canvas: this.$refs.rdr
             }, this.opt));
         },
         cmr() {
@@ -77,6 +76,7 @@ export default {
                 this.$nextTick(() => {
                     requestAnimationFrame(() => {
                         if (this.scn && this.cmr) {
+                            console.log("render", "with", JSON.stringify(this.scn), JSON.stringify(this.cmr));
                             this.inst.render(this.scn, this.cmr);
                         }
                         this.req = true;
@@ -106,7 +106,7 @@ export default {
     },
     render(h) {
         return h("div", [h("canvas", {
-            ref: "renderer",
+            ref: "rdr",
             key: this.key
         }, this.$slots.default)]);
     }
