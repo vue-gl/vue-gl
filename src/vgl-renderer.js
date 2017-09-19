@@ -76,7 +76,6 @@ export default {
                 this.$nextTick(() => {
                     requestAnimationFrame(() => {
                         if (this.scn && this.cmr) {
-                            console.log("render", "with", JSON.stringify(this.scn), JSON.stringify(this.cmr));
                             this.inst.render(this.scn, this.cmr);
                         }
                         this.req = true;

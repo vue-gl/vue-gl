@@ -13,7 +13,7 @@ You need to load the vue.js and the three.js scripts with the vue-gl script.
     });
 </script>
 ```
-You can also get install via npm. The three.js module will be installed as a dependency.
+You can also get install via npm (in the future). The three.js module will be installed as a dependency.
 ```
 npm install --save vue vue-gl
 ```
@@ -24,54 +24,55 @@ Object.keys(VueGL).forEach(name => {
     Vue.component(name, VueGL[name]);
 });
 ```
-Then, the following code will be rendered as a WebGL canvas.
+Then, the following code will render a sphere on the canvas.
 ```
-<div id="app">
-    <vgl-renderer>
-        <vgl-scene>
-            <vgl-sphere-geometry />
-            <vgl-mesh-standard-material />
-            <vgl-mesh />
-        </vgl-scene>
-        <vgl-perspective-camera orbit="radius: 10; phi: 1; theta: 1;" />
-    </vgl-renderer>
-</div>
+<vgl-renderer class="vgl-canvas" style="width: 300px; height: 150px;">
+    <vgl-scene>
+        <vgl-sphere-geometry></vgl-sphere-geometry>
+        <vgl-mesh-standard-material></vgl-mesh-standard-material>
+        <vgl-mesh></vgl-mesh>
+        <vgl-ambient-light></vgl-ambient-light>
+        <vgl-directional-light></vgl-directional-light>
+    </vgl-scene>
+    <vgl-perspective-camera orbit-position="radius: 200; phi: 1; theta: 1;"></vgl-perspective-camera>
+</vgl-renderer>
 <script>
     new Vue({
-        el: "#app"
+        el: ".vgl-canvas"
     });
 </script>
 ```
-<iframe srcdoc="
+<div class="vgl-example"><iframe class="vgl-example__content" srcdoc="
     <style>
         body {
             margin: 0;
+            overflow: hidden;
         }
-        #app {
+        .vgl-canvas {
             height: 100vh;
         }
     </style>
+    <vgl-renderer class='vgl-canvas'>
+        <vgl-scene>
+            <vgl-sphere-geometry></vgl-sphere-geometry>
+            <vgl-mesh-standard-material></vgl-mesh-standard-material>
+            <vgl-mesh></vgl-mesh>
+            <vgl-ambient-light></vgl-ambient-light>
+            <vgl-directional-light></vgl-directional-light>
+        </vgl-scene>
+        <vgl-perspective-camera orbit-position='radius: 200; phi: 1; theta: 1;'></vgl-perspective-camera>
+    </vgl-renderer>
     <script src='https://unpkg.com/vue/dist/vue.min.js'></script>
-    <script src='https://unpkg.com/three/build/three.min.js'></script>
+    <script src='https://unpkg.com/three/build/three.js'></script>
     <script src='js/vue-gl.js'></script>
-    <div id='app'>
-        <vgl-renderer>
-            <vgl-scene>
-                <vgl-sphere-geometry />
-                <vgl-mesh-standard-material />
-                <vgl-mesh />
-            </vgl-scene>
-            <vgl-perspective-camera orbit='radius: 10; phi: 1; theta: 1;' />
-        </vgl-renderer>
-    </div>
     <script>
         Object.keys(VueGL).forEach(function(name) {
             Vue.component(name, VueGL[name]);
         });
-        new Vue({
-            el: '#app'
+        const vm = new Vue({
+            el: '.vgl-canvas'
         });
     </script>
-"></iframe>
+"></iframe></div>
 
 

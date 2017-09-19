@@ -1,0 +1,26 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+.vgl-example {
+    width: 50%;
+    margin-right: 25%;
+    margin-left: 25%;
+    position: relative;
+}
+
+.vgl-example::before {
+    content: "";
+    padding-top: 56.25%;
+    display: block;
+}
+
+.vgl-example__content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
