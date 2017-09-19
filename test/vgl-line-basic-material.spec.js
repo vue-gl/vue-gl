@@ -37,6 +37,42 @@ describe("VglLineBasicMaterialコンポーネントのテスト", function() {
                 assert.isTrue(vm.inst.lights);
             });
         });
+        describe("linewidthのテスト", function() {
+            it("undefined -> 1", function() {
+                const vm = new Vue(VglLineBasicMaterial);
+                assert.strictEqual(vm.inst.linewidth, 1);
+            });
+            it("\"2.1\" -> 2.1", function() {
+                const vm = new (Vue.extend(VglLineBasicMaterial))({
+                    propsData: {linewidth: "2.1"}
+                });
+                assert.strictEqual(vm.inst.linewidth, 2.1);
+            });
+        });
+        describe("linecapのテスト", function() {
+            it("undefined -> \"round\"", function() {
+                const vm = new Vue(VglLineBasicMaterial);
+                assert.equal(vm.inst.linecap, "round");
+            });
+            it("\"square\" -> \"square\"", function() {
+                const vm = new (Vue.extend(VglLineBasicMaterial))({
+                    propsData: {linecap: "square"}
+                });
+                assert.equal(vm.inst.linecap, "square");
+            });
+        });
+        describe("linejoinのテスト", function() {
+            it("undefined -> \"round\"", function() {
+                const vm = new Vue(VglLineBasicMaterial);
+                assert.equal(vm.inst.linejoin, "round");
+            });
+            it("\"bevel\" -> \"bevel\"", function() {
+                const vm = new (Vue.extend(VglLineBasicMaterial))({
+                    propsData: {linejoin: "bevel"}
+                });
+                assert.equal(vm.inst.linejoin, "bevel");
+            });
+        });
     });
     describe("プロパティ変更のテスト", function() {
         describe("colorの変更", function() {
@@ -84,6 +120,66 @@ describe("VglLineBasicMaterialコンポーネントのテスト", function() {
                 vm.lights = false;
                 vm.$nextTick(() => {
                     assert.isFalse(vm.inst.lights);
+                });
+            });
+        });
+        describe("linewidthの変更", function() {
+            it("undefined -> \"0.5\"", function() {
+                const vm = new Vue(VglLineBasicMaterial);
+                assert.strictEqual(vm.inst.linewidth, 1);
+                vm.linewidth = "0.5";
+                vm.$nextTick(() => {
+                    assert.strictEqual(vm.inst.linewidth, 0.5);
+                });
+            });
+            it("0.8 -> 1.2", function() {
+                const vm = new (Vue.extend(VglLineBasicMaterial))({
+                    propsData: {linewidth: 0.8}
+                });
+                assert.strictEqual(vm.inst.linewidth, 0.8);
+                vm.linewidth = 1.2;
+                vm.$nextTick(() => {
+                    assert.strictEqual(vm.inst.lineWidth, 1.2);
+                });
+            });
+        });
+        describe("linecapの変更", function() {
+            it("undefined -> \"butt\"", function() {
+                const vm = new Vue(VglLineBasicMaterial);
+                assert.equal(vm.inst.linecap, "round");
+                vm.linecap = "butt";
+                vm.$nextTick(() => {
+                    assert.equal(vm.inst.linecap, "butt");
+                });
+            });
+            it("\"round\" -> \"square\"", function() {
+                const vm = new (Vue.extend(VglLineBasicMaterial))({
+                    propsData: {linecap: "round"}
+                });
+                assert.equal(vm.inst.linecap, "round");
+                vm.linecap = "square";
+                vm.$nextTick(() => {
+                    assert.equal(vm.inst.linecap, "square");
+                });
+            });
+        });
+        describe("linejoinの変更", function() {
+            it("undefined -> \"square\"", function() {
+                const vm = new Vue(VglLineBasicMaterial);
+                assert.equal(vm.inst.linejoin, "round");
+                vm.linejoin = "square";
+                vm.$nextTick(() => {
+                    assert.equal(vm.inst.linejoin, "square");
+                });
+            });
+            it("\"bevel\" -> \"miter\"", function() {
+                const vm = new (Vue.extend(VglLineBasicMaterial))({
+                    propsData: {linejoin: "bevel"}
+                });
+                assert.equal(vm.inst.linejoin, "bevel");
+                vm.linejoin = "miter";
+                vm.$nextTick(() => {
+                    assert.equal(vm.inst.linejoin, "miter");
                 });
             });
         });

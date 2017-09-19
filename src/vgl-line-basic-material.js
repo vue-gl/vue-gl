@@ -3,12 +3,15 @@ import {LineBasicMaterial} from "./three.js";
 
 export default {
     mixins: [VglMaterial],
-    props: ["color", "lights"],
+    props: ["color", "lights", "linewidth", "linecap", "linejoin"],
     computed: {
         inst: () => new LineBasicMaterial()
     },
     created() {
         if (this.lights) this.inst.lights = this.lights;
+        if (this.linewidth) this.inst.linewidth = parseFloat(this.linewidth);
+        if (this.linecap) this.inst.linecap = this.linecap;
+        if (this.linejoin) this.inst.linejoin = this.linejoin;
         if (this.color) this.inst.color.setStyle(this.color);
     },
     watch: {
@@ -17,6 +20,15 @@ export default {
         },
         lights(li) {
             this.inst.lights = li;
+        },
+        linewidth(w) {
+            this.inst.linewidth = parseFloat(w);
+        },
+        linecap(c) {
+            this.inst.linecap = c;
+        },
+        linejoin(j) {
+            this.inst.linejoin = j;
         }
     }
 };
