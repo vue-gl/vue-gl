@@ -52,7 +52,7 @@ Vue.js components rendering 3D graphics reactively via three.js
   - [ ] **[VglRectAreaLight](src/vgl-rect-area-light.js)** - Corresponding to [THREE.RectAreaLight](https://threejs.org/docs/index.html#api/lights/RectAreaLight)
   - [ ] **[VglSpotLight](src/vgl-spot-light.js)** - Corresponding to [THREE.SpotLight](https://threejs.org/docs/index.html#api/lights/SpotLight)
 - Materials
-  - [ ] **[VglLineBasicMaterial](src/vgl-line-basic-material.js)** - Corresponding to [THREE.LineBasicMaterial](https://threejs.org/docs/index.html#api/materials/LineBasicMaterial)
+  - [x] **[VglLineBasicMaterial](src/vgl-line-basic-material.js)** - Corresponding to [THREE.LineBasicMaterial](https://threejs.org/docs/index.html#api/materials/LineBasicMaterial)
   - [ ] **[VglLineDashedMaterial](src/vgl-line-dashed-material.js)** - Corresponding to [THREE.LineDashedMaterial](https://threejs.org/docs/index.html#api/materials/LineDashedMaterial)
   - [x] **[VglMaterial](src/vgl-material.js)** - Corresponding to [THREE.Material](https://threejs.org/docs/index.html#api/materials/Material)
   - [ ] **[VglMeshBasicMaterial](src/vgl-mesh-basic-material.js)** - Corresponding to [THREE.MeshBasicMaterial](https://threejs.org/docs/index.html#api/materials/MeshBasicMaterial)
