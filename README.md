@@ -72,7 +72,7 @@ Vue.js components rendering 3D graphics reactively via three.js
   - [ ] **[Bone](src/vgl-bone.js)** - Corresponding to [THREE.Bone](https://threejs.org/docs/index.html#api/objects/Bone)
   - [x] **[Group](src/vgl-group.js)** - Corresponding to [THREE.Group](https://threejs.org/docs/index.html#api/objects/Group)
   - [ ] **[LensFlare](src/vgl-lens-flare.js)** - Corresponding to [THREE.LensFlare](https://threejs.org/docs/index.html#api/objects/LensFlare)
-  - [ ] **[Line](src/vgl-line.js)** - Corresponding to [THREE.Line](https://threejs.org/docs/index.html#api/objects/Line)
+  - [x] **[Line](src/vgl-line.js)** - Corresponding to [THREE.Line](https://threejs.org/docs/index.html#api/objects/Line)
   - [ ] **[LineLoop](src/vgl-line-loop.js)** - Corresponding to [THREE.LineLoop](https://threejs.org/docs/index.html#api/objects/LineLoop)
   - [ ] **[LineSegments](src/vgl-line-segments.js)** - Corresponding to [THREE.LineSegments](https://threejs.org/docs/index.html#api/objects/LineSegments)
   - [ ] **[Lod](src/vgl-lod.js)** - Corresponding to [THREE.LOD](https://threejs.org/docs/index.html#api/objects/LOD)

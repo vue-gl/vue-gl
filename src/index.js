@@ -16,6 +16,7 @@ import VglMeshStandardMaterial from "./vgl-mesh-standard-material.js";
 import VglMesh from "./vgl-mesh.js";
 import VglPoints from "./vgl-points.js";
 import VglLineBasicMaterial from "./vgl-line-basic-material.js";
+import VglLine from "./vgl-line.js";
 
 export {
     VglAssets,
@@ -35,5 +36,6 @@ export {
     VglMeshStandardMaterial,
     VglMesh,
     VglPoints,
-    VglLineBasicMaterial
+    VglLineBasicMaterial,
+    VglLine
 };
