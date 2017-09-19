@@ -1,6 +1,6 @@
 # VueGL
 [![CircleCI](https://circleci.com/gh/1stop-st/vue-gl.svg?style=svg)](https://circleci.com/gh/1stop-st/vue-gl) [![Greenkeeper badge](https://badges.greenkeeper.io/1stop-st/vue-gl.svg)](https://greenkeeper.io/)  
-Vue.js components rendering reactive via three.js
+Vue.js components rendering 3D graphics reactively via three.js
 ## Components
 - Core
   - [x] **[VglObject3d](src/vgl-object3d.js)** - Corresponding to [THREE.Object3D](https://threejs.org/docs/index.html#api/core/Object3D)
@@ -45,7 +45,7 @@ Vue.js components rendering reactive via three.js
   - [ ] **[VglVertexNormalsHelper](src/vgl-vertex-normals-helper.js)** - Corresponding to [THREE.VertexNormalsHelper](https://threejs.org/docs/index.html#api/helpers/VertexNormalsHelper)
 - Lights
   - [x] **[VglAmbientLight](src/vgl-ambient-light.js)** - Corresponding to [THREE.AmbientLight](https://threejs.org/docs/index.html#api/lights/AmbientLight)
-  - [ ] **[VglDirectionalLight](src/vgl-directional-light.js)** - Corresponding to [THREE.DirectionalLight](https://threejs.org/docs/index.html#api/lights/DirectionalLight)
+  - [x] **[VglDirectionalLight](src/vgl-directional-light.js)** - Corresponding to [THREE.DirectionalLight](https://threejs.org/docs/index.html#api/lights/DirectionalLight)
   - [ ] **[VglHemisphereLight](src/vgl-hemisphere-light.js)** - Corresponding to [THREE.HemisphereLight](https://threejs.org/docs/index.html#api/lights/HemisphereLight)
   - [x] **[VglLight](src/vgl-light.js)** - Corresponding to [THREE.Light](https://threejs.org/docs/index.html#api/lights/Light)
   - [ ] **[VglPointLight](src/vgl-point-light.js)** - Corresponding to [THREE.PointLight](https://threejs.org/docs/index.html#api/lights/PointLight)
