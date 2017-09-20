@@ -1,26 +1,20 @@
 import VglGeometry from "./vgl-geometry.js";
-import {SphereGeometry} from "./three.js";
+import {CircleGeometry} from "./three.js";
 import {parseNumber} from "./utils.js";
 
 export default {
     mixins: [VglGeometry],
     props: [
         "radius",
-        "widthSegments",
-        "heightSegments",
-        "phiStart",
-        "phiLength",
+        "segments",
         "thetaStart",
         "thetaLength"
     ],
     computed: {
         inst() {
-            return new SphereGeometry(
+            return new CircleGeometry(
                 parseNumber(this.radius),
-                parseNumber(this.widthSegments),
-                parseNumber(this.heightSegments),
-                parseNumber(this.phiStart),
-                parseNumber(this.phiLength),
+                parseNumber(this.segments),
                 parseNumber(this.thetaStart),
                 parseNumber(this.thetaLength)
             );

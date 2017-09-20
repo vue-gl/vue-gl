@@ -19,6 +19,7 @@ import VglLineBasicMaterial from "./vgl-line-basic-material.js";
 import VglLine from "./vgl-line.js";
 import VglSprite from "./vgl-sprite.js";
 import VglBoxGeometry from "./vgl-box-geometry.js";
+import VglCircleGeometry from "./vgl-circle-geometry.js";
 
 export {
     VglAssets,
@@ -41,5 +42,6 @@ export {
     VglLineBasicMaterial,
     VglLine,
     VglSprite,
-    VglBoxGeometry
+    VglBoxGeometry,
+    VglCircleGeometry
 };

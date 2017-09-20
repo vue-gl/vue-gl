@@ -112,3 +112,7 @@ export function parseSpherical(prop) {
     }
     return spherical.makeSafe();
 }
+
+export function parseNumber(str) {
+    return typeof str === "string" ? parseFloat(str): str;
+}

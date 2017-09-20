@@ -1,9 +1,6 @@
 import VglGeometry from "./vgl-geometry.js";
 import {BoxGeometry} from "./three.js";
-
-function parseNumber(num) {
-    return typeof num === "string" ? parseFloat(num): num;
-}
+import {parseNumber} from "./utils.js";
 
 export default {
     mixins: [VglGeometry],
