@@ -6,7 +6,7 @@ Vue.js components rendering 3D graphics reactively via three.js
   - [x] **[VglObject3d](src/vgl-object3d.js)** - Corresponding to [THREE.Object3D](https://threejs.org/docs/index.html#api/core/Object3D)
   - [x] **[VglGeometry](src/vgl-geometry.js)** - Corresponding to [THREE.Geometry](https://threejs.org/docs/index.html#api/core/Geometry)
 - Geometries
-  - [ ] **[VglBoxGeometry](src/vgl-box-geometry.js)** - Corresponding to [THREE.BoxGeometry](https://threejs.org/docs/index.html#api/geometries/BoxGeometry)
+  - [x] **[VglBoxGeometry](src/vgl-box-geometry.js)** - Corresponding to [THREE.BoxGeometry](https://threejs.org/docs/index.html#api/geometries/BoxGeometry)
   - [ ] **[VglCircleGeometry](src/vgl-circle-geometry.js)** - Corresponding to [THREE.CircleGeometry](https://threejs.org/docs/index.html#api/geometries/CircleGeometry)
   - [ ] **[VglConeGeometry](src/vgl-cone-geometry.js)** - Corresponding to [THREE.ConeGeometry](https://threejs.org/docs/index.html#api/geometries/ConeGeometry)
   - [ ] **[VglCylinderGeometry](src/vgl-cylinder-geometry.js)** - Corresponding to [THREE.CylinderGeometry](https://threejs.org/docs/index.html#api/geometries/CylinderGeometry)
