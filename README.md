@@ -73,7 +73,7 @@ Vue.js components rendering 3D graphics reactively via three.js
   - [x] **[VglGroup](src/vgl-group.js)** - Corresponding to [THREE.Group](https://threejs.org/docs/index.html#api/objects/Group)
   - [ ] **[VglLensFlare](src/vgl-lens-flare.js)** - Corresponding to [THREE.LensFlare](https://threejs.org/docs/index.html#api/objects/LensFlare)
   - [x] **[VglLine](src/vgl-line.js)** - Corresponding to [THREE.Line](https://threejs.org/docs/index.html#api/objects/Line)
-  - [ ] **[VglLineLoop](src/vgl-line-loop.js)** - Corresponding to [THREE.LineLoop](https://threejs.org/docs/index.html#api/objects/LineLoop)
+  - [x] **[VglLineLoop](src/vgl-line-loop.js)** - Corresponding to [THREE.LineLoop](https://threejs.org/docs/index.html#api/objects/LineLoop)
   - [x] **[VglLineSegments](src/vgl-line-segments.js)** - Corresponding to [THREE.LineSegments](https://threejs.org/docs/index.html#api/objects/LineSegments)
   - [ ] **[VglLod](src/vgl-lod.js)** - Corresponding to [THREE.LOD](https://threejs.org/docs/index.html#api/objects/LOD)
   - [x] **[VglMesh](src/vgl-mesh.js)** - Corresponding to [THREE.Mesh](https://threejs.org/docs/index.html#api/objects/Mesh)

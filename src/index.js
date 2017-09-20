@@ -21,6 +21,7 @@ import VglSprite from "./vgl-sprite.js";
 import VglBoxGeometry from "./vgl-box-geometry.js";
 import VglCircleGeometry from "./vgl-circle-geometry.js";
 import VglLineSegments from "./vgl-line-segments.js";
+import VglLineLoop from "./vgl-line-loop.js";
 
 export {
     VglAssets,
@@ -45,5 +46,6 @@ export {
     VglSprite,
     VglBoxGeometry,
     VglCircleGeometry,
-    VglLineSegments
+    VglLineSegments,
+    VglLineLoop
 };
