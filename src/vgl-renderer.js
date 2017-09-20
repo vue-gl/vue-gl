@@ -101,12 +101,25 @@ export default {
         }
     },
     mounted() {
+        this.$refs.frm.contentWindow.addEventListener("resize", () => {
+            this.resize();
+        });
         this.resize();
     },
     render(h) {
-        return h("div", [h("canvas", {
-            ref: "rdr",
-            key: this.key
-        }, this.$slots.default)]);
+        return h("div", [
+            h("canvas", {
+                ref: "rdr",
+                key: this.key
+            }, this.$slots.default),
+            h("iframe", {
+                ref: "frm",
+                style: {
+                    visibility: "hidden",
+                    width: "100%",
+                    height: "100%"
+                }
+            })
+        ]);
     }
 };
