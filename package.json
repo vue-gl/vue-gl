@@ -1,6 +1,6 @@
 {
   "name": "vue-gl",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Vue.js components rendering 3D graphics reactively via three.js",
   "keywords": [
     "Vue",
@@ -21,9 +21,7 @@
     "url": "https://github.com/1stop-st/vue-gl/issues"
   },
   "license": "MIT",
-  "main": [
-    "docs/js/vue-gl.js"
-  ],
+  "main": "docs/js/vue-gl.js",
   "scripts": {
     "test": "open test/index.html",
     "docs": "cd docs && jekyll serve",
