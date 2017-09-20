@@ -80,7 +80,7 @@ Vue.js components rendering 3D graphics reactively via three.js
   - [x] **[VglPoints](src/vgl-points.js)** - Corresponding to [THREE.Points](https://threejs.org/docs/index.html#api/objects/Points)
   - [ ] **[VglSkeleton](src/vgl-skeleton.js)** - Corresponding to [THREE.Skeleton](https://threejs.org/docs/index.html#api/objects/Skeleton)
   - [ ] **[VglSkinnedMesh](src/vgl-skinned-mesh.js)** - Corresponding to [THREE.SkinnedMesh](https://threejs.org/docs/index.html#api/objects/SkinnedMesh)
-  - [ ] **[VglSprite](src/vgl-sprite.js)** - Corresponding to [THREE.Sprite](https://threejs.org/docs/index.html#api/objects/Sprite)
+  - [x] **[VglSprite](src/vgl-sprite.js)** - Corresponding to [THREE.Sprite](https://threejs.org/docs/index.html#api/objects/Sprite)
 - Renderers
   - [x] **[VglRenderer](src/vgl-renderer.js)** - Corresponding to [THREE.WebGLRenderer](https://threejs.org/docs/index.html#api/renderers/WebGLRenderer)
 - Scenes
