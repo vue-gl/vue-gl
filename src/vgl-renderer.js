@@ -2,10 +2,17 @@ import VglAssets from "./vgl-assets.js";
 import {WebGLRenderer} from "./three.js";
 
 function resizeCamera(camera, domElement) {
+    const width = domElement.clientWidth;
+    const height = domElement.clientHeight;
     if (camera.isPerspectiveCamera) {
-        camera.aspect = domElement.clientWidth / domElement.clientHeight;
-        camera.updateProjectionMatrix();
+        camera.aspect = width / height;
+    } else { // isOrthographicCamera
+        camera.left = width / -2;
+        camera.right = width / 2;
+        camera.top = height / 2;
+        camera.bottom = height / -2;
     }
+    camera.updateProjectionMatrix();
 }
 
 function resizeRenderer(renderer, domElement) {

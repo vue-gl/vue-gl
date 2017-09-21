@@ -40,6 +40,10 @@ Save the following code as a html file, and open in any modern browser.
 Then, you'll see below.  
 ![VueGL example](https://www.evernote.com/shard/s42/sh/475e146b-d187-4abb-8793-09bf0561a295/c581691f3ea3f0f1603fdfb5467bf485/res/67489a93-c191-4da5-a353-a15d0120230c/2017-09-21-iloveimg-cropped.png?resizeSmall&width=832)
 ## Components
+- Cameras
+  - [x] **[VglCamera](src/vgl-camera.js)** - Corresponding to [THREE.Camera](https://threejs.org/docs/index.html#api/cameras/Camera)
+  - [x] **[VglOrthographicCamera](src/vgl-orthographic-camera.js)** - Corresponding to [THREE.OrthographicCamera](https://threejs.org/docs/index.html#api/cameras/OrthographicCamera)
+  - [x] **[VglPerspectiveCamera](src/vgl-perspective-camera.js)** - Corresponding to [THREE.PerspectiveCamera](https://threejs.org/docs/index.html#api/cameras/PerspectiveCamera)
 - Core
   - [x] **[VglObject3d](src/vgl-object3d.js)** - Corresponding to [THREE.Object3D](https://threejs.org/docs/index.html#api/core/Object3D)
   - [x] **[VglGeometry](src/vgl-geometry.js)** - Corresponding to [THREE.Geometry](https://threejs.org/docs/index.html#api/core/Geometry)
