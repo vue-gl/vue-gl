@@ -2,7 +2,7 @@ import VglAssets from "./vgl-assets.js";
 import {WebGLRenderer} from "./three.js";
 
 function resizeCamera(camera, domElement) {
-    if (camera) {
+    if (camera.isPerspectiveCamera) {
         camera.aspect = domElement.clientWidth / domElement.clientHeight;
         camera.updateProjectionMatrix();
     }
@@ -68,8 +68,10 @@ export default {
     methods: {
         resize() {
             resizeRenderer(this.inst, this.$el);
-            resizeCamera(this.cmr, this.$el);
-            this.render();
+            if (this.cmr) {
+                resizeCamera(this.cmr, this.$el);
+                if (this.scn) this.render();
+            }
         },
         render() {
             if (this.req) {
@@ -92,21 +94,15 @@ export default {
                 this.resize();
             });
         },
-        scn() {
-            this.render();
+        scn(scn) {
+            if (scn) this.render();
         },
         cmr(cmr) {
-            resizeCamera(cmr, this.$el);
-            this.render();
+            if (cmr) {
+                resizeCamera(cmr, this.$el);
+                this.render();
+            }
         }
-    },
-    mounted() {
-        if (this.$refs.frm.contentWindow) {
-            this.$refs.frm.contentWindow.addEventListener("resize", () => {
-                this.resize();
-            });
-        }
-        this.resize();
     },
     render(h) {
         return h("div", [
@@ -120,6 +116,12 @@ export default {
                     visibility: "hidden",
                     width: "100%",
                     height: "100%"
+                },
+                on: {
+                    load: (evt) => {
+                        evt.target.contentWindow.addEventListener("resize", this.resize);
+                        this.$nextTick(this.resize);
+                    }
                 }
             })
         ]);
