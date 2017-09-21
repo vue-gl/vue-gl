@@ -76,7 +76,7 @@ describe("VglLineBasicMaterialコンポーネントのテスト", function() {
     });
     describe("プロパティ変更のテスト", function() {
         describe("colorの変更", function() {
-            it("undefined -> #000", function() {
+            it("undefined -> #000", function(done) {
                 const vm = new Vue(VglLineBasicMaterial);
                 assert.strictEqual(vm.inst.color.r, 1);
                 assert.strictEqual(vm.inst.color.g, 1);
@@ -86,9 +86,10 @@ describe("VglLineBasicMaterialコンポーネントのテスト", function() {
                     assert.strictEqual(vm.inst.color.r, 0);
                     assert.strictEqual(vm.inst.color.g, 0);
                     assert.strictEqual(vm.inst.color.b, 0);
+                    done();
                 });
             });
-            it("#000000 -> #e2e2e2", function() {
+            it("#000000 -> #e2e2e2", function(done) {
                 const vm = new (Vue.extend(VglLineBasicMaterial))({
                     propsData: {color: "#000000"}
                 });
@@ -100,19 +101,21 @@ describe("VglLineBasicMaterialコンポーネントのテスト", function() {
                     assert.strictEqual(vm.inst.color.r, 0.8862745098039215);
                     assert.strictEqual(vm.inst.color.g, 0.8862745098039215);
                     assert.strictEqual(vm.inst.color.b, 0.8862745098039215);
+                    done();
                 });
             });
         });
         describe("lightsの変更", function() {
-            it("undefined -> true", function() {
+            it("undefined -> true", function(done) {
                 const vm = new Vue(VglLineBasicMaterial);
                 assert.isFalse(vm.inst.lights);
                 vm.lights = true;
                 vm.$nextTick(() => {
                     assert.isTrue(vm.inst.lights);
+                    done();
                 });
             });
-            it("true -> false", function() {
+            it("true -> false", function(done) {
                 const vm = new (Vue.extend(VglLineBasicMaterial))({
                     propsData: {lights: true}
                 });
@@ -120,39 +123,43 @@ describe("VglLineBasicMaterialコンポーネントのテスト", function() {
                 vm.lights = false;
                 vm.$nextTick(() => {
                     assert.isFalse(vm.inst.lights);
+                    done();
                 });
             });
         });
         describe("linewidthの変更", function() {
-            it("undefined -> \"0.5\"", function() {
+            it("undefined -> \"0.5\"", function(done) {
                 const vm = new Vue(VglLineBasicMaterial);
                 assert.strictEqual(vm.inst.linewidth, 1);
                 vm.linewidth = "0.5";
                 vm.$nextTick(() => {
                     assert.strictEqual(vm.inst.linewidth, 0.5);
+                    done();
                 });
             });
-            it("0.8 -> 1.2", function() {
+            it("0.8 -> 1.2", function(done) {
                 const vm = new (Vue.extend(VglLineBasicMaterial))({
                     propsData: {linewidth: 0.8}
                 });
                 assert.strictEqual(vm.inst.linewidth, 0.8);
                 vm.linewidth = 1.2;
                 vm.$nextTick(() => {
-                    assert.strictEqual(vm.inst.lineWidth, 1.2);
+                    assert.strictEqual(vm.inst.linewidth, 1.2);
+                    done();
                 });
             });
         });
         describe("linecapの変更", function() {
-            it("undefined -> \"butt\"", function() {
+            it("undefined -> \"butt\"", function(done) {
                 const vm = new Vue(VglLineBasicMaterial);
                 assert.equal(vm.inst.linecap, "round");
                 vm.linecap = "butt";
                 vm.$nextTick(() => {
                     assert.equal(vm.inst.linecap, "butt");
+                    done();
                 });
             });
-            it("\"round\" -> \"square\"", function() {
+            it("\"round\" -> \"square\"", function(done) {
                 const vm = new (Vue.extend(VglLineBasicMaterial))({
                     propsData: {linecap: "round"}
                 });
@@ -160,19 +167,21 @@ describe("VglLineBasicMaterialコンポーネントのテスト", function() {
                 vm.linecap = "square";
                 vm.$nextTick(() => {
                     assert.equal(vm.inst.linecap, "square");
+                    done();
                 });
             });
         });
         describe("linejoinの変更", function() {
-            it("undefined -> \"square\"", function() {
+            it("undefined -> \"square\"", function(done) {
                 const vm = new Vue(VglLineBasicMaterial);
                 assert.equal(vm.inst.linejoin, "round");
                 vm.linejoin = "square";
                 vm.$nextTick(() => {
                     assert.equal(vm.inst.linejoin, "square");
+                    done();
                 });
             });
-            it("\"bevel\" -> \"miter\"", function() {
+            it("\"bevel\" -> \"miter\"", function(done) {
                 const vm = new (Vue.extend(VglLineBasicMaterial))({
                     propsData: {linejoin: "bevel"}
                 });
@@ -180,6 +189,7 @@ describe("VglLineBasicMaterialコンポーネントのテスト", function() {
                 vm.linejoin = "miter";
                 vm.$nextTick(() => {
                     assert.equal(vm.inst.linejoin, "miter");
+                    done();
                 });
             });
         });

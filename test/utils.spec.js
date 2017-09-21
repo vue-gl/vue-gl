@@ -1,4 +1,4 @@
-import {parseVector3, parseEuler, parseSpherical} from "../src/utils.js";
+import {parseVector3, parseEuler, parseSpherical, parseNumber} from "../src/utils.js";
 const assert = chai.assert;
 
 describe("Utilsモジュールのテスト", function() {
@@ -172,6 +172,18 @@ describe("Utilsモジュールのテスト", function() {
                 assert.strictEqual(a.radius, -3);
                 assert.strictEqual(a.phi, 2);
                 assert.strictEqual(a.theta, -1.5);
+            });
+        });
+    });
+    describe("parseNumberのテスト", function() {
+        describe("文字列のパース", function() {
+            it("\"62e3'a\" -> 62e3", function() {
+                assert.strictEqual(parseNumber("62e3'a"), 62e3);
+            });
+        });
+        describe("数値のパース(引数を返す)", function() {
+            it("23.85 -> 23.85", function() {
+                assert.strictEqual(parseNumber(23.85), 23.85);
             });
         });
     });

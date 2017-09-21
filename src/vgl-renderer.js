@@ -101,9 +101,11 @@ export default {
         }
     },
     mounted() {
-        this.$refs.frm.contentWindow.addEventListener("resize", () => {
-            this.resize();
-        });
+        if (this.$refs.frm.contentWindow) {
+            this.$refs.frm.contentWindow.addEventListener("resize", () => {
+                this.resize();
+            });
+        }
         this.resize();
     },
     render(h) {

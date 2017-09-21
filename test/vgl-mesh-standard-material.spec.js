@@ -28,7 +28,7 @@ describe("VglMeshStandardMaterialコンポーネントのテスト", function() 
     });
     describe("プロパティ変更のテスト", function() {
         describe("colorの変更", function() {
-            it("undefined -> #000", function() {
+            it("undefined -> #000", function(done) {
                 const vm = new Vue(VglMeshStandardMaterial);
                 assert.strictEqual(vm.inst.color.r, 1);
                 assert.strictEqual(vm.inst.color.g, 1);
@@ -38,9 +38,10 @@ describe("VglMeshStandardMaterialコンポーネントのテスト", function() 
                     assert.strictEqual(vm.inst.color.r, 0);
                     assert.strictEqual(vm.inst.color.g, 0);
                     assert.strictEqual(vm.inst.color.b, 0);
+                    done();
                 });
             });
-            it("#000000 -> #e2e2e2", function() {
+            it("#000000 -> #e2e2e2", function(done) {
                 const vm = new (Vue.extend(VglMeshStandardMaterial))({
                     propsData: {color: "#000000"}
                 });
@@ -52,6 +53,7 @@ describe("VglMeshStandardMaterialコンポーネントのテスト", function() 
                     assert.strictEqual(vm.inst.color.r, 0.8862745098039215);
                     assert.strictEqual(vm.inst.color.g, 0.8862745098039215);
                     assert.strictEqual(vm.inst.color.b, 0.8862745098039215);
+                    done();
                 });
             });
         });
