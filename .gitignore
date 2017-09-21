@@ -58,3 +58,4 @@ typings/
 .env
 
 docs/_*
+src/three.js
