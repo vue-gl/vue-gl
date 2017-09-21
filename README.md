@@ -1,6 +1,41 @@
 # VueGL
-[![CircleCI](https://circleci.com/gh/1stop-st/vue-gl.svg?style=svg)](https://circleci.com/gh/1stop-st/vue-gl) [![Greenkeeper badge](https://badges.greenkeeper.io/1stop-st/vue-gl.svg)](https://greenkeeper.io/)  
+[![CircleCI](https://circleci.com/gh/vue-gl/vue-gl.svg?style=svg)](https://circleci.com/gh/vue-gl/vue-gl) [![Greenkeeper badge](https://badges.greenkeeper.io/vue-gl/vue-gl.svg)](https://greenkeeper.io/)  
 Vue.js components rendering 3D graphics reactively via three.js
+## Usage
+Define objects by tags.  
+Save the following code as a html file, and open in any modern browser.
+```
+<!-- dependencies -->
+<script src="https://unpkg.com/vue"></script>
+<script src="https://unpkg.com/three"></script>
+
+<!-- load components -->
+<script src="https://unpkg.com/vue-gl"></script>
+
+<!-- define objects -->
+<vgl-renderer class="vgl-canvas" style="width: 300px; height: 150px;">
+    <vgl-scene>
+        <vgl-sphere-geometry></vgl-sphere-geometry>
+        <vgl-mesh-standard-material></vgl-mesh-standard-material>
+        <vgl-mesh></vgl-mesh>
+        <vgl-ambient-light></vgl-ambient-light>
+        <vgl-directional-light></vgl-directional-light>
+    </vgl-scene>
+    <vgl-perspective-camera orbit-position="radius: 200; phi: 1; theta: 1;"></vgl-perspective-camera>
+</vgl-renderer>
+
+<!-- register components and start vue -->
+<script>
+    Object.keys(VueGL).forEach(name => {
+        Vue.component(name, VueGL[name]);
+    });
+    new Vue({
+        el: ".vgl-canvas"
+    });
+</script>
+```
+Then, you'll see below.  
+![VueGL example](https://goo.gl/1tUhsV)
 ## Components
 - Core
   - [x] **[VglObject3d](src/vgl-object3d.js)** - Corresponding to [THREE.Object3D](https://threejs.org/docs/index.html#api/core/Object3D)
@@ -85,3 +120,7 @@ Vue.js components rendering 3D graphics reactively via three.js
   - [x] **[VglRenderer](src/vgl-renderer.js)** - Corresponding to [THREE.WebGLRenderer](https://threejs.org/docs/index.html#api/renderers/WebGLRenderer)
 - Scenes
   - [x] **[VglScene](src/vgl-scene.js)** - Corresponding to [THREE.Scene](https://threejs.org/docs/index.html#api/scenes/Scene)
+## Contribution
+Are you interested in enhance this product?  
+Thanks!  
+To start development, see https://github.com/vue-gl/vue-gl/wiki/Contribution-guide
