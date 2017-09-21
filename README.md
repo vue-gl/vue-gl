@@ -7,7 +7,7 @@ See the [documents](https://vue-gl.github.io/vue-gl/) for more details.
 ## Usage
 Define objects by tags.  
 Save the following code as a html file, and open in any modern browser.
-```
+```html
 <!-- dependencies -->
 <script src="https://unpkg.com/vue"></script>
 <script src="https://unpkg.com/three"></script>
