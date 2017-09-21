@@ -13,7 +13,7 @@ You need to load the vue.js and the three.js scripts with the vue-gl script.
     });
 </script>
 ```
-You can also get install via npm (in the future). The three.js module will be installed as a dependency.
+You can also get install via npm. The three.js module will be installed as a dependency.
 ```
 npm install --save vue vue-gl
 ```
