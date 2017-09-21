@@ -24,8 +24,8 @@
   "main": "docs/js/vue-gl.js",
   "scripts": {
     "test": "open test/index.html",
-    "docs": "cd docs && jekyll serve",
-    "prepare": "echo 'export * from \"https://unpkg.com/three@'$(cat node_modules/three/package.json | json version)'/build/three.module.js\";' > src/three.js ; rollup src/index.js -f es -e https://unpkg.com/three@$(cat node_modules/three/package.json | json version)/build/three.module.js | babel --presets minify > docs/js/vue-gl.module.js && babel docs/js/vue-gl.module.js > docs/js/vue-gl.js ; cd docs && gem install bundler && bundle install"
+    "docs": "cd docs && gem install bundler && bundle install && jekyll serve",
+    "prepare": "echo 'export * from \"https://unpkg.com/three@'$(cat node_modules/three/package.json | json version)'/build/three.module.js\";' > src/three.js ; rollup src/index.js -f es -e https://unpkg.com/three@$(cat node_modules/three/package.json | json version)/build/three.module.js | babel --presets minify > docs/js/vue-gl.module.js && babel docs/js/vue-gl.module.js > docs/js/vue-gl.js"
   },
   "dependencies": {
     "three": "^0.87.1"
