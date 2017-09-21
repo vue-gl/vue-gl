@@ -17,7 +17,7 @@ You can also get install via npm. The three.js module will be installed as a dep
 ```sh
 npm install --save vue vue-gl
 ```
-```node
+```js
 import * as VueGL from "vue-gl";
 
 Object.keys(VueGL).forEach(name => {
