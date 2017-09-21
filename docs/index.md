@@ -74,5 +74,4 @@ Then, the following code will render a sphere on the canvas.
         });
     </script>
 "></iframe></div>
-
-
+<script src="https://unpkg.com/srcdoc-polyfill@1.0.0/srcdoc-polyfill.min.js"></script>

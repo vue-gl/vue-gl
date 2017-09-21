@@ -1,5 +1,11 @@
 import {Vector3, Euler, Spherical} from "./three.js";
 
+if (!String.prototype.includes) {
+    String.prototype.includes = function(search) {
+        return this.indexOf(search) >= 0;
+    };
+}
+
 export function parseVector3(prop) {
     const vector3 = new Vector3();
     switch (typeof prop) {
