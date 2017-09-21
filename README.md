@@ -1,7 +1,7 @@
 # VueGL
-[![CircleCI](https://circleci.com/gh/vue-gl/vue-gl.svg?style=svg)](https://circleci.com/gh/vue-gl/vue-gl)  
-[![Greenkeeper badge](https://badges.greenkeeper.io/vue-gl/vue-gl.svg)](https://greenkeeper.io/)  
 [![NPM](https://nodei.co/npm/vue-gl.png?compact=true)](https://nodei.co/npm/vue-gl/)  
+[![Greenkeeper badge](https://badges.greenkeeper.io/vue-gl/vue-gl.svg)](https://greenkeeper.io/)  
+[![CircleCI](https://circleci.com/gh/vue-gl/vue-gl.svg?style=svg)](https://circleci.com/gh/vue-gl/vue-gl)  
 Vue.js components rendering 3D graphics reactively via three.js  
 See the [documents](https://vue-gl.github.io/vue-gl/) for more details.
 ## Usage
