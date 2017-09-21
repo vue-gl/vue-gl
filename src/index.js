@@ -23,6 +23,7 @@ import VglCircleGeometry from "./vgl-circle-geometry.js";
 import VglLineSegments from "./vgl-line-segments.js";
 import VglLineLoop from "./vgl-line-loop.js";
 import VglConeGeometry from "./vgl-cone-geometry.js";
+import VglAxisHelper from "./vgl-axis-helper.js";
 
 export {
     VglAssets,
@@ -49,5 +50,6 @@ export {
     VglCircleGeometry,
     VglLineSegments,
     VglLineLoop,
-    VglConeGeometry
+    VglConeGeometry,
+    VglAxisHelper
 };

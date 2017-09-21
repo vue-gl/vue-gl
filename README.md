@@ -46,7 +46,7 @@ Then, you'll see below.
 - Geometries
   - [x] **[VglBoxGeometry](src/vgl-box-geometry.js)** - Corresponding to [THREE.BoxGeometry](https://threejs.org/docs/index.html#api/geometries/BoxGeometry)
   - [x] **[VglCircleGeometry](src/vgl-circle-geometry.js)** - Corresponding to [THREE.CircleGeometry](https://threejs.org/docs/index.html#api/geometries/CircleGeometry)
-  - [ ] **[VglConeGeometry](src/vgl-cone-geometry.js)** - Corresponding to [THREE.ConeGeometry](https://threejs.org/docs/index.html#api/geometries/ConeGeometry)
+  - [x] **[VglConeGeometry](src/vgl-cone-geometry.js)** - Corresponding to [THREE.ConeGeometry](https://threejs.org/docs/index.html#api/geometries/ConeGeometry)
   - [ ] **[VglCylinderGeometry](src/vgl-cylinder-geometry.js)** - Corresponding to [THREE.CylinderGeometry](https://threejs.org/docs/index.html#api/geometries/CylinderGeometry)
   - [ ] **[VglDodecahedronGeometry](src/vgl-dodecahedron-geometry.js)** - Corresponding to [THREE.DodecahedronGeometry](https://threejs.org/docs/index.html#api/geometries/DodecahedronGeometry)
   - [ ] **[VglEdgesGeometry](src/vgl-edges-geometry.js)** - Corresponding to [THREE.EdgesGeometry](https://threejs.org/docs/index.html#api/geometries/EdgesGeometry)
@@ -68,7 +68,7 @@ Then, you'll see below.
   - [ ] **[VglWireframeGeometry](src/vgl-wireframe-geometry.js)** - Corresponding to [THREE.WireframeGeometry](https://threejs.org/docs/index.html#api/geometries/WireframeGeometry)
 - Helpers
   - [ ] **[VglArrowHelper](src/vgl-arrow-helper.js)** - Corresponding to [THREE.ArrowHelper](https://threejs.org/docs/index.html#api/helpers/ArrowHelper)
-  - [ ] **[VglAxisHelper](src/vgl-axis-helper.js)** - Corresponding to [THREE.AxisHelper](https://threejs.org/docs/index.html#api/helpers/AxisHelper)
+  - [x] **[VglAxisHelper](src/vgl-axis-helper.js)** - Corresponding to [THREE.AxisHelper](https://threejs.org/docs/index.html#api/helpers/AxisHelper)
   - [ ] **[VglBoxHelper](src/vgl-box-helper.js)** - Corresponding to [THREE.BoxHelper](https://threejs.org/docs/index.html#api/helpers/BoxHelper)
   - [ ] **[VglCameraHelper](src/vgl-camera-helper.js)** - Corresponding to [THREE.CameraHelper](https://threejs.org/docs/index.html#api/helpers/CameraHelper)
   - [ ] **[VglDirectionalLightHelper](src/vgl-directional-light-helper.js)** - Corresponding to [THREE.DirectionalLightHelper](https://threejs.org/docs/index.html#api/helpers/DirectionalLightHelper)
