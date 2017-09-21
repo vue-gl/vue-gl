@@ -1,6 +1,9 @@
 # VueGL
-[![CircleCI](https://circleci.com/gh/vue-gl/vue-gl.svg?style=svg)](https://circleci.com/gh/vue-gl/vue-gl) [![Greenkeeper badge](https://badges.greenkeeper.io/vue-gl/vue-gl.svg)](https://greenkeeper.io/)  
-Vue.js components rendering 3D graphics reactively via three.js
+[![CircleCI](https://circleci.com/gh/vue-gl/vue-gl.svg?style=svg)](https://circleci.com/gh/vue-gl/vue-gl)  
+[![Greenkeeper badge](https://badges.greenkeeper.io/vue-gl/vue-gl.svg)](https://greenkeeper.io/)  
+[![NPM](https://nodei.co/npm/vue-gl.png?mini=true)](https://nodei.co/npm/vue-gl/)  
+Vue.js components rendering 3D graphics reactively via three.js  
+See the [documents](https://vue-gl.github.io/vue-gl/) for more details.
 ## Usage
 Define objects by tags.  
 Save the following code as a html file, and open in any modern browser.
