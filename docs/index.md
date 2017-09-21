@@ -3,7 +3,7 @@
 [Vue.js](https://vuejs.org) components for reactive 3D rendering. Depends on [three.js](https://threejs.org/).
 ## Getting started
 You need to load the vue.js and the three.js scripts with the vue-gl script.
-```
+```html
 <script src="https://unpkg.com/vue"></script>
 <script src="https://unpkg.com/three"></script>
 <script src="https://unpkg.com/vue-gl"></script>
@@ -14,10 +14,10 @@ You need to load the vue.js and the three.js scripts with the vue-gl script.
 </script>
 ```
 You can also get install via npm. The three.js module will be installed as a dependency.
-```
+```sh
 npm install --save vue vue-gl
 ```
-```
+```node
 import * as VueGL from "vue-gl";
 
 Object.keys(VueGL).forEach(name => {
@@ -25,7 +25,7 @@ Object.keys(VueGL).forEach(name => {
 });
 ```
 Then, the following code will render a sphere on the canvas.
-```
+```html
 <vgl-renderer class="vgl-canvas" style="width: 300px; height: 150px;">
     <vgl-scene>
         <vgl-sphere-geometry></vgl-sphere-geometry>
