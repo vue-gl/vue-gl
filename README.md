@@ -2,8 +2,7 @@
 [![NPM](https://nodei.co/npm/vue-gl.png?compact=true)](https://nodei.co/npm/vue-gl/)  
 [![Greenkeeper badge](https://badges.greenkeeper.io/vue-gl/vue-gl.svg)](https://greenkeeper.io/)  
 [![CircleCI](https://circleci.com/gh/vue-gl/vue-gl.svg?style=svg)](https://circleci.com/gh/vue-gl/vue-gl)  
-Vue.js components rendering 3D graphics reactively via three.js  
-See the [documents](https://vue-gl.github.io/vue-gl/) for more details.
+[Vue.js](https://vuejs.org/) components rendering 3D graphics reactively via [three.js](https://threejs.org/). See the [documents](https://vue-gl.github.io/vue-gl/) for more details.
 ## Usage
 Define objects by tags.  
 Save the following code as a html file, and open in any modern browser.
@@ -37,7 +36,7 @@ Save the following code as a html file, and open in any modern browser.
     });
 </script>
 ```
-Then, you'll see below.  
+When you open the html above in the browser, you'll see below.  
 ![VueGL example](https://www.evernote.com/shard/s42/sh/475e146b-d187-4abb-8793-09bf0561a295/c581691f3ea3f0f1603fdfb5467bf485/res/67489a93-c191-4da5-a353-a15d0120230c/2017-09-21-iloveimg-cropped.png?resizeSmall&width=832)
 ## Components
 - Cameras
@@ -128,6 +127,6 @@ Then, you'll see below.
 - Scenes
   - [x] **[VglScene](src/vgl-scene.js)** - Corresponding to [THREE.Scene](https://threejs.org/docs/index.html#api/scenes/Scene)
 ## Contribution
-Are you interested in enhance this product?  
-Thanks!  
-To start development, see https://github.com/vue-gl/vue-gl/wiki/Contribution-guide
+Are you interested in enhance this product ?  
+We're really glad and thanks a lot !  
+To start development, see [CONTRIBUTING.md](CONTRIBUTING.md).
