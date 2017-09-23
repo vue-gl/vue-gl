@@ -87,6 +87,18 @@ module.exports = (config) => {
                 platform: "Windows 7",
                 browserName: "Opera",
                 version: "latest"
+            },
+            "Edge 13 on Windows 10": {
+                base: "SauceLabs",
+                platform: "Windows 10",
+                browserName: "MicrosoftEdge",
+                version: "13"
+            },
+            "Edge (latest) on Windows 10": {
+                base: "SauceLabs",
+                platform: "Windows 10",
+                browserName: "MicrosoftEdge",
+                version: "latest"
             }
         };
         options.browsers = Object.keys(options.customLaunchers);
