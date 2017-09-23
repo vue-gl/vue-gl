@@ -75,6 +75,18 @@ module.exports = (config) => {
                 platform: "Windows 7",
                 browserName: "firefox",
                 version: "latest"
+            },
+            "Opera 11 on Windows 7": {
+                base: "SauceLabs",
+                platform: "Windows 7",
+                browserName: "Opera",
+                version: "11"
+            },
+            "Opera (latest) on Windows 7": {
+                base: "SauceLabs",
+                platform: "Windows 7",
+                browserName: "Opera",
+                version: "latest"
             }
         };
         options.browsers = Object.keys(options.customLaunchers);
