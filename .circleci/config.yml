@@ -10,7 +10,7 @@ jobs:
                 command: yarn
             - run:
                 name: Greenkeeper
-                command: yarn global add greenkeeper-lockfile && greenkeeper-lockfile-update
+                command: npm i -g greenkeeper-lockfile && greenkeeper-lockfile-update
             - run:
                 name: Run unit tests
                 command: yarn test

@@ -33,7 +33,7 @@ module.exports = (config) => {
     };
     
     if (process.env.CI) {
-        options.reporters.push("saucelabs")
+        options.reporters.push("saucelabs");
         options.sauceLabs = {
             testName: "VueGL unit test",
             recordScreenshots: false,
