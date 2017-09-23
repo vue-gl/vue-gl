@@ -12,11 +12,8 @@ jobs:
                 name: Greenkeeper
                 command: sudo npm i -g greenkeeper-lockfile && greenkeeper-lockfile-update
             - run:
-                name: Install karma launchers
-                command: npm i karma-sauce-launcher
-            - run:
                 name: Run unit tests
-                command: npm test
+                command: yarn test
             - run:
                 name: Greenkeeper
                 command: greenkeeper-lockfile-upload
