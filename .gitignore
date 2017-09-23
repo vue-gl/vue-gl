@@ -58,3 +58,5 @@ typings/
 .env
 
 _site/
+
+junit/
