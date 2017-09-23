@@ -5,7 +5,6 @@ module.exports = (config) => {
         files: [
             {pattern: require.resolve("chai/chai"), watched: false},
             {pattern: require.resolve("vue/dist/vue"), watched: false},
-            {pattern: require.resolve("js-polyfills/typedarray.js"), watched: false},
             {pattern: require.resolve("three"), watched: false},
             {pattern: "test/**/*.spec.js", watched: false}
         ],
