@@ -99,11 +99,23 @@ module.exports = (config) => {
                 platform: "Windows 10",
                 browserName: "MicrosoftEdge",
                 version: "latest"
+            },
+            "Chrome 26 on Windows 10": {
+                base: "SauceLabs",
+                platform: "Windows 10",
+                browserName: "chrome",
+                version: "26"
+            },
+            "Chrome (latest) on Windows 10": {
+                base: "SauceLabs",
+                platform: "Windows 10",
+                browserName: "chrome",
+                version: "latest"
             }
         };
         options.browsers = Object.keys(options.customLaunchers);
         options.singleRun = true;
-        options.concurrency = 5;
+        options.concurrency = 4;
     }
     
     config.set(options);
