@@ -23,20 +23,27 @@
   "license": "MIT",
   "main": "docs/js/vue-gl.js",
   "scripts": {
-    "test": "open test/index.html",
-    "docs": "cd docs && gem install bundler && bundle install && jekyll serve",
-    "prepare": "echo 'export * from \"https://unpkg.com/three@'$(cat node_modules/three/package.json | json version)'/build/three.module.js\";' > src/three.js ; rollup src/index.js -f es -e https://unpkg.com/three@$(cat node_modules/three/package.json | json version)/build/three.module.js | babel --presets minify > docs/js/vue-gl.module.js && babel docs/js/vue-gl.module.js > docs/js/vue-gl.js"
+    "test": "karma start",
+    "start": "rollup -c && bundle exec jekyll serve --source docs",
+    "prepare": "rollup -c"
   },
   "dependencies": {
     "three": "^0.87.1"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-plugin-transform-rename-import": "^2.1.1",
+    "babel-plugin-external-helpers": "^6.22.0",
     "babel-preset-env": "^1.6.0",
-    "babel-preset-minify": "^0.2.0",
-    "json": "^9.0.6",
-    "rollup": "^0.50.0"
+    "chai": "^4.1.2",
+    "karma": "^1.7.1",
+    "karma-coverage-istanbul-reporter": "^1.3.0",
+    "karma-junit-reporter": "^1.2.0",
+    "karma-mocha": "^1.3.0",
+    "karma-rollup-preprocessor": "^5.0.1",
+    "rollup": "^0.50.0",
+    "rollup-plugin-babel": "^3.0.2",
+    "rollup-plugin-babel-minify": "^3.1.2",
+    "rollup-plugin-istanbul": "^1.1.0",
+    "vue": "^2.4.4"
   },
   "peerDependencies": {
     "vue": "^2.4.4"
@@ -46,29 +53,17 @@
       [
         "env",
         {
-          "modules": false
-        }
-      ],
-      "minify"
-    ],
-    "plugins": [
-      [
-        "transform-es2015-modules-umd",
-        {
-          "globals": {
-            "three": "THREE"
-          },
-          "exactGlobals": true
-        }
-      ],
-      [
-        "transform-rename-import",
-        {
-          "original": "^https://unpkg.com/three@[^/]+/build/three.module.js$",
-          "replacement": "three"
+          "modules": false,
+          "targets": {
+            "browsers": [
+              "Explorer >= 9"
+            ]
+          }
         }
       ]
     ],
-    "moduleId": "VueGL"
+    "plugins": [
+      "external-helpers"
+    ]
   }
 }

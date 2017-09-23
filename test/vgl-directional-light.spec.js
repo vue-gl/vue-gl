@@ -1,4 +1,4 @@
-import {VglDirectionalLight} from "../src/index.js";
+import VglDirectionalLight from "../src/vgl-directional-light.js";
 const assert = chai.assert;
 
 describe("VglDirectionalLightコンポーネントのテスト", function() {

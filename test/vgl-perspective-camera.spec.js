@@ -1,4 +1,4 @@
-import {VglPerspectiveCamera} from "../src/index.js";
+import VglPerspectiveCamera from "../src/vgl-perspective-camera.js";
 const assert = chai.assert;
 
 describe("VglPerspectiveCameraコンポーネントのテスト", function() {

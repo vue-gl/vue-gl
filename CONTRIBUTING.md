@@ -23,7 +23,7 @@ are required.
 If your default browser supports es modules, `yarn test` or `npm test` will show the test results.
 Otherwise, start the browser and open `test/index.html`.
 ## See the rendered documentation
-The documents are published via github pages. To render the documents, run `yarn docs` or `npm docs` and visit http://localhost:4000 on the browser.
+The documents are published via github pages. To render the documents, run `yarn start` or `npm start` and visit http://localhost:4000 on the browser.
 ## Before sending a new pull request...
 * If you have created a new component, please add a corresponding test file as possible. Test files should be in `test` directory and also be inserted to the `test/index.html` file.
 * Make sure all tests pass.

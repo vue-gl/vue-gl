@@ -1,4 +1,5 @@
-import {VglScene, VglRenderer} from "../src/index.js";
+import VglScene from "../src/vgl-scene.js";
+import VglRenderer from "../src/vgl-renderer.js";
 const assert = chai.assert;
 
 describe("VglSceneコンポーネントのテスト", function() {

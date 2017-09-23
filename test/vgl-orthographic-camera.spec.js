@@ -1,4 +1,4 @@
-import {VglOrthographicCamera} from "../src/index.js";
+import VglOrthographicCamera from "../src/vgl-orthographic-camera.js";
 const assert = chai.assert;
 
 describe("VglOrthographicCameraコンポーネントのテスト", function() {

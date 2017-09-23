@@ -1,4 +1,4 @@
-import {VglBoxGeometry} from "../src/index.js";
+import VglBoxGeometry from "../src/vgl-box-geometry.js";
 const assert = chai.assert;
 
 describe("VglBoxGeometryコンポーネントのテスト", function() {

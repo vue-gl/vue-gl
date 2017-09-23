@@ -1,4 +1,4 @@
-import {VglLineSegments} from "../src/index.js";
+import VglLineSegments from "../src/vgl-line-segments.js";
 const assert = chai.assert;
 
 describe("VglLineSegmentsのテスト", function() {

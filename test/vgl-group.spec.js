@@ -1,4 +1,4 @@
-import {VglGroup} from "../src/index.js";
+import VglGroup from "../src/vgl-group.js";
 const assert = chai.assert;
 
 describe("VglGroupコンポーネントのテスト", function() {

@@ -1,4 +1,6 @@
-import {VglSprite, VglGeometry, VglMaterial, VglAssets} from "../src/index.js";
+import VglSprite from "../src/vgl-sprite.js";
+import VglMaterial from "../src/vgl-material.js";
+import VglAssets from "../src/vgl-assets.js";
 const assert = chai.assert;
 
 describe("VglSpriteのテスト", function() {

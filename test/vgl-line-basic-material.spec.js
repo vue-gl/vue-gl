@@ -1,4 +1,4 @@
-import {VglLineBasicMaterial} from "../src/index.js";
+import VglLineBasicMaterial from "../src/vgl-line-basic-material.js";
 const assert = chai.assert;
 
 describe("VglLineBasicMaterialコンポーネントのテスト", function() {

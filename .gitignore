@@ -57,5 +57,4 @@ typings/
 # dotenv environment variables file
 .env
 
-docs/_*
-src/three.js
+_site/

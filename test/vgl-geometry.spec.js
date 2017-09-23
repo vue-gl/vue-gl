@@ -1,4 +1,5 @@
-import {VglGeometry, VglAssets} from "../src/index.js";
+import VglGeometry from "../src/vgl-geometry.js";
+import VglAssets from "../src/vgl-assets.js";
 import {BoxGeometry, SphereGeometry} from "../src/three.js";
 const assert = chai.assert;
 

@@ -1,4 +1,4 @@
-import {VglAmbientLight} from "../src/index.js";
+import VglAmbientLight from "../src/vgl-ambient-light.js";
 const assert = chai.assert;
 
 describe("VglAmbientLightコンポーネントのテスト", function() {

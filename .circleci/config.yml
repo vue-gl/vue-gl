@@ -7,25 +7,18 @@ jobs:
             - checkout
             - run:
                 name: Install dependencies
-                command: |
-                    npm i --silent selenium-webdriver
-                    sudo npm i -g --silent http-server greenkeeper-lockfile
-                    yarn
+                command: yarn
             - run:
-                name: greenkeeper-lockfile-update
-                command: greenkeeper-lockfile-update
+                name: Greenkeeper
+                command: yarn global add greenkeeper-lockfile && greenkeeper-lockfile-update
             - run:
                 name: Run unit tests
-                command: |
-                    http-server -s &
-                    sleep 3s
-                    node .circleci/selenium.js
+                command: yarn test
             - run:
-                name: greenkeeper-lockfile
+                name: Greenkeeper
                 command: greenkeeper-lockfile-upload
+            - store_test_results:
+                path: junit
             - store_artifacts:
-                path: test-result.html
-                destination: test-result.html
-            - store_artifacts:
-                path: test-screenshot.png
-                destination: test-screenshot.png
+                path: coverage
+                destination: coverage

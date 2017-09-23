@@ -1,4 +1,4 @@
-import {VglPointsMaterial} from "../src/index.js";
+import VglPointsMaterial from "../src/vgl-points-material.js";
 const assert = chai.assert;
 
 describe("VglPointsMaterialコンポーネントのテスト", function() {

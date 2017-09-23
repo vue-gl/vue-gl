@@ -1,4 +1,4 @@
-import {VglCircleGeometry} from "../src/index.js";
+import VglCircleGeometry from "../src/vgl-circle-geometry.js";
 const assert = chai.assert;
 
 describe("VglCircleGeometryコンポーネントのテスト", function() {

@@ -1,4 +1,4 @@
-import {VglSphereGeometry} from "../src/index.js";
+import VglSphereGeometry from "../src/vgl-sphere-geometry.js";
 const assert = chai.assert;
 
 describe("VglSphereGeometryコンポーネントのテスト", function() {

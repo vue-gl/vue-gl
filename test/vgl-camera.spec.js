@@ -1,4 +1,5 @@
-import {VglCamera, VglRenderer} from "../src/index.js";
+import VglCamera from "../src/vgl-camera.js";
+import VglRenderer from "../src/vgl-renderer.js";
 import {Camera, Vector3, Spherical} from "../src/three.js";
 const assert = chai.assert;
 

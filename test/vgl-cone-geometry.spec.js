@@ -1,4 +1,4 @@
-import {VglConeGeometry} from "../src/index.js";
+import VglConeGeometry from "../src/vgl-cone-geometry.js";
 const assert = chai.assert;
 
 describe("VglConeGeometryコンポーネントのテスト", function() {

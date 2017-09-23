@@ -1,4 +1,7 @@
-import {VglLine, VglGeometry, VglMaterial, VglAssets} from "../src/index.js";
+import VglLine from "../src/vgl-line.js";
+import VglGeometry from "../src/vgl-geometry.js";
+import VglMaterial from "../src/vgl-material.js";
+import VglAssets from "../src/vgl-assets.js";
 const assert = chai.assert;
 
 describe("VglLineのテスト", function() {

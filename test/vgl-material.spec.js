@@ -1,4 +1,5 @@
-import {VglMaterial, VglAssets} from "../src/index.js";
+import VglMaterial from "../src/vgl-material.js";
+import VglAssets from "../src/vgl-assets.js";
 import {LineBasicMaterial, MeshBasicMaterial} from "../src/three.js";
 const assert = chai.assert;
 
