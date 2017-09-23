@@ -28,6 +28,7 @@
     "prepare": "rollup -c"
   },
   "dependencies": {
+    "js-polyfills": "^0.1.34",
     "three": "^0.87.1"
   },
   "devDependencies": {
