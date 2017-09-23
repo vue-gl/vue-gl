@@ -16,7 +16,7 @@ jobs:
                 command: npm i karma-sauce-launcher
             - run:
                 name: Run unit tests
-                command: yarn test
+                command: npm test
             - run:
                 name: Greenkeeper
                 command: greenkeeper-lockfile-upload
