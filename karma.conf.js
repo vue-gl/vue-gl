@@ -35,6 +35,8 @@ module.exports = (config) => {
     
     if (process.env.CI) {
         options.reporters.push("saucelabs");
+        options.browserNoActivityTimeout = 30000;
+        options.browserDisconnectTolerance = 2;
         options.sauceLabs = {
             testName: "VueGL unit test",
             recordScreenshots: false,
