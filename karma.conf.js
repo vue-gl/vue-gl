@@ -91,6 +91,7 @@ module.exports = (config) => {
         };
         options.browsers = Object.keys(options.customLaunchers);
         options.singleRun = true;
+        options.concurrency = 5;
     }
     
     config.set(options);
