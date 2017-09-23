@@ -133,12 +133,6 @@ module.exports = (config) => {
                 browserName: "internet explorer",
                 version: "latest"
             },
-            "Internet Explorer (latest) on Windows 10": {
-                base: "SauceLabs",
-                platform: "Windows 10",
-                browserName: "internet explorer",
-                version: "latest"
-            },
             "Safari (latest) on Mac OS X Sierra": {
                 base: "SauceLabs",
                 platform: "macOS 10.12",
@@ -160,13 +154,13 @@ module.exports = (config) => {
             "Firefox (latest) on Mac OS X Sierra": {
                 base: "SauceLabs",
                 platform: "macOS 10.12",
-                browserName: "chrome",
+                browserName: "firefox",
                 version: "latest"
             },
             "Firefox 4 on Mac OS X Sierra": {
                 base: "SauceLabs",
                 platform: "macOS 10.12",
-                browserName: "chrome",
+                browserName: "firefox",
                 version: "4"
             },
             "Safari 9 on Mac OS X El Capitan": {
