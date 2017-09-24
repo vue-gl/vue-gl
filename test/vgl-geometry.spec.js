@@ -1,6 +1,5 @@
-import VglGeometry from "../src/vgl-geometry.js";
-import VglAssets from "../src/vgl-assets.js";
-import {BoxGeometry, SphereGeometry} from "../src/three.js";
+const {VglGeometry, VglAssets} = VueGL;
+const {BoxGeometry, SphereGeometry} = THREE;
 const assert = chai.assert;
 
 describe("VglGeometryコンポーネントのテスト", function() {

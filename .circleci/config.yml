@@ -24,6 +24,9 @@ jobs:
             - run:
                 name: Greenkeeper
                 command: greenkeeper-lockfile-upload
+            - run:
+                name: Report the coverage
+                command: npm i codecov && codecov
             - store_test_results:
                 path: junit
             - store_artifacts:

@@ -1,4 +1,4 @@
-import VglMeshStandardMaterial from "../src/vgl-mesh-standard-material.js";
+const {VglMeshStandardMaterial} = VueGL;
 const assert = chai.assert;
 
 describe("VglMeshStandardMaterialコンポーネントのテスト", function() {

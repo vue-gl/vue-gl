@@ -1,4 +1,4 @@
-import VglPerspectiveCamera from "../src/vgl-perspective-camera.js";
+const {VglPerspectiveCamera} = VueGL;
 const assert = chai.assert;
 
 describe("VglPerspectiveCameraコンポーネントのテスト", function() {

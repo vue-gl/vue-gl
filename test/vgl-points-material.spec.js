@@ -1,4 +1,4 @@
-import VglPointsMaterial from "../src/vgl-points-material.js";
+const {VglPointsMaterial} = VueGL;
 const assert = chai.assert;
 
 describe("VglPointsMaterialコンポーネントのテスト", function() {

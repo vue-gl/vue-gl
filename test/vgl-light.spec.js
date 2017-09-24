@@ -1,4 +1,4 @@
-import VglLight from "../src/vgl-light.js";
+const {VglLight} = VueGL;
 const assert = chai.assert;
 
 describe("VglLightコンポーネントのテスト", function() {

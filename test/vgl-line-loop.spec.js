@@ -1,4 +1,4 @@
-import VglLineLoop from "../src/vgl-line-loop.js";
+const {VglLineLoop} = VueGL;
 const assert = chai.assert;
 
 describe("VglLineLoopのテスト", function() {

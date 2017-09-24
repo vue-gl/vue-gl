@@ -1,4 +1,4 @@
-import VglRenderer from "../src/vgl-renderer.js";
+const {VglRenderer} = VueGL;
 const assert = chai.assert;
 
 describe("VglRendererコンポーネントのテスト", function() {

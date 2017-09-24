@@ -1,5 +1,5 @@
-import VglObject3d from "../src/vgl-object3d.js";
-import {Line, Mesh} from "../src/three.js";
+const {VglObject3d} = VueGL;
+const {Line, Mesh} = THREE;
 const assert = chai.assert;
 
 describe("VglObject3dコンポーネントのテスト", function() {

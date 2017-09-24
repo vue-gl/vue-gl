@@ -1,7 +1,4 @@
-import VglMesh from "../src/vgl-mesh.js";
-import VglGeometry from "../src/vgl-geometry.js";
-import VglMaterial from "../src/vgl-material.js";
-import VglAssets from "../src/vgl-assets.js";
+const {VglMesh, VglGeometry, VglMaterial, VglAssets} = VueGL;
 const assert = chai.assert;
 
 describe("VglMeshのテスト", function() {

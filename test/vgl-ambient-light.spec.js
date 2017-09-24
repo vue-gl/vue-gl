@@ -1,4 +1,4 @@
-import VglAmbientLight from "../src/vgl-ambient-light.js";
+const {VglAmbientLight} = VueGL;
 const assert = chai.assert;
 
 describe("VglAmbientLightコンポーネントのテスト", function() {

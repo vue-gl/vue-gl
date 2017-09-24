@@ -1,4 +1,4 @@
-import VglLineBasicMaterial from "../src/vgl-line-basic-material.js";
+const {VglLineBasicMaterial} = VueGL;
 const assert = chai.assert;
 
 describe("VglLineBasicMaterialコンポーネントのテスト", function() {

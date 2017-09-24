@@ -1,6 +1,5 @@
-import VglMaterial from "../src/vgl-material.js";
-import VglAssets from "../src/vgl-assets.js";
-import {LineBasicMaterial, MeshBasicMaterial} from "../src/three.js";
+const {VglMaterial, VglAssets} = VueGL;
+const {LineBasicMaterial, MeshBasicMaterial} = THREE;
 const assert = chai.assert;
 
 describe("VglMaterialコンポーネントのテスト", function() {

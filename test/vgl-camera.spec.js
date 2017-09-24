@@ -1,6 +1,5 @@
-import VglCamera from "../src/vgl-camera.js";
-import VglRenderer from "../src/vgl-renderer.js";
-import {Camera, Vector3, Spherical} from "../src/three.js";
+const {VglCamera, VglRenderer} = VueGL;
+const {Camera, Vector3, Spherical} = THREE;
 const assert = chai.assert;
 
 describe("VglCameraコンポーネントのテスト", function() {

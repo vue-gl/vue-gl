@@ -1,4 +1,4 @@
-import {parseVector3, parseEuler, parseSpherical, parseNumber} from "../src/utils.js";
+const {parseVector3, parseEuler, parseSpherical, parseNumber} = VueGL.Utils;
 const assert = chai.assert;
 
 describe("Utilsモジュールのテスト", function() {

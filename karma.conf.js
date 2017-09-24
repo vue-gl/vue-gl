@@ -1,19 +1,22 @@
 module.exports = (config) => {
     const options = {
-        reporters: ["coverage-istanbul", "junit"],
+        reporters: ["dots", "coverage", "junit"],
         frameworks: ["mocha"],
         files: [
             {pattern: require.resolve("chai/chai"), watched: false},
             {pattern: require.resolve("vue/dist/vue"), watched: false},
             {pattern: require.resolve("js-polyfills/typedarray.js"), watched: false},
             {pattern: require.resolve("three"), watched: false},
-            {pattern: "test/**/*.spec.js", watched: false}
+            {pattern: "test/index.js", watched: false},
+            {pattern: "test/**/*.spec.js"}
         ],
         preprocessors: {
-            "test/**/*.spec.js": ["rollup"]
+            "test/index.js": ["rollup"],
+            "test/**/*.spec.js": ["babel"]
         },
         rollupPreprocessor: {
             format: "iife",
+            name: "VueGL",
             external: "three",
             globals: {
                 three: "THREE"
@@ -24,9 +27,9 @@ module.exports = (config) => {
             ],
             sourcemap: "inline"
         },
-        coverageIstanbulReporter: {
-            reports: ["html"],
-            dir: require("path").resolve("coverage/%browser%")
+        coverageReporter: {
+            type: "lcov",
+            dir: "coverage"
         },
         junitReporter: {
             outputDir: "junit"

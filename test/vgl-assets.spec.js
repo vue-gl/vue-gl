@@ -1,4 +1,4 @@
-import VglAssets from "../src/vgl-assets.js";
+const {VglAssets} = VueGL;
 const assert = chai.assert;
 
 describe("VglAbstractコンポーネントのテスト", function() {

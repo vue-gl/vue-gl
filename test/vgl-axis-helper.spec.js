@@ -1,4 +1,4 @@
-import VglAxisHelper from "../src/vgl-axis-helper.js";
+const {VglAxisHelper} = VueGL;
 const assert = chai.assert;
 
 describe("VglAxisHelperのテスト", function() {
