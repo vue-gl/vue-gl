@@ -1,9 +1,9 @@
 # VueGL
-[![NPM](https://nodei.co/npm/vue-gl.png?compact=true)](https://nodei.co/npm/vue-gl/)  
-[![Greenkeeper badge](https://badges.greenkeeper.io/vue-gl/vue-gl.svg)](https://greenkeeper.io/)  
-[![CircleCI](https://circleci.com/gh/vue-gl/vue-gl.svg?style=svg)](https://circleci.com/gh/vue-gl/vue-gl)  
-[![Build Status](https://saucelabs.com/browser-matrix/vuegl.svg)](https://saucelabs.com/beta/builds/8a544a31f8174ff28d19b5ad3f70c18c)  
 [Vue.js](https://vuejs.org/) components rendering 3D graphics reactively via [three.js](https://threejs.org/). See the [documents](https://vue-gl.github.io/vue-gl/) for more details.
+
+[![NPM](https://nodei.co/npm/vue-gl.png?compact=true)](https://nodei.co/npm/vue-gl/)  
+[![CircleCI](https://circleci.com/gh/vue-gl/vue-gl.svg?style=svg)](https://circleci.com/gh/vue-gl/vue-gl)  
+[![Build Status](https://saucelabs.com/browser-matrix/vuegl.svg)](https://saucelabs.com/beta/builds/8a544a31f8174ff28d19b5ad3f70c18c)
 ## Usage
 Define objects by tags.  
 Save the following code as a html file, and open in any modern browser.
@@ -39,6 +39,8 @@ Save the following code as a html file, and open in any modern browser.
 ```
 When you open the html above in the browser, you'll see below.  
 ![VueGL example](https://www.evernote.com/shard/s42/sh/475e146b-d187-4abb-8793-09bf0561a295/c581691f3ea3f0f1603fdfb5467bf485/res/67489a93-c191-4da5-a353-a15d0120230c/2017-09-21-iloveimg-cropped.png?resizeSmall&width=832)
+
+> Note that IE9 needs a polyfill for the TypedArray class, like the [js-polyfills/typedarray.js](https://github.com/inexorabletash/polyfill/blob/master/typedarray.js).
 ## Components
 - Cameras
   - [x] **[VglCamera](src/vgl-camera.js)** - Corresponding to [THREE.Camera](https://threejs.org/docs/index.html#api/cameras/Camera)
