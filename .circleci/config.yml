@@ -26,7 +26,7 @@ jobs:
                 command: greenkeeper-lockfile-upload
             - run:
                 name: Report the coverage
-                command: npm i codecov && codecov
+                command: sudo npm i -g codecov && codecov
             - store_test_results:
                 path: junit
             - store_artifacts:
