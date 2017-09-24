@@ -16,14 +16,8 @@ jobs:
                 paths:
                     - ~/.cache/yarn
             - run:
-                name: Greenkeeper
-                command: sudo npm i -g greenkeeper-lockfile && greenkeeper-lockfile-update
-            - run:
                 name: Run unit tests
                 command: yarn test
-            - run:
-                name: Greenkeeper
-                command: greenkeeper-lockfile-upload
             - run:
                 name: Report the coverage
                 command: sudo npm i -g codecov && codecov

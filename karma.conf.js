@@ -1,6 +1,6 @@
 module.exports = (config) => {
     const options = {
-        reporters: ["dots", "coverage", "junit"],
+        reporters: ["progress", "coverage", "junit"],
         frameworks: ["mocha"],
         files: [
             {pattern: require.resolve("chai/chai"), watched: false},
