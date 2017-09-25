@@ -1,7 +1,14 @@
-# VueGL Documentation and Examples
-## Overview
+* Contents
+    * [Overview](#overview)
+    * [Getting started](#getting-started)
+* Other resources
+    * [Component references](reference)
+
+# Overview
 [Vue.js](https://vuejs.org) components for reactive 3D rendering. Depends on [three.js](https://threejs.org/).
-## Getting started
+
+You can render 3D components on canvas by coding custom html tags. It's not only for integration with other Vue.js applications, but also for drawing 3D graphics more easier!
+# Getting started
 You need to load the vue.js and the three.js scripts with the vue-gl script.
 ```html
 <script src="https://unpkg.com/vue"></script>
@@ -28,11 +35,11 @@ Then, the following code will render a sphere on the canvas.
 ```html
 <vgl-renderer class="vgl-canvas" style="width: 300px; height: 150px;">
     <vgl-scene>
-        <vgl-sphere-geometry></vgl-sphere-geometry>
-        <vgl-mesh-standard-material></vgl-mesh-standard-material>
-        <vgl-mesh></vgl-mesh>
-        <vgl-ambient-light></vgl-ambient-light>
-        <vgl-directional-light></vgl-directional-light>
+        <vgl-sphere-geometry name="sphere"></vgl-sphere-geometry>
+        <vgl-mesh-standard-material name="std"></vgl-mesh-standard-material>
+        <vgl-mesh geometry="sphere" material="std"></vgl-mesh>
+        <vgl-ambient-light color="#ffeecc"></vgl-ambient-light>
+        <vgl-directional-light position="0 1 1"></vgl-directional-light>
     </vgl-scene>
     <vgl-perspective-camera orbit-position="radius: 200; phi: 1; theta: 1;"></vgl-perspective-camera>
 </vgl-renderer>
@@ -54,11 +61,11 @@ Then, the following code will render a sphere on the canvas.
     </style>
     <vgl-renderer class='vgl-canvas'>
         <vgl-scene>
-            <vgl-sphere-geometry></vgl-sphere-geometry>
-            <vgl-mesh-standard-material></vgl-mesh-standard-material>
-            <vgl-mesh></vgl-mesh>
-            <vgl-ambient-light></vgl-ambient-light>
-            <vgl-directional-light></vgl-directional-light>
+            <vgl-sphere-geometry name='sphere'></vgl-sphere-geometry>
+            <vgl-mesh-standard-material name='std'></vgl-mesh-standard-material>
+            <vgl-mesh geometry='sphere' material='std'></vgl-mesh>
+            <vgl-ambient-light color='#ffeecc'></vgl-ambient-light>
+            <vgl-directional-light position='0 1 1'></vgl-directional-light>
         </vgl-scene>
         <vgl-perspective-camera orbit-position='radius: 200; phi: 1; theta: 1;'></vgl-perspective-camera>
     </vgl-renderer>
