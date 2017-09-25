@@ -111,6 +111,9 @@ export default {
             }
         }
     },
+    updated() {
+        this.render();
+    },
     render(h) {
         return h("div", [
             h("canvas", {
