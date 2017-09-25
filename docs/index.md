@@ -2,6 +2,7 @@
     * [Overview](#overview)
     * [Getting started](#getting-started)
     * [Reactive rendering](#reactive-rendering)
+    * [Supported browsers](#supported-browsers)
 * Other resources
     * [Component references](reference)
 
@@ -165,4 +166,10 @@ It works with the reactive data bindings of Vue.js. Follwing code uses [form inp
         });
     </script>
 "></iframe></div>
+# Supported browsers
+All modern browsers except IE < 8 are supported, depends on Vue.js and three.js. Note that IE9 needs a polyfill for TypedArray class ([js-polyfills/typedarray.js](https://github.com/inexorabletash/polyfill/blob/master/typedarray.js) is a one of the options).
+
+Components are tested on following browsers.
+
+![Build Status](https://saucelabs.com/browser-matrix/vuegl.svg)
 <script src="https://unpkg.com/srcdoc-polyfill@1.0.0/srcdoc-polyfill.min.js"></script>
