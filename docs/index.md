@@ -1,6 +1,7 @@
 * Contents
     * [Overview](#overview)
     * [Getting started](#getting-started)
+    * [Reactive rendering](#reactive-rendering)
 * Other resources
     * [Component references](reference)
 
@@ -78,6 +79,89 @@ Then, the following code will render a sphere on the canvas.
         });
         const vm = new Vue({
             el: '.vgl-canvas'
+        });
+    </script>
+"></iframe></div>
+# Reactive rendering
+It works with the reactive data bindings of Vue.js. Follwing code uses [form input bindings](https://vuejs.org/v2/guide/forms.html) and pass datas to the position property of a mesh object. VueGL renders a sphere at your requested position at once.
+```html
+<div id="vgl-app" style="position: relative; width: 300px; height: 150px;">
+    <vgl-renderer style="width: 100%; height: 100%;">
+        <vgl-scene>
+            <vgl-sphere-geometry name="sphere" radius=25></vgl-sphere-geometry>
+            <vgl-mesh-standard-material name="std"></vgl-mesh-standard-material>
+            <vgl-mesh geometry="sphere" material="std" :position="`${x} ${y} ${z}`"></vgl-mesh>
+            <vgl-axis-helper size=140></vgl-axis-helper>
+            <vgl-ambient-light color="#ffeecc"></vgl-ambient-light>
+            <vgl-directional-light position="0 1 1"></vgl-directional-light>
+        </vgl-scene>
+        <vgl-perspective-camera orbit-position="radius: 200; phi: 1; theta: 0.5;"></vgl-perspective-camera>
+    </vgl-renderer>
+    <div style="position: absolute; bottom: .5rem; left: .5rem; color: #fff;">
+        x: <input size=3 v-model="x"><br>
+        y: <input size=3 v-model="y"><br>
+        z: <input size=3 v-model="z">
+    </div>
+</div>
+<script>
+    const vm = new Vue({
+        el: '#vgl-app',
+        data: {
+            x: 50,
+            y: 0,
+            z: 0
+        }
+    });
+</script>
+```
+<div class="vgl-example"><iframe class="vgl-example__content" srcdoc="
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+        .vgl-canvas {
+            height: 100vh;
+        }
+        .position-input {
+            position: fixed;
+            bottom: .5rem;
+            left: .5rem;
+            color: #fff;
+        }
+    </style>
+    <div id='vgl-app'>
+        <vgl-renderer class='vgl-canvas'>
+            <vgl-scene>
+                <vgl-sphere-geometry name='sphere' radius=25></vgl-sphere-geometry>
+                <vgl-mesh-standard-material name='std'></vgl-mesh-standard-material>
+                <vgl-axis-helper size=140></vgl-axis-helper>
+                <vgl-mesh geometry='sphere' material='std' :position='`${x} ${y} ${z}`'></vgl-mesh>
+                <vgl-ambient-light color='#ffeecc'></vgl-ambient-light>
+                <vgl-directional-light position='0 1 1'></vgl-directional-light>
+            </vgl-scene>
+            <vgl-perspective-camera orbit-position='radius: 200; phi: 1; theta: 0.5;'></vgl-perspective-camera>
+        </vgl-renderer>
+        <div class='position-input'>
+            x: <input size=3 v-model='x'><br>
+            y: <input size=3 v-model='y'><br>
+            z: <input size=3 v-model='z'>
+        </div>
+    </div>
+    <script src='https://unpkg.com/vue/dist/vue.min.js'></script>
+    <script src='https://unpkg.com/three/build/three.js'></script>
+    <script src='js/vue-gl.js'></script>
+    <script>
+        Object.keys(VueGL).forEach(function(name) {
+            Vue.component(name, VueGL[name]);
+        });
+        const vm = new Vue({
+            el: '#vgl-app',
+            data: {
+                x: 50,
+                y: 0,
+                z: 0
+            }
         });
     </script>
 "></iframe></div>
