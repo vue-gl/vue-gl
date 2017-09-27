@@ -60,7 +60,7 @@ When you open the html above in the browser, you'll see below.
   - [ ] **[VglExtrudeGeometry](src/vgl-extrude-geometry.js)** - Corresponding to [THREE.ExtrudeGeometry](https://threejs.org/docs/index.html#api/geometries/ExtrudeGeometry)
   - [x] **[VglIcosahedronGeometry](src/vgl-icosahedron-geometry.js)** - Corresponding to [THREE.IcosahedronGeometry](https://threejs.org/docs/index.html#api/geometries/IcosahedronGeometry)
   - [ ] **[VglLatheGeometry](src/vgl-lathe-geometry.js)** - Corresponding to [THREE.LatheGeometry](https://threejs.org/docs/index.html#api/geometries/LatheGeometry)
-  - [ ] **[VglOctahedronGeometry](src/vgl-octahedron-geometry.js)** - Corresponding to [THREE.OctahedronGeometry](https://threejs.org/docs/index.html#api/geometries/OctahedronGeometry)
+  - [x] **[VglOctahedronGeometry](src/vgl-octahedron-geometry.js)** - Corresponding to [THREE.OctahedronGeometry](https://threejs.org/docs/index.html#api/geometries/OctahedronGeometry)
   - [ ] **[VglParametricGeometry](src/vgl-parametric-geometry.js)** - Corresponding to [THREE.ParametricGeometry](https://threejs.org/docs/index.html#api/geometries/ParametricGeometry)
   - [x] **[VglPlaneGeometry](src/vgl-plane-geometry.js)** - Corresponding to [THREE.PlaneGeometry](https://threejs.org/docs/index.html#api/geometries/PlaneGeometry)
   - [ ] **[VglPolyhedronGeometry](src/vgl-polyhedron-geometry.js)** - Corresponding to [THREE.PolyhedronGeometry](https://threejs.org/docs/index.html#api/geometries/PolyhedronGeometry)

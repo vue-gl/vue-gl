@@ -18,6 +18,7 @@ layout: reference
 * [VglConeGeometry](vgl-cone-geometry)
 * [VglDodecahedronGeometry](vgl-dodecahedron-geometry)
 * [VglIcosahedronGeometry](vgl-icosahedron-geometry)
+* [VglOctahedronGeometry](vgl-octahedron-geometry)
 * [VglPlaneGeometry](vgl-plane-geometry)
 * [VglSphereGeometry](vgl-sphere-geometry)
 
