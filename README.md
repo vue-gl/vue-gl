@@ -54,7 +54,7 @@ When you open the html above in the browser, you'll see below.
   - [x] **[VglBoxGeometry](src/vgl-box-geometry.js)** - Corresponding to [THREE.BoxGeometry](https://threejs.org/docs/index.html#api/geometries/BoxGeometry)
   - [x] **[VglCircleGeometry](src/vgl-circle-geometry.js)** - Corresponding to [THREE.CircleGeometry](https://threejs.org/docs/index.html#api/geometries/CircleGeometry)
   - [x] **[VglConeGeometry](src/vgl-cone-geometry.js)** - Corresponding to [THREE.ConeGeometry](https://threejs.org/docs/index.html#api/geometries/ConeGeometry)
-  - [ ] **[VglCylinderGeometry](src/vgl-cylinder-geometry.js)** - Corresponding to [THREE.CylinderGeometry](https://threejs.org/docs/index.html#api/geometries/CylinderGeometry)
+  - [x] **[VglCylinderGeometry](src/vgl-cylinder-geometry.js)** - Corresponding to [THREE.CylinderGeometry](https://threejs.org/docs/index.html#api/geometries/CylinderGeometry)
   - [ ] **[VglDodecahedronGeometry](src/vgl-dodecahedron-geometry.js)** - Corresponding to [THREE.DodecahedronGeometry](https://threejs.org/docs/index.html#api/geometries/DodecahedronGeometry)
   - [ ] **[VglEdgesGeometry](src/vgl-edges-geometry.js)** - Corresponding to [THREE.EdgesGeometry](https://threejs.org/docs/index.html#api/geometries/EdgesGeometry)
   - [ ] **[VglExtrudeGeometry](src/vgl-extrude-geometry.js)** - Corresponding to [THREE.ExtrudeGeometry](https://threejs.org/docs/index.html#api/geometries/ExtrudeGeometry)
