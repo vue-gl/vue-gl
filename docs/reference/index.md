@@ -16,7 +16,7 @@ layout: reference
 * [VglBoxGeometry](vgl-box-geometry)
 * [VglCircleGeometry](vgl-circle-geometry)
 * [VglConeGeometry](vgl-cone-geometry)
-* [VglCylinderGeometry](vgl-cylinder-geometry)
+* [VglPlaneGeometry](vgl-plane-geometry)
 * [VglSphereGeometry](vgl-sphere-geometry)
 
 ## Helpers

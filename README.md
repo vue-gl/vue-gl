@@ -62,7 +62,7 @@ When you open the html above in the browser, you'll see below.
   - [ ] **[VglLatheGeometry](src/vgl-lathe-geometry.js)** - Corresponding to [THREE.LatheGeometry](https://threejs.org/docs/index.html#api/geometries/LatheGeometry)
   - [ ] **[VglOctahedronGeometry](src/vgl-octahedron-geometry.js)** - Corresponding to [THREE.OctahedronGeometry](https://threejs.org/docs/index.html#api/geometries/OctahedronGeometry)
   - [ ] **[VglParametricGeometry](src/vgl-parametric-geometry.js)** - Corresponding to [THREE.ParametricGeometry](https://threejs.org/docs/index.html#api/geometries/ParametricGeometry)
-  - [ ] **[VglPlaneGeometry](src/vgl-plane-geometry.js)** - Corresponding to [THREE.PlaneGeometry](https://threejs.org/docs/index.html#api/geometries/PlaneGeometry)
+  - [x] **[VglPlaneGeometry](src/vgl-plane-geometry.js)** - Corresponding to [THREE.PlaneGeometry](https://threejs.org/docs/index.html#api/geometries/PlaneGeometry)
   - [ ] **[VglPolyhedronGeometry](src/vgl-polyhedron-geometry.js)** - Corresponding to [THREE.PolyhedronGeometry](https://threejs.org/docs/index.html#api/geometries/PolyhedronGeometry)
   - [ ] **[VglRingGeometry](src/vgl-ring-geometry.js)** - Corresponding to [THREE.RingGeometry](https://threejs.org/docs/index.html#api/geometries/RingGeometry)
   - [ ] **[VglShapeGeometry](src/vgl-shape-geometry.js)** - Corresponding to [THREE.ShapeGeometry](https://threejs.org/docs/index.html#api/geometries/ShapeGeometry)
