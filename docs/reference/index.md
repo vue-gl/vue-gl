@@ -17,6 +17,7 @@ layout: reference
 * [VglCircleGeometry](vgl-circle-geometry)
 * [VglConeGeometry](vgl-cone-geometry)
 * [VglDodecahedronGeometry](vgl-dodecahedron-geometry)
+* [VglIcosahedronGeometry](vgl-icosahedron-geometry)
 * [VglPlaneGeometry](vgl-plane-geometry)
 * [VglSphereGeometry](vgl-sphere-geometry)
 
