@@ -27,6 +27,7 @@ import VglAxisHelper from "./vgl-axis-helper.js";
 import VglOrthographicCamera from "./vgl-orthographic-camera.js";
 import VglCylinderGeometry from "./vgl-cylinder-geometry.js";
 import VglPlaneGeometry from "./vgl-plane-geometry.js";
+import VglDodecahedronGeometry from "./vgl-dodecahedron-geometry.js";
 
 export {
     VglAssets,
@@ -57,5 +58,6 @@ export {
     VglAxisHelper,
     VglOrthographicCamera,
     VglCylinderGeometry,
-    VglPlaneGeometry
+    VglPlaneGeometry,
+    VglDodecahedronGeometry
 };

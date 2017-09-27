@@ -119,6 +119,6 @@ export function parseSpherical(prop) {
     return spherical.makeSafe();
 }
 
-export function parseNumber(str) {
-    return typeof str === "string" ? parseFloat(str): str;
+export function parseNumber(str, int) {
+    return typeof str === "string" ? int ? parseInt(str, 10): parseFloat(str): str;
 }

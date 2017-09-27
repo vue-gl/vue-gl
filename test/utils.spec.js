@@ -186,5 +186,10 @@ describe("Utilsモジュールのテスト", function() {
                 assert.strictEqual(parseNumber(23.85), 23.85);
             });
         });
+        describe("整数のパース(第二引数がtrue)", function() {
+            it("\"23.85\" -> 23", function() {
+                assert.strictEqual(parseNumber("23.85", true), 23);
+            });
+        });
     });
 });
