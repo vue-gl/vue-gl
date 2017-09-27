@@ -25,6 +25,7 @@ import VglLineLoop from "./vgl-line-loop.js";
 import VglConeGeometry from "./vgl-cone-geometry.js";
 import VglAxisHelper from "./vgl-axis-helper.js";
 import VglOrthographicCamera from "./vgl-orthographic-camera.js";
+import VglCylinderGeometry from "./vgl-cylinder-geometry.js";
 
 export {
     VglAssets,
@@ -53,5 +54,6 @@ export {
     VglLineLoop,
     VglConeGeometry,
     VglAxisHelper,
-    VglOrthographicCamera
+    VglOrthographicCamera,
+    VglCylinderGeometry
 };

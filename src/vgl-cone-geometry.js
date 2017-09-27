@@ -1,17 +1,11 @@
-import VglGeometry from "./vgl-geometry.js";
+import VglCylinderGeometry from "./vgl-cylinder-geometry.js";
 import {ConeGeometry} from "./three.js";
 import {parseNumber} from "./utils.js";
 
 export default {
-    mixins: [VglGeometry],
+    mixins: [VglCylinderGeometry],
     props: [
-        "radius",
-        "height",
-        "radialSegments",
-        "heightSegments",
-        "openEnded",
-        "thetaStart",
-        "thetaLength"
+        "radius"
     ],
     computed: {
         inst() {
