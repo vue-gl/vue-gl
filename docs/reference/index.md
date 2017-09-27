@@ -20,6 +20,7 @@ layout: reference
 * [VglIcosahedronGeometry](vgl-icosahedron-geometry)
 * [VglOctahedronGeometry](vgl-octahedron-geometry)
 * [VglPlaneGeometry](vgl-plane-geometry)
+* [VglRingGeometry](vgl-ring-geometry)
 * [VglSphereGeometry](vgl-sphere-geometry)
 
 ## Helpers

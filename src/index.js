@@ -30,6 +30,7 @@ import VglPlaneGeometry from "./vgl-plane-geometry.js";
 import VglDodecahedronGeometry from "./vgl-dodecahedron-geometry.js";
 import VglIcosahedronGeometry from "./vgl-icosahedron-geometry.js";
 import VglOctahedronGeometry from "./vgl-octahedron-geometry.js";
+import VglRingGeometry from "./vgl-ring-geometry.js";
 
 export {
     VglAssets,
@@ -63,5 +64,6 @@ export {
     VglPlaneGeometry,
     VglDodecahedronGeometry,
     VglIcosahedronGeometry,
-    VglOctahedronGeometry
+    VglOctahedronGeometry,
+    VglRingGeometry
 };
