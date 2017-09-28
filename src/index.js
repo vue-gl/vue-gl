@@ -32,6 +32,7 @@ import VglIcosahedronGeometry from "./vgl-icosahedron-geometry.js";
 import VglOctahedronGeometry from "./vgl-octahedron-geometry.js";
 import VglRingGeometry from "./vgl-ring-geometry.js";
 import VglTetrahedronGeometry from "./vgl-tetrahedron-geometry.js";
+import VglTorusGeometry from "./vgl-torus-geometry.js";
 
 export {
     VglAssets,
@@ -67,5 +68,6 @@ export {
     VglIcosahedronGeometry,
     VglOctahedronGeometry,
     VglRingGeometry,
-    VglTetrahedronGeometry
+    VglTetrahedronGeometry,
+    VglTorusGeometry
 };
