@@ -22,6 +22,7 @@ layout: reference
 * [VglPlaneGeometry](vgl-plane-geometry)
 * [VglRingGeometry](vgl-ring-geometry)
 * [VglSphereGeometry](vgl-sphere-geometry)
+* [VglTetrahedronGeometry](vgl-tetrahedron-geometry)
 
 ## Helpers
 * [VglAxisHelper](vgl-axis-helper)
