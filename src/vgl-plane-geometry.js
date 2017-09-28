@@ -15,8 +15,8 @@ export default {
             return new PlaneGeometry(
                 parseNumber(this.width),
                 parseNumber(this.height),
-                parseNumber(this.widthSegments),
-                parseNumber(this.heightSegments)
+                parseNumber(this.widthSegments, true),
+                parseNumber(this.heightSegments, true)
             );
         }
     }

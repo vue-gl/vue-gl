@@ -17,8 +17,8 @@ export default {
         inst() {
             return new SphereGeometry(
                 parseNumber(this.radius),
-                parseNumber(this.widthSegments),
-                parseNumber(this.heightSegments),
+                parseNumber(this.widthSegments, true),
+                parseNumber(this.heightSegments, true),
                 parseNumber(this.phiStart),
                 parseNumber(this.phiLength),
                 parseNumber(this.thetaStart),

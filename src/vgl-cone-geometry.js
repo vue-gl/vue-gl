@@ -12,8 +12,8 @@ export default {
             return new ConeGeometry(
                 parseNumber(this.radius),
                 parseNumber(this.height),
-                parseNumber(this.radialSegments),
-                parseNumber(this.heightSegments),
+                parseNumber(this.radialSegments, true),
+                parseNumber(this.heightSegments, true),
                 this.openEnded,
                 parseNumber(this.thetaStart),
                 parseNumber(this.thetaLength)

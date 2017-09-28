@@ -1,3 +1,5 @@
+import {parseNumber} from "./utils.js";
+
 export const hasMaterial = {
     props: ["material"],
     computed: {
@@ -33,3 +35,17 @@ export const hasGeometry = {
         }
     }
 };
+
+export function hedronFactory(threeClass) {
+    return {
+        props: ["radius", "detail"],
+        computed: {
+            inst() {
+                return new threeClass(
+                    parseNumber(this.radius),
+                    parseNumber(this.detail, true)
+                );
+            }
+        }
+    };
+}

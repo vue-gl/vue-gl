@@ -14,7 +14,7 @@ export default {
         inst() {
             return new CircleGeometry(
                 parseNumber(this.radius),
-                parseNumber(this.segments),
+                parseNumber(this.segments, true),
                 parseNumber(this.thetaStart),
                 parseNumber(this.thetaLength)
             );

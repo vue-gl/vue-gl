@@ -18,9 +18,9 @@ export default {
                 parseNumber(this.width),
                 parseNumber(this.height),
                 parseNumber(this.depth),
-                parseNumber(this.widthSegments),
-                parseNumber(this.heightSegments),
-                parseNumber(this.depthSegments)
+                parseNumber(this.widthSegments, true),
+                parseNumber(this.heightSegments, true),
+                parseNumber(this.depthSegments, true)
             );
         }
     }
