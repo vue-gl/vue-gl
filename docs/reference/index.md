@@ -24,6 +24,7 @@ layout: reference
 * [VglSphereGeometry](vgl-sphere-geometry)
 * [VglTetrahedronGeometry](vgl-tetrahedron-geometry)
 * [VglTorusGeometry](vgl-torus-geometry)
+* [VglTorusKnotGeometry](vgl-torus-knot-geometry)
 
 ## Helpers
 * [VglAxisHelper](vgl-axis-helper)
