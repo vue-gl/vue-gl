@@ -29,6 +29,7 @@ export default {
         if (this.position) inst.position.copy(parseVector3(this.position));
         if (this.rotation) inst.rotation.copy(parseEuler(this.rotation));
         if (this.scale) inst.scale.copy(parseVector3(this.scale));
+        if (this.name !== undefined) inst.name = this.name;
         const parent = findParent(this);
         if (parent) {
             parent.inst.add(inst);
@@ -36,9 +37,7 @@ export default {
     },
     beforeDestroy() {
         const inst = this.inst;
-        if (inst.parent) {
-            inst.parent.remove(inst);
-        }
+        if (inst.parent) inst.parent.remove(inst);
     },
     watch: {
         position(pos) {
@@ -60,6 +59,9 @@ export default {
                 parent.remove(oldInst);
                 parent.add(inst);
             }
+        },
+        name(name) {
+            this.inst.name = name;
         }
     }
 };

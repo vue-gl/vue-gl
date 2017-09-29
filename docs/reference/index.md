@@ -29,6 +29,7 @@ layout: reference
 ## Helpers
 * [VglArrowHelper](vgl-arrow-helper)
 * [VglAxisHelper](vgl-axis-helper)
+* [VglBoxHelper](vgl-box-helper)
 
 ## Lights
 * [VglAmbientLight](vgl-ambient-light)
