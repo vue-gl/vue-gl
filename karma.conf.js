@@ -80,18 +80,6 @@ module.exports = (config) => {
                 browserName: "firefox",
                 version: "latest"
             },
-            "Opera 11 on Windows 7": {
-                base: "SauceLabs",
-                platform: "Windows 7",
-                browserName: "Opera",
-                version: "11"
-            },
-            "Opera (latest) on Windows 7": {
-                base: "SauceLabs",
-                platform: "Windows 7",
-                browserName: "Opera",
-                version: "latest"
-            },
             "Edge 13 on Windows 10": {
                 base: "SauceLabs",
                 platform: "Windows 10",
