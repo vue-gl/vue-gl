@@ -1,6 +1,6 @@
 module.exports = (config) => {
     const options = {
-        reporters: ["progress", "coverage", "junit"],
+        reporters: ["progress", "coverage"],
         frameworks: ["mocha"],
         files: [
             {pattern: require.resolve("chai/chai"), watched: false},
@@ -28,16 +28,14 @@ module.exports = (config) => {
             sourcemap: "inline"
         },
         coverageReporter: {
-            type: "lcov",
-            dir: "coverage"
-        },
-        junitReporter: {
-            outputDir: "junit"
+            type: "text-summary",
         }
     };
     
     if (process.env.CI) {
-        options.reporters.push("saucelabs");
+        options.reporters= ["saucelabs", "coverage", "junit"];
+        options.junitReporter = {outputDir: "junit"};
+        options.coverageReporter = {type: "lcov", dir: "coverage"};
         options.browserNoActivityTimeout = 30000;
         options.browserDisconnectTolerance = 2;
         options.sauceLabs = {
