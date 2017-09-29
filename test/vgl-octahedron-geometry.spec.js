@@ -1,4 +1,3 @@
-
 describe("VglOctahedronGeometryコンポーネントのテスト", function() {
     const {VglOctahedronGeometry} = VueGL;
     const assert = chai.assert;

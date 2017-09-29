@@ -1,7 +1,6 @@
-const {VglOrthographicCamera} = VueGL;
-const assert = chai.assert;
-
 describe("VglOrthographicCameraコンポーネントのテスト", function() {
+    const {VglOrthographicCamera} = VueGL;
+    const assert = chai.assert;
     describe("プロパティの確認", function() {
         it("instプロパティはOrthographicCameraオブジェクト", function() {
             const vm = new Vue({

@@ -1,7 +1,6 @@
-const {VglDodecahedronGeometry} = VueGL;
-const assert = chai.assert;
-
 describe("VglDodecahedronGeometryコンポーネントのテスト", function() {
+    const {VglDodecahedronGeometry} = VueGL;
+    const assert = chai.assert;
     describe("プロパティの確認", function() {
         it("instプロパティはDodecahedronGeometryオブジェクト", function() {
             const vm = new Vue(VglDodecahedronGeometry);

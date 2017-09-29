@@ -1,7 +1,6 @@
-const {VglPoints, VglGeometry, VglMaterial, VglAssets} = VueGL;
-const assert = chai.assert;
-
 describe("VglPointsのテスト", function() {
+    const {VglPoints, VglGeometry, VglMaterial, VglAssets} = VueGL;
+    const assert = chai.assert;
     describe("プロパティの確認", function() {
         it("instプロパティはPointsオブジェクト", function() {
             const vm = new Vue(VglPoints);

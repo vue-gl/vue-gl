@@ -1,8 +1,7 @@
-const {VglMaterial, VglAssets} = VueGL;
-const {LineBasicMaterial, MeshBasicMaterial} = THREE;
-const assert = chai.assert;
-
 describe("VglMaterialコンポーネントのテスト", function() {
+    const {VglMaterial, VglAssets} = VueGL;
+    const {LineBasicMaterial, MeshBasicMaterial} = THREE;
+    const assert = chai.assert;
     describe("プロパティの確認", function() {
         it("instプロパティはMaterialオブジェクト", function() {
             const vm = new Vue(VglMaterial);

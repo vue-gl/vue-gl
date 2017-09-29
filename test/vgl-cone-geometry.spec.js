@@ -1,7 +1,6 @@
-const {VglConeGeometry} = VueGL;
-const assert = chai.assert;
-
 describe("VglConeGeometryコンポーネントのテスト", function() {
+    const {VglConeGeometry} = VueGL;
+    const assert = chai.assert;
     describe("プロパティの確認", function() {
         it("instプロパティはConeGeometryオブジェクト", function() {
             const vm = new Vue(VglConeGeometry);

@@ -1,7 +1,6 @@
-const {VglAssets} = VueGL;
-const assert = chai.assert;
-
 describe("VglAbstractコンポーネントのテスト", function() {
+    const {VglAssets} = VueGL;
+    const assert = chai.assert;
     describe("assetsのテスト", function() {
         it("コンポーネント自身のプロパティにアクセスできる", function() {
             const vm = new Vue(VglAssets);

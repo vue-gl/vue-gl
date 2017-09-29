@@ -1,7 +1,6 @@
-const {VglScene, VglRenderer} = VueGL;
-const assert = chai.assert;
-
 describe("VglSceneコンポーネントのテスト", function() {
+    const {VglScene, VglRenderer} = VueGL;
+    const assert = chai.assert;
     describe("プロパティの確認", function() {
         it("instプロパティはSceneオブジェクト", function() {
             const vm = new Vue({

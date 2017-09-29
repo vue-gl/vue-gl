@@ -1,8 +1,7 @@
-const {VglCamera, VglRenderer} = VueGL;
-const {Camera, Vector3, Spherical} = THREE;
-const assert = chai.assert;
-
 describe("VglCameraコンポーネントのテスト", function() {
+    const {VglCamera, VglRenderer} = VueGL;
+    const {Camera, Vector3, Spherical} = THREE;
+    const assert = chai.assert;
     describe("プロパティの確認", function() {
         it("instプロパティはCameraオブジェクト", function() {
             const vm = new Vue({

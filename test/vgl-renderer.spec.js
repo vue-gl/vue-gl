@@ -1,7 +1,6 @@
-const {VglRenderer} = VueGL;
-const assert = chai.assert;
-
 describe("VglRendererコンポーネントのテスト", function() {
+    const {VglRenderer} = VueGL;
+    const assert = chai.assert;
     describe("レンダリングリソースの注入", function() {
         it("camerasプロパティがprovideされている", function() {
             const vm = new Vue({

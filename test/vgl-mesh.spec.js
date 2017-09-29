@@ -1,7 +1,6 @@
-const {VglMesh, VglGeometry, VglMaterial, VglAssets} = VueGL;
-const assert = chai.assert;
-
 describe("VglMeshのテスト", function() {
+    const {VglMesh, VglGeometry, VglMaterial, VglAssets} = VueGL;
+    const assert = chai.assert;
     describe("プロパティの確認", function() {
         it("instプロパティはMeshオブジェクト", function() {
             const vm = new Vue(VglMesh);

@@ -1,7 +1,6 @@
-const {VglLineBasicMaterial} = VueGL;
-const assert = chai.assert;
-
 describe("VglLineBasicMaterialコンポーネントのテスト", function() {
+    const {VglLineBasicMaterial} = VueGL;
+    const assert = chai.assert;
     describe("プロパティの確認", function() {
         it("instプロパティはLineBasicMaterialオブジェクト", function() {
             const vm = new Vue(VglLineBasicMaterial);

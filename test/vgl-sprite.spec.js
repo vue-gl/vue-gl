@@ -1,7 +1,6 @@
-const {VglSprite, VglMaterial, VglAssets} = VueGL;
-const assert = chai.assert;
-
 describe("VglSpriteのテスト", function() {
+    const {VglSprite, VglMaterial, VglAssets} = VueGL;
+    const assert = chai.assert;
     describe("プロパティの確認", function() {
         it("instプロパティはSpriteオブジェクト", function() {
             const vm = new Vue(VglSprite);

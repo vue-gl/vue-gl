@@ -1,8 +1,7 @@
-const {VglObject3d} = VueGL;
-const {Line, Mesh} = THREE;
-const assert = chai.assert;
-
 describe("VglObject3dコンポーネントのテスト", function() {
+    const {VglObject3d} = VueGL;
+    const {Line, Mesh} = THREE;
+    const assert = chai.assert;
     describe("プロパティの確認", function() {
         it("instプロパティはObject3Dオブジェクト", function() {
             const vm = new Vue(VglObject3d);

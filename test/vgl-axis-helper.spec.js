@@ -1,7 +1,6 @@
-const {VglAxisHelper} = VueGL;
-const assert = chai.assert;
-
 describe("VglAxisHelperのテスト", function() {
+    const {VglAxisHelper} = VueGL;
+    const assert = chai.assert;
     describe("プロパティの確認", function() {
         it("instプロパティはAxisHelperオブジェクト", function() {
             const vm = new Vue(VglAxisHelper);

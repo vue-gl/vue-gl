@@ -1,4 +1,3 @@
-
 describe("VglIcosahedronGeometryコンポーネントのテスト", function() {
     const {VglIcosahedronGeometry} = VueGL;
     const assert = chai.assert;

@@ -1,7 +1,6 @@
-const {VglCircleGeometry} = VueGL;
-const assert = chai.assert;
-
 describe("VglCircleGeometryコンポーネントのテスト", function() {
+    const {VglCircleGeometry} = VueGL;
+    const assert = chai.assert;
     describe("プロパティの確認", function() {
         it("instプロパティはCircleGeometryオブジェクト", function() {
             const vm = new Vue(VglCircleGeometry);

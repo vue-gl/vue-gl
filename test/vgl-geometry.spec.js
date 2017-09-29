@@ -1,8 +1,7 @@
-const {VglGeometry, VglAssets} = VueGL;
-const {BoxGeometry, SphereGeometry} = THREE;
-const assert = chai.assert;
-
 describe("VglGeometryコンポーネントのテスト", function() {
+    const {VglGeometry, VglAssets} = VueGL;
+    const {BoxGeometry, SphereGeometry} = THREE;
+    const assert = chai.assert;
     describe("プロパティの確認", function() {
         it("instプロパティはGeometryオブジェクト", function() {
             const vm = new Vue(VglGeometry);

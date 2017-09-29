@@ -1,7 +1,6 @@
-const {VglPerspectiveCamera} = VueGL;
-const assert = chai.assert;
-
 describe("VglPerspectiveCameraコンポーネントのテスト", function() {
+    const {VglPerspectiveCamera} = VueGL;
+    const assert = chai.assert;
     describe("プロパティの確認", function() {
         it("instプロパティはPerspectiveCameraオブジェクト", function() {
             const vm = new Vue({

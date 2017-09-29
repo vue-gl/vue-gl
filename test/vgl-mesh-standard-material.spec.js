@@ -1,7 +1,6 @@
-const {VglMeshStandardMaterial} = VueGL;
-const assert = chai.assert;
-
 describe("VglMeshStandardMaterialコンポーネントのテスト", function() {
+    const {VglMeshStandardMaterial} = VueGL;
+    const assert = chai.assert;
     describe("プロパティの確認", function() {
         it("instプロパティはMeshStandardMaterialオブジェクト", function() {
             const vm = new Vue(VglMeshStandardMaterial);

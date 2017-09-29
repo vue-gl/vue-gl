@@ -1,7 +1,6 @@
-const {parseVector3, parseEuler, parseSpherical, parseNumber} = VueGL.Utils;
-const assert = chai.assert;
-
 describe("Utilsモジュールのテスト", function() {
+    const {parseVector3, parseEuler, parseSpherical, parseNumber} = VueGL.Utils;
+    const assert = chai.assert;
     describe("parseVector3のテスト", function() {
         describe("数値のパース", function() {
             it("3 -> 3, 3, 3", function() {

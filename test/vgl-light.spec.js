@@ -1,7 +1,6 @@
-const {VglLight} = VueGL;
-const assert = chai.assert;
-
 describe("VglLightコンポーネントのテスト", function() {
+    const {VglLight} = VueGL;
+    const assert = chai.assert;
     describe("プロパティの確認", function() {
         it("instプロパティはLightオブジェクト", function() {
             const vm = new Vue(VglLight);

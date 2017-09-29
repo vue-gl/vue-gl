@@ -1,7 +1,6 @@
-const {VglCylinderGeometry} = VueGL;
-const assert = chai.assert;
-
 describe("VglCylinderGeometryコンポーネントのテスト", function() {
+    const {VglCylinderGeometry} = VueGL;
+    const assert = chai.assert;
     describe("プロパティの確認", function() {
         it("instプロパティはCylinderGeometryオブジェクト", function() {
             const vm = new Vue(VglCylinderGeometry);

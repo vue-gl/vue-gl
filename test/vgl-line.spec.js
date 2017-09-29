@@ -1,7 +1,6 @@
-const {VglLine, VglGeometry, VglMaterial, VglAssets} = VueGL;
-const assert = chai.assert;
-
 describe("VglLineのテスト", function() {
+    const {VglLine, VglGeometry, VglMaterial, VglAssets} = VueGL;
+    const assert = chai.assert;
     describe("プロパティの確認", function() {
         it("instプロパティはLineオブジェクト", function() {
             const vm = new Vue(VglLine);
