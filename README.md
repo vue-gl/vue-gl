@@ -74,7 +74,7 @@ When you open the html above in the browser, you'll see below.
   - [ ] **[VglTubeGeometry](src/vgl-tube-geometry.js)** - Corresponding to [THREE.TubeGeometry](https://threejs.org/docs/index.html#api/geometries/TubeGeometry)
   - [ ] **[VglWireframeGeometry](src/vgl-wireframe-geometry.js)** - Corresponding to [THREE.WireframeGeometry](https://threejs.org/docs/index.html#api/geometries/WireframeGeometry)
 - Helpers
-  - [ ] **[VglArrowHelper](src/vgl-arrow-helper.js)** - Corresponding to [THREE.ArrowHelper](https://threejs.org/docs/index.html#api/helpers/ArrowHelper)
+  - [x] **[VglArrowHelper](src/vgl-arrow-helper.js)** - Corresponding to [THREE.ArrowHelper](https://threejs.org/docs/index.html#api/helpers/ArrowHelper)
   - [x] **[VglAxisHelper](src/vgl-axis-helper.js)** - Corresponding to [THREE.AxisHelper](https://threejs.org/docs/index.html#api/helpers/AxisHelper)
   - [ ] **[VglBoxHelper](src/vgl-box-helper.js)** - Corresponding to [THREE.BoxHelper](https://threejs.org/docs/index.html#api/helpers/BoxHelper)
   - [ ] **[VglCameraHelper](src/vgl-camera-helper.js)** - Corresponding to [THREE.CameraHelper](https://threejs.org/docs/index.html#api/helpers/CameraHelper)

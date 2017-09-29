@@ -34,6 +34,7 @@ import VglRingGeometry from "./vgl-ring-geometry.js";
 import VglTetrahedronGeometry from "./vgl-tetrahedron-geometry.js";
 import VglTorusGeometry from "./vgl-torus-geometry.js";
 import VglTorusKnotGeometry from "./vgl-torus-knot-geometry.js";
+import VglArrowHelper from "./vgl-arrow-helper.js";
 
 export {
     VglAssets,
@@ -71,5 +72,6 @@ export {
     VglRingGeometry,
     VglTetrahedronGeometry,
     VglTorusGeometry,
-    VglTorusKnotGeometry
+    VglTorusKnotGeometry,
+    VglArrowHelper
 };

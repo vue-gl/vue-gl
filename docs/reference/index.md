@@ -27,6 +27,7 @@ layout: reference
 * [VglTorusKnotGeometry](vgl-torus-knot-geometry)
 
 ## Helpers
+* [VglArrowHelper](vgl-arrow-helper)
 * [VglAxisHelper](vgl-axis-helper)
 
 ## Lights
