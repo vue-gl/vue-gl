@@ -181,12 +181,6 @@ module.exports = (config) => {
                 platform: "OS X 10.9",
                 browserName: "safari",
                 version: "7"
-            },
-            "Safari 6 on Mac OS X Mountain Lion": {
-                base: "SauceLabs",
-                platform: "OS X 10.8",
-                browserName: "safari",
-                version: "6"
             }
         };
         options.browsers = Object.keys(options.customLaunchers);
