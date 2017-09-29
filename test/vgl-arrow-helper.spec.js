@@ -22,7 +22,7 @@ describe("VglArrowHelperのテスト", function() {
                 const vm = new (Vue.extend(VglArrowHelper))({
                     propsData: {dir: "0 2 2"}
                 });
-                assert.closeTo(vm.inst.rotation.x, Math.PI / 4, 0.00000000000000012);
+                assert.closeTo(vm.inst.rotation.x, Math.PI / 4, 0.000000000000001);
                 assert.strictEqual(vm.inst.rotation.y, 0);
                 assert.strictEqual(vm.inst.rotation.z, 0);
             });
@@ -81,7 +81,7 @@ describe("VglArrowHelperのテスト", function() {
                 assert.strictEqual(vm.inst.rotation.x, 0);
                 vm.dir = "0 2 2";
                 vm.$nextTick(() => {
-                    assert.closeTo(vm.inst.rotation.x, Math.PI / 4, 0.00000000000000012);
+                    assert.closeTo(vm.inst.rotation.x, Math.PI / 4, 0.000000000000001);
                     done();
                 });
             });
