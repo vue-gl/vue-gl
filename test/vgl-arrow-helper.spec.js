@@ -74,62 +74,67 @@ describe("VglArrowHelperのテスト", function() {
     });
     describe("プロパティ変更のテスト", function() {
         describe("dirの変更", function() {
-            it("\"0 2 0\" -> \"0 2 2\"", function() {
+            it("\"0 2 0\" -> \"0 2 2\"", function(done) {
                 const vm = new (Vue.extend(VglArrowHelper))({
                     propsData: {dir: "0 2 0"}
                 });
                 assert.strictEqual(vm.inst.rotation.x, 0);
                 vm.dir = "0 2 2";
-                return vm.$nextTick().then(() => {
+                vm.$nextTick(() => {
                     assert.closeTo(vm.inst.rotation.x, Math.PI / 4, 0.00000000000000012);
+                    done();
                 });
             });
         });
         describe("lengthの変更", function() {
-            it("3 -> \"5\"", function() {
+            it("3 -> \"5\"", function(done) {
                 const vm = new (Vue.extend(VglArrowHelper))({
                     propsData: {length: 3}
                 });
                 assert.strictEqual(vm.inst.line.scale.y, 2.4);
                 vm.length = "5";
-                return vm.$nextTick().then(() => {
+                vm.$nextTick(() => {
                     assert.strictEqual(vm.inst.line.scale.y, 4);
+                    done();
                 });
             });
         });
         describe("headLengthの変更", function() {
-            it("\".25\" -> 0.35", function() {
+            it("\".25\" -> 0.35", function(done) {
                 const vm = new (Vue.extend(VglArrowHelper))({
                     propsData: {headLength: ".25"}
                 });
                 assert.strictEqual(vm.inst.cone.scale.y, 0.25);
                 vm.headLength = 0.35;
-                return vm.$nextTick().then(() => {
+                vm.$nextTick(() => {
                     assert.strictEqual(vm.inst.cone.scale.y, 0.35);
+                    done();
                 });
             });
         });
         describe("headWidthの変更", function() {
-            it("\".15\" -> 0.25", function() {
+            it("\".15\" -> 0.25", function(done) {
                 const vm = new (Vue.extend(VglArrowHelper))({
                     propsData: {headWidth: ".15"}
                 });
                 assert.strictEqual(vm.inst.cone.scale.z, 0.15);
                 vm.headWidth = 0.25;
-                return vm.$nextTick().then(() => {
+                vm.$nextTick(() => {
                     assert.strictEqual(vm.inst.cone.scale.z, 0.25);
+                    done();
                 });
             });
         });
         describe("colorの変更", function() {
-            it("#ffdd77 -> #ab76c5", function() {
+            it("#ffdd77 -> #ab76c5", function(done) {
                 const vm = new (Vue.extend(VglArrowHelper))({
                     propsData: {color: "#ffdd77"}
                 });
                 assert.strictEqual(vm.inst.cone.material.color.getHex(), 0xffdd77);
                 vm.color = "#ab76c5";
-                return vm.$nextTick().then(() => {
+                return vm.$nextTick(() => {
                     assert.strictEqual(vm.inst.cone.material.color.getHex(), 0xab76c5);
+                    done();
                 });
             });
         });
