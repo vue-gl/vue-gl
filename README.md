@@ -93,7 +93,7 @@ When you open the html above in the browser, you'll see below.
   - [x] **[VglDirectionalLight](src/vgl-directional-light.js)** - Corresponding to [THREE.DirectionalLight](https://threejs.org/docs/index.html#api/lights/DirectionalLight)
   - [ ] **[VglHemisphereLight](src/vgl-hemisphere-light.js)** - Corresponding to [THREE.HemisphereLight](https://threejs.org/docs/index.html#api/lights/HemisphereLight)
   - [x] **[VglLight](src/vgl-light.js)** - Corresponding to [THREE.Light](https://threejs.org/docs/index.html#api/lights/Light)
-  - [ ] **[VglPointLight](src/vgl-point-light.js)** - Corresponding to [THREE.PointLight](https://threejs.org/docs/index.html#api/lights/PointLight)
+  - [x] **[VglPointLight](src/vgl-point-light.js)** - Corresponding to [THREE.PointLight](https://threejs.org/docs/index.html#api/lights/PointLight)
   - [ ] **[VglRectAreaLight](src/vgl-rect-area-light.js)** - Corresponding to [THREE.RectAreaLight](https://threejs.org/docs/index.html#api/lights/RectAreaLight)
   - [ ] **[VglSpotLight](src/vgl-spot-light.js)** - Corresponding to [THREE.SpotLight](https://threejs.org/docs/index.html#api/lights/SpotLight)
 - Materials
