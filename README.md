@@ -95,7 +95,7 @@ When you open the html above in the browser, you'll see below.
   - [x] **[VglLight](src/vgl-light.js)** - Corresponding to [THREE.Light](https://threejs.org/docs/index.html#api/lights/Light)
   - [x] **[VglPointLight](src/vgl-point-light.js)** - Corresponding to [THREE.PointLight](https://threejs.org/docs/index.html#api/lights/PointLight)
   - [ ] **[VglRectAreaLight](src/vgl-rect-area-light.js)** - Corresponding to [THREE.RectAreaLight](https://threejs.org/docs/index.html#api/lights/RectAreaLight)
-  - [ ] **[VglSpotLight](src/vgl-spot-light.js)** - Corresponding to [THREE.SpotLight](https://threejs.org/docs/index.html#api/lights/SpotLight)
+  - [x] **[VglSpotLight](src/vgl-spot-light.js)** - Corresponding to [THREE.SpotLight](https://threejs.org/docs/index.html#api/lights/SpotLight)
 - Materials
   - [x] **[VglLineBasicMaterial](src/vgl-line-basic-material.js)** - Corresponding to [THREE.LineBasicMaterial](https://threejs.org/docs/index.html#api/materials/LineBasicMaterial)
   - [ ] **[VglLineDashedMaterial](src/vgl-line-dashed-material.js)** - Corresponding to [THREE.LineDashedMaterial](https://threejs.org/docs/index.html#api/materials/LineDashedMaterial)

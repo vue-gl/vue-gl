@@ -37,6 +37,7 @@ import VglTorusKnotGeometry from "./vgl-torus-knot-geometry.js";
 import VglArrowHelper from "./vgl-arrow-helper.js";
 import VglBoxHelper from "./vgl-box-helper.js";
 import VglPointLight from "./vgl-point-light.js";
+import VglSpotLight from "./vgl-spot-light.js";
 
 export {
     VglAssets,
@@ -77,5 +78,6 @@ export {
     VglTorusKnotGeometry,
     VglArrowHelper,
     VglBoxHelper,
-    VglPointLight
+    VglPointLight,
+    VglSpotLight
 };
