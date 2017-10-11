@@ -1,66 +1,71 @@
-describe("VglGeometryコンポーネントのテスト", function() {
-    const {VglGeometry, VglAssets} = VueGL;
-    const {BoxGeometry, SphereGeometry} = THREE;
+describe("VglGeometry component", function() {
+    const {VglGeometry, VglNamespace} = VueGL;
     const assert = chai.assert;
-    describe("プロパティの確認", function() {
-        it("instプロパティはGeometryオブジェクト", function() {
-            const vm = new Vue(VglGeometry);
-            assert.isTrue(vm.inst.isGeometry);
-        });
-    });
-    describe("assetsへの登録", function() {
-        it("マウントすると、親assetsのgeometriesに登録される", function() {
+    describe("The instance should be registered to the injected namespace.", function() {
+        it("Should be registered when created.", function() {
             const vm = new Vue({
-                template: `<vgl-assets ref="p"><vgl-geometry name="dm'&^>" ref="c" /></vgl-assets>`,
+                template: `<vgl-namespace><vgl-geometry name="dm'&^>" ref="me" /><other-component ref="other" /></vgl-namespace>`,
                 components: {
                     VglGeometry,
-                    VglAssets
+                    VglNamespace,
+                    OtherComponent: {
+                        inject: ["vglGeometries"],
+                        render() {}
+                    }
                 }
             }).$mount();
-            assert.equal(vm.$refs.p.assets.geometries["dm'&^>"], vm.$refs.c.inst);
+            assert.strictEqual(vm.$refs.other.vglGeometries["dm'&^>"], vm.$refs.me.inst);
         });
-        it("コンポーネントが破棄されると、親assetsのgeometriesから削除される", function(done) {
+        it("Should be unregistered when destroyed.", function(done) {
             const vm = new Vue({
-                template: `<vgl-assets ref="p"><vgl-geometry name="n<!--" ref="c" v-if="a" /><vgl-assets /></vgl-assets>`,
+                template: `<vgl-namespace><vgl-geometry name="n<!--" v-if="!destroyed" /><other-component ref="other" /></vgl-namespace>`,
                 components: {
                     VglGeometry,
-                    VglAssets
+                    VglNamespace,
+                    OtherComponent: {
+                        inject: ["vglGeometries"],
+                        render() {}
+                    }
                 },
-                data: {a: true}
+                data: {destroyed: false}
             }).$mount();
-            assert.equal(vm.$refs.p.assets.geometries["n<!--"], vm.$refs.c.inst);
-            vm.a = false;
+            assert.hasAllKeys(vm.$refs.other.vglGeometries, ["n<!--"]);
+            vm.destroyed = true;
             vm.$nextTick(() => {
-                assert.isUndefined(vm.$refs.p.assets.geometries["n<!--"]);
-                assert.isEmpty(Object.keys(vm.$refs.p.assets.geometries));
-                done();
+                try {
+                    assert.isEmpty(vm.$refs.other.vglGeometries);
+                    done();
+                } catch(e) {
+                    done(e);
+                }
             });
         });
-        it("インスタンスを置換すると、親assetsのgeometriesも置換される", function(done) {
+        it("Should be replaced when the instance is replaced.", function(done) {
             const vm = new Vue({
-                template: `<vgl-assets ref="p"><ex name="'<!--" ref="c" :b="a" /></vgl-assets>`,
+                template: `<vgl-namespace><mixed-in name="'<!--" ref="geo" /><other-component ref="other" /></vgl-namespace>`,
                 components: {
-                    ex: {
+                    VglNamespace,
+                    MixedIn: {
                         mixins: [VglGeometry],
                         computed: {
-                            inst() {
-                                return this.b ? new BoxGeometry(1, 1, 1): new SphereGeometry();
-                            }
+                            inst() {return this.i;}
                         },
-                        props: ["b"]
+                        data: () => ({i: new THREE.Geometry()})
                     },
-                    VglAssets
-                },
-                data: {a: true}
+                    OtherComponent: {
+                        inject: ["vglGeometries"],
+                        render() {}
+                    }
+                }
             }).$mount();
-            const firstInstance = vm.$refs.c.inst;
-            assert.equal(vm.$refs.p.assets.geometries["'<!--"], firstInstance);
-            vm.a = false;
+            vm.$refs.geo.i = new THREE.Geometry();
             vm.$nextTick(() => {
-                const secondInstance = vm.$refs.c.inst;
-                assert.notEqual(firstInstance, secondInstance);
-                assert.equal(vm.$refs.p.assets.geometries["'<!--"], secondInstance);
-                done();
+                try {
+                    assert.strictEqual(vm.$refs.other.vglGeometries["'<!--"], vm.$refs.geo.inst);
+                    done();
+                } catch(e) {
+                    done(e);
+                }
             });
         });
     });

@@ -2,6 +2,10 @@
 layout: reference
 ---
 [Home](..) > References
+# Property types
+* [Overview](property-types#overview)
+* [Types](property-types#types)
+
 # Components
 ## Cameras
 * [VglCamera](vgl-camera)
@@ -16,6 +20,7 @@ layout: reference
 * [VglBoxGeometry](vgl-box-geometry)
 * [VglCircleGeometry](vgl-circle-geometry)
 * [VglConeGeometry](vgl-cone-geometry)
+* [VglCylinderGeometry](vgl-cylinder-geometry)
 * [VglDodecahedronGeometry](vgl-dodecahedron-geometry)
 * [VglIcosahedronGeometry](vgl-icosahedron-geometry)
 * [VglOctahedronGeometry](vgl-octahedron-geometry)

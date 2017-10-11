@@ -1,5 +1,6 @@
-import VglAssets from "./vgl-assets.js";
+import VglNamespace from "./vgl-namespace.js";
 import {WebGLRenderer} from "./three.js";
+import {createObjectFromArray} from "./utils.js";
 
 function resizeCamera(camera, domElement) {
     const width = domElement.clientWidth;
@@ -20,29 +21,30 @@ function resizeRenderer(renderer, domElement) {
 }
 
 export default {
-    mixins: [VglAssets],
-    props: [
-        "precision",
-        "alpha",
-        "premultipliedAlpha",
-        "antialias",
-        "stencil",
-        "preserveDrawingBuffer",
-        "depth",
-        "logarithmicDepthBuffer",
-        "camera",
-        "scene"
-    ],
-    provide() {
-        return {
-            cameras: this.cameras,
-            scenes: this.scenes
-        };
+    mixins: [VglNamespace],
+    props: {
+        precision: String,
+        alpha: Boolean,
+        disablePremultipliedAlpha: Boolean,
+        antialias: Boolean,
+        disableStencil: Boolean,
+        preserveDrawingBuffer: Boolean,
+        disableDepth: Boolean,
+        logarithmicDepthBuffer: Boolean,
+        camera: String,
+        scene: String
+    },
+    beforeCreate() {
+        const $options = this.$options;
+        if (!$options.isVglRootNamespace) {
+            $options.inject = createObjectFromArray([
+                "vglCameras",
+                "vglScenes"
+            ], (key) => key, $options.inject);
+        }
     },
     data() {
         return {
-            cameras: Object.create(null),
-            scenes: Object.create(null),
             key: 0,
             req: true
         };
@@ -52,11 +54,11 @@ export default {
             return {
                 precision: this.precision,
                 alpha: this.alpha,
-                premultipliedAlpha: this.premultipliedAlpha === undefined || this.premultipliedAlpha,
+                premultipliedAlpha: !this.disablePremultipliedAlpha,
                 antialias: this.antialias,
-                stencil: this.stencil === undefined || this.stencil,
+                stencil: !this.disableStencil,
                 preserveDrawingBuffer: this.preserveDrawingBuffer,
-                depth: this.depth === undefined || this.depth,
+                depth: !this.disableDepth,
                 logarithmicDepthBuffer: this.logarithmicDepthBuffer
             };
         },
@@ -66,10 +68,10 @@ export default {
             }, this.opt));
         },
         cmr() {
-            return this.cameras[this.camera];
+            return this.vglCameras[this.camera];
         },
         scn() {
-            return this.scenes[this.scene];
+            return this.vglScenes[this.scene];
         }
     },
     methods: {

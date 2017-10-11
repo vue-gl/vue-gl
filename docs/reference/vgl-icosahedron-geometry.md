@@ -1,7 +1,7 @@
 ---
 layout: reference
 ---
-[Home](..) &gt; [References](.) &gt; [Geometries](.#geometries) &gt; VglIcosahedronGeometry
+{% include breadcrumbs/geometries.md %} VglIcosahedronGeometry
 # VglIcosahedronGeometry `<vgl-icosahedron-geometry>`
 A component for generating a icosahedron geometries., corresponding [THREE.IcosahedronGeometry](https://threejs.org/docs/index.html#api/geometries/IcosahedronGeometry).
 ## Mixins
@@ -9,12 +9,12 @@ See the mixin components below for common properties.
 * [VglGeometry](vgl-geometry)
 
 ## Properties
-* `radius` - Radius of the icosahedron.
-* `detail` - Setting this to a value greater than 0 adds vertices making it no longer a icosahedron.
+* {% include prop.md name="radius" type="float" %} - Radius of the icosahedron.
+* {% include prop.md name="detail" type="float" %} - Setting this to a value greater than 0 adds vertices making it no longer a icosahedron.
 
 ## Example usage
 ```html
-<vgl-renderer :antialias="true" style="width: 300px; height: 150px;">
+<vgl-renderer antialias style="width: 300px; height: 150px;">
     <vgl-scene>
         <vgl-icosahedron-geometry name="geo"></vgl-icosahedron-geometry>
         <vgl-mesh-standard-material name="std"></vgl-mesh-standard-material>
@@ -22,7 +22,7 @@ See the mixin components below for common properties.
         <vgl-ambient-light color="#ffeecc"></vgl-ambient-light>
         <vgl-directional-light position="0 1 2"></vgl-directional-light>
     </vgl-scene>
-    <vgl-perspective-camera orbit-position="radius: 3; phi: 1; theta: 0.5;"></vgl-perspective-camera>
+    <vgl-perspective-camera orbit-position="3 1 0.5"></vgl-perspective-camera>
 </vgl-renderer>
 ```
 <div class="vgl-example"><iframe class="vgl-example__content" srcdoc="
@@ -35,7 +35,7 @@ See the mixin components below for common properties.
             height: 100vh;
         }
     </style>
-    <vgl-renderer :antialias='true' class='vgl-canvas'>
+    <vgl-renderer antialias class='vgl-canvas'>
         <vgl-scene>
             <vgl-icosahedron-geometry name='geo'></vgl-icosahedron-geometry>
             <vgl-mesh-standard-material name='std'></vgl-mesh-standard-material>
@@ -43,7 +43,7 @@ See the mixin components below for common properties.
             <vgl-ambient-light color='#ffeecc'></vgl-ambient-light>
             <vgl-directional-light position='0 1 2'></vgl-directional-light>
         </vgl-scene>
-        <vgl-perspective-camera orbit-position='radius: 3; phi: 1; theta: 0.5;'></vgl-perspective-camera>
+        <vgl-perspective-camera orbit-position='3 1 0.5'></vgl-perspective-camera>
     </vgl-renderer>
     <script src='https://unpkg.com/vue/dist/vue.min.js'></script>
     <script src='https://unpkg.com/three/build/three.min.js'></script>

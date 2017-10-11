@@ -1,4 +1,4 @@
-import VglAssets from "./vgl-assets.js";
+import VglNamespace from "./vgl-namespace.js";
 import VglObject3d from "./vgl-object3d.js";
 import VglScene from "./vgl-scene.js";
 import VglCamera from "./vgl-camera.js";
@@ -38,7 +38,7 @@ import VglArrowHelper from "./vgl-arrow-helper.js";
 import VglBoxHelper from "./vgl-box-helper.js";
 
 export {
-    VglAssets,
+    VglNamespace,
     VglObject3d,
     VglScene,
     VglCamera,

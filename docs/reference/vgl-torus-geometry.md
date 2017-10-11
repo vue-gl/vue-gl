@@ -1,7 +1,7 @@
 ---
 layout: reference
 ---
-[Home](..) &gt; [References](.) &gt; [Geometries](.#geometries) &gt; VglTorusGeometry
+{% include breadcrumbs/geometries.md %} VglTorusGeometry
 # VglTorusGeometry `<vgl-torus-geometry>`
 A component for generating torus geometries, corresponding [THREE.TorusGeometry](https://threejs.org/docs/index.html#api/geometries/TorusGeometry).
 ## Mixins
@@ -9,15 +9,15 @@ See the mixin components below for common properties.
 * [VglGeometry](vgl-geometry)
 
 ## Properties
-* `radius` - Radius of the torus.
-* `tube` - Diamiter of the tube.
-* `radialSegments` - Number of segments of the tube's section.
-* `tubularSegments` - Number of segments along to the tube length direction.
-* `arc` - The central angle.
+* {% include prop.md name="radius" type="float" %} - Radius of the torus.
+* {% include prop.md name="tube" type="float" %} - Diamiter of the tube.
+* {% include prop.md name="radialSegments" type="int" %} - Number of segments of the tube's section.
+* {% include prop.md name="tubularSegments" type="int" %} - Number of segments along to the tube length direction.
+* {% include prop.md name="arc" type="float" %} - The central angle.
 
 ## Example usage
 ```html
-<vgl-renderer :antialias="true" style="width: 300px; height: 150px;">
+<vgl-renderer antialias style="width: 300px; height: 150px;">
     <vgl-scene>
         <vgl-torus-geometry name="torus" radius=30 tube=5 tubular-segments=16></vgl-torus-geometry>
         <vgl-mesh-standard-material name="std"></vgl-mesh-standard-material>
@@ -25,7 +25,7 @@ See the mixin components below for common properties.
         <vgl-ambient-light color="#ffeecc"></vgl-ambient-light>
         <vgl-directional-light position="0 1 2"></vgl-directional-light>
     </vgl-scene>
-    <vgl-perspective-camera orbit-position="radius: 100; phi: 1; theta: 0.5;"></vgl-perspective-camera>
+    <vgl-perspective-camera orbit-position="100 1 0.5"></vgl-perspective-camera>
 </vgl-renderer>
 ```
 <div class="vgl-example"><iframe class="vgl-example__content" srcdoc="
@@ -38,7 +38,7 @@ See the mixin components below for common properties.
             height: 100vh;
         }
     </style>
-    <vgl-renderer :antialias='true' class='vgl-canvas'>
+    <vgl-renderer antialias class='vgl-canvas'>
         <vgl-scene>
             <vgl-torus-geometry name='torus' radius=30 tube=5 tubular-segments=16></vgl-torus-geometry>
             <vgl-mesh-standard-material name='std'></vgl-mesh-standard-material>
@@ -46,7 +46,7 @@ See the mixin components below for common properties.
             <vgl-ambient-light color='#ffeecc'></vgl-ambient-light>
             <vgl-directional-light position='0 1 2'></vgl-directional-light>
         </vgl-scene>
-        <vgl-perspective-camera orbit-position='radius: 100; phi: 1; theta: 0.5;'></vgl-perspective-camera>
+        <vgl-perspective-camera orbit-position='100 1 0.5'></vgl-perspective-camera>
     </vgl-renderer>
     <script src='https://unpkg.com/vue/dist/vue.min.js'></script>
     <script src='https://unpkg.com/three/build/three.min.js'></script>

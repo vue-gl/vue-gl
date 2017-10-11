@@ -1,57 +1,34 @@
 import VglObject3d from "./vgl-object3d.js";
+import {assetFactory} from "./mixins.js";
 import {parseVector3, parseSpherical} from "./utils.js";
-import {Camera} from "./three.js";
+import {Camera, Vector3, Spherical} from "./three.js";
+
+function setPositionAndRotation(vm, orbitPosition, orbitTarget) {
+    if (orbitPosition || orbitTarget) {
+        const target = parseVector3(orbitTarget);
+        if (orbitPosition) {
+            const position = vm.inst.position.setFromSpherical(parseSpherical(orbitPosition));
+            if (target) position.add(target);
+        }
+        vm.inst.lookAt(target || new Vector3());
+    }
+}
 
 export default {
-    mixins: [VglObject3d],
-    props: ["orbitTarget", "orbitPosition"],
-    inject: ["cameras"],
-    computed: {
-        inst: () => new Camera()
+    mixins: [VglObject3d, assetFactory(Camera, "vglCameras")],
+    props: {
+        orbitTarget: [String, Vector3],
+        orbitPosition: [String, Spherical]
     },
     created() {
-        const inst = this.inst;
-        const orbitPosition = this.orbitPosition;
-        const orbitTarget = this.orbitTarget;
-        if (orbitPosition || orbitTarget) {
-            const target = parseVector3(orbitTarget);
-            if (orbitPosition) {
-                inst.position
-                    .setFromSpherical(parseSpherical(orbitPosition))
-                    .add(target);
-            }
-            inst.lookAt(target);
-        }
-        this.$set(this.cameras, this.name, this.inst);
-    },
-    beforeDestroy() {
-        if (this.cameras[this.name] === this.inst) {
-            this.$delete(this.cameras, this.name);
-        }
+        setPositionAndRotation(this, this.orbitPosition, this.orbitTarget);
     },
     watch: {
-        inst(inst) {
-            this.cameras[this.name] = inst;
-        },
         orbitTarget(target) {
-            const inst = this.inst;
-            const vector = parseVector3(target);
-            if (this.orbitPosition) {
-                inst.position
-                    .setFromSpherical(parseSpherical(this.orbitPosition))
-                    .add(vector);
-            }
-            inst.lookAt(vector);
+            setPositionAndRotation(this, this.orbitPosition, target);
         },
         orbitPosition(position) {
-            const inst = this.inst;
-            const spherical = parseSpherical(position);
-            inst.position.setFromSpherical(spherical);
-            const vector = parseVector3(this.orbitTarget);
-            if (this.orbitTarget) {
-                inst.add(vector);
-            }
-            inst.lookAt(vector);
+            setPositionAndRotation(this, position, this.orbitTarget);
         }
     }
 };

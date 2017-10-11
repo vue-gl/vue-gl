@@ -1,50 +1,69 @@
-import {parseNumber} from "./utils.js";
+import {parseFloat_, parseInt_} from "./utils.js";
 
-export const hasMaterial = {
-    props: ["material"],
-    computed: {
-        mtl() {
-            const materials = Object.getPrototypeOf(this.assets.materials);
-            if (materials) return materials[this.material];
+export function assetFactory(threeClass, namespace) {
+    return {
+        props: {
+            name: String
+        },
+        inject: [namespace],
+        computed: {
+            inst: () => new threeClass()
+        },
+        created() {
+            this.$set(this[namespace], this.name, this.inst);
+        },
+        watch: {
+            inst(inst) {
+                this[namespace][this.name] = inst;
+            }
+        },
+        beforeDestroy() {
+            if (this[namespace][this.name] === this.inst) this.$delete(this[namespace], this.name);
+        },
+        render(h) {
+            if (this.$slots.default) return h("div", this.$slots.default);
         }
-    },
-    created() {
-        if (this.mtl) this.inst.material = this.mtl;
-    },
-    watch: {
-        mtl(mtl) {
-            this.inst.material = mtl;
-        }
-    }
-};
+    };
+}
 
-export const hasGeometry = {
-    props: ["geometry"],
-    computed: {
-        geo() {
-            const geometries = Object.getPrototypeOf(this.assets.geometries);
-            if (geometries) return geometries[this.geometry];
+function hasAssetsMixinFactory(propname, namespace) {
+    const computedPropname = propname + "_";
+    return {
+        props: {[propname]: String},
+        inject: [namespace],
+        computed: {
+            [computedPropname]() {
+                return this[namespace][this[propname]];
+            }
+        },
+        mounted() {
+            if (this[computedPropname]) this.inst[propname] = this[computedPropname];
+        },
+        watch: {
+            [computedPropname](prop) {
+                this.inst[propname] = prop;
+            }
         }
-    },
-    created() {
-        if (this.geo) this.inst.geometry = this.geo;
-    },
-    watch: {
-        geo(geo) {
-            this.inst.geometry = geo;
-        }
-    }
-};
+    };
+}
+
+export function objectMixinFactory(hasGeometry) {
+    const mixins = [hasAssetsMixinFactory("material", "vglMaterials")];
+    if (hasGeometry) mixins.push(hasAssetsMixinFactory("geometry", "vglGeometries"));
+    return {mixins};
+}
+
+const numberValidator = [String, Number];
 
 export function hedronFactory(threeClass) {
     return {
-        props: ["radius", "detail"],
+        props: {
+            radius: numberValidator,
+            detail: numberValidator
+        },
         computed: {
             inst() {
-                return new threeClass(
-                    parseNumber(this.radius),
-                    parseNumber(this.detail, true)
-                );
+                return new threeClass(parseFloat_(this.radius), parseInt_(this.detail));
             }
         }
     };

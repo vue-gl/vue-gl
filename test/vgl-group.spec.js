@@ -1,10 +1,8 @@
-describe("VglGroupコンポーネントのテスト", function() {
+describe("VglGroup component", function() {
     const {VglGroup} = VueGL;
     const assert = chai.assert;
-    describe("プロパティの確認", function() {
-        it("instプロパティはGroupオプジェクト", function() {
-            const vm = new Vue(VglGroup);
-            assert.equal(vm.inst.type, "Group");
-        });
+    it("The instance should be a Group object.", function() {
+        const vm = new Vue(VglGroup);
+        assert.equal(vm.inst.type, "Group");
     });
 });
