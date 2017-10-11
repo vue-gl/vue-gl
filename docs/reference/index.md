@@ -40,6 +40,8 @@ layout: reference
 * [VglAmbientLight](vgl-ambient-light)
 * [VglDirectionalLight](vgl-directional-light)
 * [VglLight](vgl-light)
+* [VglPointLight](vgl-point-light)
+* [VglSpotLight](vgl-spot-light)
 
 ## Materials
 * [VglLineBasicMaterial](vgl-line-basic-material)
