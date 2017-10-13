@@ -40,7 +40,7 @@ export default {
         class Provider {
             constructor(namespace, global) {
                 this.n = namespace;
-                this.g = global ? 0: 1;
+                this.g = global ? "": "_";
             }
             get forGet() {
                 return vm[this.n + this.g + this.g];
