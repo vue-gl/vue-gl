@@ -14,6 +14,11 @@ module.exports = (config) => {
             "test/index.js": ["rollup"],
             "test/**/*.spec.js": ["babel"]
         },
+        client: {
+            mocha: {
+                timeout: 10000
+            }
+        },
         rollupPreprocessor: {
             format: "iife",
             name: "VueGL",
