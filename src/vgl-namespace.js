@@ -43,10 +43,10 @@ export default {
                 this.g = global ? 0: 1;
             }
             get forGet() {
-                return vm[this.n + "_".repeat(this.g * 2)];
+                return vm[this.n + this.g + this.g];
             }
             get forSet() {
-                return vm[this.n + "_".repeat(this.g)];
+                return vm[this.n + this.g];
             }
         }
         return createObjectFromArray(localNamespaces, (namespace) =>
