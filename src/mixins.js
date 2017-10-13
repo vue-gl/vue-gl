@@ -10,15 +10,15 @@ export function assetFactory(threeClass, namespace) {
             inst: () => new threeClass()
         },
         created() {
-            this.$set(this[namespace], this.name, this.inst);
+            this.$set(this[namespace].forSet, this.name, this.inst);
         },
         watch: {
             inst(inst) {
-                this[namespace][this.name] = inst;
+                this[namespace].forSet[this.name] = inst;
             }
         },
         beforeDestroy() {
-            if (this[namespace][this.name] === this.inst) this.$delete(this[namespace], this.name);
+            if (this[namespace].forSet[this.name] === this.inst) this.$delete(this[namespace].forSet, this.name);
         },
         render(h) {
             if (this.$slots.default) return h("div", this.$slots.default);
@@ -33,7 +33,7 @@ function hasAssetsMixinFactory(propname, namespace) {
         inject: [namespace],
         computed: {
             [computedPropname]() {
-                return this[namespace][this[propname]];
+                return this[namespace].forGet[this[propname]];
             }
         },
         mounted() {

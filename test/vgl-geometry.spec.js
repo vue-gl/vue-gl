@@ -14,7 +14,7 @@ describe("VglGeometry component", function() {
                     }
                 }
             }).$mount();
-            assert.strictEqual(vm.$refs.other.vglGeometries["dm'&^>"], vm.$refs.me.inst);
+            assert.strictEqual(vm.$refs.other.vglGeometries.forGet["dm'&^>"], vm.$refs.me.inst);
         });
         it("Should be unregistered when destroyed.", function(done) {
             const vm = new Vue({
@@ -29,11 +29,11 @@ describe("VglGeometry component", function() {
                 },
                 data: {destroyed: false}
             }).$mount();
-            assert.hasAllKeys(vm.$refs.other.vglGeometries, ["n<!--"]);
+            assert.hasAllKeys(vm.$refs.other.vglGeometries.forGet, ["n<!--"]);
             vm.destroyed = true;
             vm.$nextTick(() => {
                 try {
-                    assert.isEmpty(vm.$refs.other.vglGeometries);
+                    assert.isEmpty(vm.$refs.other.vglGeometries.forGet);
                     done();
                 } catch(e) {
                     done(e);
@@ -61,7 +61,7 @@ describe("VglGeometry component", function() {
             vm.$refs.geo.i = new THREE.Geometry();
             vm.$nextTick(() => {
                 try {
-                    assert.strictEqual(vm.$refs.other.vglGeometries["'<!--"], vm.$refs.geo.inst);
+                    assert.strictEqual(vm.$refs.other.vglGeometries.forGet["'<!--"], vm.$refs.geo.inst);
                     done();
                 } catch(e) {
                     done(e);

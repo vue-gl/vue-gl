@@ -14,7 +14,7 @@ describe("VglMaterial component", function() {
                     }
                 }
             }).$mount();
-            assert.strictEqual(vm.$refs.other.vglMaterials["dm'&^>"], vm.$refs.me.inst);
+            assert.strictEqual(vm.$refs.other.vglMaterials.forGet["dm'&^>"], vm.$refs.me.inst);
         });
         it("Should be unregistered when destroyed.", function(done) {
             const vm = new Vue({
@@ -29,11 +29,11 @@ describe("VglMaterial component", function() {
                 },
                 data: {destroyed: false}
             }).$mount();
-            assert.hasAllKeys(vm.$refs.other.vglMaterials, ["n<!--"]);
+            assert.hasAllKeys(vm.$refs.other.vglMaterials.forGet, ["n<!--"]);
             vm.destroyed = true;
             vm.$nextTick(() => {
                 try {
-                    assert.isEmpty(vm.$refs.other.vglMaterials);
+                    assert.isEmpty(vm.$refs.other.vglMaterials.forGet);
                     done();
                 } catch(e) {
                     done(e);
@@ -61,7 +61,7 @@ describe("VglMaterial component", function() {
             vm.$refs.geo.i = new THREE.Material();
             vm.$nextTick(() => {
                 try {
-                    assert.strictEqual(vm.$refs.other.vglMaterials["'<!--"], vm.$refs.geo.inst);
+                    assert.strictEqual(vm.$refs.other.vglMaterials.forGet["'<!--"], vm.$refs.geo.inst);
                     done();
                 } catch(e) {
                     done(e);

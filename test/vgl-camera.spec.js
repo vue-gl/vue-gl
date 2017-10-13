@@ -14,7 +14,7 @@ describe("VglCamera component", function() {
                     }
                 }
             }).$mount();
-            assert.strictEqual(vm.$refs.other.vglCameras["dm'&^>"], vm.$refs.me.inst);
+            assert.strictEqual(vm.$refs.other.vglCameras.forGet["dm'&^>"], vm.$refs.me.inst);
         });
         it("Should be unregistered when destroyed.", function(done) {
             const vm = new Vue({
@@ -29,11 +29,11 @@ describe("VglCamera component", function() {
                 },
                 data: {destroyed: false}
             }).$mount();
-            assert.hasAllKeys(vm.$refs.other.vglCameras, ["n<!--"]);
+            assert.hasAllKeys(vm.$refs.other.vglCameras.forGet, ["n<!--"]);
             vm.destroyed = true;
             vm.$nextTick(() => {
                 try {
-                    assert.isEmpty(vm.$refs.other.vglCameras);
+                    assert.isEmpty(vm.$refs.other.vglCameras.forGet);
                     done();
                 } catch(e) {
                     done(e);
@@ -61,7 +61,7 @@ describe("VglCamera component", function() {
             vm.$refs.geo.i = new THREE.Camera();
             vm.$nextTick(() => {
                 try {
-                    assert.strictEqual(vm.$refs.other.vglCameras["'<!--"], vm.$refs.geo.inst);
+                    assert.strictEqual(vm.$refs.other.vglCameras.forGet["'<!--"], vm.$refs.geo.inst);
                     done();
                 } catch(e) {
                     done(e);

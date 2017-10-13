@@ -14,7 +14,7 @@ describe("VglScene component", function() {
                     }
                 }
             }).$mount();
-            assert.strictEqual(vm.$refs.other.vglScenes["dm'&^>"], vm.$refs.me.inst);
+            assert.strictEqual(vm.$refs.other.vglScenes.forGet["dm'&^>"], vm.$refs.me.inst);
         });
         it("Should be unregistered when destroyed.", function(done) {
             const vm = new Vue({
@@ -29,11 +29,11 @@ describe("VglScene component", function() {
                 },
                 data: {destroyed: false}
             }).$mount();
-            assert.hasAllKeys(vm.$refs.other.vglScenes, ["n<!--"]);
+            assert.hasAllKeys(vm.$refs.other.vglScenes.forGet, ["n<!--"]);
             vm.destroyed = true;
             vm.$nextTick(() => {
                 try {
-                    assert.isEmpty(vm.$refs.other.vglScenes);
+                    assert.isEmpty(vm.$refs.other.vglScenes.forGet);
                     done();
                 } catch(e) {
                     done(e);
@@ -61,7 +61,7 @@ describe("VglScene component", function() {
             vm.$refs.geo.i = new THREE.Scene();
             vm.$nextTick(() => {
                 try {
-                    assert.strictEqual(vm.$refs.other.vglScenes["'<!--"], vm.$refs.geo.inst);
+                    assert.strictEqual(vm.$refs.other.vglScenes.forGet["'<!--"], vm.$refs.geo.inst);
                     done();
                 } catch(e) {
                     done(e);

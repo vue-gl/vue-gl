@@ -55,3 +55,9 @@ export function findParent(vm, key) {
     const $parent = vm.$parent;
     if ($parent) return $parent.$options[key] ? $parent: findParent($parent, key);
 }
+
+/**
+ * Constant arrays useful for props validation.
+ */
+export const validatePropNumber = [String, Number];
+export const validatePropString = String;
