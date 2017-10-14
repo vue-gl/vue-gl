@@ -40,7 +40,9 @@ export default {
             $options.inject = createObjectFromArray([
                 "vglCameras",
                 "vglScenes"
-            ], (key) => key, $options.inject);
+            ], (key) => ({
+                from: key
+            }), $options.inject);
         }
     },
     data() {

@@ -26,12 +26,7 @@ export default {
     isVglNamespace: true,
     beforeCreate() {
         const $options = this.$options;
-        if (findParent(this, "isVglNamespace")) {
-            if (!$options.inject) $options.inject = {};
-            localNamespaces.forEach((namespace) => {
-                $options.inject[namespace] = namespace;
-            });
-        } else {
+        if (!findParent(this, "isVglNamespace")) {
             $options.isVglRootNamespace = true;
         }
     },
@@ -55,6 +50,15 @@ export default {
             new Provider(namespace, true)
         ): {});
     },
+    inject: createObjectFromArray(localNamespaces, (namespace) => ({
+        from: namespace,
+        default() {
+            return {
+                forGet: this[namespace + "__"],
+                forSet: this[namespace + "_"]
+            };
+        }
+    })),
     data() {
         return createObjectFromArray(localNamespaces.map((key) => key + "_"), (namespace) =>
             createEmptyObject()
