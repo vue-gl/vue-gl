@@ -41,7 +41,10 @@ export default {
                 "vglCameras",
                 "vglScenes"
             ], (key) => ({
-                from: key
+                from: key,
+                default() {
+                    return this[key];
+                }
             }), $options.inject);
         }
     },
