@@ -52,7 +52,7 @@ describe("VglRenderer component", function() {
     describe("Creating a renderer", function() {
         beforeEach(function(ready) {
             // Avoid "null is not an object (evaluating 'gl.getExtension')" error.
-            setTimeout(ready, 1000);
+            setTimeout(() => {ready();}, 1000);
         });
         describe("Output canvas", function() {
             it("The domElement property of WebGLRenderer instance should be the Vue created canvas.", function() {
