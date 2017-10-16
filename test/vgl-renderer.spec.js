@@ -3,15 +3,11 @@ describe("VglRenderer component", function() {
     const assert = chai.assert;
     const webgl = (() => {
         const canvas = document.createElement("canvas");
+        let gl;
         try {
-            canvas.getContext("webgl");
-            return true;
-        } catch(e) {
-            try {
-                canvas.getContext("experimental-webgl");
-                return true;
-            } catch(e) {}
-        }
+            gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+            return typeof gl.getSupportedExtensions === "function";
+        } catch(e) {}
         return false;
     })();
     beforeEach(function() {
