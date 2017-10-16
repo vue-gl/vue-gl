@@ -5,9 +5,13 @@ describe("VglRenderer component", function() {
         const canvas = document.createElement("canvas");
         let gl;
         try {
-            gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+            gl = canvas.getContext("webgl");
         } catch(e) {
-            gl = null;
+            try {
+                gl = canvas.getContext("experimental-webgl");
+            } catch(e) {
+                gl = null;
+            }
         }
         return gl;
     })();
