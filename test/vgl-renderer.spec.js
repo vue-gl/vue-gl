@@ -4,7 +4,8 @@ describe("VglRenderer component", function() {
     const webgl = (() => {
         const canvas = document.createElement("canvas");
         const opts = {
-            antialias: true
+            antialias: true,
+            premultipliedAlpha: false
         };
         try {
             return canvas.getContext("webgl", opts) || canvas.getContext("experimental-webgl", opts);
@@ -102,6 +103,11 @@ describe("VglRenderer component", function() {
                 });
             });
             describe("The disablePremultipliedAlpha property should affect the premultipliedAlpha attribute.", function() {
+                const enable = !webgl.getContextAttributes().premultipliedAlpha;
+                if (!enable) console.log("PremultipliedAlpha cannot be disabled. Skip tests for the premultipliedAlpha property.");
+                beforeEach(function() {
+                    if (!enable) this.skip();
+                });
                 it("When the property is undefined (or false).", function() {
                     assert.isTrue(pvm.inst.getContextAttributes().premultipliedAlpha);
                 });
