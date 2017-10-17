@@ -5,7 +5,8 @@ describe("VglRenderer component", function() {
         const canvas = document.createElement("canvas");
         const opts = {
             antialias: true,
-            premultipliedAlpha: false
+            premultipliedAlpha: false,
+            depth: false
         };
         try {
             return canvas.getContext("webgl", opts) || canvas.getContext("experimental-webgl", opts);
@@ -71,6 +72,11 @@ describe("VglRenderer component", function() {
                 });
             });
             describe("The disableDepth property should affect the depth attribute.", function() {
+                const enable = !webgl.getContextAttributes().depth;
+                if (!enable) console.log("Depth buffer cannot be disabled. Skip tests for the depth property.");
+                beforeEach(function() {
+                    if (!enable) this.skip();
+                });
                 it("When the property is undefined (or false).", function() {
                     assert.isTrue(pvm.inst.getContextAttributes().depth);
                 });
@@ -128,6 +134,11 @@ describe("VglRenderer component", function() {
         });
         describe("Capabilities", function() {
             describe("The logarithmicDepthBuffer property should affect the logarithmicDepthBuffer capability.", function() {
+                const ext = webgl.getSupportedExtensions().indexOf("EXT_frag_depth") >= 0;
+                if (!ext) console.log("The extension EXT_frag_depth is not supported. Skip tests for the logarithmicDepthBuffer property.");
+                beforeEach(function() {
+                    if (!ext) this.skip();
+                });
                 it("When the property is undefined (or false).", function() {
                     assert.isFalse(pvm.inst.capabilities.logarithmicDepthBuffer);
                 });
