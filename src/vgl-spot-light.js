@@ -37,6 +37,7 @@ export default {
             parseVector3(this.target, this.inst.target.position);
             const $parent = findParent(this, "isVglObject3d");
             if ($parent) this.$watch(() => $parent.inst, (inst, old) => {
+                if (old) old.remove(this.inst.target);
                 inst.add(this.inst.target);
             }, {immediate: true});
         }
@@ -57,13 +58,8 @@ export default {
         penumbra(penumbra) {
             this.inst.penumbra = parseFloat_(penumbra);
         },
-        target(target, oldTarget) {
-            if (target) {
-                this.inst.target.position.copy(parseVector3(target));
-                if (oldTarget === undefined && this.inst.parent) {
-                    this.inst.parent.add(this.inst.target);
-                }
-            }
+        target(target) {
+            parseVector3(target, this.inst.target.position);
         }
     }
 };

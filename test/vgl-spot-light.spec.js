@@ -1,256 +1,208 @@
-describe("VglSpotLightコンポーネントのテスト", function() {
-    const {VglSpotLight, VglObject3d} = VueGL;
+describe("VglSpotLight component", function() {
+    const {VglSpotLight} = VueGL;
     const assert = chai.assert;
-    describe("プロパティの確認", function() {
-        it("instプロパティはSpotLightオブジェクト", function() {
-            const vm = new Vue(VglSpotLight);
-            assert.isTrue(vm.inst.isSpotLight);
-        });
-    });
-    describe("プロパティのテスト", function() {
-        describe("distanceのテスト", function() {
-            it("undefined -> 0", function() {
+    describe("Creating a light", function() {
+        describe("The distance of the light should be same as the distance property.", function() {
+            it("When the property is undefined.", function() {
                 const vm = new Vue(VglSpotLight);
                 assert.strictEqual(vm.inst.distance, 0);
             });
-            it("\"2.1\" -> 2.1", function() {
-                const vm = new (Vue.extend(VglSpotLight))({
-                    propsData: {distance: "2.1"}
-                });
+            it("When the property is a number.", function() {
+                const vm = new (Vue.extend(VglSpotLight))({propsData: {distance: 2.1}});
                 assert.strictEqual(vm.inst.distance, 2.1);
             });
+            it("When the property is a string.", function() {
+                const vm = new (Vue.extend(VglSpotLight))({propsData: {distance: "2.5"}});
+                assert.strictEqual(vm.inst.distance, 2.5);
+            });
         });
-        describe("decayのテスト", function() {
-            it("undefined -> 1", function() {
+        describe("The decay of the light should be same as the decay property.", function() {
+            it("When the property is undefined.", function() {
                 const vm = new Vue(VglSpotLight);
                 assert.strictEqual(vm.inst.decay, 1);
             });
-            it("\"2\" -> 2", function() {
-                const vm = new (Vue.extend(VglSpotLight))({
-                    propsData: {decay: "2"}
-                });
+            it("When the property is a number.", function() {
+                const vm = new (Vue.extend(VglSpotLight))({propsData: {decay: 2}});
                 assert.strictEqual(vm.inst.decay, 2);
             });
+            it("When the property is a string.", function() {
+                const vm = new (Vue.extend(VglSpotLight))({propsData: {decay: "3"}});
+                assert.strictEqual(vm.inst.decay, 3);
+            });
         });
-        describe("angleのテスト", function() {
-            it("undefined -> π/3", function() {
+        describe("The angle of the light should be same as the angle property.", function() {
+            it("When the property is undefined.", function() {
                 const vm = new Vue(VglSpotLight);
                 assert.strictEqual(vm.inst.angle, Math.PI / 3);
             });
-            it("\"1.1\" -> 1.1", function() {
-                const vm = new (Vue.extend(VglSpotLight))({
-                    propsData: {angle: "1.1"}
-                });
-                assert.strictEqual(vm.inst.angle, 1.1);
+            it("When the property is a number.", function() {
+                const vm = new (Vue.extend(VglSpotLight))({propsData: {angle: 0.44}});
+                assert.strictEqual(vm.inst.angle, 0.44);
+            });
+            it("When the property is a string.", function() {
+                const vm = new (Vue.extend(VglSpotLight))({propsData: {angle: "0.22"}});
+                assert.strictEqual(vm.inst.angle, 0.22);
             });
         });
-        describe("penumbraのテスト", function() {
-            it("undefined -> 0", function() {
+        describe("The penumbra of the light should be same as the penumbra property.", function() {
+            it("When the property is undefined.", function() {
                 const vm = new Vue(VglSpotLight);
                 assert.strictEqual(vm.inst.penumbra, 0);
             });
-            it("\"0.8\" -> 0.8", function() {
-                const vm = new (Vue.extend(VglSpotLight))({
-                    propsData: {penumbra: "0.8"}
-                });
-                assert.strictEqual(vm.inst.penumbra, 0.8);
+            it("When the property is a number.", function() {
+                const vm = new (Vue.extend(VglSpotLight))({propsData: {penumbra: 0.34}});
+                assert.strictEqual(vm.inst.penumbra, 0.34);
+            });
+            it("When the property is a string.", function() {
+                const vm = new (Vue.extend(VglSpotLight))({propsData: {penumbra: "0.21"}});
+                assert.strictEqual(vm.inst.penumbra, 0.21);
             });
         });
-        describe("targetのテスト", function() {
-            it("undefined -> 0, 0, 0", function() {
+        describe("The target of the light should be same as the target property.", function() {
+            it("When the property is undefined.", function() {
                 const vm = new Vue(VglSpotLight);
                 assert.strictEqual(vm.inst.target.position.x, 0);
                 assert.strictEqual(vm.inst.target.position.y, 0);
                 assert.strictEqual(vm.inst.target.position.z, 0);
             });
-            it("\"2 3.1  6\" -> 2, 3.1, 6", function() {
-                const vm = new (Vue.extend(VglSpotLight))({
-                    propsData: {target: "2 3.1  6"}
-                });
-                assert.strictEqual(vm.inst.target.position.x, 2);
-                assert.strictEqual(vm.inst.target.position.y, 3.1);
-                assert.strictEqual(vm.inst.target.position.z, 6);
+            it("When the property is a Vector3 object.", function() {
+                const vm = new (Vue.extend(VglSpotLight))({propsData: {target: new THREE.Vector3(1.2, 3, 2)}});
+                assert.strictEqual(vm.inst.target.position.x, 1.2);
+                assert.strictEqual(vm.inst.target.position.y, 3);
+                assert.strictEqual(vm.inst.target.position.z, 2);
             });
-            it("undefined -> targetオブジェクトはグローバル", function() {
-                const vm = new Vue({
-                    template: `<vgl-object3d><vgl-spot-light ref="s" /></vgl-object3d>`,
-                    components: {
-                        VglObject3d,
-                        VglSpotLight
-                    }
-                }).$mount();
-                assert.isNull(vm.$refs.s.inst.target.parent);
+            it("When the property is a string.", function() {
+                const vm = new (Vue.extend(VglSpotLight))({propsData: {target: "0.29 1e2 -25"}});
+                assert.strictEqual(vm.inst.target.position.x, 0.29);
+                assert.strictEqual(vm.inst.target.position.y, 1e2);
+                assert.strictEqual(vm.inst.target.position.z, -25);
             });
-            it("\"1.1 0 3.01\" -> targetオブジェクトが親オブジェクトに追加される", function() {
+        });
+        describe("The target object of the light should be added to the parent object.", function() {
+            const {VglObject3d} = VueGL;
+            it("When the target property is undefined and a parent does not exist.", function() {
+                const vm = new Vue(VglSpotLight);
+                assert.isNull(vm.inst.target.parent);
+            });
+            it("When the target property is undefined and a parent exists.", function() {
                 const vm = new Vue({
-                    template: `<vgl-object3d ref="o"><vgl-spot-light target="1.1 0 3.01" ref="s" /></vgl-object3d>`,
-                    components: {
-                        VglObject3d,
-                        VglSpotLight
-                    }
+                    template: `<vgl-object3d><vgl-spot-light ref="spot" /></vgl-object3d>`,
+                    components: {VglSpotLight, VglObject3d}
                 }).$mount();
-                assert.strictEqual(vm.$refs.s.inst.target.parent, vm.$refs.o.inst);
+                assert.isNull(vm.$refs.spot.inst.target.parent);
+            });
+            it("When the target property is a Vector3 object and a parent does not exist.", function() {
+                const vm = new (Vue.extend(VglSpotLight))({propsData: {target: new THREE.Vector3()}});
+                assert.isNull(vm.inst.target.parent);
+            });
+            it("When the target property is a Vector3 object and a parent exists.", function() {
+                const vm = new Vue({
+                    template: `<vgl-object3d ref="parent"><vgl-spot-light ref="spot" :target="target" /></vgl-object3d>`,
+                    components: {VglSpotLight, VglObject3d},
+                    data: {target: new THREE.Vector3()}
+                }).$mount();
+                assert.strictEqual(vm.$refs.spot.inst.target.parent, vm.$refs.parent.inst);
+            });
+            it("When the target property is a string and a parent does not exist.", function() {
+                const vm = new (Vue.extend(VglSpotLight))({propsData: {target: "0 1.1 -2"}});
+                assert.isNull(vm.inst.target.parent);
+            });
+            it("When the target property is a Vector3 object and a parent exists.", function() {
+                const vm = new Vue({
+                    template: `<vgl-object3d ref="parent"><vgl-spot-light ref="spot" target="-1 5 2.8" /></vgl-object3d>`,
+                    components: {VglSpotLight, VglObject3d}
+                }).$mount();
+                assert.strictEqual(vm.$refs.spot.inst.target.parent, vm.$refs.parent.inst);
             });
         });
     });
-    describe("プロパティ変更のテスト", function() {
-        describe("distanceの変更", function() {
-            it("3.5 -> \"1.8\"", function(done) {
-                const vm = new (Vue.extend(VglSpotLight))({
-                    propsData: {distance: 3.5}
-                });
-                assert.strictEqual(vm.inst.distance, 3.5);
-                vm.distance = "1.8";
-                vm.$nextTick(() => {
-                    try {
-                        assert.strictEqual(vm.inst.distance, 1.8);
-                        done();
-                    } catch(e) {
-                        done(e);
-                    }
-                });
+    describe("Watching properties", function() {
+        it("The distance of the light should change when the distance property changes.", function(done) {
+            const vm = new (Vue.extend(VglSpotLight))({propsData: {distance: 3.5}});
+            vm.distance = "1.8";
+            vm.$nextTick(() => {
+                try {
+                    assert.strictEqual(vm.inst.distance, 1.8);
+                    done();
+                } catch(e) {
+                    done(e);
+                }
             });
         });
-        describe("decayの変更", function() {
-            it("\"1.5\" -> 2.5", function(done) {
-                const vm = new (Vue.extend(VglSpotLight))({
-                    propsData: {decay: "1.5"}
-                });
-                assert.strictEqual(vm.inst.decay, 1.5);
-                vm.decay = 2.5;
-                vm.$nextTick(() => {
-                    try {
-                        assert.strictEqual(vm.inst.decay, 2.5);
-                        done();
-                    } catch(e) {
-                        done(e);
-                    }
-                });
+        it("The decay of the light should change when the decay property changes.", function(done) {
+            const vm = new (Vue.extend(VglSpotLight))({propsData: {decay: "1.5"}});
+            vm.decay = 2.5;
+            vm.$nextTick(() => {
+                try {
+                    assert.strictEqual(vm.inst.decay, 2.5);
+                    done();
+                } catch(e) {
+                    done(e);
+                }
             });
         });
-        describe("angleの変更", function() {
-            it("\"0.88\" -> 1.221", function(done) {
-                const vm = new (Vue.extend(VglSpotLight))({
-                    propsData: {angle: "0.88"}
-                });
-                assert.strictEqual(vm.inst.angle, 0.88);
-                vm.angle = 1.221;
-                vm.$nextTick(() => {
-                    try {
-                        assert.strictEqual(vm.inst.angle, 1.221);
-                        done();
-                    } catch(e) {
-                        done(e);
-                    }
-                });
+        it("The angle of the light should change when the angle property changes.", function(done) {
+            const vm = new (Vue.extend(VglSpotLight))({propsData: {angle: 1.12}});
+            vm.angle = "0.51";
+            vm.$nextTick(() => {
+                try {
+                    assert.strictEqual(vm.inst.angle, 0.51);
+                    done();
+                } catch(e) {
+                    done(e);
+                }
             });
         });
-        describe("penumbraの変更", function() {
-            it("0.88 -> \"0.77\"", function(done) {
-                const vm = new (Vue.extend(VglSpotLight))({
-                    propsData: {penumbra: 0.88}
-                });
-                assert.strictEqual(vm.inst.penumbra, 0.88);
-                vm.penumbra = "0.77";
-                vm.$nextTick(() => {
-                    try {
-                        assert.strictEqual(vm.inst.penumbra, 0.77);
-                        done();
-                    } catch(e) {
-                        done(e);
-                    }
-                });
+        it("The penumbra of the light should change when the penumbra property changes.", function(done) {
+            const vm = new (Vue.extend(VglSpotLight))({propsData: {penumbra: 0.8}});
+            vm.penumbra = "0.61";
+            vm.$nextTick(() => {
+                try {
+                    assert.strictEqual(vm.inst.penumbra, 0.61);
+                    done();
+                } catch(e) {
+                    done(e);
+                }
             });
         });
-        describe("targetの変更", function() {
-            it("undefined -> {x: 4, y: 3, z: 2.1}", function(done) {
-                const vm = new Vue({
-                    template: `<vgl-object3d ref="o"><vgl-spot-light :target="t" ref="s" /></vgl-object3d>`,
-                    components: {
-                        VglObject3d,
-                        VglSpotLight
-                    },
-                    data: {t: undefined}
-                }).$mount();
-                assert.strictEqual(vm.$refs.s.inst.target.position.x, 0);
-                assert.strictEqual(vm.$refs.s.inst.target.position.y, 0);
-                assert.strictEqual(vm.$refs.s.inst.target.position.z, 0);
-                assert.isNull(vm.$refs.s.inst.target.parent);
-                vm.t = {x: 4, y: 3, z: 2.1};
-                vm.$nextTick(() => {
-                    try {
-                        assert.strictEqual(vm.$refs.s.inst.target.position.x, 4);
-                        assert.strictEqual(vm.$refs.s.inst.target.position.y, 3);
-                        assert.strictEqual(vm.$refs.s.inst.target.position.z, 2.1);
-                        assert.strictEqual(vm.$refs.s.inst.target.parent, vm.$refs.o.inst);
-                        done();
-                    } catch(e) {
-                        done(e);
-                    }
-                });
-            });
-            it("{x: 4.5, y: 3.2, z: 2.1} -> \"2.1 1 0\"", function(done) {
-                const vm = new Vue({
-                    template: `<vgl-object3d ref="o"><vgl-spot-light :target="t" ref="s" /></vgl-object3d>`,
-                    components: {
-                        VglObject3d,
-                        VglSpotLight
-                    },
-                    data: {
-                        t: {x: 4.5, y: 3.2, z: 2.1}
-                    }
-                }).$mount();
-                assert.strictEqual(vm.$refs.s.inst.target.position.x, 4.5);
-                assert.strictEqual(vm.$refs.s.inst.target.position.y, 3.2);
-                assert.strictEqual(vm.$refs.s.inst.target.position.z, 2.1);
-                assert.strictEqual(vm.$refs.s.inst.target.parent, vm.$refs.o.inst);
-                vm.t = "2.1 1 0";
-                vm.$nextTick(() => {
-                    try {
-                        assert.strictEqual(vm.$refs.s.inst.target.position.x, 2.1);
-                        assert.strictEqual(vm.$refs.s.inst.target.position.y, 1);
-                        assert.strictEqual(vm.$refs.s.inst.target.position.z, 0);
-                        assert.strictEqual(vm.$refs.s.inst.target.parent, vm.$refs.o.inst);
-                        done();
-                    } catch(e) {
-                        done(e);
-                    }
-                });
+        it("The target of the light should change when the target property changes.", function(done) {
+            const vm = new (Vue.extend(VglSpotLight))({propsData: {target: "-1 2 1.1"}});
+            vm.target = new THREE.Vector3(1, 1.1, -1);
+            vm.$nextTick(() => {
+                try {
+                    assert.strictEqual(vm.inst.target.position.x, 1);
+                    assert.strictEqual(vm.inst.target.position.y, 1.1);
+                    assert.strictEqual(vm.inst.target.position.z, -1);
+                    done();
+                } catch(e) {
+                    done(e);
+                }
             });
         });
-    });
-    describe("ライフサイクルメソッドのテスト", function() {
-        describe("beforeDestroyのテスト", function() {
-            it("targetオブジェクトが親オブジェクトからremoveされる", function(done) {
-                const vm = new Vue({
-                    template: `<vgl-object3d ref="r"><vgl-object3d /><vgl-spot-light v-if="a" ref="s" /></vgl-object3d>`,
-                    components: {
-                        VglObject3d,
-                        VglSpotLight
-                    },
-                    data: {a: false}
-                }).$mount();
-                assert.strictEqual(vm.$refs.r.inst.children.length, 1);
-                vm.a = true;
-                vm.$nextTick(() => {
-                    try {
-                        assert.strictEqual(vm.$refs.r.inst.children.length, 2);
-                        const inst = vm.$refs.s.inst;
-                        assert.include(vm.$refs.r.inst.children, inst);
-                        vm.a = false;
-                        vm.$nextTick(() => {
-                            try {
-                                assert.strictEqual(vm.$refs.r.inst.children.length, 1);
-                                assert.notInclude(vm.$refs.r.inst.children, inst);
-                                done();
-                            } catch(e) {
-                                done(e);
-                            }
-                        });
-                    } catch(e) {
-                        done(e);
+        it("The target object should be added to the parent object when the parent changes.", function(done) {
+            const {VglObject3d} = VueGL;
+            const vm = new Vue({
+                template: `<parent-component :i="i"><vgl-spot-light ref="spot" target="0 -9 2e-3" /></parent-component>`,
+                components: {
+                    VglSpotLight,
+                    ParentComponent: {
+                        mixins: [VglObject3d],
+                        props: ["i"],
+                        computed: {
+                            inst() {return this.i;}
+                        }
                     }
-                });
+                },
+                data: {i: new THREE.Object3D()}
+            }).$mount();
+            vm.i = new THREE.Object3D;
+            vm.$nextTick(() => {
+                try {
+                    assert.strictEqual(vm.i, vm.$refs.spot.inst.target.parent);
+                    done();
+                } catch(e) {
+                    done(e);
+                }
             });
         });
     });
