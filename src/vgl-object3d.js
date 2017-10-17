@@ -1,67 +1,58 @@
-import VglAssets from "./vgl-assets.js";
-import {parseVector3, parseEuler} from "./utils.js";
-import {Object3D} from "./three.js";
+import {parseVector3, parseEuler, findParent} from "./utils.js";
+import {Object3D, Vector3, Euler} from "./three.js";
 
-function findParent(vm) {
-    const parent = vm.$parent;
-    if (parent) {
-        if (parent.$options.isVglObject3d) {
-            return parent;
-        }
-        return findParent(parent);
-    }
-}
+const defaultPosition = new Vector3();
+const defaultRotation = new Euler();
+const defaultScale = new Vector3(1, 1, 1);
 
 export default {
     isVglObject3d: true,
-    mixins: [VglAssets],
-    props: [
-        "name",
-        "position",
-        "rotation",
-        "scale"
-    ],
+    props: {
+        position: {
+            type: [String, Vector3],
+            default: () => defaultPosition
+        },
+        rotation: {
+            type: [String, Euler],
+            default: () => defaultRotation
+        },
+        scale: {
+            type: [String, Vector3],
+            default: () => defaultScale
+        }
+    },
     computed: {
         inst: () => new Object3D()
     },
     created() {
-        const inst = this.inst;
-        if (this.position) inst.position.copy(parseVector3(this.position));
-        if (this.rotation) inst.rotation.copy(parseEuler(this.rotation));
-        if (this.scale) inst.scale.copy(parseVector3(this.scale));
-        if (this.name !== undefined) inst.name = this.name;
-        const parent = findParent(this);
-        if (parent) {
-            parent.inst.add(inst);
-        }
+        parseVector3(this.position, this.inst.position);
+        parseEuler(this.rotation, this.inst.rotation);
+        parseVector3(this.scale, this.inst.scale);
+        const parent = findParent(this, "isVglObject3d");
+        if (parent) parent.inst.add(this.inst);
     },
     beforeDestroy() {
-        const inst = this.inst;
-        if (inst.parent) inst.parent.remove(inst);
+        if (this.inst.parent) this.inst.parent.remove(this.inst);
     },
     watch: {
-        position(pos) {
-            this.inst.position.copy(parseVector3(pos));
+        position(position) {
+            parseVector3(position || defaultPosition, this.inst.position);
         },
-        rotation(rot) {
-            this.inst.rotation.copy(parseEuler(rot));
+        rotation(rotation) {
+            parseEuler(rotation || defaultRotation, this.inst.rotation);
         },
-        scale(s) {
-            this.inst.scale.copy(parseVector3(s || 1));
+        scale(scale) {
+            parseVector3(scale || defaultScale, this.inst.scale);
         },
         inst(inst, oldInst) {
             if (oldInst.children.length) inst.add(...oldInst.children);
             inst.position.copy(oldInst.position);
             inst.rotation.copy(oldInst.rotation);
             inst.scale.copy(oldInst.scale);
-            const parent = oldInst.parent;
-            if (parent) {
-                parent.remove(oldInst);
-                parent.add(inst);
-            }
-        },
-        name(name) {
-            this.inst.name = name;
+            if (oldInst.parent) oldInst.parent.remove(oldInst).add(inst);
         }
+    },
+    render(h) {
+        if (this.$slots.default) return h("div", this.$slots.default);
     }
 };

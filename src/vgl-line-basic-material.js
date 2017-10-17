@@ -1,35 +1,54 @@
 import VglMaterial from "./vgl-material.js";
 import {LineBasicMaterial} from "./three.js";
-import {parseNumber} from "./utils.js";
+import {parseFloat_} from "./utils.js";
 
 export default {
     mixins: [VglMaterial],
-    props: ["color", "lights", "linewidth", "linecap", "linejoin"],
+    props: {
+        color: {
+            type: String,
+            default: "#fff"
+        },
+        lights: Boolean,
+        linewidth: {
+            type: [String, Number],
+            default: 1
+        },
+        linecap: {
+            type: String,
+            default: "round"
+        },
+        linejoin: {
+            type: String,
+            default: "round"
+        }
+    },
     computed: {
         inst: () => new LineBasicMaterial()
     },
     created() {
-        if (this.lights) this.inst.lights = this.lights;
-        if (this.linewidth) this.inst.linewidth = parseNumber(this.linewidth);
-        if (this.linecap) this.inst.linecap = this.linecap;
-        if (this.linejoin) this.inst.linejoin = this.linejoin;
-        if (this.color) this.inst.color.setStyle(this.color);
+        const inst = this.inst;
+        inst.lights = this.lights;
+        inst.linecap = this.linecap;
+        inst.linejoin = this.linejoin;
+        inst.linewidth = parseFloat_(this.linewidth);
+        inst.color.setStyle(this.color);
     },
     watch: {
-        color(cl) {
-            this.inst.color.setStyle(cl);
+        color(color) {
+            this.inst.color.setStyle(color);
         },
-        lights(li) {
-            this.inst.lights = li;
+        lights(lights) {
+            this.inst.lights = lights;
         },
-        linewidth(w) {
-            this.inst.linewidth = parseNumber(w);
+        linewidth(width) {
+            this.inst.linewidth = parseFloat_(width);
         },
-        linecap(c) {
-            this.inst.linecap = c;
+        linecap(cap) {
+            this.inst.linecap = cap;
         },
-        linejoin(j) {
-            this.inst.linejoin = j;
+        linejoin(join) {
+            this.inst.linejoin = join;
         }
     }
 };

@@ -1,39 +1,54 @@
-describe("VglCircleGeometryコンポーネントのテスト", function() {
-    const {VglCircleGeometry} = VueGL;
+describe("VglCircleGeometry component", function() {
+    const {VglCircleGeometry, VglNamespace} = VueGL;
     const assert = chai.assert;
-    describe("プロパティの確認", function() {
-        it("instプロパティはCircleGeometryオブジェクト", function() {
-            const vm = new Vue(VglCircleGeometry);
-            assert.equal(vm.inst.type, "CircleGeometry");
+    describe("Parameters of a instance should be same as the component properties.", function() {
+        it("When properties are number.", function() {
+            const vm = new Vue({
+                template: `<vgl-namespace><vgl-circle-geometry ref="geo" :radius="10" :segments="2" :thetaStart="0.4" :thetaLength="2.1" /></vgl-namespace>`,
+                components: {VglCircleGeometry, VglNamespace}
+            }).$mount();
+            assert.strictEqual(vm.$refs.geo.inst.parameters.radius, 10);
+            assert.strictEqual(vm.$refs.geo.inst.parameters.segments, 2);
+            assert.strictEqual(vm.$refs.geo.inst.parameters.thetaStart, 0.4);
+            assert.strictEqual(vm.$refs.geo.inst.parameters.thetaLength, 2.1);
+        });
+        it("When properties are string.", function() {
+            const vm = new Vue({
+                template: `<vgl-namespace><vgl-circle-geometry ref="geo" radius="100" segments="60" thetaStart="0.1" thetaLength="3.3" /></vgl-namespace>`,
+                components: {VglCircleGeometry, VglNamespace}
+            }).$mount();
+            assert.strictEqual(vm.$refs.geo.inst.parameters.radius, 100);
+            assert.strictEqual(vm.$refs.geo.inst.parameters.segments, 60);
+            assert.strictEqual(vm.$refs.geo.inst.parameters.thetaStart, 0.1);
+            assert.strictEqual(vm.$refs.geo.inst.parameters.thetaLength, 3.3);
+        });
+        it("When properties are undefined.", function() {
+            const vm = new Vue({
+                template: `<vgl-namespace><vgl-circle-geometry ref="geo" /></vgl-namespace>`,
+                components: {VglCircleGeometry, VglNamespace}
+            }).$mount();
+            assert.isUndefined(vm.$refs.geo.inst.parameters.radius);
+            assert.isUndefined(vm.$refs.geo.inst.parameters.segments);
+            assert.isUndefined(vm.$refs.geo.inst.parameters.thetaStart);
+            assert.isUndefined(vm.$refs.geo.inst.parameters.thetaLength);
         });
     });
-    describe("プロパティのテスト", function() {
-        describe("radiusプロパティ", function() {
-            it("undefined -> undefined (50)", function() {
-                const vm = new Vue(VglCircleGeometry);
-                assert.isUndefined(vm.inst.parameters.radius);
-            });
-            it("\"20\" -> 20", function() {
-                const vm = new (Vue.extend(VglCircleGeometry))({
-                    propsData: {radius: "20"}
-                });
-                assert.strictEqual(vm.inst.parameters.radius, 20);
-            });
-        });
-    });
-    describe("プロパティ変更のテスト", function() {
-        it("radiusが変更されると、新しいinstがnewされる", function(done) {
-            const vm = new (Vue.extend(VglCircleGeometry))({
-                propsData: {radius: "25"}
-            });
-            const firstInstance = vm.inst;
-            assert.strictEqual(firstInstance.parameters.radius, 25);
-            vm.radius = "11.3<";
+    describe("Instance should be recreated when a property changed.", function() {
+        it("When the radius property changes.", function(done) {
+            const vm = new Vue({
+                template: `<vgl-namespace><vgl-circle-geometry ref="geo" :radius="radius" /></vgl-namespace>`,
+                components: {VglCircleGeometry, VglNamespace},
+                data: {radius: 25}
+            }).$mount();
+            const before = vm.$refs.geo.inst;
+            vm.radius = 11;
             vm.$nextTick(() => {
-                const secondInstance = vm.inst;
-                assert.strictEqual(secondInstance.parameters.radius, 11.3);
-                assert.notEqual(firstInstance, secondInstance);
-                done();
+                try {
+                    assert.notEqual(before, vm.$refs.geo.inst);
+                    done();
+                } catch(e) {
+                    done(e);
+                }
             });
         });
     });

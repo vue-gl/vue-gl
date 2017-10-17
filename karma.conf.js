@@ -14,6 +14,11 @@ module.exports = (config) => {
             "test/index.js": ["rollup"],
             "test/**/*.spec.js": ["babel"]
         },
+        client: {
+            mocha: {
+                timeout: 10000
+            }
+        },
         rollupPreprocessor: {
             format: "iife",
             name: "VueGL",
@@ -35,7 +40,7 @@ module.exports = (config) => {
     if (process.env.CI) {
         options.reporters= ["saucelabs", "coverage", "junit"];
         options.junitReporter = {outputDir: "junit"};
-        options.coverageReporter = {type: "lcov", dir: "coverage"};
+        options.coverageReporter = {type: "lcovonly", dir: "coverage"};
         options.browserNoActivityTimeout = 30000;
         options.browserDisconnectTolerance = 2;
         options.sauceLabs = {
@@ -173,7 +178,7 @@ module.exports = (config) => {
         };
         options.browsers = Object.keys(options.customLaunchers);
         options.singleRun = true;
-        options.concurrency = 3;
+        options.concurrency = 4;
     }
     
     config.set(options);

@@ -1,10 +1,8 @@
-describe("VglAmbientLightコンポーネントのテスト", function() {
+describe("VglAmbientLight component", function() {
     const {VglAmbientLight} = VueGL;
     const assert = chai.assert;
-    describe("プロパティの確認", function() {
-        it("instプロパティはAmbientLightオブジェクト", function() {
-            const vm = new Vue(VglAmbientLight);
-            assert.isTrue(vm.inst.isAmbientLight);
-        });
+    it("The instance should be an AmbientLight object.", function() {
+        const vm = new Vue(VglAmbientLight);
+        assert.isTrue(vm.inst.isAmbientLight);
     });
 });

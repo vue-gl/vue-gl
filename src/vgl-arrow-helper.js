@@ -1,51 +1,54 @@
 import VglObject3d from "./vgl-object3d.js";
-import {ArrowHelper, Vector3, Color} from "./three.js";
-import {parseVector3, parseNumber} from "./utils.js";
+import {ArrowHelper, Color, Vector3} from "./three.js";
+import {parseVector3, parseFloat_} from "./utils.js";
 
-function areUndefined(...args) {
-    return !args.some((arg) => arg !== undefined);
+const numberValidator = [String, Number];
+const defaultDirection = new Vector3(0, 1);
+const origin = new Vector3();
+const tempColor = new Color();
+
+function setDirection(vm, dir) {
+    vm.inst.setDirection(parseVector3(dir).normalize());
 }
 
 export default {
     mixins: [VglObject3d],
-    props: [
-        "dir",
-        "length",
-        "color",
-        "headLength",
-        "headWidth"
-    ],
+    props: {
+        dir: {
+            type: [String, Vector3],
+            default: () => defaultDirection
+        },
+        length: {
+            type: numberValidator,
+            default: 1
+        },
+        color: {
+            type: String,
+            default: "#ff0"
+        },
+        headLength: numberValidator,
+        headWidth: numberValidator
+    },
     computed: {
-        inst: () => new ArrowHelper(new Vector3(1), new Vector3()),
+        inst: () => new ArrowHelper(defaultDirection, origin),
         len() {
-            const length = this.length === undefined ? 1: this.length;
-            return [
-                parseFloat(length),
-                parseNumber(this.headLength),
-                parseNumber(this.headWidth)
-            ];
+            return [parseFloat_(this.length), parseFloat_(this.headLength), parseFloat_(this.headWidth)];
         }
     },
     created() {
-        if (this.dir) {
-            this.inst.setDirection(parseVector3(this.dir).normalize());
-        }
-        if (!areUndefined(this.length, this.headLength, this.headWidth)) {
-            this.inst.setLength(...this.len);
-        }
-        if (this.color) {
-            this.inst.setColor(new Color(this.color));
-        }
+        if (this.dir !== defaultDirection) this.inst.setDirection(parseVector3(this.dir).normalize());
+        this.inst.setLength(...this.len);
+        this.inst.setColor(tempColor.setStyle(this.color));
     },
     watch: {
         dir(dir) {
-            this.inst.setDirection(parseVector3(dir).normalize());
+            setDirection(this, dir);
         },
         len(len) {
             this.inst.setLength(...len);
         },
         color(color) {
-            this.inst.setColor(new Color(color));
+            this.inst.setColor(tempColor.setStyle(color));
         }
     }
 };

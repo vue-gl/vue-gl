@@ -1,66 +1,71 @@
-describe("VglMaterialコンポーネントのテスト", function() {
-    const {VglMaterial, VglAssets} = VueGL;
-    const {LineBasicMaterial, MeshBasicMaterial} = THREE;
+describe("VglMaterial component", function() {
+    const {VglMaterial, VglNamespace} = VueGL;
     const assert = chai.assert;
-    describe("プロパティの確認", function() {
-        it("instプロパティはMaterialオブジェクト", function() {
-            const vm = new Vue(VglMaterial);
-            assert.isTrue(vm.inst.isMaterial);
-        });
-    });
-    describe("assetsへの登録", function() {
-        it("マウントすると、親assetsのmaterialsに登録される", function() {
+    describe("The instance should be registered to the injected namespace.", function() {
+        it("Should be registered when created.", function() {
             const vm = new Vue({
-                template: `<vgl-assets ref="p"><vgl-material name="dm'&^>" ref="c" /></vgl-assets>`,
+                template: `<vgl-namespace><vgl-material name="dm'&^>" ref="me" /><other-component ref="other" /></vgl-namespace>`,
                 components: {
                     VglMaterial,
-                    VglAssets
+                    VglNamespace,
+                    OtherComponent: {
+                        inject: ["vglMaterials"],
+                        render() {}
+                    }
                 }
             }).$mount();
-            assert.equal(vm.$refs.p.assets.materials["dm'&^>"], vm.$refs.c.inst);
+            assert.strictEqual(vm.$refs.other.vglMaterials.forGet["dm'&^>"], vm.$refs.me.inst);
         });
-        it("コンポーネントが破棄されると、親assetsのmaterialsから削除される", function(done) {
+        it("Should be unregistered when destroyed.", function(done) {
             const vm = new Vue({
-                template: `<vgl-assets ref="p"><vgl-material name="n<!--" ref="c" v-if="a" /><vgl-assets /></vgl-assets>`,
+                template: `<vgl-namespace><vgl-material name="n<!--" v-if="!destroyed" /><other-component ref="other" /></vgl-namespace>`,
                 components: {
                     VglMaterial,
-                    VglAssets
+                    VglNamespace,
+                    OtherComponent: {
+                        inject: ["vglMaterials"],
+                        render() {}
+                    }
                 },
-                data: {a: true}
+                data: {destroyed: false}
             }).$mount();
-            assert.equal(vm.$refs.p.assets.materials["n<!--"], vm.$refs.c.inst);
-            vm.a = false;
+            assert.hasAllKeys(vm.$refs.other.vglMaterials.forGet, ["n<!--"]);
+            vm.destroyed = true;
             vm.$nextTick(() => {
-                assert.isUndefined(vm.$refs.p.assets.materials["n<!--"]);
-                assert.isEmpty(Object.keys(vm.$refs.p.assets.materials));
-                done();
+                try {
+                    assert.isEmpty(vm.$refs.other.vglMaterials.forGet);
+                    done();
+                } catch(e) {
+                    done(e);
+                }
             });
         });
-        it("インスタンスを置換すると、親assetsのmaterialsも置換される", function(done) {
+        it("Should be replaced when the instance is replaced.", function(done) {
             const vm = new Vue({
-                template: `<vgl-assets ref="p"><ex name="'<!--" ref="c" :b="a" /></vgl-assets>`,
+                template: `<vgl-namespace><mixed-in name="'<!--" ref="geo" /><other-component ref="other" /></vgl-namespace>`,
                 components: {
-                    ex: {
+                    VglNamespace,
+                    MixedIn: {
                         mixins: [VglMaterial],
                         computed: {
-                            inst() {
-                                return this.b ? new LineBasicMaterial(): new MeshBasicMaterial();
-                            }
+                            inst() {return this.i;}
                         },
-                        props: ["b"]
+                        data: () => ({i: new THREE.Material()})
                     },
-                    VglAssets
-                },
-                data: {a: true}
+                    OtherComponent: {
+                        inject: ["vglMaterials"],
+                        render() {}
+                    }
+                }
             }).$mount();
-            const firstInstance = vm.$refs.c.inst;
-            assert.equal(vm.$refs.p.assets.materials["'<!--"], firstInstance);
-            vm.a = false;
+            vm.$refs.geo.i = new THREE.Material();
             vm.$nextTick(() => {
-                const secondInstance = vm.$refs.c.inst;
-                assert.notEqual(firstInstance, secondInstance);
-                assert.equal(vm.$refs.p.assets.materials["'<!--"], secondInstance);
-                done();
+                try {
+                    assert.strictEqual(vm.$refs.other.vglMaterials.forGet["'<!--"], vm.$refs.geo.inst);
+                    done();
+                } catch(e) {
+                    done(e);
+                }
             });
         });
     });

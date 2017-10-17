@@ -1,60 +1,71 @@
-describe("VglSceneコンポーネントのテスト", function() {
-    const {VglScene, VglRenderer} = VueGL;
+describe("VglScene component", function() {
+    const {VglScene, VglNamespace} = VueGL;
     const assert = chai.assert;
-    describe("プロパティの確認", function() {
-        it("instプロパティはSceneオブジェクト", function() {
+    describe("The instance should be registered to the injected namespace.", function() {
+        it("Should be registered when created.", function() {
             const vm = new Vue({
-                template: `<vgl-scene ref="s" />`,
-                components: {VglScene},
-                provide: {scenes: Object.create(null)}
-            }).$mount();
-            assert.isTrue(vm.$refs.s.inst.autoUpdate);
-        });
-    });
-    describe("rendererへの登録", function() {
-        it("マウントすると、rendererのscenesに追加される", function() {
-            const vm = new Vue({
-                template: `<vgl-renderer ref="p"><vgl-scene ref="s" name="a'" /></vgl-renderer>`,
+                template: `<vgl-namespace><vgl-scene name="dm'&^>" ref="me" /><other-component ref="other" /></vgl-namespace>`,
                 components: {
-                    VglRenderer,
-                    VglScene
+                    VglScene,
+                    VglNamespace,
+                    OtherComponent: {
+                        inject: ["vglScenes"],
+                        render() {}
+                    }
                 }
             }).$mount();
-            assert.equal(vm.$refs.p.scenes["a'"], vm.$refs.s.inst);
+            assert.strictEqual(vm.$refs.other.vglScenes.forGet["dm'&^>"], vm.$refs.me.inst);
         });
-        it("コンポーネントが破棄されると、rendererのscenesから取り除かれる", function(done) {
+        it("Should be unregistered when destroyed.", function(done) {
             const vm = new Vue({
-                template: `<vgl-renderer ref="p"><vgl-scene ref="s" v-if="on" name="a'" /></vgl-renderer>`,
+                template: `<vgl-namespace><vgl-scene name="n<!--" v-if="!destroyed" /><other-component ref="other" /></vgl-namespace>`,
                 components: {
-                    VglRenderer,
-                    VglScene
+                    VglScene,
+                    VglNamespace,
+                    OtherComponent: {
+                        inject: ["vglScenes"],
+                        render() {}
+                    }
                 },
-                data: {on: true}
+                data: {destroyed: false}
             }).$mount();
-            assert.equal(vm.$refs.p.scenes["a'"], vm.$refs.s.inst);
-            vm.on = false;
+            assert.hasAllKeys(vm.$refs.other.vglScenes.forGet, ["n<!--"]);
+            vm.destroyed = true;
             vm.$nextTick(() => {
-                assert.isUndefined(vm.$refs.p.scenes["a'"]);
-                done();
+                try {
+                    assert.isEmpty(vm.$refs.other.vglScenes.forGet);
+                    done();
+                } catch(e) {
+                    done(e);
+                }
             });
         });
-        it("コンポーネントを置換すると、rendererのscenesも置換される", function(done) {
+        it("Should be replaced when the instance is replaced.", function(done) {
             const vm = new Vue({
-                template: `<vgl-renderer ref="p"><vgl-scene ref="s" :key="key" name="a&quot;" /></vgl-renderer>`,
+                template: `<vgl-namespace><mixed-in name="'<!--" ref="geo" /><other-component ref="other" /></vgl-namespace>`,
                 components: {
-                    VglRenderer,
-                    VglScene
-                },
-                data: {key: "first"}
+                    VglNamespace,
+                    MixedIn: {
+                        mixins: [VglScene],
+                        computed: {
+                            inst() {return this.i;}
+                        },
+                        data: () => ({i: new THREE.Scene()})
+                    },
+                    OtherComponent: {
+                        inject: ["vglScenes"],
+                        render() {}
+                    }
+                }
             }).$mount();
-            const firstInstance = vm.$refs.s.inst;
-            assert.equal(vm.$refs.p.scenes["a\""], firstInstance);
-            vm.key = "second";
+            vm.$refs.geo.i = new THREE.Scene();
             vm.$nextTick(() => {
-                const secondInstance = vm.$refs.s.inst;
-                assert.notEqual(firstInstance, secondInstance);
-                assert.equal(vm.$refs.p.scenes["a\""], secondInstance);
-                done();
+                try {
+                    assert.strictEqual(vm.$refs.other.vglScenes.forGet["'<!--"], vm.$refs.geo.inst);
+                    done();
+                } catch(e) {
+                    done(e);
+                }
             });
         });
     });

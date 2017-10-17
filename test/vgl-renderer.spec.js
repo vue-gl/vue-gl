@@ -1,631 +1,224 @@
-describe("VglRendererコンポーネントのテスト", function() {
-    const {VglRenderer} = VueGL;
+describe("VglRenderer component", function() {
+    const {VglRenderer, VglNamespace} = VueGL;
     const assert = chai.assert;
-    describe("レンダリングリソースの注入", function() {
-        it("camerasプロパティがprovideされている", function() {
-            const vm = new Vue({
-                template: `<vgl-renderer ref="r"><mocked-camera ref="c" /></vgl-renderer>`,
-                components: {
-                    VglRenderer,
-                    MockedCamera: {
-                        inject: ["cameras"],
-                        template: `<div />`,
-                        methods: {
-                            setCamera(name, camera) {
-                                this.$set(this.cameras, name, camera);
-                            }
-                        }
+    before(function() {
+        const canvas = document.createElement("canvas");
+        const opts = {
+            antialias: true,
+            premultipliedAlpha: false,
+            depth: false
+        };
+        try {
+            this.webgl = canvas.getContext("webgl", opts) || canvas.getContext("experimental-webgl", opts);
+        } catch(e) {}
+        if (this.webgl) {
+            this.vm = new Vue(VglRenderer).$mount();
+        } else {
+            console.log("WebGL is not supported. Skip tests for the VglRenderer.");
+        }
+    });
+    beforeEach(function() {
+        if (!this.webgl) this.skip();
+    });
+    describe("Namespace injection", function() {
+        describe("Should be able to access vglCameras", function() {
+            it("When the component is the root namespace.", function() {
+                assert.isObject(this.vm.vglCameras);
+            });
+            it("When the component is a descendant of the other namespace.", function() {
+                const vm = new Vue({
+                    template: `<vgl-namespace><vgl-renderer ref="renderer" /></vgl-namespace>`,
+                    components: {
+                        VglNamespace,
+                        VglRenderer
                     }
-                }
-            }).$mount();
-            vm.$refs.c.setCamera("dke8'8", "`camera87&");
-            assert.equal(vm.$refs.r.cameras["dke8'8"], "`camera87&");
+                }).$mount();
+                assert.isObject(vm.$refs.renderer.vglCameras);
+            });
         });
-        it("scenesプロパティがprovideされている", function() {
-            const vm = new Vue({
-                template: `<vgl-renderer ref="r"><mocked-scene ref="c" /></vgl-renderer>`,
-                components: {
-                    VglRenderer,
-                    MockedScene: {
-                        inject: ["scenes"],
-                        template: `<div />`,
-                        methods: {
-                            setScene(name, scene) {
-                                this.$set(this.scenes, name, scene);
-                            }
-                        }
+        describe("Should be able to access vglScenes", function() {
+            it("When the component is the root namespace.", function() {
+                assert.isObject(this.vm.vglScenes);
+            });
+            it("When the component is a descendant of the other namespace.", function() {
+                const vm = new Vue({
+                    template: `<vgl-namespace><vgl-renderer ref="renderer" /></vgl-namespace>`,
+                    components: {
+                        VglNamespace,
+                        VglRenderer
                     }
-                }
-            }).$mount();
-            vm.$refs.c.setScene("dke8%8", "`scene87&");
-            assert.equal(vm.$refs.r.scenes["dke8%8"], "`scene87&");
-        });
-    });
-});
-
-
-/*
-import {renderer, scene, camera, geometry, bufferGeometry, bufferAttribute, material} from "../src";
-import assert from "assert";
-import Vue from "vue";
-import {WebGLRenderer} from "three";
-
-function detectWebGLContext() {
-    const canvas = document.createElement("canvas");
-    const context = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
-    return context && context instanceof WebGLRenderingContext;
-}
-
-describe("rendererコンポーネントのテスト", function() {
-    describe("rendererの描画対象(domElement)はVueが生成したcanvas。", function() {
-        it("単体の場合。", function() {
-            if (!detectWebGLContext()) {
-                console.log("WebGL is not supported. Skip testing.");
-                this.skip();
-            }
-            const vm = new Vue(renderer);
-            vm.$mount();
-            assert.equal(vm.instance.domElement, vm.$refs.renderer);
-        });
-        it("sceneを子に持つ場合。", function() {
-            if (!detectWebGLContext()) {
-                console.log("WebGL is not supported. Skip testing.");
-                this.skip();
-            }
-            const vm = new Vue({
-                template: `<renderer ref="rdr"><scene /></renderer>`,
-                components: {
-                    renderer,
-                    scene
-                }
-            });
-            vm.$mount();
-            assert.equal(vm.$refs.rdr.instance.domElement, vm.$refs.rdr.$refs.renderer);
-        });
-        it("cameraを子に持つ場合。", function() {
-            if (!detectWebGLContext()) {
-                console.log("WebGL is not supported. Skip testing.");
-                this.skip();
-            }
-            const vm = new Vue({
-                template: `<renderer ref="rdr"><camera /></renderer>`,
-                components: {
-                    renderer,
-                    camera
-                }
-            });
-            vm.$mount();
-            assert.equal(vm.$refs.rdr.instance.domElement, vm.$refs.rdr.$refs.renderer);
-        });
-        it("geometryを子に持つ場合。", function() {
-            if (!detectWebGLContext()) {
-                console.log("WebGL is not supported. Skip testing.");
-                this.skip();
-            }
-            const vm = new Vue({
-                template: `<renderer ref="rdr"><geometry /></renderer>`,
-                components: {
-                    renderer,
-                    geometry
-                }
-            });
-            vm.$mount();
-            assert.equal(vm.$refs.rdr.instance.domElement, vm.$refs.rdr.$refs.renderer);
-        });
-        it("bufferGeometryを子に持つ場合。", function() {
-            if (!detectWebGLContext()) {
-                console.log("WebGL is not supported. Skip testing.");
-                this.skip();
-            }
-            const vm = new Vue({
-                template: `<renderer ref="rdr"><bufferGeometry /></renderer>`,
-                components: {
-                    renderer,
-                    bufferGeometry
-                }
-            });
-            vm.$mount();
-            assert.equal(vm.$refs.rdr.instance.domElement, vm.$refs.rdr.$refs.renderer);
-        });
-        it("bufferAttributeを子に持つ場合。", function() {
-            if (!detectWebGLContext()) {
-                console.log("WebGL is not supported. Skip testing.");
-                this.skip();
-            }
-            const vm = new Vue({
-                template: `<renderer ref="rdr"><bufferAttribute /></renderer>`,
-                components: {
-                    renderer,
-                    bufferAttribute
-                }
-            });
-            vm.$mount();
-            assert.equal(vm.$refs.rdr.instance.domElement, vm.$refs.rdr.$refs.renderer);
-        });
-        it("materialを子に持つ場合。", function() {
-            if (!detectWebGLContext()) {
-                console.log("WebGL is not supported. Skip testing.");
-                this.skip();
-            }
-            const vm = new Vue({
-                template: `<renderer ref="rdr"><material /></renderer>`,
-                components: {
-                    renderer,
-                    material
-                }
-            });
-            vm.$mount();
-            assert.equal(vm.$refs.rdr.instance.domElement, vm.$refs.rdr.$refs.renderer);
-        });
-    });
-    describe("rendererオプションを変更すると、canvasエレメントが置換される。", function() {
-        it("単体の場合。", function(done) {
-            if (!detectWebGLContext()) {
-                console.log("WebGL is not supported. Skip testing.");
-                this.skip();
-            }
-            const vm = new Vue(renderer);
-            vm.$mount();
-            const initCanvas = vm.$refs.renderer;
-            vm.antialias = true;
-            Vue.nextTick(() => {
-                assert.equal(vm.$refs.renderer.tagName, "CANVAS");
-                assert.notEqual(vm.$refs.renderer, initCanvas);
-                done();
-            });
-        });
-        it("sceneを子に持つ場合。", function(done) {
-            if (!detectWebGLContext()) {
-                console.log("WebGL is not supported. Skip testing.");
-                this.skip();
-            }
-            const vm = new Vue({
-                template: `<renderer :antialias="a" ref="rdr"><scene /></renderer>`,
-                data: {
-                    a: false
-                },
-                components: {
-                    renderer,
-                    scene
-                }
-            });
-            vm.$mount();
-            const initCanvas = vm.$refs.rdr.$refs.renderer;
-            vm.a = true;
-            Vue.nextTick(() => {
-                assert.equal(vm.$refs.rdr.$refs.renderer.tagName, "CANVAS");
-                assert.notEqual(vm.$refs.rdr.$refs.renderer, initCanvas);
-                done();
-            });
-        });
-        it("cameraを子に持つ場合。", function(done) {
-            if (!detectWebGLContext()) {
-                console.log("WebGL is not supported. Skip testing.");
-                this.skip();
-            }
-            const vm = new Vue({
-                template: `<renderer :antialias="a" ref="rdr"><camera /></renderer>`,
-                data: {
-                    a: false
-                },
-                components: {
-                    renderer,
-                    camera
-                }
-            });
-            vm.$mount();
-            const initCanvas = vm.$refs.rdr.$refs.renderer;
-            vm.a = true;
-            Vue.nextTick(() => {
-                assert.equal(vm.$refs.rdr.$refs.renderer.tagName, "CANVAS");
-                assert.notEqual(vm.$refs.rdr.$refs.renderer, initCanvas);
-                done();
-            });
-        });
-        it("geometryを子に持つ場合。", function(done) {
-            if (!detectWebGLContext()) {
-                console.log("WebGL is not supported. Skip testing.");
-                this.skip();
-            }
-            const vm = new Vue({
-                template: `<renderer :antialias="a" ref="rdr"><geometry /></renderer>`,
-                data: {
-                    a: false
-                },
-                components: {
-                    renderer,
-                    geometry
-                }
-            });
-            vm.$mount();
-            const initCanvas = vm.$refs.rdr.$refs.renderer;
-            vm.a = true;
-            Vue.nextTick(() => {
-                assert.equal(vm.$refs.rdr.$refs.renderer.tagName, "CANVAS");
-                assert.notEqual(vm.$refs.rdr.$refs.renderer, initCanvas);
-                done();
-            });
-        });
-        it("bufferGeometryを子に持つ場合。", function(done) {
-            if (!detectWebGLContext()) {
-                console.log("WebGL is not supported. Skip testing.");
-                this.skip();
-            }
-            const vm = new Vue({
-                template: `<renderer :antialias="a" ref="rdr"><bufferGeometry /></renderer>`,
-                data: {
-                    a: false
-                },
-                components: {
-                    renderer,
-                    bufferGeometry
-                }
-            });
-            vm.$mount();
-            const initCanvas = vm.$refs.rdr.$refs.renderer;
-            vm.a = true;
-            Vue.nextTick(() => {
-                assert.equal(vm.$refs.rdr.$refs.renderer.tagName, "CANVAS");
-                assert.notEqual(vm.$refs.rdr.$refs.renderer, initCanvas);
-                done();
-            });
-        });
-        it("bufferAttributeを子に持つ場合。", function(done) {
-            if (!detectWebGLContext()) {
-                console.log("WebGL is not supported. Skip testing.");
-                this.skip();
-            }
-            const vm = new Vue({
-                template: `<renderer :antialias="a" ref="rdr"><bufferAttribute /></renderer>`,
-                data: {
-                    a: false
-                },
-                components: {
-                    renderer,
-                    bufferAttribute
-                }
-            });
-            vm.$mount();
-            const initCanvas = vm.$refs.rdr.$refs.renderer;
-            vm.a = true;
-            Vue.nextTick(() => {
-                assert.equal(vm.$refs.rdr.$refs.renderer.tagName, "CANVAS");
-                assert.notEqual(vm.$refs.rdr.$refs.renderer, initCanvas);
-                done();
-            });
-        });
-        it("materialを子に持つ場合。", function(done) {
-            if (!detectWebGLContext()) {
-                console.log("WebGL is not supported. Skip testing.");
-                this.skip();
-            }
-            const vm = new Vue({
-                template: `<renderer :antialias="a" ref="rdr"><material /></renderer>`,
-                data: {
-                    a: false
-                },
-                components: {
-                    renderer,
-                    material
-                }
-            });
-            vm.$mount();
-            const initCanvas = vm.$refs.rdr.$refs.renderer;
-            vm.a = true;
-            Vue.nextTick(() => {
-                assert.equal(vm.$refs.rdr.$refs.renderer.tagName, "CANVAS");
-                assert.notEqual(vm.$refs.rdr.$refs.renderer, initCanvas);
-                done();
+                }).$mount();
+                assert.isObject(vm.$refs.renderer.vglScenes);
             });
         });
     });
-    it("rendererオプションを変更すると、rendererが再生成される。", function() {
-        it("単体の場合。", function(done) {
-            if (!detectWebGLContext()) {
-                console.log("WebGL is not supported. Skip testing.");
-                this.skip();
-            }
-            const vm = new Vue(renderer);
-            vm.$mount();
-            const initRenderer = vm.instance;
-            vm.antialias = true;
-            Vue.nextTick(() => {
-                assert(vm.instance instanceof WebGLRenderer);
-                assert.notEqual(vm.instance, initRenderer);
-                done();
+    describe("Creating a renderer", function() {
+        describe("Output canvas", function() {
+            it("The domElement property of WebGLRenderer instance should be the Vue created canvas.", function() {
+                assert.strictEqual(this.vm.$refs.rdr, this.vm.inst.domElement);
             });
         });
-        it("sceneを子に持つ場合。", function(done) {
-            if (!detectWebGLContext()) {
-                console.log("WebGL is not supported. Skip testing.");
-                this.skip();
-            }
-            const vm = new Vue({
-                template: `<renderer ref="rdr" :antialias="a"><scene /></renderer>`,
-                data: {
-                    a: false
-                },
-                components: {
-                    renderer,
-                    scene
-                }
+        describe("Context attributes", function() {
+            describe("The alpha property should affect the alpha attribute.", function() {
+                it("When the property is undefined (or false).", function() {
+                    assert.isFalse(this.vm.inst.getContextAttributes().alpha);
+                });
+                it("When the property is true.", function() {
+                    const vm = new (Vue.extend(VglRenderer))({propsData: {alpha: true}}).$mount();
+                    assert.isTrue(vm.inst.getContextAttributes().alpha);
+                });
             });
-            vm.$mount();
-            const initRenderer = vm.$refs.rdr.instance;
-            vm.a = true;
-            Vue.nextTick(() => {
-                assert(vm.$refs.rdr.instance instanceof WebGLRenderer);
-                assert.notEqual(vm.$refs.rdr.instance, initRenderer);
-                done();
+            describe("The disableDepth property should affect the depth attribute.", function() {
+                before(function() {
+                    if (this.webgl) {
+                        this.depth = !this.webgl.getContextAttributes().depth;
+                        if (!this.depth) console.log("Depth buffer cannot be disabled. Skip tests for the depth property.");
+                    }
+                });
+                beforeEach(function() {
+                    if (!this.depth) this.skip();
+                });
+                it("When the property is undefined (or false).", function() {
+                    assert.isTrue(this.vm.inst.getContextAttributes().depth);
+                });
+                it("When the property is true.", function() {
+                    const vm = new (Vue.extend(VglRenderer))({propsData: {disableDepth: true}}).$mount();
+                    assert.isFalse(vm.inst.getContextAttributes().depth);
+                });
             });
-        });
-        it("cameraを子に持つ場合。", function(done) {
-            if (!detectWebGLContext()) {
-                console.log("WebGL is not supported. Skip testing.");
-                this.skip();
-            }
-            const vm = new Vue({
-                template: `<renderer ref="rdr" :antialias="a"><camera /></renderer>`,
-                data: {
-                    a: false
-                },
-                components: {
-                    renderer,
-                    camera
-                }
+            describe("The disableStencil property should affect the stencil attribute.", function() {
+                it("When the property is undefined (or false).", function() {
+                    assert.isTrue(this.vm.inst.getContextAttributes().stencil);
+                });
+                it("When the property is true.", function() {
+                    const vm = new (Vue.extend(VglRenderer))({propsData: {disableStencil: true}}).$mount();
+                    assert.isFalse(vm.inst.getContextAttributes().stencil);
+                });
             });
-            vm.$mount();
-            const initRenderer = vm.$refs.rdr.instance;
-            vm.a = true;
-            Vue.nextTick(() => {
-                assert(vm.$refs.rdr.instance instanceof WebGLRenderer);
-                assert.notEqual(vm.$refs.rdr.instance, initRenderer);
-                done();
+            describe("The antialias property should affect the antialias attribute.", function() {
+                before(function() {
+                    if (this.webgl) {
+                        this.antialias = this.webgl.getContextAttributes().antialias;
+                        if (!this.antialias) console.log("Antialiasing is not supported. Skip tests for the antialias property.");
+                    }
+                });
+                beforeEach(function() {
+                    if (!this.antialias) this.skip();
+                });
+                it("When the property is undefined (or false).", function() {
+                    assert.isFalse(this.vm.inst.getContextAttributes().antialias);
+                });
+                it("When the property is true.", function() {
+                    const vm = new (Vue.extend(VglRenderer))({propsData: {antialias: true}}).$mount();
+                    assert.isTrue(vm.inst.getContextAttributes().antialias);
+                });
             });
-        });
-        it("geometryを子に持つ場合。", function(done) {
-            if (!detectWebGLContext()) {
-                console.log("WebGL is not supported. Skip testing.");
-                this.skip();
-            }
-            const vm = new Vue({
-                template: `<renderer ref="rdr" :antialias="a"><geometry /></renderer>`,
-                data: {
-                    a: false
-                },
-                components: {
-                    renderer,
-                    geometry
-                }
+            describe("The disablePremultipliedAlpha property should affect the premultipliedAlpha attribute.", function() {
+                before(function() {
+                    if (this.webgl) {
+                        this.premultipliedAlpha = !this.webgl.getContextAttributes().premultipliedAlpha;
+                        if (!this.premultipliedAlpha) console.log("PremultipliedAlpha cannot be disabled. Skip tests for the premultipliedAlpha property.");
+                    }
+                });
+                beforeEach(function() {
+                    if (!this.premultipliedAlpha) this.skip();
+                });
+                it("When the property is undefined (or false).", function() {
+                    assert.isTrue(this.vm.inst.getContextAttributes().premultipliedAlpha);
+                });
+                it("When the property is true.", function() {
+                    const vm = new (Vue.extend(VglRenderer))({propsData: {disablePremultipliedAlpha: true}}).$mount();
+                    assert.isFalse(vm.inst.getContextAttributes().premultipliedAlpha);
+                });
             });
-            vm.$mount();
-            const initRenderer = vm.$refs.rdr.instance;
-            vm.a = true;
-            Vue.nextTick(() => {
-                assert(vm.$refs.rdr.instance instanceof WebGLRenderer);
-                assert.notEqual(vm.$refs.rdr.instance, initRenderer);
-                done();
-            });
-        });
-        it("bufferGeometryを子に持つ場合。", function(done) {
-            if (!detectWebGLContext()) {
-                console.log("WebGL is not supported. Skip testing.");
-                this.skip();
-            }
-            const vm = new Vue({
-                template: `<renderer ref="rdr" :antialias="a"><bufferGeometry /></renderer>`,
-                data: {
-                    a: false
-                },
-                components: {
-                    renderer,
-                    bufferGeometry
-                }
-            });
-            vm.$mount();
-            const initRenderer = vm.$refs.rdr.instance;
-            vm.a = true;
-            Vue.nextTick(() => {
-                assert(vm.$refs.rdr.instance instanceof WebGLRenderer);
-                assert.notEqual(vm.$refs.rdr.instance, initRenderer);
-                done();
+            describe("The preserveDrawingBuffer property should affect the preserveDrawingBuffer attribute.", function() {
+                it("When the property is undefined (or false).", function() {
+                    assert.isFalse(this.vm.inst.getContextAttributes().preserveDrawingBuffer);
+                });
+                it("When the property is true.", function() {
+                    const vm = new (Vue.extend(VglRenderer))({propsData: {preserveDrawingBuffer: true}}).$mount();
+                    assert.isTrue(vm.inst.getContextAttributes().preserveDrawingBuffer);
+                });
             });
         });
-        it("bufferAttributeを子に持つ場合。", function(done) {
-            if (!detectWebGLContext()) {
-                console.log("WebGL is not supported. Skip testing.");
-                this.skip();
-            }
-            const vm = new Vue({
-                template: `<renderer ref="rdr" :antialias="a"><bufferAttribute /></renderer>`,
-                data: {
-                    a: false
-                },
-                components: {
-                    renderer,
-                    bufferAttribute
-                }
+        describe("Capabilities", function() {
+            describe("The logarithmicDepthBuffer property should affect the logarithmicDepthBuffer capability.", function() {
+                before(function() {
+                    if (this.webgl) {
+                        this.logarithmicDepthBuffer = this.webgl.getSupportedExtensions().indexOf("EXT_frag_depth") >= 0;
+                        if (!this.logarithmicDepthBuffer) console.log("The extension EXT_frag_depth is not supported. Skip tests for the logarithmicDepthBuffer property.");
+                    }
+                });
+                beforeEach(function() {
+                    if (!this.logarithmicDepthBuffer) this.skip();
+                });
+                it("When the property is undefined (or false).", function() {
+                    assert.isFalse(this.vm.inst.capabilities.logarithmicDepthBuffer);
+                });
+                it("When the property is true.", function() {
+                    const vm = new (Vue.extend(VglRenderer))({propsData: {logarithmicDepthBuffer: true}}).$mount();
+                    assert.isTrue(vm.inst.capabilities.logarithmicDepthBuffer);
+                });
             });
-            vm.$mount();
-            const initRenderer = vm.$refs.rdr.instance;
-            vm.a = true;
-            Vue.nextTick(() => {
-                assert(vm.$refs.rdr.instance instanceof WebGLRenderer);
-                assert.notEqual(vm.$refs.rdr.instance, initRenderer);
-                done();
-            });
-        });
-        it("materialを子に持つ場合。", function(done) {
-            if (!detectWebGLContext()) {
-                console.log("WebGL is not supported. Skip testing.");
-                this.skip();
-            }
-            const vm = new Vue({
-                template: `<renderer ref="rdr" :antialias="a"><material /></renderer>`,
-                data: {
-                    a: false
-                },
-                components: {
-                    renderer,
-                    material
-                }
-            });
-            vm.$mount();
-            const initRenderer = vm.$refs.rdr.instance;
-            vm.a = true;
-            Vue.nextTick(() => {
-                assert(vm.$refs.rdr.instance instanceof WebGLRenderer);
-                assert.notEqual(vm.$refs.rdr.instance, initRenderer);
-                done();
+            describe("The precision property should affect the precision capability.", function() {
+                it("When the property is undefined (or false).", function() {
+                    assert.strictEqual(this.vm.inst.capabilities.precision, "highp");
+                });
+                it("When the property is \"lowp\".", function() {
+                    const vm = new (Vue.extend(VglRenderer))({propsData: {precision: "lowp"}}).$mount();
+                    assert.strictEqual(vm.inst.capabilities.precision, "lowp");
+                });
+                it("When the property is \"mediump\".", function() {
+                    const vm = new (Vue.extend(VglRenderer))({propsData: {precision: "mediump"}}).$mount();
+                    assert.strictEqual(vm.inst.capabilities.precision, "mediump");
+                });
+                it("When the property is \"highp\".", function() {
+                    const vm = new (Vue.extend(VglRenderer))({propsData: {precision: "highp"}}).$mount();
+                    assert.strictEqual(vm.inst.capabilities.precision, "highp");
+                });
             });
         });
     });
-    describe("再生成されたrendererの描画対象(domElement)は、新しいcanvas要素。", function() {
-        it("単体の場合", function(done) {
-            if (!detectWebGLContext()) {
-                console.log("WebGL is not supported. Skip testing.");
-                this.skip();
-            }
-            const vm = new Vue(renderer);
-            vm.$mount();
-            vm.antialias = true;
-            Vue.nextTick(() => {
-                assert.equal(vm.instance.domElement, vm.$refs.renderer);
-                done();
+    describe("When any properties are changed", function() {
+        describe("Output canvas", function() {
+            it("The canvas element should be replaced.", function(done) {
+                const vm = new Vue(VglRenderer).$mount();
+                const oldCanvas = vm.$refs.rdr;
+                vm.alpha = true;
+                vm.$nextTick(() => {
+                    try {
+                        assert.notEqual(oldCanvas, vm.$refs.rdr);
+                        done();
+                    } catch(e) {
+                        done(e);
+                    }
+                });
             });
-        });
-        it("sceneの場合", function(done) {
-            if (!detectWebGLContext()) {
-                console.log("WebGL is not supported. Skip testing.");
-                this.skip();
-            }
-            const vm = new Vue({
-                template: `<renderer ref="rdr" :antialias="a"><scene /></renderer>`,
-                data: {
-                    a: false
-                },
-                components: {
-                    renderer,
-                    scene
-                }
+            it("The WebGLRenderer instance should be newly created.", function(done) {
+                const vm = new Vue(VglRenderer).$mount();
+                const oldInst = vm.inst;
+                vm.alpha = true;
+                vm.$nextTick(() => {
+                    try {
+                        assert.notEqual(oldInst, vm.inst);
+                        done();
+                    } catch(e) {
+                        done(e);
+                    }
+                });
             });
-            vm.$mount();
-            vm.a = true;
-            Vue.nextTick(() => {
-                assert.equal(vm.$refs.rdr.instance.domElement, vm.$refs.rdr.$refs.renderer);
-                done();
-            });
-        });
-        it("cameraの場合", function(done) {
-            if (!detectWebGLContext()) {
-                console.log("WebGL is not supported. Skip testing.");
-                this.skip();
-            }
-            const vm = new Vue({
-                template: `<renderer ref="rdr" :antialias="a"><camera /></renderer>`,
-                data: {
-                    a: false
-                },
-                components: {
-                    renderer,
-                    camera
-                }
-            });
-            vm.$mount();
-            vm.a = true;
-            Vue.nextTick(() => {
-                assert.equal(vm.$refs.rdr.instance.domElement, vm.$refs.rdr.$refs.renderer);
-                done();
-            });
-        });
-        it("geometryの場合", function(done) {
-            if (!detectWebGLContext()) {
-                console.log("WebGL is not supported. Skip testing.");
-                this.skip();
-            }
-            const vm = new Vue({
-                template: `<renderer ref="rdr" :antialias="a"><geometry /></renderer>`,
-                data: {
-                    a: false
-                },
-                components: {
-                    renderer,
-                    geometry
-                }
-            });
-            vm.$mount();
-            vm.a = true;
-            Vue.nextTick(() => {
-                assert.equal(vm.$refs.rdr.instance.domElement, vm.$refs.rdr.$refs.renderer);
-                done();
-            });
-        });
-        it("bufferGeometryの場合", function(done) {
-            if (!detectWebGLContext()) {
-                console.log("WebGL is not supported. Skip testing.");
-                this.skip();
-            }
-            const vm = new Vue({
-                template: `<renderer ref="rdr" :antialias="a"><bufferGeometry /></renderer>`,
-                data: {
-                    a: false
-                },
-                components: {
-                    renderer,
-                    bufferGeometry
-                }
-            });
-            vm.$mount();
-            vm.a = true;
-            Vue.nextTick(() => {
-                assert.equal(vm.$refs.rdr.instance.domElement, vm.$refs.rdr.$refs.renderer);
-                done();
-            });
-        });
-        it("bufferAttributeの場合", function(done) {
-            if (!detectWebGLContext()) {
-                console.log("WebGL is not supported. Skip testing.");
-                this.skip();
-            }
-            const vm = new Vue({
-                template: `<renderer ref="rdr" :antialias="a"><bufferAttribute /></renderer>`,
-                data: {
-                    a: false
-                },
-                components: {
-                    renderer,
-                    bufferAttribute
-                }
-            });
-            vm.$mount();
-            vm.a = true;
-            Vue.nextTick(() => {
-                assert.equal(vm.$refs.rdr.instance.domElement, vm.$refs.rdr.$refs.renderer);
-                done();
-            });
-        });
-        it("materialの場合", function(done) {
-            if (!detectWebGLContext()) {
-                console.log("WebGL is not supported. Skip testing.");
-                this.skip();
-            }
-            const vm = new Vue({
-                template: `<renderer ref="rdr" :antialias="a"><material /></renderer>`,
-                data: {
-                    a: false
-                },
-                components: {
-                    renderer,
-                    material
-                }
-            });
-            vm.$mount();
-            vm.a = true;
-            Vue.nextTick(() => {
-                assert.equal(vm.$refs.rdr.instance.domElement, vm.$refs.rdr.$refs.renderer);
-                done();
+            it("The domElement property of WebGLRenderer instance should be the replaced canvas.", function(done) {
+                const vm = new Vue(VglRenderer).$mount();
+                vm.alpha = true;
+                vm.$nextTick(() => {
+                    try {
+                        assert.strictEqual(vm.inst.domElement, vm.$refs.rdr);
+                        done();
+                    } catch(e) {
+                        done(e);
+                    }
+                });
             });
         });
     });
 });
-*/

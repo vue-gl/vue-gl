@@ -1,30 +1,38 @@
 import VglMaterial from "./vgl-material.js";
 import {PointsMaterial} from "./three.js";
+import {parseFloat_} from "./utils.js";
 
 export default {
     mixins: [VglMaterial],
-    props: [
-        "color",
-        "size",
-        "sizeAttenuation"
-    ],
+    props: {
+        color: {
+            type: String,
+            default: "#fff"
+        },
+        size: {
+            type: [String, Number],
+            default: 1
+        },
+        disableSizeAttenuation: Boolean
+    },
     computed: {
         inst: () => new PointsMaterial()
     },
     created() {
-        if (this.color) this.inst.color.setStyle(this.color);
-        if (this.size) this.inst.size = parseFloat(this.size);
-        if (this.sizeAttenuation !== undefined) this.inst.sizeAttenuation = this.sizeAttenuation;
+        const inst = this.inst;
+        inst.color.setStyle(this.color);
+        inst.size = parseFloat_(this.size);
+        inst.sizeAttenuation = !this.disableSizeAttenuation;
     },
     watch: {
-        color(c) {
-            this.inst.color.setStyle(c);
+        color(color) {
+            this.inst.color.setStyle(color);
         },
-        size(s) {
-            this.inst.size = parseFloat(s);
+        size(size) {
+            this.inst.size = parseFloat_(size);
         },
-        sizeAttenuation(a) {
-            this.inst.sizeAttenuation = a;
+        disableSizeAttenuation(disabled) {
+            this.inst.sizeAttenuation = !disabled;
         }
     }
 };

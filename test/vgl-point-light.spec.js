@@ -1,71 +1,59 @@
-describe("VglPointLightコンポーネントのテスト", function() {
+describe("VglPointLight component", function() {
     const {VglPointLight} = VueGL;
     const assert = chai.assert;
-    describe("プロパティの確認", function() {
-        it("instプロパティはPointLightオブジェクト", function() {
-            const vm = new Vue(VglPointLight);
-            assert.isTrue(vm.inst.isPointLight);
-        });
-    });
-    describe("プロパティのテスト", function() {
-        describe("distanceのテスト", function() {
-            it("undefined -> 0", function() {
+    describe("Creating a light", function() {
+        describe("The distance of the light should be same as the distance property.", function() {
+            it("When the property is undefined.", function() {
                 const vm = new Vue(VglPointLight);
                 assert.strictEqual(vm.inst.distance, 0);
             });
-            it("\"2.1\" -> 2.1", function() {
-                const vm = new (Vue.extend(VglPointLight))({
-                    propsData: {distance: "2.1"}
-                });
+            it("When the property is a number.", function() {
+                const vm = new (Vue.extend(VglPointLight))({propsData: {distance: 2.1}});
                 assert.strictEqual(vm.inst.distance, 2.1);
             });
+            it("When the property is a string.", function() {
+                const vm = new (Vue.extend(VglPointLight))({propsData: {distance: "2.5"}});
+                assert.strictEqual(vm.inst.distance, 2.5);
+            });
         });
-        describe("decayのテスト", function() {
-            it("undefined -> 1", function() {
+        describe("The decay of the light should be same as the decay property.", function() {
+            it("When the property is undefined.", function() {
                 const vm = new Vue(VglPointLight);
                 assert.strictEqual(vm.inst.decay, 1);
             });
-            it("\"2\" -> 2", function() {
-                const vm = new (Vue.extend(VglPointLight))({
-                    propsData: {decay: "2"}
-                });
+            it("When the property is a number.", function() {
+                const vm = new (Vue.extend(VglPointLight))({propsData: {decay: 2}});
                 assert.strictEqual(vm.inst.decay, 2);
+            });
+            it("When the property is a string.", function() {
+                const vm = new (Vue.extend(VglPointLight))({propsData: {decay: "3"}});
+                assert.strictEqual(vm.inst.decay, 3);
             });
         });
     });
-    describe("プロパティ変更のテスト", function() {
-        describe("distanceの変更", function() {
-            it("3.5 -> \"1.8\"", function(done) {
-                const vm = new (Vue.extend(VglPointLight))({
-                    propsData: {distance: 3.5}
-                });
-                assert.strictEqual(vm.inst.distance, 3.5);
-                vm.distance = "1.8";
-                vm.$nextTick(() => {
-                    try {
-                        assert.strictEqual(vm.inst.distance, 1.8);
-                        done();
-                    } catch(e) {
-                        done(e);
-                    }
-                });
+    describe("Watching properties", function() {
+        it("The distance of the light should change when the distance property changes.", function(done) {
+            const vm = new (Vue.extend(VglPointLight))({propsData: {distance: 3.5}});
+            vm.distance = "1.8";
+            vm.$nextTick(() => {
+                try {
+                    assert.strictEqual(vm.inst.distance, 1.8);
+                    done();
+                } catch(e) {
+                    done(e);
+                }
             });
         });
-        describe("decayの変更", function() {
-            it("\"1.5\" -> 2.5", function(done) {
-                const vm = new (Vue.extend(VglPointLight))({
-                    propsData: {decay: "1.5"}
-                });
-                assert.strictEqual(vm.inst.decay, 1.5);
-                vm.decay = 2.5;
-                vm.$nextTick(() => {
-                    try {
-                        assert.strictEqual(vm.inst.decay, 2.5);
-                        done();
-                    } catch(e) {
-                        done(e);
-                    }
-                });
+        it("The decay of the light should change when the decay property changes.", function(done) {
+            const vm = new (Vue.extend(VglPointLight))({propsData: {decay: "1.5"}});
+            vm.decay = 2.5;
+            vm.$nextTick(() => {
+                try {
+                    assert.strictEqual(vm.inst.decay, 2.5);
+                    done();
+                } catch(e) {
+                    done(e);
+                }
             });
         });
     });

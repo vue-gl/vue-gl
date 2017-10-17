@@ -1,23 +1,22 @@
 import VglGeometry from "./vgl-geometry.js";
 import {CircleGeometry} from "./three.js";
-import {parseNumber} from "./utils.js";
+import {parseFloat_, parseInt_, createObjectFromArray} from "./utils.js";
+
+const validator = [String, Number];
+
+const props = [
+    "radius",
+    "segments",
+    "thetaStart",
+    "thetaLength"
+];
 
 export default {
     mixins: [VglGeometry],
-    props: [
-        "radius",
-        "segments",
-        "thetaStart",
-        "thetaLength"
-    ],
+    props: createObjectFromArray(props, () => validator),
     computed: {
         inst() {
-            return new CircleGeometry(
-                parseNumber(this.radius),
-                parseNumber(this.segments, true),
-                parseNumber(this.thetaStart),
-                parseNumber(this.thetaLength)
-            );
+            return new CircleGeometry(...props.map((key, i) => (i === 1 ? parseInt_: parseFloat_)(this[key])));
         }
     }
 };

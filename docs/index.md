@@ -43,7 +43,7 @@ Then, the following code will render a sphere on the canvas.
         <vgl-ambient-light color="#ffeecc"></vgl-ambient-light>
         <vgl-directional-light position="0 1 1"></vgl-directional-light>
     </vgl-scene>
-    <vgl-perspective-camera orbit-position="radius: 200; phi: 1; theta: 1;"></vgl-perspective-camera>
+    <vgl-perspective-camera orbit-position="200 1 1;"></vgl-perspective-camera>
 </vgl-renderer>
 <script>
     new Vue({
@@ -69,7 +69,7 @@ Then, the following code will render a sphere on the canvas.
             <vgl-ambient-light color='#ffeecc'></vgl-ambient-light>
             <vgl-directional-light position='0 1 1'></vgl-directional-light>
         </vgl-scene>
-        <vgl-perspective-camera orbit-position='radius: 200; phi: 1; theta: 1;'></vgl-perspective-camera>
+        <vgl-perspective-camera orbit-position='200 1 1'></vgl-perspective-camera>
     </vgl-renderer>
     <script src='https://unpkg.com/vue/dist/vue.min.js'></script>
     <script src='https://unpkg.com/three/build/three.js'></script>
@@ -96,7 +96,7 @@ It works with the reactive data bindings of Vue.js. Follwing code uses [form inp
             <vgl-ambient-light color="#ffeecc"></vgl-ambient-light>
             <vgl-directional-light position="0 1 1"></vgl-directional-light>
         </vgl-scene>
-        <vgl-perspective-camera orbit-position="radius: 200; phi: 1; theta: 0.5;"></vgl-perspective-camera>
+        <vgl-perspective-camera orbit-position="200 1 0.5"></vgl-perspective-camera>
     </vgl-renderer>
     <div style="position: absolute; bottom: .5rem; left: .5rem; color: #fff;">
         x: <input size=3 v-model="x"><br>
@@ -141,7 +141,7 @@ It works with the reactive data bindings of Vue.js. Follwing code uses [form inp
                 <vgl-ambient-light color='#ffeecc'></vgl-ambient-light>
                 <vgl-directional-light position='0 1 1'></vgl-directional-light>
             </vgl-scene>
-            <vgl-perspective-camera orbit-position='radius: 200; phi: 1; theta: 0.5;'></vgl-perspective-camera>
+            <vgl-perspective-camera orbit-position='200 1 0.5'></vgl-perspective-camera>
         </vgl-renderer>
         <div class='position-input'>
             x: <input size=3 v-model='x'><br>

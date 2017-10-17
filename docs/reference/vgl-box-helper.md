@@ -1,7 +1,7 @@
 ---
 layout: reference
 ---
-[Home](..) &gt; [References](.) &gt; [Helpers](.#helpers) &gt; VglBoxHelper
+{% include breadcrumbs/helpers.md %} VglBoxHelper
 # VglBoxHelper `<vgl-box-helper>`
 A helper component to show the world-axis-aligned bounding box around its parent, corresponding [THREE.BoxHelper](https://threejs.org/docs/index.html#api/helpers/BoxHelper).
 ## Mixins
@@ -9,11 +9,11 @@ See the mixin components below for common properties.
 * [VglLineSegments](vgl-line-segments)
 
 ## Properties
-* `color` - Size of the lines representing the axes.
+* {% include prop.md name="color" type="string" %} - Size of the lines representing the axes.
 
 ## Example usage
 ```html
-<vgl-renderer :antialias="true" style="width: 300px; height: 150px;">
+<vgl-renderer antialias style="width: 300px; height: 150px;">
     <vgl-scene>
         <vgl-sphere-geometry name="sph"></vgl-sphere-geometry>
         <vgl-mesh-standard-material name="mtl"></vgl-mesh-standard-material>
@@ -23,7 +23,7 @@ See the mixin components below for common properties.
         <vgl-ambient-light></vgl-ambient-light>
         <vgl-directional-light></vgl-directional-light>
     </vgl-scene>
-    <vgl-perspective-camera orbit-position="radius: 250; phi: 1; theta: 0.5;"></vgl-perspective-camera>
+    <vgl-perspective-camera orbit-position="250 1 0.5"></vgl-perspective-camera>
 </vgl-renderer>
 ```
 <div class="vgl-example"><iframe class="vgl-example__content" srcdoc="
@@ -36,7 +36,7 @@ See the mixin components below for common properties.
             height: 100vh;
         }
     </style>
-    <vgl-renderer :antialias='true' class='vgl-canvas'>
+    <vgl-renderer antialias class='vgl-canvas'>
         <vgl-scene>
             <vgl-sphere-geometry name='sph'></vgl-sphere-geometry>
             <vgl-mesh-standard-material name='mtl'></vgl-mesh-standard-material>
@@ -46,7 +46,7 @@ See the mixin components below for common properties.
             <vgl-ambient-light></vgl-ambient-light>
             <vgl-directional-light></vgl-directional-light>
         </vgl-scene>
-        <vgl-perspective-camera orbit-position='radius: 250; phi: 1; theta: 0.5;'></vgl-perspective-camera>
+        <vgl-perspective-camera orbit-position='250 1 0.5'></vgl-perspective-camera>
     </vgl-renderer>
     <script src='https://unpkg.com/vue/dist/vue.min.js'></script>
     <script src='https://unpkg.com/three/build/three.min.js'></script>

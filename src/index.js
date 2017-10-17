@@ -1,4 +1,4 @@
-import VglAssets from "./vgl-assets.js";
+import VglNamespace from "./vgl-namespace.js";
 import VglObject3d from "./vgl-object3d.js";
 import VglScene from "./vgl-scene.js";
 import VglCamera from "./vgl-camera.js";
@@ -40,7 +40,7 @@ import VglPointLight from "./vgl-point-light.js";
 import VglSpotLight from "./vgl-spot-light.js";
 
 export {
-    VglAssets,
+    VglNamespace,
     VglObject3d,
     VglScene,
     VglCamera,

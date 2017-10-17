@@ -1,10 +1,11 @@
-describe("VglLineLoopのテスト", function() {
-    const {VglLineLoop} = VueGL;
+describe("VglLineLoop component", function() {
+    const {VglLineLoop, VglNamespace} = VueGL;
     const assert = chai.assert;
-    describe("プロパティの確認", function() {
-        it("instプロパティはLineLoopオブジェクト", function() {
-            const vm = new Vue(VglLineLoop);
-            assert.isTrue(vm.inst.isLineLoop);
-        });
+    it("The instance should be a LineLoop object.", function() {
+        const vm = new Vue({
+            template: `<vgl-namespace><vgl-line-loop ref="loop" /></vgl-namespace>`,
+            components: {VglLineLoop, VglNamespace}
+        }).$mount();
+        assert.isTrue(vm.$refs.loop.inst.isLineLoop);
     });
 });

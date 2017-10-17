@@ -1,7 +1,7 @@
 ---
 layout: reference
 ---
-[Home](..) &gt; [References](.) &gt; [Helpers](.#helpers) &gt; VglArrowHelper
+{% include breadcrumbs/helpers.md %} VglArrowHelper
 # VglArrowHelper `<vgl-arrow-helper>`
 An 3D arrow object for visualizing directions, corresponding [THREE.ArrowHelper](https://threejs.org/docs/index.html#api/helpers/ArrowHelper).
 ## Mixins
@@ -9,19 +9,19 @@ See the mixin components below for common properties.
 * [VglObject3d](vgl-object3d)
 
 ## Properties
-* `dir` - Direction from origin.
-* `length` - Length of the arrow.
-* `color` - Color of the arrow.
-* `headLength` - The length of the head of the arrow.
-* `headWidth` - The width of the head of the arrow.
+* {% include prop.md name="dir" type="vector3" %} - Direction from origin.
+* {% include prop.md name="length" type="float" %} - Length of the arrow.
+* {% include prop.md name="color" type="string" %} - Color of the arrow.
+* {% include prop.md name="headLength" type="float" %} - The length of the head of the arrow.
+* {% include prop.md name="headWidth" type="float" %} - The width of the head of the arrow.
 
 ## Example usage
 ```html
-<vgl-renderer :antialias="true" style="width: 300px; height: 150px;">
+<vgl-renderer antialias style="width: 300px; height: 150px;">
     <vgl-scene>
-        <vgl-arrow-helper position="-0.3 0.15 0.2"></vgl-arrow-helper>
+        <vgl-arrow-helper position="-0.3 0.15 0.2" dir="1 0 0"></vgl-arrow-helper>
     </vgl-scene>
-    <vgl-perspective-camera orbit-position="radius: 2; phi: 1; theta: 0.5;"></vgl-perspective-camera>
+    <vgl-perspective-camera orbit-position="2 1 0.5"></vgl-perspective-camera>
 </vgl-renderer>
 ```
 <div class="vgl-example"><iframe class="vgl-example__content" srcdoc="
@@ -34,11 +34,11 @@ See the mixin components below for common properties.
             height: 100vh;
         }
     </style>
-    <vgl-renderer :antialias='true' class='vgl-canvas'>
+    <vgl-renderer antialias class='vgl-canvas'>
         <vgl-scene>
-            <vgl-arrow-helper position='-0.3 0.15 0.2'></vgl-arrow-helper>
+            <vgl-arrow-helper position='-0.3 0.15 0.2' dir='1 0 0'></vgl-arrow-helper>
         </vgl-scene>
-        <vgl-perspective-camera orbit-position='radius: 2; phi: 1; theta: 0.5;'></vgl-perspective-camera>
+        <vgl-perspective-camera orbit-position='2 1 0.5'></vgl-perspective-camera>
     </vgl-renderer>
     <script src='https://unpkg.com/vue/dist/vue.min.js'></script>
     <script src='https://unpkg.com/three/build/three.min.js'></script>

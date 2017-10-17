@@ -1,82 +1,20 @@
-describe("VglPointsのテスト", function() {
-    const {VglPoints, VglGeometry, VglMaterial, VglAssets} = VueGL;
+describe("VglPoints component", function() {
+    const {VglPoints, VglGeometry, VglMaterial, VglNamespace} = VueGL;
     const assert = chai.assert;
-    describe("プロパティの確認", function() {
-        it("instプロパティはPointsオブジェクト", function() {
-            const vm = new Vue(VglPoints);
-            assert.isTrue(vm.inst.isPoints);
+    describe("Creating an object", function() {
+        it("The geometry of an instance should be set to the geometry that has the corresponding name property.", function() {
+            const vm = new Vue({
+                template: `<vgl-namespace><vgl-points geometry="u!$ok" ref="points" /><vgl-geometry name="u!$ok" ref="geo" /></vgl-namespace>`,
+                components: {VglPoints, VglGeometry, VglNamespace}
+            }).$mount();
+            assert.strictEqual(vm.$refs.points.inst.geometry, vm.$refs.geo.inst);
         });
-    });
-    describe("プロパティのテスト", function() {
-        describe("geometryのテスト", function() {
-            it("同じ階層のgeometry", function() {
-                const vm = new Vue({
-                    template: `<vgl-assets><vgl-geometry name="u!$ok" ref="g" /><vgl-geometry name="xo" /><vgl-points geometry="u!$ok" ref="m" /></vgl-assets>`,
-                    components: {
-                        VglPoints,
-                        VglGeometry,
-                        VglAssets
-                    }
-                }).$mount();
-                assert.equal(vm.$refs.m.inst.geometry, vm.$refs.g.inst);
-            });
-            it("上層のgeometry", function() {
-                const vm = new Vue({
-                    template: `<vgl-assets><vgl-geometry name="u!$ok" ref="g" /><vgl-assets><vgl-points geometry="u!$ok" ref="m" /></vgl-assets></vgl-assets>`,
-                    components: {
-                        VglPoints,
-                        VglGeometry,
-                        VglAssets
-                    }
-                }).$mount();
-                assert.equal(vm.$refs.m.inst.geometry, vm.$refs.g.inst);
-            });
-            it("スコープ外のgeometry", function() {
-                const vm = new Vue({
-                    template: `<vgl-assets><vgl-assets><vgl-geometry name="u'$ok" ref="g" /></vgl-assets><vgl-points geometry="u'$ok" ref="m" /></vgl-assets>`,
-                    components: {
-                        VglPoints,
-                        VglGeometry,
-                        VglAssets
-                    }
-                }).$mount();
-                assert.notEqual(vm.$refs.m.inst.geometry, vm.$refs.g.inst);
-            });
-        });
-        describe("materialのテスト", function() {
-            it("同じ階層のmaterial", function() {
-                const vm = new Vue({
-                    template: `<vgl-assets><vgl-material name="u!$ok" ref="g" /><vgl-material name="xo" /><vgl-points material="u!$ok" ref="m" /></vgl-assets>`,
-                    components: {
-                        VglPoints,
-                        VglMaterial,
-                        VglAssets
-                    }
-                }).$mount();
-                assert.equal(vm.$refs.m.inst.material, vm.$refs.g.inst);
-            });
-            it("上層のmaterial", function() {
-                const vm = new Vue({
-                    template: `<vgl-assets><vgl-material name="u!$ok" ref="g" /><vgl-assets><vgl-points material="u!$ok" ref="m" /></vgl-assets></vgl-assets>`,
-                    components: {
-                        VglPoints,
-                        VglMaterial,
-                        VglAssets
-                    }
-                }).$mount();
-                assert.equal(vm.$refs.m.inst.material, vm.$refs.g.inst);
-            });
-            it("スコープ外のmaterial", function() {
-                const vm = new Vue({
-                    template: `<vgl-assets><vgl-assets><vgl-material name="u'$ok" ref="g" /></vgl-assets><vgl-points material="u'$ok" ref="m" /></vgl-assets>`,
-                    components: {
-                        VglPoints,
-                        VglMaterial,
-                        VglAssets
-                    }
-                }).$mount();
-                assert.notEqual(vm.$refs.m.inst.material, vm.$refs.g.inst);
-            });
+        it("The material of an instance should be set to the material that has the corresponding name property.", function() {
+            const vm = new Vue({
+                template: `<vgl-namespace><vgl-material name="u!$ok" ref="mat" /><vgl-points material="u!$ok" ref="points" /></vgl-namespace>`,
+                components: {VglPoints, VglMaterial, VglNamespace}
+            }).$mount();
+            assert.strictEqual(vm.$refs.points.inst.material, vm.$refs.mat.inst);
         });
     });
 });

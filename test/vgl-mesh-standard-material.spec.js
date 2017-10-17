@@ -1,59 +1,45 @@
-describe("VglMeshStandardMaterialコンポーネントのテスト", function() {
-    const {VglMeshStandardMaterial} = VueGL;
+describe("VglMeshStandardMaterial component", function() {
+    const {VglMeshStandardMaterial, VglNamespace} = VueGL;
     const assert = chai.assert;
-    describe("プロパティの確認", function() {
-        it("instプロパティはMeshStandardMaterialオブジェクト", function() {
-            const vm = new Vue(VglMeshStandardMaterial);
-            assert.isTrue(vm.inst.isMeshStandardMaterial);
-        });
-    });
-    describe("プロパティのテスト", function() {
-        describe("colorのテスト", function() {
-            it("undefined -> 1, 1, 1", function() {
-                const vm = new Vue(VglMeshStandardMaterial);
-                assert.strictEqual(vm.inst.color.r, 1);
-                assert.strictEqual(vm.inst.color.g, 1);
-                assert.strictEqual(vm.inst.color.b, 1);
+    describe("Creating a material", function() {
+        describe("The color of the material should be same as the color property.", function() {
+            it("When the property is undefined.", function() {
+                const vm = new Vue({
+                    template: `<vgl-namespace><vgl-mesh-standard-material ref="mat" /></vgl-namespace>`,
+                    components: {VglMeshStandardMaterial, VglNamespace}
+                }).$mount();
+                assert.strictEqual(vm.$refs.mat.inst.color.r, 255/255);
+                assert.strictEqual(vm.$refs.mat.inst.color.g, 255/255);
+                assert.strictEqual(vm.$refs.mat.inst.color.b, 255/255);
             });
-            it("#e2e2e2 -> 0.886, 0.886, 0.886", function() {
-                const vm = new (Vue.extend(VglMeshStandardMaterial))({
-                    propsData: {color: "#e2e2e2"}
-                });
-                assert.strictEqual(vm.inst.color.r, 0.8862745098039215);
-                assert.strictEqual(vm.inst.color.g, 0.8862745098039215);
-                assert.strictEqual(vm.inst.color.b, 0.8862745098039215);
+            it("When the property is a color name.", function() {
+                const vm = new Vue({
+                    template: `<vgl-namespace><vgl-mesh-standard-material color="orangered" ref="mat" /></vgl-namespace>`,
+                    components: {VglMeshStandardMaterial, VglNamespace}
+                }).$mount();
+                assert.strictEqual(vm.$refs.mat.inst.color.r, 255/255);
+                assert.strictEqual(vm.$refs.mat.inst.color.g, 69/255);
+                assert.strictEqual(vm.$refs.mat.inst.color.b, 0/255);
             });
         });
     });
-    describe("プロパティ変更のテスト", function() {
-        describe("colorの変更", function() {
-            it("undefined -> #000", function(done) {
-                const vm = new Vue(VglMeshStandardMaterial);
-                assert.strictEqual(vm.inst.color.r, 1);
-                assert.strictEqual(vm.inst.color.g, 1);
-                assert.strictEqual(vm.inst.color.b, 1);
-                vm.color = "#000";
-                vm.$nextTick(() => {
-                    assert.strictEqual(vm.inst.color.r, 0);
-                    assert.strictEqual(vm.inst.color.g, 0);
-                    assert.strictEqual(vm.inst.color.b, 0);
+    describe("Watching property", function() {
+        it("The color of the material should change when the color property changes.", function(done) {
+            const vm = new Vue({
+                template: `<vgl-namespace><vgl-mesh-standard-material :color="color" ref="mat" /></vgl-namespace>`,
+                components: {VglMeshStandardMaterial, VglNamespace},
+                data: {color: "orangered"}
+            }).$mount();
+            vm.color = "#fff5ee";
+            vm.$nextTick(() => {
+                try {
+                    assert.strictEqual(vm.$refs.mat.inst.color.r, 255/255);
+                    assert.strictEqual(vm.$refs.mat.inst.color.g, 245/255);
+                    assert.strictEqual(vm.$refs.mat.inst.color.b, 238/255);
                     done();
-                });
-            });
-            it("#000000 -> #e2e2e2", function(done) {
-                const vm = new (Vue.extend(VglMeshStandardMaterial))({
-                    propsData: {color: "#000000"}
-                });
-                assert.strictEqual(vm.inst.color.r, 0);
-                assert.strictEqual(vm.inst.color.g, 0);
-                assert.strictEqual(vm.inst.color.b, 0);
-                vm.color = "#e2e2e2";
-                vm.$nextTick(() => {
-                    assert.strictEqual(vm.inst.color.r, 0.8862745098039215);
-                    assert.strictEqual(vm.inst.color.g, 0.8862745098039215);
-                    assert.strictEqual(vm.inst.color.b, 0.8862745098039215);
-                    done();
-                });
+                } catch(e) {
+                    done(e);
+                }
             });
         });
     });

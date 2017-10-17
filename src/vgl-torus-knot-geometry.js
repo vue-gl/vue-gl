@@ -1,27 +1,24 @@
 import VglGeometry from "./vgl-geometry.js";
 import {TorusKnotGeometry} from "./three.js";
-import {parseNumber} from "./utils.js";
+import {parseFloat_, parseInt_, createObjectFromArray} from "./utils.js";
+
+const validator = [String, Number];
+
+const props = [
+    "radius",
+    "tube",
+    "tubularSegments",
+    "radialSegments",
+    "p",
+    "q"
+];
 
 export default {
     mixins: [VglGeometry],
-    props: [
-        "radius",
-        "tube",
-        "radialSegments",
-        "tubularSegments",
-        "p",
-        "q"
-    ],
+    props: createObjectFromArray(props, () => validator),
     computed: {
         inst() {
-            return new TorusKnotGeometry(
-                parseNumber(this.radius),
-                parseNumber(this.tube),
-                parseNumber(this.tubularSegments, true),
-                parseNumber(this.radialSegments, true),
-                parseNumber(this.p),
-                parseNumber(this.q)
-            );
+            return new TorusKnotGeometry(...props.map((key, i) => (i < 2 || i > 3 ? parseFloat_: parseInt_)(this[key])));
         }
     }
 };

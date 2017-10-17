@@ -1,0 +1,1 @@
+`{{include.name}}` ([{{include.type}}](property-types#types))
