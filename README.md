@@ -17,7 +17,7 @@ Save the following code as a html file, and open in any modern browser.
 <script src="https://unpkg.com/vue-gl"></script>
 
 <!-- define objects -->
-<vgl-renderer class="vgl-canvas" style="width: 300px; height: 150px;">
+<vgl-renderer id="vgl-canvas" style="width: 300px; height: 150px;">
     <vgl-scene>
         <vgl-sphere-geometry></vgl-sphere-geometry>
         <vgl-mesh-standard-material></vgl-mesh-standard-material>
@@ -25,7 +25,7 @@ Save the following code as a html file, and open in any modern browser.
         <vgl-ambient-light></vgl-ambient-light>
         <vgl-directional-light></vgl-directional-light>
     </vgl-scene>
-    <vgl-perspective-camera orbit-position="radius: 200; phi: 1; theta: 1;"></vgl-perspective-camera>
+    <vgl-perspective-camera orbit-position="200 1 1"></vgl-perspective-camera>
 </vgl-renderer>
 
 <!-- register components and start vue -->
@@ -34,7 +34,7 @@ Save the following code as a html file, and open in any modern browser.
         Vue.component(name, VueGL[name]);
     });
     new Vue({
-        el: ".vgl-canvas"
+        el: "#vgl-canvas"
     });
 </script>
 ```
