@@ -34,7 +34,7 @@ describe("VglRenderer component", function() {
                     }
                 }).$mount();
                 assert.isObject(vm.$refs.renderer.vglCameras);
-                vm.$refs.renderer.inst.forceContextLoss();
+                vm.$destroy();
             });
         });
         describe("Should be able to access vglScenes", function() {
@@ -51,7 +51,7 @@ describe("VglRenderer component", function() {
                     }
                 }).$mount();
                 assert.isObject(vm.$refs.renderer.vglScenes);
-                vm.$refs.renderer.inst.forceContextLoss();
+                vm.$destroy();
             });
         });
     });
@@ -60,7 +60,7 @@ describe("VglRenderer component", function() {
             it("The domElement property of WebGLRenderer instance should be the Vue created canvas.", function() {
                 const vm = new Vue(VglRenderer).$mount();
                 assert.strictEqual(vm.$refs.rdr, vm.inst.domElement);
-                vm.inst.forceContextLoss();
+                vm.$destroy();
             });
         });
         describe("Context attributes", function() {
@@ -68,72 +68,72 @@ describe("VglRenderer component", function() {
                 it("When the property is undefined (or false).", function() {
                     const vm = new Vue(VglRenderer).$mount();
                     assert.isFalse(vm.inst.getContextAttributes().alpha);
-                    vm.inst.forceContextLoss();
+                    vm.$destroy();
                 });
                 it("When the property is true.", function() {
                     const vm = new (Vue.extend(VglRenderer))({propsData: {alpha: true}}).$mount();
                     assert.isTrue(vm.inst.getContextAttributes().alpha);
-                    vm.inst.forceContextLoss();
+                    vm.$destroy();
                 });
             });
             describe("The disableDepth property should affect the depth attribute.", function() {
                 it("When the property is undefined (or false).", function() {
                     const vm = new Vue(VglRenderer).$mount();
                     assert.isTrue(vm.inst.getContextAttributes().depth);
-                    vm.inst.forceContextLoss();
+                    vm.$destroy();
                 });
                 it("When the property is true.", function() {
                     const vm = new (Vue.extend(VglRenderer))({propsData: {disableDepth: true}}).$mount();
                     assert.isFalse(vm.inst.getContextAttributes().depth);
-                    vm.inst.forceContextLoss();
+                    vm.$destroy();
                 });
             });
             describe("The disableStencil property should affect the stencil attribute.", function() {
                 it("When the property is undefined (or false).", function() {
                     const vm = new Vue(VglRenderer).$mount();
                     assert.isTrue(vm.inst.getContextAttributes().stencil);
-                    vm.inst.forceContextLoss();
+                    vm.$destroy();
                 });
                 it("When the property is true.", function() {
                     const vm = new (Vue.extend(VglRenderer))({propsData: {disableStencil: true}}).$mount();
                     assert.isFalse(vm.inst.getContextAttributes().stencil);
-                    vm.inst.forceContextLoss();
+                    vm.$destroy();
                 });
             });
             describe("The antialias property should affect the antialias attribute.", function() {
                 it("When the property is undefined (or false).", function() {
                     const vm = new Vue(VglRenderer).$mount();
                     assert.isFalse(vm.inst.getContextAttributes().antialias);
-                    vm.inst.forceContextLoss();
+                    vm.$destroy();
                 });
                 it("When the property is true.", function() {
                     const vm = new (Vue.extend(VglRenderer))({propsData: {antialias: true}}).$mount();
                     assert.isTrue(vm.inst.getContextAttributes().antialias);
-                    vm.inst.forceContextLoss();
+                    vm.$destroy();
                 });
             });
             describe("The disablePremultipliedAlpha property should affect the premultipliedAlpha attribute.", function() {
                 it("When the property is undefined (or false).", function() {
                     const vm = new Vue(VglRenderer).$mount();
                     assert.isTrue(vm.inst.getContextAttributes().premultipliedAlpha);
-                    vm.inst.forceContextLoss();
+                    vm.$destroy();
                 });
                 it("When the property is true.", function() {
                     const vm = new (Vue.extend(VglRenderer))({propsData: {disablePremultipliedAlpha: true}}).$mount();
                     assert.isFalse(vm.inst.getContextAttributes().premultipliedAlpha);
-                    vm.inst.forceContextLoss();
+                    vm.$destroy();
                 });
             });
             describe("The preserveDrawingBuffer property should affect the preserveDrawingBuffer attribute.", function() {
                 it("When the property is undefined (or false).", function() {
                     const vm = new Vue(VglRenderer).$mount();
                     assert.isFalse(vm.inst.getContextAttributes().preserveDrawingBuffer);
-                    vm.inst.forceContextLoss();
+                    vm.$destroy();
                 });
                 it("When the property is true.", function() {
                     const vm = new (Vue.extend(VglRenderer))({propsData: {preserveDrawingBuffer: true}}).$mount();
                     assert.isTrue(vm.inst.getContextAttributes().preserveDrawingBuffer);
-                    vm.inst.forceContextLoss();
+                    vm.$destroy();
                 });
             });
         });
@@ -142,34 +142,34 @@ describe("VglRenderer component", function() {
                 it("When the property is undefined (or false).", function() {
                     const vm = new Vue(VglRenderer).$mount();
                     assert.isFalse(vm.inst.capabilities.logarithmicDepthBuffer);
-                    vm.inst.forceContextLoss();
+                    vm.$destroy();
                 });
                 it("When the property is true.", function() {
                     const vm = new (Vue.extend(VglRenderer))({propsData: {logarithmicDepthBuffer: true}}).$mount();
                     assert.isTrue(vm.inst.capabilities.logarithmicDepthBuffer);
-                    vm.inst.forceContextLoss();
+                    vm.$destroy();
                 });
             });
             describe("The precision property should affect the precision capability.", function() {
                 it("When the property is undefined (or false).", function() {
                     const vm = new Vue(VglRenderer).$mount();
                     assert.strictEqual(vm.inst.capabilities.precision, "highp");
-                    vm.inst.forceContextLoss();
+                    vm.$destroy();
                 });
                 it("When the property is \"lowp\".", function() {
                     const vm = new (Vue.extend(VglRenderer))({propsData: {precision: "lowp"}}).$mount();
                     assert.strictEqual(vm.inst.capabilities.precision, "lowp");
-                    vm.inst.forceContextLoss();
+                    vm.$destroy();
                 });
                 it("When the property is \"mediump\".", function() {
                     const vm = new (Vue.extend(VglRenderer))({propsData: {precision: "mediump"}}).$mount();
                     assert.strictEqual(vm.inst.capabilities.precision, "mediump");
-                    vm.inst.forceContextLoss();
+                    vm.$destroy();
                 });
                 it("When the property is \"highp\".", function() {
                     const vm = new (Vue.extend(VglRenderer))({propsData: {precision: "highp"}}).$mount();
                     assert.strictEqual(vm.inst.capabilities.precision, "highp");
-                    vm.inst.forceContextLoss();
+                    vm.$destroy();
                 });
             });
         });
@@ -183,10 +183,10 @@ describe("VglRenderer component", function() {
                 vm.$nextTick(() => {
                     try {
                         assert.notEqual(oldCanvas, vm.$refs.rdr);
-                        vm.inst.forceContextLoss();
+                        vm.$destroy();
                         done();
                     } catch(e) {
-                        vm.inst.forceContextLoss();
+                        vm.$destroy();
                         done(e);
                     }
                 });
@@ -198,10 +198,10 @@ describe("VglRenderer component", function() {
                 vm.$nextTick(() => {
                     try {
                         assert.notEqual(oldInst, vm.inst);
-                        vm.inst.forceContextLoss();
+                        vm.$destroy();
                         done();
                     } catch(e) {
-                        vm.inst.forceContextLoss();
+                        vm.$destroy();
                         done(e);
                     }
                 });
@@ -212,10 +212,10 @@ describe("VglRenderer component", function() {
                 vm.$nextTick(() => {
                     try {
                         assert.strictEqual(vm.inst.domElement, vm.$refs.rdr);
-                        vm.inst.forceContextLoss();
+                        vm.$destroy();
                         done();
                     } catch(e) {
-                        vm.inst.forceContextLoss();
+                        vm.$destroy();
                         done(e);
                     }
                 });
