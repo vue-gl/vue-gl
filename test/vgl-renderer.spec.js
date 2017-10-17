@@ -17,7 +17,7 @@ describe("VglRenderer component", function() {
     if (!webgl) {
         console.log("WebGL is not supported. Skip tests for the VglRenderer.");
     } else {
-        pvm = new Vue(VglRenderer).$mount();
+        //pvm = new Vue(VglRenderer).$mount();
     }
     beforeEach(function() {
         // Skip all tests when the WebGL is not supported.
