@@ -21,7 +21,7 @@ describe("VglRenderer component", function() {
     }
     beforeEach(function() {
         // Skip all tests when the WebGL is not supported.
-        if (!webgl) this.skip();
+        /*if (!webgl)*/ this.skip();
     });
     describe("Namespace injection", function() {
         describe("Should be able to access vglCameras", function() {
