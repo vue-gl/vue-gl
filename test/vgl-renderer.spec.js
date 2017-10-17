@@ -3,10 +3,11 @@ describe("VglRenderer component", function() {
     const assert = chai.assert;
     const webgl = (() => {
         const canvas = document.createElement("canvas");
-        let gl;
+        const opts = {
+            antialias: true
+        };
         try {
-            gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
-            return typeof gl.getSupportedExtensions === "function";
+            return canvas.getContext("webgl", opts) || canvas.getContext("experimental-webgl", opts);
         } catch(e) {}
         return false;
     })();
@@ -87,6 +88,11 @@ describe("VglRenderer component", function() {
                 });
             });
             describe("The antialias property should affect the antialias attribute.", function() {
+                const enable = webgl.getContextAttributes().antialias;
+                if (!enable) console.log("Antialiasing is not supported. Skip tests for the antialias property.");
+                beforeEach(function() {
+                    if (!enable) this.skip();
+                });
                 it("When the property is undefined (or false).", function() {
                     assert.isFalse(pvm.inst.getContextAttributes().antialias);
                 });
