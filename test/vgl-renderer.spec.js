@@ -1,7 +1,7 @@
 describe("VglRenderer component", function() {
     const {VglRenderer, VglNamespace} = VueGL;
     const assert = chai.assert;
-    const webgl = (() => {
+    const webgl = (() => {/*
         const canvas = document.createElement("canvas");
         const opts = {
             antialias: true,
@@ -10,7 +10,7 @@ describe("VglRenderer component", function() {
         };
         try {
             return canvas.getContext("webgl", opts) || canvas.getContext("experimental-webgl", opts);
-        } catch(e) {}
+        } catch(e) {}*/
         return false;
     })();
     let pvm;
