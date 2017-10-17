@@ -40,7 +40,7 @@ module.exports = (config) => {
     if (process.env.CI) {
         options.reporters= ["saucelabs", "coverage", "junit"];
         options.junitReporter = {outputDir: "junit"};
-        options.coverageReporter = {type: "lcov", dir: "coverage"};
+        options.coverageReporter = {type: "lcovonly", dir: "coverage"};
         options.browserNoActivityTimeout = 30000;
         options.browserDisconnectTolerance = 2;
         options.sauceLabs = {
