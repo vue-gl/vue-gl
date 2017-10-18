@@ -31,14 +31,10 @@ are required.
     `npm install karma-safari-launcher`  
     If you use Opera,  
     `npm install karma-opera-launcher`  
-1. Run test
-    ```
-    yarn test --browsers Chrome,Firefox,IE,Safari,Opera
-    ```
-    or
-    ```
-    npm test -- --browsers Chrome,Firefox,IE,Safari,Opera
-    ```
+1. Run test  
+    `yarn test --browsers Chrome,Firefox,IE,Safari,Opera`  
+    or  
+    `npm test -- --browsers Chrome,Firefox,IE,Safari,Opera`
 ## See the rendered documentation
 The documents are published via github pages. To render the documents, run `yarn start` or `npm start` and visit http://localhost:4000 on the browser.
 ## Before sending a new pull request...
