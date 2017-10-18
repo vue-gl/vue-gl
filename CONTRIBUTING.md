@@ -2,7 +2,7 @@
 ## Requirements
 For development,
 * [Node.js](https://nodejs.org/)
-* Any browser [supporting es modules](http://caniuse.com/#feat=es6-module) (for unit tests)
+* Any modern browser (for testing your codes.)
 * [Ruby](https://www.ruby-lang.org/) (for documentation)
 
 are required.
@@ -20,11 +20,30 @@ are required.
     npm install
     ```
 ## Unit test
-If your default browser supports es modules, `yarn test` or `npm test` will show the test results.
-Otherwise, start the browser and open `test/index.html`.
+1. Install [karma launchers](http://karma-runner.github.io/1.0/config/browsers.html) for your browsers
+    ```
+    # If you use Chrome,
+    npm install karma-chrome-launcher
+    # If you use Firefox,
+    npm install karma-firefox-launcher
+    # If you use Internet Explorer,
+    npm install karma-ie-launcher
+    # If you use Safari,
+    npm install karma-safari-launcher
+    # If you use Opera,
+    npm install karma-opera-launcher
+    ```
+1. Run test
+    ```
+    yarn test --browsers Chrome,Firefox,IE,Safari,Opera
+    ```
+    or
+    ```
+    npm test -- --browsers Chrome,Firefox,IE,Safari,Opera
+    ```
 ## See the rendered documentation
 The documents are published via github pages. To render the documents, run `yarn start` or `npm start` and visit http://localhost:4000 on the browser.
 ## Before sending a new pull request...
-* If you have created a new component, please add a corresponding test file as possible. Test files should be in `test` directory and also be inserted to the `test/index.html` file.
-* Make sure all tests pass.
+* If you have created a new component, please add a corresponding test file as possible. Test files should be in `test` directory.
+* Please update documentation if your change is effective to the api.
 * Run `yarn` or `npm install` before the last commit to update the bundled modules.
