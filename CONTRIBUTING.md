@@ -20,19 +20,17 @@ are required.
     npm install
     ```
 ## Unit test
-1. Install [karma launchers](http://karma-runner.github.io/1.0/config/browsers.html) for your browsers
-    ```
-    # If you use Chrome,
-    npm install karma-chrome-launcher
-    # If you use Firefox,
-    npm install karma-firefox-launcher
-    # If you use Internet Explorer,
-    npm install karma-ie-launcher
-    # If you use Safari,
-    npm install karma-safari-launcher
-    # If you use Opera,
-    npm install karma-opera-launcher
-    ```
+1. Install [karma launchers](http://karma-runner.github.io/1.0/config/browsers.html) for your browsers  
+    If you use Chrome,  
+    `npm install karma-chrome-launcher`  
+    If you use Firefox,  
+    `npm install karma-firefox-launcher`  
+    If you use Internet Explorer,  
+    `npm install karma-ie-launcher`  
+    If you use Safari,  
+    `npm install karma-safari-launcher`  
+    If you use Opera,  
+    `npm install karma-opera-launcher`  
 1. Run test
     ```
     yarn test --browsers Chrome,Firefox,IE,Safari,Opera
