@@ -22,10 +22,10 @@ GEM
     ffi (1.9.18)
     forwardable-extended (2.6.0)
     gemoji (3.0.0)
-    github-pages (165)
+    github-pages (166)
       activesupport (= 4.2.9)
       github-pages-health-check (= 1.3.5)
-      jekyll (= 3.6.0)
+      jekyll (= 3.6.2)
       jekyll-avatar (= 0.5.0)
       jekyll-coffeescript (= 1.0.2)
       jekyll-default-layout (= 0.1.4)
@@ -75,7 +75,7 @@ GEM
       nokogiri (>= 1.4)
     i18n (0.9.0)
       concurrent-ruby (~> 1.0)
-    jekyll (3.6.0)
+    jekyll (3.6.2)
       addressable (~> 2.4)
       colorator (~> 1.0)
       jekyll-sass-converter (~> 1.0)
@@ -214,7 +214,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  github-pages (~> 165)
+  github-pages (~> 166)
 
 BUNDLED WITH
    1.15.4
