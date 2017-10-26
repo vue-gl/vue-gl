@@ -130,6 +130,8 @@ When you open the html above in the browser, you'll see below.
   - [x] **[VglRenderer](src/vgl-renderer.js)** - Corresponding to [THREE.WebGLRenderer](https://threejs.org/docs/index.html#api/renderers/WebGLRenderer)
 - Scenes
   - [x] **[VglScene](src/vgl-scene.js)** - Corresponding to [THREE.Scene](https://threejs.org/docs/index.html#api/scenes/Scene)
+- Textures
+  - [x] **[VglTexture](src/vgl-texture.js)** - Load an image using [THREE.TextureLoader](https://threejs.org/docs/index.html#api/textures/TextureLoader)
 ## Contribution
 Are you interested in enhance this product ?  
 We're really glad and thanks a lot !  
