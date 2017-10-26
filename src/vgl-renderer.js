@@ -48,6 +48,9 @@ export default {
             }), $options.inject);
         }
     },
+    provide() {
+        return {vglUpdate: this.render};
+    },
     data() {
         return {
             key: 0,

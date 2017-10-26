@@ -1,9 +1,9 @@
-import {parseFloat_, parseInt_} from "./utils.js";
+import {parseFloat_, parseInt_, validatePropString, validatePropNumber} from "./utils.js";
 
 export function assetFactory(threeClass, namespace) {
     return {
         props: {
-            name: String
+            name: validatePropString
         },
         inject: [namespace],
         computed: {
@@ -29,7 +29,7 @@ export function assetFactory(threeClass, namespace) {
 function hasAssetsMixinFactory(propname, namespace) {
     const computedPropname = propname + "_";
     return {
-        props: {[propname]: String},
+        props: {[propname]: validatePropString},
         inject: [namespace],
         computed: {
             [computedPropname]() {
@@ -58,8 +58,8 @@ const numberValidator = [String, Number];
 export function hedronFactory(threeClass) {
     return {
         props: {
-            radius: numberValidator,
-            detail: numberValidator
+            radius: validatePropNumber,
+            detail: validatePropNumber
         },
         computed: {
             inst() {

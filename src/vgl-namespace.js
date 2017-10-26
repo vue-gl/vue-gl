@@ -7,7 +7,8 @@ const globalNamespaces = [
 
 const localNamespaces = [
     "vglGeometries",
-    "vglMaterials"
+    "vglMaterials",
+    "vglTextures"
 ];
 
 function createEmptyObject() {
