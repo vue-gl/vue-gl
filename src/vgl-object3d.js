@@ -1,4 +1,4 @@
-import {parseVector3, parseEuler, findParent} from "./utils.js";
+import {parseVector3, parseEuler, findParent, update} from "./utils.js";
 import {Object3D, Vector3, Euler} from "./three.js";
 
 const defaultPosition = new Vector3();
@@ -24,10 +24,8 @@ export default {
     computed: {
         inst: () => new Object3D()
     },
+    inject: ["vglUpdate"],
     created() {
-        parseVector3(this.position, this.inst.position);
-        parseEuler(this.rotation, this.inst.rotation);
-        parseVector3(this.scale, this.inst.scale);
         const parent = findParent(this, "isVglObject3d");
         if (parent) parent.inst.add(this.inst);
     },
@@ -35,14 +33,26 @@ export default {
         if (this.inst.parent) this.inst.parent.remove(this.inst);
     },
     watch: {
-        position(position) {
-            parseVector3(position || defaultPosition, this.inst.position);
+        position: {
+            handler(position) {
+                parseVector3(position || defaultPosition, this.inst.position);
+                update(this);
+            },
+            immediate: true
         },
-        rotation(rotation) {
-            parseEuler(rotation || defaultRotation, this.inst.rotation);
+        rotation: {
+            handler(rotation) {
+                parseEuler(rotation || defaultRotation, this.inst.rotation);
+                update(this);
+            },
+            immediate: true
         },
-        scale(scale) {
-            parseVector3(scale || defaultScale, this.inst.scale);
+        scale: {
+            handler(scale) {
+                parseVector3(scale || defaultScale, this.inst.scale);
+                update(this);
+            },
+            immediate: true
         },
         inst(inst, oldInst) {
             if (oldInst.children.length) inst.add(...oldInst.children);
@@ -50,6 +60,7 @@ export default {
             inst.rotation.copy(oldInst.rotation);
             inst.scale.copy(oldInst.scale);
             if (oldInst.parent) oldInst.parent.remove(oldInst).add(inst);
+            update(this);
         }
     },
     render(h) {

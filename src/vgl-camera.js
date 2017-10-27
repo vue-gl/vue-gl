@@ -1,6 +1,6 @@
 import VglObject3d from "./vgl-object3d.js";
 import {assetFactory} from "./mixins.js";
-import {parseVector3, parseSpherical} from "./utils.js";
+import {parseVector3, parseSpherical, update} from "./utils.js";
 import {Camera, Vector3, Spherical} from "./three.js";
 
 function setPositionAndRotation(vm, orbitPosition, orbitTarget) {
@@ -11,6 +11,7 @@ function setPositionAndRotation(vm, orbitPosition, orbitTarget) {
             if (target) position.add(target);
         }
         vm.inst.lookAt(target || new Vector3());
+        update(vm);
     }
 }
 
@@ -20,12 +21,12 @@ export default {
         orbitTarget: [String, Vector3],
         orbitPosition: [String, Spherical]
     },
-    created() {
-        setPositionAndRotation(this, this.orbitPosition, this.orbitTarget);
-    },
     watch: {
-        orbitTarget(target) {
-            setPositionAndRotation(this, this.orbitPosition, target);
+        orbitTarget: {
+            handler(target) {
+                setPositionAndRotation(this, this.orbitPosition, target);
+            },
+            immediate: true
         },
         orbitPosition(position) {
             setPositionAndRotation(this, position, this.orbitTarget);

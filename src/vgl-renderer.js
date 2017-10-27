@@ -49,7 +49,9 @@ export default {
         }
     },
     provide() {
-        return {vglUpdate: this.render};
+        return {
+            vglUpdate: this.render
+        };
     },
     data() {
         return {
@@ -120,9 +122,6 @@ export default {
                 this.render();
             }
         }
-    },
-    updated() {
-        this.render();
     },
     render(h) {
         return h("div", [

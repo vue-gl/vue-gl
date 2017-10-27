@@ -2,6 +2,10 @@ import VglMaterial from "./vgl-material.js";
 import {MeshStandardMaterial} from "./three.js";
 import {validatePropString} from "./utils.js";
 
+function update(vm) {
+    vm.inst.dispatchEvent({type: "update"});
+}
+
 export default {
     mixins: [VglMaterial],
     props: {
@@ -15,19 +19,23 @@ export default {
     computed: {
         inst: () => new MeshStandardMaterial(),
         tex() {
-            return this.map ? this.vglTextures.forGet[this.map]: null;
+            return this.vglTextures.forGet[this.map] || null;
         }
     },
-    created() {
-        this.inst.color.setStyle(this.color);
-        this.inst.map = this.tex;
-    },
     watch: {
-        color(color) {
-            this.inst.color.setStyle(color);
+        color: {
+            handler(color) {
+                this.inst.color.setStyle(color);
+                update(this);
+            },
+            immediate: true
         },
-        tex(texture) {
-            this.inst.map = texture;
+        tex: {
+            handler(texture) {
+                this.inst.map = texture;
+                update(this);
+            },
+            immediate: true
         }
     }
 };

@@ -1,6 +1,6 @@
 import VglObject3d from "./vgl-object3d.js";
 import {Light} from "./three.js";
-import {parseFloat_} from "./utils.js";
+import {parseFloat_, update} from "./utils.js";
 
 export default {
     mixins: [VglObject3d],
@@ -17,16 +17,20 @@ export default {
     computed: {
         inst: () => new Light()
     },
-    created() {
-        this.inst.color.setStyle(this.color);
-        this.inst.intensity = parseFloat_(this.intensity);
-    },
     watch: {
-        color(color) {
-            this.inst.color.setStyle(color);
+        color: {
+            handler(color) {
+                this.inst.color.setStyle(color);
+                update(this);
+            },
+            immediate: true
         },
-        intensity(intensity) {
-            this.inst.intensity = parseFloat_(intensity);
+        intensity: {
+            handler(intensity) {
+                this.inst.intensity = parseFloat_(intensity);
+                update(this);
+            },
+            immediate: true
         }
     }
 };

@@ -2,34 +2,24 @@ import {assetFactory} from "./mixins.js";
 import {Texture, TextureLoader} from "./three.js";
 import {validatePropString} from "./utils.js";
 
+const defaultTexture = new Texture();
+
 export default {
-    mixins: [assetFactory(Texture, "vglTextures")],
-    inject: ["vglUpdate"],
+    mixins: [assetFactory(null, "vglTextures")],
     props: {
         src: validatePropString
     },
-    computed: {
-        inst() {
-            return this.tex;
-        }
-    },
     data() {
-        return {tex: new Texture()};
-    },
-    created() {
-        this.load();
-    },
-    methods: {
-        load() {
-            new TextureLoader().load(this.src, (texture) => {
-                this.tex = texture;
-                this.vglUpdate();
-            });
-        }
+        return {inst: defaultTexture};
     },
     watch: {
-        src() {
-            this.load();
+        src: {
+            handler(src) {
+                new TextureLoader().load(src, (texture) => {
+                    this.inst = texture;
+                });
+            },
+            immediate: true
         }
     }
 };

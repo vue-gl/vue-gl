@@ -1,7 +1,7 @@
 ---
 layout: reference
 ---
-{% include breadcrumbs/objects.md %} VglTexture
+{% include breadcrumbs/textures.md %} VglTexture
 # VglTexture `<vgl-texture>`
 A texture to apply to a surface or as a reflection or refraction map, corresponding [THREE.Texture](https://threejs.org/docs/index.html#api/textures/Texture).
 ## Properties
