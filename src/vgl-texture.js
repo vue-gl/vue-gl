@@ -1,8 +1,6 @@
 import {assetFactory} from "./mixins.js";
-import {Texture, TextureLoader} from "./three.js";
+import {TextureLoader} from "./three.js";
 import {validatePropString} from "./utils.js";
-
-const defaultTexture = new Texture();
 
 export default {
     mixins: [assetFactory(null, "vglTextures")],
@@ -10,7 +8,7 @@ export default {
         src: validatePropString
     },
     data() {
-        return {inst: defaultTexture};
+        return {inst: null};
     },
     watch: {
         src: {

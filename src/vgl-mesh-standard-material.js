@@ -31,8 +31,9 @@ export default {
             immediate: true
         },
         tex: {
-            handler(texture) {
+            handler(texture, before) {
                 this.inst.map = texture;
+                if (!before) this.inst.needsUpdate = true;
                 update(this);
             },
             immediate: true
