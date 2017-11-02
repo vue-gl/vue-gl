@@ -1,6 +1,5 @@
 import VglNamespace from "./vgl-namespace.js";
 import {WebGLRenderer} from "./three.js";
-import {createObjectFromArray} from "./utils.js";
 
 function resizeCamera(camera, domElement) {
     const width = domElement.clientWidth;
@@ -34,20 +33,6 @@ export default {
         camera: String,
         scene: String
     },
-    beforeCreate() {
-        const $options = this.$options;
-        if (!$options.isVglRootNamespace) {
-            $options.inject = createObjectFromArray([
-                "vglCameras",
-                "vglScenes"
-            ], (key) => ({
-                from: key,
-                default() {
-                    return this[key];
-                }
-            }), $options.inject);
-        }
-    },
     provide() {
         return {
             vglUpdate: this.render
@@ -78,10 +63,10 @@ export default {
             }, this.opt));
         },
         cmr() {
-            return this.vglCameras[this.camera];
+            return (this.$data.vglCameras || this.vglCameras.forGet)[this.camera];
         },
         scn() {
-            return this.vglScenes[this.scene];
+            return (this.$data.vglScenes || this.vglScenes.forGet)[this.scene];
         }
     },
     methods: {
@@ -113,15 +98,25 @@ export default {
                 this.resize();
             });
         },
-        scn(scn) {
-            if (scn) this.render();
+        scn(scn, oldScn) {
+            if (oldScn) oldScn.removeEventListener("update", this.render);
+            if (scn) {
+                scn.addEventListener("update", this.render);
+                this.render();
+            }
         },
-        cmr(cmr) {
+        cmr(cmr, oldCmr) {
+            if (oldCmr) oldCmr.removeEventListener("update", this.render);
             if (cmr) {
+                cmr.addEventListener("update", this.render);
                 resizeCamera(cmr, this.$el);
                 this.render();
             }
         }
+    },
+    created() {
+        if (this.scn) this.scn.addEventListener("update", this.render);
+        if (this.cmr) this.cmr.addEventListener("update", this.render);
     },
     render(h) {
         return h("div", [

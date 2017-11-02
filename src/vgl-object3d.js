@@ -24,7 +24,9 @@ export default {
     computed: {
         inst: () => new Object3D()
     },
-    inject: ["vglUpdate"],
+    inject: {
+        vglUpdate: {default: undefined}
+    },
     created() {
         const parent = findParent(this, "isVglObject3d");
         if (parent) parent.inst.add(this.inst);

@@ -166,6 +166,71 @@ It works with the reactive data bindings of Vue.js. Follwing code uses [form inp
         });
     </script>
 "></iframe></div>
+# Multiple renderers
+Multiple renderers can share the same datas. It might be helpful if you want to reduce using resouces.
+```html
+<div id="vgl-app" style="position: relative; width: 300px; height: 150px;">
+    <vgl-namespace>
+        <vgl-scene name="scn">
+            <vgl-box-geometry name="cube" width=3 height=5 depth=10></vgl-box-geometry>
+            <vgl-mesh-standard-material name="std"></vgl-mesh-standard-material>
+            <vgl-mesh geometry="cube" material="std"></vgl-mesh>
+            <vgl-ambient-light color="#ffeecc"></vgl-ambient-light>
+            <vgl-directional-light position="0 1 1"></vgl-directional-light>
+        </vgl-scene>
+        <vgl-renderer scene="scn" camera="cmr1" antialias style="width: 49.5%; height: 100%;">
+            <vgl-perspective-camera name="cmr1" orbit-position="20 1 0.5"></vgl-perspective-camera>
+        </vgl-renderer>
+        <vgl-renderer scene="scn" camera="cmr2" antialias style="width: 49.5%; height: 100%; position: absolute; left: 50.5%; top: 0">
+            <vgl-perspective-camera name="cmr2" orbit-position="20 2 0.5"></vgl-perspective-camera>
+        </vgl-renderer>
+    </vgl-namespace>
+</div>
+<script>
+    const vm = new Vue({
+        el: "#vgl-app"
+    });
+</script>
+```
+<div class="vgl-example"><iframe class="vgl-example__content" srcdoc="
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+        .vgl-canvas {
+            height: 100vh;
+        }
+    </style>
+    <div id='vgl-app'>
+        <vgl-namespace class='vgl-canvas'>
+            <vgl-scene name='scn'>
+                <vgl-box-geometry name='cube' width=3 height=5 depth=10></vgl-box-geometry>
+                <vgl-mesh-standard-material name='std'></vgl-mesh-standard-material>
+                <vgl-mesh geometry='cube' material='std'></vgl-mesh>
+                <vgl-ambient-light color='#ffeecc'></vgl-ambient-light>
+                <vgl-directional-light position='0 1 1'></vgl-directional-light>
+            </vgl-scene>
+            <vgl-renderer scene='scn' camera='cmr1' antialias style='width: 49.5%; height: 100%;'>
+                <vgl-perspective-camera name='cmr1' orbit-position='20 1 0.5'></vgl-perspective-camera>
+            </vgl-renderer>
+            <vgl-renderer scene='scn' camera='cmr2' antialias style='width: 49.5%; height: 100%; position: absolute; left: 50.5%; top: 0'>
+                <vgl-perspective-camera name='cmr2' orbit-position='20 2 0.5'></vgl-perspective-camera>
+            </vgl-renderer>
+        </vgl-namespace>
+    </div>
+    <script src='https://unpkg.com/vue/dist/vue.min.js'></script>
+    <script src='https://unpkg.com/three/build/three.js'></script>
+    <script src='js/vue-gl.js'></script>
+    <script>
+        Object.keys(VueGL).forEach(function(name) {
+            Vue.component(name, VueGL[name]);
+        });
+        const vm = new Vue({
+            el: '#vgl-app'
+        });
+    </script>
+"></iframe></div>
 # Supported browsers
 All modern browsers except IE < 8 are supported, depends on Vue.js and three.js. Note that IE9 needs a polyfill for TypedArray class ([js-polyfills/typedarray.js](https://github.com/inexorabletash/polyfill/blob/master/typedarray.js) is a one of the options).
 

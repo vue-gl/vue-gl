@@ -1,4 +1,4 @@
-import {findParent, createObjectFromArray} from "./utils.js";
+import {createObjectFromArray} from "./utils.js";
 
 const globalNamespaces = [
     "vglCameras",
@@ -11,65 +11,59 @@ const localNamespaces = [
     "vglTextures"
 ];
 
+const namespaces = [...globalNamespaces, ...localNamespaces];
+
+const localDataNames = localNamespaces.map((key) => key + "_");
+const computedNames = localDataNames.map((key) => key + "_");
+
 function createEmptyObject() {
     return Object.create(null);
 }
 
-function isRoot(vm) {
-    return vm.$options.isVglRootNamespace;
-}
-
-function pop(str) {
-    return str.slice(0, -1);
+function createEmptyObjectsFromArray(arr, base) {
+    return createObjectFromArray(arr, () => createEmptyObject(), base);
 }
 
 export default {
-    isVglNamespace: true,
-    beforeCreate() {
-        const $options = this.$options;
-        if (!findParent(this, "isVglNamespace")) {
-            $options.isVglRootNamespace = true;
-        }
-    },
     provide() {
         const vm = this;
-        class Provider {
-            constructor(namespace, global) {
-                this.n = namespace;
-                this.g = global ? "": "_";
+        class LocalProvider {
+            constructor(index) {
+                this.i = index;
             }
             get forGet() {
-                return vm[this.n + this.g + this.g];
+                return vm[computedNames[this.i]];
             }
             get forSet() {
-                return vm[this.n + this.g];
+                return vm[localDataNames[this.i]];
             }
         }
-        return createObjectFromArray(localNamespaces, (namespace) =>
-            new Provider(namespace)
-        , isRoot(this) ? createObjectFromArray(globalNamespaces, (namespace) =>
-            new Provider(namespace, true)
+        class GlobalProvider {
+            constructor(index) {
+                this.i = index;
+            }
+            get forGet() {
+                return vm[globalNamespaces[this.i]];
+            }
+            get forSet() {
+                return vm[globalNamespaces[this.i]];
+            }
+        }
+        return createObjectFromArray(localNamespaces, (_, index) =>
+            new LocalProvider(index)
+        , vm.$data[globalNamespaces[0]] ? createObjectFromArray(globalNamespaces, (_, index) =>
+            new GlobalProvider(index)
         ): {});
     },
-    inject: createObjectFromArray(localNamespaces, (namespace) => ({
-        from: namespace,
-        default() {
-            return {
-                forGet: this[namespace + "__"],
-                forSet: this[namespace + "_"]
-            };
-        }
+    inject: createObjectFromArray(namespaces, (namespace) => ({
+        default: undefined
     })),
     data() {
-        return createObjectFromArray(localNamespaces.map((key) => key + "_"), (namespace) =>
-            createEmptyObject()
-        , isRoot(this) ? createObjectFromArray(globalNamespaces, (namespace) =>
-            createEmptyObject()
-        ): {});
+        return createEmptyObjectsFromArray(localDataNames, this[globalNamespaces[0]] ? {}: createEmptyObjectsFromArray(globalNamespaces));
     },
-    computed: createObjectFromArray(localNamespaces.map((key) => key + "__"), (namespace) => function() {
-        const single = pop(namespace);
-        return isRoot(this) ? this[single]: Object.assign(Object.create(this[pop(single)].forGet), this[single]);
+    computed: createObjectFromArray(computedNames, (_, index) => function() {
+        const name = localNamespaces[index], dataName = localDataNames[index];
+        return this[name] ? Object.assign(Object.create(this[name].forGet), this[dataName]): this[dataName];
     }),
     render(h) {
         if (this.$slots.default) return h("div", this.$slots.default);

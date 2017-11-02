@@ -98,12 +98,18 @@ describe("VglTexture component", function() {
     });
     describe("Creating the instance", function() {
         it("The initial instance should be null.", function() {
-            const vm = new Vue(VglTexture);
-            assert.isNull(vm.inst);
+            const vm = new Vue({
+                template: `<vgl-namespace><vgl-texture ref="tex" /></vgl-namespace>`,
+                components: {VglNamespace, VglTexture}
+            }).$mount();
+            assert.isNull(vm.$refs.tex.inst);
         });
         it("The instance should be loaded from the src property.", function(done) {
-            const vm = new (Vue.extend(VglTexture))({propsData: {src: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"}});
-            vm.$watch("inst", (inst) => {
+            const vm = new Vue({
+                template: `<vgl-namespace><vgl-texture src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" ref="tex" /></vgl-namespace>`,
+                components: {VglNamespace, VglTexture}
+            }).$mount();
+            vm.$refs.tex.$watch("inst", (inst) => {
                 try {
                     assert.strictEqual(inst.image.src, "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7");
                     done();
@@ -115,11 +121,15 @@ describe("VglTexture component", function() {
     });
     describe("Watching properties", function() {
         it("The instance should be replaced when the src property changes.", function(done) {
-            const vm = new (Vue.extend(VglTexture))({propsData: {src: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"}});
-            const unwatch = vm.$watch("inst", (before) => {
+            const vm = new Vue({
+                components: {VglTexture, VglNamespace},
+                template: `<vgl-namespace><vgl-texture :src="src" ref="tex" /></vgl-namespace>`,
+                data: {src: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"}
+            }).$mount();
+            const unwatch = vm.$refs.tex.$watch("inst", (before) => {
                 unwatch();
                 vm.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=";
-                vm.$watch("inst", (after) => {
+                vm.$refs.tex.$watch("inst", (after) => {
                     try {
                         assert.notEqual(before, after);
                         done();
