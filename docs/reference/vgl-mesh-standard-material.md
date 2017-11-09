@@ -10,6 +10,7 @@ See the mixin components below for common properties.
 
 ## Properties
 * {% include prop.md name="color" type="string" %} - CSS style color of the material.
+* {% include prop.md name="map" type="string" %} - The color map of the material.
 
 ## Example usage
 ```html

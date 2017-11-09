@@ -44,7 +44,7 @@ See the mixin components below for common properties.
             <vgl-ambient-light color='#ffeecc'></vgl-ambient-light>
             <vgl-directional-light position='0 1 2'></vgl-directional-light>
         </vgl-scene>
-        <vgl-orthographic-camera orbit-position='radius: 20; phi: 1; theta: 1;' zoom=7.5></vgl-orthographic-camera>
+        <vgl-orthographic-camera orbit-position='20 1 1' zoom=7.5></vgl-orthographic-camera>
     </vgl-renderer>
     <script src='https://unpkg.com/vue/dist/vue.min.js'></script>
     <script src='https://unpkg.com/three/build/three.min.js'></script>

@@ -38,6 +38,7 @@ import VglArrowHelper from "./vgl-arrow-helper.js";
 import VglBoxHelper from "./vgl-box-helper.js";
 import VglPointLight from "./vgl-point-light.js";
 import VglSpotLight from "./vgl-spot-light.js";
+import VglTexture from "./vgl-texture.js";
 
 export {
     VglNamespace,
@@ -79,5 +80,6 @@ export {
     VglArrowHelper,
     VglBoxHelper,
     VglPointLight,
-    VglSpotLight
+    VglSpotLight,
+    VglTexture
 };

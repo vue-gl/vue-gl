@@ -1,51 +1,58 @@
 import VglCamera from "./vgl-camera.js";
 import {PerspectiveCamera} from "./three.js";
-import {parseFloat_} from "./utils.js";
-
-const validator = [String, Number];
+import {parseFloat_, update, validatePropNumber} from "./utils.js";
 
 export default {
     mixins: [VglCamera],
     props: {
         zoom: {
-            type: validator,
+            type: validatePropNumber,
             default: 1
         },
         near: {
-            type: validator,
+            type: validatePropNumber,
             default: 0.1
         },
         far: {
-            type: validator,
+            type: validatePropNumber,
             default: 2000
         },
         fov: {
-            type: validator,
+            type: validatePropNumber,
             default: 50
         }
     },
     computed: {
         inst: () => new PerspectiveCamera()
     },
-    created() {
-        const inst = this.inst;
-        inst.zoom = parseFloat_(this.zoom);
-        inst.near = parseFloat_(this.near);
-        inst.far = parseFloat_(this.far);
-        inst.fov = parseFloat_(this.fov);
-    },
     watch: {
-        zoom(zoom) {
-            this.inst.zoom = parseFloat_(zoom);
+        zoom: {
+            handler(zoom) {
+                this.inst.zoom = parseFloat_(zoom);
+                update(this);
+            },
+            immediate: true
         },
-        near(near) {
-            this.inst.near = parseFloat_(near);
+        near: {
+            handler(near) {
+                this.inst.near = parseFloat_(near);
+                update(this);
+            },
+            immediate: true
         },
-        far(far) {
-            this.inst.far = parseFloat_(far);
+        far: {
+            handler(far) {
+                this.inst.far = parseFloat_(far);
+                update(this);
+            },
+            immediate: true
         },
-        fov(fov) {
-            this.inst.fov = parseFloat_(fov);
+        fov: {
+            handler(fov) {
+                this.inst.fov = parseFloat_(fov);
+                update(this);
+            },
+            immediate: true
         }
     }
 };

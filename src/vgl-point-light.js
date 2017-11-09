@@ -1,34 +1,36 @@
 import VglLight from "./vgl-light.js";
 import {PointLight} from "./three.js";
-import {parseFloat_} from "./utils.js";
-
-const validator = [String, Number];
+import {parseFloat_, validatePropNumber, update} from "./utils.js";
 
 export default {
     mixins: [VglLight],
     props: {
         distance: {
-            type: validator,
+            type: validatePropNumber,
             default: 0
         },
         decay: {
-            type: validator,
+            type: validatePropNumber,
             default: 1
         }
     },
     computed: {
         inst: () => new PointLight()
     },
-    created() {
-        this.inst.distance = parseFloat_(this.distance);
-        this.inst.decay = parseFloat_(this.decay);
-    },
     watch: {
-        distance(distance) {
-            this.inst.distance = parseFloat_(distance);
+        distance: {
+            handler(distance) {
+                this.inst.distance = parseFloat_(distance);
+                update(this);
+            },
+            immediate: true
         },
-        decay(decay) {
-            this.inst.decay = parseFloat_(decay);
+        decay: {
+            handler(decay) {
+                this.inst.decay = parseFloat_(decay);
+                update(this);
+            },
+            immediate: true
         }
     }
 };

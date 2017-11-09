@@ -63,3 +63,6 @@ layout: reference
 
 ## Scenes
 * [VglScene](vgl-scene)
+
+## Textures
+* [VglTexture](vgl-texture)

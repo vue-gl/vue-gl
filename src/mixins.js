@@ -1,14 +1,11 @@
-import {parseFloat_, parseInt_} from "./utils.js";
+import {parseFloat_, parseInt_, validatePropString, validatePropNumber, update} from "./utils.js";
 
 export function assetFactory(threeClass, namespace) {
-    return {
+    const t = {
         props: {
-            name: String
+            name: validatePropString
         },
         inject: [namespace],
-        computed: {
-            inst: () => new threeClass()
-        },
         created() {
             this.$set(this[namespace].forSet, this.name, this.inst);
         },
@@ -24,12 +21,14 @@ export function assetFactory(threeClass, namespace) {
             if (this.$slots.default) return h("div", this.$slots.default);
         }
     };
+    if (threeClass) t.computed = {inst: () => new threeClass()};
+    return t;
 }
 
 function hasAssetsMixinFactory(propname, namespace) {
     const computedPropname = propname + "_";
     return {
-        props: {[propname]: String},
+        props: {[propname]: validatePropString},
         inject: [namespace],
         computed: {
             [computedPropname]() {
@@ -37,11 +36,25 @@ function hasAssetsMixinFactory(propname, namespace) {
             }
         },
         mounted() {
-            if (this[computedPropname]) this.inst[propname] = this[computedPropname];
+            const prop = this[computedPropname];
+            if (prop) {
+                this.inst[propname] = prop;
+                prop.addEventListener("update", this.ud);
+            }
+        },
+        methods: {
+            ud() {
+                update(this);
+            }
         },
         watch: {
-            [computedPropname](prop) {
-                this.inst[propname] = prop;
+            [computedPropname](prop, old) {
+                if (prop !== old) {
+                    this.inst[propname] = prop;
+                    if (old) old.removeEventListener("update", this.ud);
+                    if (prop) prop.addEventListener("update", this.ud);
+                    update(this);
+                }
             }
         }
     };
@@ -53,13 +66,11 @@ export function objectMixinFactory(hasGeometry) {
     return {mixins};
 }
 
-const numberValidator = [String, Number];
-
 export function hedronFactory(threeClass) {
     return {
         props: {
-            radius: numberValidator,
-            detail: numberValidator
+            radius: validatePropNumber,
+            detail: validatePropNumber
         },
         computed: {
             inst() {

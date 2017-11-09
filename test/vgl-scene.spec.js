@@ -1,13 +1,20 @@
 describe("VglScene component", function() {
-    const {VglScene, VglNamespace} = VueGL;
+    const {VglScene, VglRenderer} = VueGL;
     const assert = chai.assert;
+    before(function() {
+        this.WebGLRenderer = THREE.WebGLRenderer;
+        THREE.WebGLRenderer = function() {};
+    });
+    after(function() {
+        THREE.WebGLRenderer = this.WebGLRenderer;
+    });
     describe("The instance should be registered to the injected namespace.", function() {
         it("Should be registered when created.", function() {
             const vm = new Vue({
-                template: `<vgl-namespace><vgl-scene name="dm'&^>" ref="me" /><other-component ref="other" /></vgl-namespace>`,
+                template: `<vgl-renderer ref="mr"><vgl-scene name="dm'&^>" ref="me" /><other-component ref="other" /></vgl-renderer>`,
                 components: {
                     VglScene,
-                    VglNamespace,
+                    VglRenderer,
                     OtherComponent: {
                         inject: ["vglScenes"],
                         render() {}
@@ -18,10 +25,10 @@ describe("VglScene component", function() {
         });
         it("Should be unregistered when destroyed.", function(done) {
             const vm = new Vue({
-                template: `<vgl-namespace><vgl-scene name="n<!--" v-if="!destroyed" /><other-component ref="other" /></vgl-namespace>`,
+                template: `<vgl-renderer ref="mr"><vgl-scene name="n<!--" v-if="!destroyed" /><other-component ref="other" /></vgl-renderer>`,
                 components: {
                     VglScene,
-                    VglNamespace,
+                    VglRenderer,
                     OtherComponent: {
                         inject: ["vglScenes"],
                         render() {}
@@ -42,9 +49,9 @@ describe("VglScene component", function() {
         });
         it("Should be replaced when the instance is replaced.", function(done) {
             const vm = new Vue({
-                template: `<vgl-namespace><mixed-in name="'<!--" ref="geo" /><other-component ref="other" /></vgl-namespace>`,
+                template: `<vgl-renderer><mixed-in name="'<!--" ref="geo" /><other-component ref="other" /></vgl-renderer>`,
                 components: {
-                    VglNamespace,
+                    VglRenderer,
                     MixedIn: {
                         mixins: [VglScene],
                         computed: {
