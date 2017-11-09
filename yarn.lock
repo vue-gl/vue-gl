@@ -1993,9 +1993,9 @@ istanbul@^0.4.0, istanbul@^0.4.2:
     which "^1.1.1"
     wordwrap "^1.0.0"
 
-js-polyfills@^0.1.40:
-  version "0.1.40"
-  resolved "https://registry.yarnpkg.com/js-polyfills/-/js-polyfills-0.1.40.tgz#0f2403f9ec96d2e6f6a69006b3024a821fb3fb14"
+js-polyfills@^0.1.41:
+  version "0.1.41"
+  resolved "https://registry.yarnpkg.com/js-polyfills/-/js-polyfills-0.1.41.tgz#00f3f029c3be054cb8854dd2da320660d0433731"
 
 js-tokens@^3.0.0, js-tokens@^3.0.2:
   version "3.0.2"
@@ -3288,9 +3288,9 @@ void-elements@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/void-elements/-/void-elements-2.0.1.tgz#c066afb582bb1cb4128d60ea92392e94d5e9dbec"
 
-vue@^2.5.2:
-  version "2.5.2"
-  resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.2.tgz#fd367a87bae7535e47f9dc5c9ec3b496e5feb5a4"
+vue@^2.5.3:
+  version "2.5.3"
+  resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.3.tgz#e1a3b1f49b6e93e574ce040b95cbc873912fecc1"
 
 walkdir@^0.0.11:
   version "0.0.11"
