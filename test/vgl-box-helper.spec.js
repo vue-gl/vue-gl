@@ -24,26 +24,47 @@ describe("VglBoxHelper component", function() {
         });
         describe("The object to show the bounding box should be the parent object.", function() {
             const {VglObject3d} = VueGL;
-            it("When the parent component is a VglObject3d.", function() {
+            it("When the parent component is a VglObject3d.", function(done) {
                 const vm = new Vue({
                     template: `<vgl-namespace><vgl-object3d ref="target"><vgl-box-helper ref="helper" /></vgl-object3d></vgl-namespace>`,
                     components: {VglObject3d, VglBoxHelper, VglNamespace}
                 }).$mount();
-                assert.strictEqual(vm.$refs.target.inst, vm.$refs.helper.inst.object);
+                vm.$nextTick(() => {
+                    try {
+                        assert.strictEqual(vm.$refs.target.inst, vm.$refs.helper.inst.object);
+                        done();
+                    } catch(e) {
+                        done(e);
+                    }
+                });
             });
-            it("When the parent of the parent component is a VglObject3d.", function() {
+            it("When the parent of the parent component is a VglObject3d.", function(done) {
                 const vm = new Vue({
                     template: `<vgl-object3d ref="target"><vgl-namespace><vgl-box-helper ref="helper" /></vgl-namespace></vgl-object3d>`,
                     components: {VglObject3d, VglBoxHelper, VglNamespace}
                 }).$mount();
-                assert.strictEqual(vm.$refs.target.inst, vm.$refs.helper.inst.object);
+                vm.$nextTick(() => {
+                    try {
+                        assert.strictEqual(vm.$refs.target.inst, vm.$refs.helper.inst.object);
+                        done();
+                    } catch(e) {
+                        done(e);
+                    }
+                });
             });
-            it("When a parent component does not exit.", function() {
+            it("When a parent component does not exit.", function(done) {
                 const vm = new Vue({
                     template: `<vgl-namespace><vgl-box-helper ref="helper" /></vgl-namespace>`,
                     components: {VglBoxHelper, VglNamespace}
                 }).$mount();
-                assert.isUndefined(vm.$refs.helper.inst.object);
+                vm.$nextTick(() => {
+                    try {
+                        assert.isUndefined(vm.$refs.helper.inst.object);
+                        done();
+                    } catch(e) {
+                        done(e);
+                    }
+                });
             });
         });
     });

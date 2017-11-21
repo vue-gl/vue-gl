@@ -1,6 +1,6 @@
 import VglLineSegments from "./vgl-line-segments.js";
 import {BoxHelper} from "./three.js";
-import {validatePropString} from "./utils.js";
+import {validatePropString, findParent} from "./utils.js";
 
 export default {
     mixins: [VglLineSegments],
@@ -15,17 +15,21 @@ export default {
     },
     data() {
         return {
-            uw: null
+            uw: null,
+            r: true
         };
     },
     created() {
         const inst = this.inst;
-        const parent = inst.parent;
-        if (parent) {
-            this.uw = this.$watch(() => parent, (p) => {
-                this.$nextTick(() => {
-                    inst.setFromObject(p);
-                });
+        if (inst.parent) {
+            this.uw = this.$watch(() => inst.parent, () => {
+                if (this.r) {
+                    this.$nextTick(() => {
+                        inst.setFromObject(inst.parent);
+                        this.r = true;
+                    });
+                    this.r = false;
+                }
             }, {immediate: true});
         }
     },
