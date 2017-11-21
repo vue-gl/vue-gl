@@ -1,27 +1,35 @@
 import VglLineSegments from "./vgl-line-segments.js";
 import {BoxHelper} from "./three.js";
-import {findParent} from "./utils.js";
+import {validatePropString, findParent} from "./utils.js";
 
 export default {
     mixins: [VglLineSegments],
     props: {
         color: {
-            type: String,
+            type: validatePropString,
             default: "#ff0"
         }
-    },
-    data() {
-        return {uw: null};
     },
     computed: {
         inst: () => new BoxHelper()
     },
+    data() {
+        return {
+            uw: null,
+            r: true
+        };
+    },
     created() {
-        this.inst.material.color.setStyle(this.color);
-        const $parent = findParent(this, "isVglObject3d");
-        if ($parent) {
-            this.uw = this.$watch(() => $parent.inst, (inst) => {
-                this.inst.setFromObject(inst);
+        const inst = this.inst;
+        if (inst.parent) {
+            this.uw = this.$watch(() => inst.parent, () => {
+                if (this.r) {
+                    this.$nextTick(() => {
+                        inst.setFromObject(inst.parent);
+                        this.r = true;
+                    });
+                    this.r = false;
+                }
             }, {immediate: true});
         }
     },
@@ -29,8 +37,11 @@ export default {
         if (this.uw) this.uw();
     },
     watch: {
-        color(color) {
-            this.inst.material.color.setStyle(color);
+        color: {
+            handler(color) {
+                this.inst.material.color.setStyle(color);
+            },
+            immediate: true
         }
     }
 };
