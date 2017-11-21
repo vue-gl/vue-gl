@@ -21,9 +21,9 @@ See the mixin components below for common properties.
             <vgl-box-helper></vgl-box-helper>
         </vgl-mesh>
         <vgl-ambient-light></vgl-ambient-light>
-        <vgl-directional-light></vgl-directional-light>
+        <vgl-directional-light position="0 1 1"></vgl-directional-light>
     </vgl-scene>
-    <vgl-perspective-camera orbit-position="250 1 0.5"></vgl-perspective-camera>
+    <vgl-perspective-camera orbit-position="5 1 0.5"></vgl-perspective-camera>
 </vgl-renderer>
 ```
 <div class="vgl-example"><iframe class="vgl-example__content" srcdoc="
@@ -44,9 +44,9 @@ See the mixin components below for common properties.
                 <vgl-box-helper></vgl-box-helper>
             </vgl-mesh>
             <vgl-ambient-light></vgl-ambient-light>
-            <vgl-directional-light></vgl-directional-light>
+            <vgl-directional-light position='0 1 1'></vgl-directional-light>
         </vgl-scene>
-        <vgl-perspective-camera orbit-position='250 1 0.5'></vgl-perspective-camera>
+        <vgl-perspective-camera orbit-position='5 1 0.5'></vgl-perspective-camera>
     </vgl-renderer>
     <script src='https://unpkg.com/vue/dist/vue.min.js'></script>
     <script src='https://unpkg.com/three/build/three.min.js'></script>
