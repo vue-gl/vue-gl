@@ -177,6 +177,31 @@ describe("VglLensFlareTexture component", function() {
             vm.$refs.tx2.$watch("inst", watcher);
             vm.$refs.tx1.$watch("inst", watcher);
         });
+        it("When the texture changes to undefined.", function(done) {
+            const vm = new Vue({
+                template: `<vgl-namespace><vgl-texture v-if="defined" src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" name="tx" ref="tx" /><vgl-lens-flare ref="lf"><vgl-lens-flare-texture texture="tx" /></vgl-lens-flare></vgl-namespace>`,
+                components: {VglLensFlare, VglLensFlareTexture, VglTexture, VglNamespace},
+                data: {defined: true}
+            }).$mount();
+            vm.$refs.tx.$watch("inst", () => {
+                vm.$nextTick(() => {
+                    try {
+                        assert.lengthOf(vm.$refs.lf.inst.lensFlares, 1);
+                        vm.defined = false;
+                        vm.$nextTick(() => {
+                            try {
+                                assert.isEmpty(vm.$refs.lf.inst.lensFlares);
+                                done();
+                            } catch(e) {
+                                done(e);
+                            }
+                        });
+                    } catch(e) {
+                        done(e);
+                    }
+                });
+            });
+        });
         it("When the size changes.", function(done) {
             const vm = new Vue({
                 template: `<vgl-namespace><vgl-texture src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" name="tx" ref="tx" /><vgl-lens-flare ref="lf"><vgl-lens-flare-texture texture="tx" :size="size" /></vgl-lens-flare></vgl-namespace>`,

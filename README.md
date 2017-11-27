@@ -116,7 +116,7 @@ When you open the html above in the browser, you'll see below.
 - Objects
   - [ ] **[VglBone](src/vgl-bone.js)** - Corresponding to [THREE.Bone](https://threejs.org/docs/index.html#api/objects/Bone)
   - [x] **[VglGroup](src/vgl-group.js)** - Corresponding to [THREE.Group](https://threejs.org/docs/index.html#api/objects/Group)
-  - [ ] **[VglLensFlare](src/vgl-lens-flare.js)** - Corresponding to [THREE.LensFlare](https://threejs.org/docs/index.html#api/objects/LensFlare)
+  - [x] **[VglLensFlare](src/vgl-lens-flare.js)** - Corresponding to [THREE.LensFlare](https://threejs.org/docs/index.html#api/objects/LensFlare)
   - [x] **[VglLine](src/vgl-line.js)** - Corresponding to [THREE.Line](https://threejs.org/docs/index.html#api/objects/Line)
   - [x] **[VglLineLoop](src/vgl-line-loop.js)** - Corresponding to [THREE.LineLoop](https://threejs.org/docs/index.html#api/objects/LineLoop)
   - [x] **[VglLineSegments](src/vgl-line-segments.js)** - Corresponding to [THREE.LineSegments](https://threejs.org/docs/index.html#api/objects/LineSegments)
@@ -131,6 +131,7 @@ When you open the html above in the browser, you'll see below.
 - Scenes
   - [x] **[VglScene](src/vgl-scene.js)** - Corresponding to [THREE.Scene](https://threejs.org/docs/index.html#api/scenes/Scene)
 - Textures
+  - [x] **[VglLensFlareTexture](src/vgl-lens-flare-texture.js)** - Register a texture and corresponding properties to the VglLensFlare component.
   - [x] **[VglTexture](src/vgl-texture.js)** - Load an image using [THREE.TextureLoader](https://threejs.org/docs/index.html#api/textures/TextureLoader)
 ## Contribution
 Are you interested in enhance this product ?  
