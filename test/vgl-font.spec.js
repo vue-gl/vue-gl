@@ -16,7 +16,7 @@ describe("VglFont component", function() {
             }).$mount();
             assert.isNull(vm.$refs.other.vglFonts.forGet["dm'&^>"]);
         });
-        it("Should be replaced when the image is loaded.", function(done) {
+        it("Should be replaced when the typeface is loaded.", function(done) {
             const vm = new Vue({
                 template: `<vgl-namespace><vgl-font name="'<!--" src="base/node_modules/three/examples/fonts/helvetiker_regular.typeface.json" ref="f" /><other-component ref="other" /></vgl-namespace>`,
                 components: {
