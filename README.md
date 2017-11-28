@@ -48,8 +48,9 @@ When you open the html above in the browser, you'll see below.
   - [x] **[VglOrthographicCamera](src/vgl-orthographic-camera.js)** - Corresponding to [THREE.OrthographicCamera](https://threejs.org/docs/index.html#api/cameras/OrthographicCamera)
   - [x] **[VglPerspectiveCamera](src/vgl-perspective-camera.js)** - Corresponding to [THREE.PerspectiveCamera](https://threejs.org/docs/index.html#api/cameras/PerspectiveCamera)
 - Core
-  - [x] **[VglObject3d](src/vgl-object3d.js)** - Corresponding to [THREE.Object3D](https://threejs.org/docs/index.html#api/core/Object3D)
+  - [x] **[VglFont](src/vgl-font.js)** - Corresponding to [THREE.Font](https://threejs.org/docs/index.html#api/extras/core/Font)
   - [x] **[VglGeometry](src/vgl-geometry.js)** - Corresponding to [THREE.Geometry](https://threejs.org/docs/index.html#api/core/Geometry)
+  - [x] **[VglObject3d](src/vgl-object3d.js)** - Corresponding to [THREE.Object3D](https://threejs.org/docs/index.html#api/core/Object3D)
 - Geometries
   - [x] **[VglBoxGeometry](src/vgl-box-geometry.js)** - Corresponding to [THREE.BoxGeometry](https://threejs.org/docs/index.html#api/geometries/BoxGeometry)
   - [x] **[VglCircleGeometry](src/vgl-circle-geometry.js)** - Corresponding to [THREE.CircleGeometry](https://threejs.org/docs/index.html#api/geometries/CircleGeometry)
