@@ -117,12 +117,12 @@ describe("VglFont component", function() {
                 const req = new XMLHttpRequest();
                 req.addEventListener("load", () => {
                     try {
-                        assert.deepEqual(inst.data, JSON.parse(req.response));
+                        assert.deepEqual(inst.data, JSON.parse(req.responseText));
                         done();
                     } catch(e) {
                         done(e);
                     }
-                });
+                }, false);
                 req.open("GET", "base/node_modules/three/examples/fonts/helvetiker_regular.typeface.json");
                 req.send();
             });
