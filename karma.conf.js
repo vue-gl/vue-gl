@@ -10,7 +10,8 @@ module.exports = (config) => {
             {pattern: "test/index.js", watched: false},
             {pattern: "test/**/*.spec.js"},
             {pattern: require.resolve("three/examples/fonts/helvetiker_regular.typeface.json"), included: false, watched: false},
-            {pattern: require.resolve("three/examples/fonts/helvetiker_bold.typeface.json"), included: false, watched: false}
+            {pattern: require.resolve("three/examples/fonts/helvetiker_bold.typeface.json"), included: false, watched: false},
+            {pattern: "test/sample_texture.png", included: false, watched: false}
         ],
         preprocessors: {
             "test/index.js": ["rollup"],

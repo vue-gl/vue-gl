@@ -108,7 +108,7 @@ describe("VglFont component", function() {
             }).$mount();
             assert.isNull(vm.$refs.f.inst);
         });
-        it("The instance should be loaded from the src property.", function(done) {
+        it("The instance should be loaded from the src property when the src is a normal url.", function(done) {
             const vm = new Vue({
                 template: `<vgl-namespace><vgl-font src="base/node_modules/three/examples/fonts/helvetiker_regular.typeface.json" ref="f" /></vgl-namespace>`,
                 components: {VglNamespace, VglFont}
@@ -126,6 +126,25 @@ describe("VglFont component", function() {
                 req.open("GET", "base/node_modules/three/examples/fonts/helvetiker_regular.typeface.json");
                 req.send();
             });
+        });
+        it("The instance should be loaded from the src property when the src is a data uri.", function(done) {
+            const req = new XMLHttpRequest();
+            req.addEventListener("load", () => {
+                const vm = new Vue({
+                    template: `<vgl-namespace><vgl-font src="data:,${encodeURIComponent(req.responseText)}" ref="f" /></vgl-namespace>`,
+                    components: {VglNamespace, VglFont}
+                }).$mount();
+                vm.$refs.f.$watch("inst", (inst) => {
+                    try {
+                        assert.deepEqual(inst.data, JSON.parse(req.responseText));
+                        done();
+                    } catch(e) {
+                        done(e);
+                    }
+                });
+            }, false);
+            req.open("GET", "base/node_modules/three/examples/fonts/helvetiker_regular.typeface.json");
+            req.send();
         });
     });
     describe("Watching properties", function() {
