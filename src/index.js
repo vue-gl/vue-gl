@@ -41,6 +41,9 @@ import VglSpotLight from "./vgl-spot-light.js";
 import VglTexture from "./vgl-texture.js";
 import VglLensFlare from "./vgl-lens-flare.js";
 import VglLensFlareTexture from "./vgl-lens-flare-texture.js";
+import VglFont from "./vgl-font.js";
+import VglExtrudeGeometry from "./vgl-extrude-geometry.js";
+import VglTextGeometry from "./vgl-text-geometry.js";
 
 export {
     VglNamespace,
@@ -85,5 +88,8 @@ export {
     VglSpotLight,
     VglTexture,
     VglLensFlare,
-    VglLensFlareTexture
+    VglLensFlareTexture,
+    VglFont,
+    VglExtrudeGeometry,
+    VglTextGeometry
 };

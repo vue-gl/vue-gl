@@ -4,7 +4,7 @@
  * Returns a parsed euler object when the argument is a string. Othewise pass the argument through.
  */function d(a,c){return'string'==typeof a?(c||new b.Euler).fromArray(a.trim().split(/\s+/).map(function(a,b){return 3===b?a:parseFloat(a)})):c?c.copy(a):a}/**
  * Returns a parsed spherical object when the argument is a string. Otherwise pass the argument through.
- */function e(a,c){var d;return'string'==typeof a?(d=c||new b.Spherical).set.apply(d,z(a.trim().split(/\s+/).map(function(a){return parseFloat(a)}))).makeSafe():c?c.copy(a):a}/**
+ */function e(a,c){var d;return'string'==typeof a?(d=c||new b.Spherical).set.apply(d,A(a.trim().split(/\s+/).map(function(a){return parseFloat(a)}))).makeSafe():c?c.copy(a):a}/**
  * Returns a parsed integer number when the argument is a string. Otherwise pass the argument through.
  */function f(a){return'string'==typeof a?parseInt(a,10):a}/**
  * Returns a parsed float number when the argument is a string. Otherwise pass the argument through.

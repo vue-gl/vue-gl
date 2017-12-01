@@ -43,11 +43,11 @@
     "karma-rollup-preprocessor": "^5.0.2",
     "karma-sauce-launcher": "^1.2.0",
     "mocha": "^4.0.1",
-    "rollup": "^0.51.8",
+    "rollup": "^0.52.0",
     "rollup-plugin-babel": "^3.0.2",
     "rollup-plugin-babel-minify": "^3.1.2",
     "rollup-plugin-istanbul": "^1.1.0",
-    "vue": "^2.5.8"
+    "vue": "^2.5.9"
   },
   "peerDependencies": {
     "vue": "^2.5.0"

@@ -8,7 +8,8 @@ const globalNamespaces = [
 const localNamespaces = [
     "vglGeometries",
     "vglMaterials",
-    "vglTextures"
+    "vglTextures",
+    "vglFonts"
 ];
 
 const namespaces = [...globalNamespaces, ...localNamespaces];

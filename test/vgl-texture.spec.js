@@ -104,7 +104,7 @@ describe("VglTexture component", function() {
             }).$mount();
             assert.isNull(vm.$refs.tex.inst);
         });
-        it("The instance should be loaded from the src property.", function(done) {
+        it("The instance should be loaded from the src property when the src is a data uri.", function(done) {
             const vm = new Vue({
                 template: `<vgl-namespace><vgl-texture src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" ref="tex" /></vgl-namespace>`,
                 components: {VglNamespace, VglTexture}
@@ -112,6 +112,25 @@ describe("VglTexture component", function() {
             vm.$refs.tex.$watch("inst", (inst) => {
                 try {
                     assert.strictEqual(inst.image.src, "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7");
+                    done();
+                } catch(e) {
+                    done(e);
+                }
+            });
+        });
+        it("The instance should be loaded from the src property when the src is a normal url.", function(done) {
+            const vm = new Vue({
+                template: `<vgl-namespace><vgl-texture src="base/test/sample_texture.png" ref="tex" /></vgl-namespace>`,
+                components: {VglNamespace, VglTexture}
+            }).$mount();
+            vm.$refs.tex.$watch("inst", (inst) => {
+                try {
+                    const a = document.createElement("a");
+                    a.href = inst.image.src;
+                    const actual = a.href;
+                    a.href = "base/test/sample_texture.png";
+                    const expected = a.href;
+                    assert.strictEqual(actual, expected);
                     done();
                 } catch(e) {
                     done(e);
