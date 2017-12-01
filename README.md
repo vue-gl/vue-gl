@@ -69,7 +69,7 @@ When you open the html above in the browser, you'll see below.
   - [ ] **[VglShapeGeometry](src/vgl-shape-geometry.js)** - Corresponding to [THREE.ShapeGeometry](https://threejs.org/docs/index.html#api/geometries/ShapeGeometry)
   - [x] **[VglSphereGeometry](src/vgl-sphere-geometry.js)** - Corresponding to [THREE.SphereGeometry](https://threejs.org/docs/index.html#api/geometries/SphereGeometry)
   - [x] **[VglTetrahedronGeometry](src/vgl-tetrahedron-geometry.js)** - Corresponding to [THREE.TetrahedronGeometry](https://threejs.org/docs/index.html#api/geometries/TetrahedronGeometry)
-  - [x] **[VglTextGeometry](src/vgl-text-geometry.js)** - Corresponding to [THREE.TextGeometry](https://threejs.org/docs/index.html#api/geometries/TextGeometry)
+  - [x] **[VglTextGeometry](src/vgl-text-geometry.js)** - Corresponding to [THREE.TextGeometry](https://threejs.org/docs/index.html#api/geometries/TextGeometry)
   - [x] **[VglTorusGeometry](src/vgl-torus-geometry.js)** - Corresponding to [THREE.TorusGeometry](https://threejs.org/docs/index.html#api/geometries/TorusGeometry)
   - [x] **[VglTorusKnotGeometry](src/vgl-torus-knot-geometry.js)** - Corresponding to [THREE.TorusKnotGeometry](https://threejs.org/docs/index.html#api/geometries/TorusKnotGeometry)
   - [ ] **[VglTubeGeometry](src/vgl-tube-geometry.js)** - Corresponding to [THREE.TubeGeometry](https://threejs.org/docs/index.html#api/geometries/TubeGeometry)
