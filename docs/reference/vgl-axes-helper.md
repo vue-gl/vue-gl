@@ -1,9 +1,9 @@
 ---
 layout: reference
 ---
-{% include breadcrumbs/helpers.md %} &gt; VglAxisHelper
-# VglAxisHelper `<vgl-axis-helper>`
-An axis object to visualize the the 3 axes in a simple way, corresponding [THREE.AxisHelper](https://threejs.org/docs/index.html#api/helpers/AxisHelper). The X axis is red. The Y axis is green. The Z axis is blue.
+{% include breadcrumbs/helpers.md %} &gt; VglAxesHelper
+# VglAxesHelper `<vgl-axes-helper>`
+An axis object to visualize the the 3 axes in a simple way, corresponding [THREE.AxesHelper](https://threejs.org/docs/index.html#api/helpers/AxesHelper). The X axis is red. The Y axis is green. The Z axis is blue.
 ## Mixins
 See the mixin components below for common properties.
 * [VglLineSegments](vgl-line-segments)
@@ -15,7 +15,7 @@ See the mixin components below for common properties.
 ```html
 <vgl-renderer antialias style="width: 300px; height: 150px;">
     <vgl-scene>
-        <vgl-axis-helper></vgl-axis-helper>
+        <vgl-axes-helper></vgl-axes-helper>
     </vgl-scene>
     <vgl-perspective-camera orbit-position="3 1 0.5"></vgl-perspective-camera>
 </vgl-renderer>
@@ -32,7 +32,7 @@ See the mixin components below for common properties.
     </style>
     <vgl-renderer antialias class='vgl-canvas'>
         <vgl-scene>
-            <vgl-axis-helper></vgl-axis-helper>
+            <vgl-axes-helper></vgl-axes-helper>
         </vgl-scene>
         <vgl-perspective-camera orbit-position='3 1 0.5'></vgl-perspective-camera>
     </vgl-renderer>

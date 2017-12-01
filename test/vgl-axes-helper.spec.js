@@ -1,12 +1,12 @@
-describe("VglAxisHelper component", function() {
-    const {VglAxisHelper, VglNamespace} = VueGL;
+describe("VglAxesHelper component", function() {
+    const {VglAxesHelper, VglNamespace} = VueGL;
     const assert = chai.assert;
     describe("Creating an object", function() {
         describe("The size of axes should be same as the size property.", function() {
             it("When the property is a number", function() {
                 const vm = new Vue({
-                    template: `<vgl-namespace><vgl-axis-helper :size="3.8" ref="helper" /></vgl-namespace>`,
-                    components: {VglAxisHelper, VglNamespace}
+                    template: `<vgl-namespace><vgl-axes-helper :size="3.8" ref="helper" /></vgl-namespace>`,
+                    components: {VglAxesHelper, VglNamespace}
                 }).$mount();
                 vm.$refs.helper.inst.geometry.computeBoundingBox();
                 const size = vm.$refs.helper.inst.geometry.boundingBox.getSize();
@@ -16,8 +16,8 @@ describe("VglAxisHelper component", function() {
             });
             it("When the property is a string", function() {
                 const vm = new Vue({
-                    template: `<vgl-namespace><vgl-axis-helper size="4.3" ref="helper" /></vgl-namespace>`,
-                    components: {VglAxisHelper, VglNamespace}
+                    template: `<vgl-namespace><vgl-axes-helper size="4.3" ref="helper" /></vgl-namespace>`,
+                    components: {VglAxesHelper, VglNamespace}
                 }).$mount();
                 vm.$refs.helper.inst.geometry.computeBoundingBox();
                 const size = vm.$refs.helper.inst.geometry.boundingBox.getSize();
@@ -27,8 +27,8 @@ describe("VglAxisHelper component", function() {
             });
             it("When the property is undefined", function() {
                 const vm = new Vue({
-                    template: `<vgl-namespace><vgl-axis-helper ref="helper" /></vgl-namespace>`,
-                    components: {VglAxisHelper, VglNamespace}
+                    template: `<vgl-namespace><vgl-axes-helper ref="helper" /></vgl-namespace>`,
+                    components: {VglAxesHelper, VglNamespace}
                 }).$mount();
                 vm.$refs.helper.inst.geometry.computeBoundingBox();
                 const size = vm.$refs.helper.inst.geometry.boundingBox.getSize();
@@ -41,8 +41,8 @@ describe("VglAxisHelper component", function() {
     describe("Watching properties", function() {
         it("The instance should be recreated when a property changes.", function(done) {
             const vm = new Vue({
-                template: `<vgl-namespace><vgl-axis-helper :size="size" ref="helper" /></vgl-namespace>`,
-                components: {VglAxisHelper, VglNamespace},
+                template: `<vgl-namespace><vgl-axes-helper :size="size" ref="helper" /></vgl-namespace>`,
+                components: {VglAxesHelper, VglNamespace},
                 data: {size: 1.1}
             }).$mount();
             const before = vm.$refs.helper.inst;

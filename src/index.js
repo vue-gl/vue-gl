@@ -23,7 +23,7 @@ import VglCircleGeometry from "./vgl-circle-geometry.js";
 import VglLineSegments from "./vgl-line-segments.js";
 import VglLineLoop from "./vgl-line-loop.js";
 import VglConeGeometry from "./vgl-cone-geometry.js";
-import VglAxisHelper from "./vgl-axis-helper.js";
+import VglAxesHelper from "./vgl-axes-helper.js";
 import VglOrthographicCamera from "./vgl-orthographic-camera.js";
 import VglCylinderGeometry from "./vgl-cylinder-geometry.js";
 import VglPlaneGeometry from "./vgl-plane-geometry.js";
@@ -68,7 +68,7 @@ export {
     VglLineSegments,
     VglLineLoop,
     VglConeGeometry,
-    VglAxisHelper,
+    VglAxesHelper,
     VglOrthographicCamera,
     VglCylinderGeometry,
     VglPlaneGeometry,

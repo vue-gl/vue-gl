@@ -33,7 +33,7 @@ layout: reference
 
 ## Helpers
 * [VglArrowHelper](vgl-arrow-helper)
-* [VglAxisHelper](vgl-axis-helper)
+* [VglAxesHelper](vgl-axes-helper)
 * [VglBoxHelper](vgl-box-helper)
 
 ## Lights

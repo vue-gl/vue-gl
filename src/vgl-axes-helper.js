@@ -1,5 +1,5 @@
 import VglLineSegments from "./vgl-line-segments.js";
-import {AxisHelper} from "./three.js";
+import {AxesHelper} from "./three.js";
 import {parseFloat_} from "./utils.js";
 
 export default {
@@ -7,7 +7,7 @@ export default {
     props: {size: [String, Number]},
     computed: {
         inst() {
-            return new AxisHelper(parseFloat_(this.size));
+            return new AxesHelper(parseFloat_(this.size));
         }
     }
 };
