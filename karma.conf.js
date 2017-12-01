@@ -8,16 +8,14 @@ module.exports = (config) => {
             {pattern: require.resolve("js-polyfills/typedarray.js"), watched: false},
             {pattern: require.resolve("three"), watched: false},
             {pattern: "test/index.js", watched: false},
-            {pattern: "test/**/*.spec.js"}
+            {pattern: "test/**/*.spec.js"},
+            {pattern: require.resolve("three/examples/fonts/helvetiker_regular.typeface.json"), included: false, watched: false},
+            {pattern: require.resolve("three/examples/fonts/helvetiker_bold.typeface.json"), included: false, watched: false},
+            {pattern: "test/sample_texture.png", included: false, watched: false}
         ],
         preprocessors: {
             "test/index.js": ["rollup"],
             "test/**/*.spec.js": ["babel"]
-        },
-        client: {
-            mocha: {
-                timeout: 10000
-            }
         },
         rollupPreprocessor: {
             format: "iife",
@@ -38,11 +36,16 @@ module.exports = (config) => {
     };
     
     if (process.env.CI) {
-        options.reporters= ["saucelabs", "coverage", "junit"];
+        options.reporters= ["saucelabs", "coverage", "junit", "dots"];
         options.junitReporter = {outputDir: "junit"};
         options.coverageReporter = {type: "lcovonly", dir: "coverage"};
         options.browserNoActivityTimeout = 30000;
         options.browserDisconnectTolerance = 2;
+        options.client = {
+            mocha: {
+                timeout: 20000
+            }
+        };
         options.sauceLabs = {
             testName: "VueGL unit test",
             recordScreenshots: false,
