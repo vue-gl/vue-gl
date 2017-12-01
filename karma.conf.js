@@ -41,11 +41,6 @@ module.exports = (config) => {
         options.coverageReporter = {type: "lcovonly", dir: "coverage"};
         options.browserNoActivityTimeout = 30000;
         options.browserDisconnectTolerance = 2;
-        options.client = {
-            mocha: {
-                timeout: 20000
-            }
-        };
         options.sauceLabs = {
             testName: "VueGL unit test",
             recordScreenshots: false,
