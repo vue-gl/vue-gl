@@ -41,7 +41,7 @@ module.exports = (config) => {
     };
     
     if (process.env.CI) {
-        options.reporters= ["saucelabs", "coverage", "junit"];
+        options.reporters= ["saucelabs", "coverage", "junit", "dots"];
         options.junitReporter = {outputDir: "junit"};
         options.coverageReporter = {type: "lcovonly", dir: "coverage"};
         options.browserNoActivityTimeout = 30000;
