@@ -43,7 +43,7 @@ Then, the following code will render a sphere on the canvas.
         <vgl-ambient-light color="#ffeecc"></vgl-ambient-light>
         <vgl-directional-light position="0 1 1"></vgl-directional-light>
     </vgl-scene>
-    <vgl-perspective-camera orbit-position="200 1 1;"></vgl-perspective-camera>
+    <vgl-perspective-camera orbit-position="5 1 1;"></vgl-perspective-camera>
 </vgl-renderer>
 <script>
     new Vue({
@@ -69,7 +69,7 @@ Then, the following code will render a sphere on the canvas.
             <vgl-ambient-light color='#ffeecc'></vgl-ambient-light>
             <vgl-directional-light position='0 1 1'></vgl-directional-light>
         </vgl-scene>
-        <vgl-perspective-camera orbit-position='200 1 1'></vgl-perspective-camera>
+        <vgl-perspective-camera orbit-position='5 1 1'></vgl-perspective-camera>
     </vgl-renderer>
     <script src='https://unpkg.com/vue/dist/vue.min.js'></script>
     <script src='https://unpkg.com/three/build/three.js'></script>
@@ -92,7 +92,7 @@ It works with the reactive data bindings of Vue.js. Follwing code uses [form inp
             <vgl-sphere-geometry name="sphere" radius=25></vgl-sphere-geometry>
             <vgl-mesh-standard-material name="std"></vgl-mesh-standard-material>
             <vgl-mesh geometry="sphere" material="std" :position="`${x} ${y} ${z}`"></vgl-mesh>
-            <vgl-axis-helper size=140></vgl-axis-helper>
+            <vgl-axes-helper size=140></vgl-axes-helper>
             <vgl-ambient-light color="#ffeecc"></vgl-ambient-light>
             <vgl-directional-light position="0 1 1"></vgl-directional-light>
         </vgl-scene>
@@ -136,7 +136,7 @@ It works with the reactive data bindings of Vue.js. Follwing code uses [form inp
             <vgl-scene>
                 <vgl-sphere-geometry name='sphere' radius=25></vgl-sphere-geometry>
                 <vgl-mesh-standard-material name='std'></vgl-mesh-standard-material>
-                <vgl-axis-helper size=140></vgl-axis-helper>
+                <vgl-axes-helper size=140></vgl-axes-helper>
                 <vgl-mesh geometry='sphere' material='std' :position='`${x} ${y} ${z}`'></vgl-mesh>
                 <vgl-ambient-light color='#ffeecc'></vgl-ambient-light>
                 <vgl-directional-light position='0 1 1'></vgl-directional-light>
