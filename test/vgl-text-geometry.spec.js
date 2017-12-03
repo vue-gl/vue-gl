@@ -1,7 +1,7 @@
 describe("VglTextGeometry component", function() {
     const {VglTextGeometry, VglNamespace, VglFont} = VueGL;
     const assert = chai.assert;
-    this.timeout(7000);
+    this.timeout(7500);
     describe("Parameters of a instance should be same as the component properties.", function() {
         it("When properties are number.", function(done) {
             const vm = new Vue({
