@@ -1,6 +1,12 @@
 describe("VglTextGeometry component", function() {
     const {VglTextGeometry, VglNamespace, VglFont} = VueGL;
     const assert = chai.assert;
+    before(function() {
+        // Cache typefaces.
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", "base/test/helvetiker_regular.typeface.json", true);
+        xhr.send();
+    });
     describe("Parameters of a instance should be same as the component properties.", function() {
         it("When properties are number.", function(done) {
             const vm = new Vue({
