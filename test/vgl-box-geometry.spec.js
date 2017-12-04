@@ -16,15 +16,15 @@ describe("VglBoxGeometry component", function() {
         });
         it("When properties are string.", function() {
             const vm = new Vue({
-                template: `<vgl-namespace><vgl-box-geometry ref="geo" width="100" height="60" depth="80" widthSegments="20" heightSegments="30" depthSegments="60" /></vgl-namespace>`,
+                template: `<vgl-namespace><vgl-box-geometry ref="geo" width="100" height="60" depth="80" widthSegments="3" heightSegments="4" depthSegments="7" /></vgl-namespace>`,
                 components: {VglBoxGeometry, VglNamespace}
             }).$mount();
             assert.strictEqual(vm.$refs.geo.inst.parameters.width, 100);
             assert.strictEqual(vm.$refs.geo.inst.parameters.height, 60);
             assert.strictEqual(vm.$refs.geo.inst.parameters.depth, 80);
-            assert.strictEqual(vm.$refs.geo.inst.parameters.widthSegments, 20);
-            assert.strictEqual(vm.$refs.geo.inst.parameters.heightSegments, 30);
-            assert.strictEqual(vm.$refs.geo.inst.parameters.depthSegments, 60);
+            assert.strictEqual(vm.$refs.geo.inst.parameters.widthSegments, 3);
+            assert.strictEqual(vm.$refs.geo.inst.parameters.heightSegments, 4);
+            assert.strictEqual(vm.$refs.geo.inst.parameters.depthSegments, 7);
         });
         it("When segment numbers are undefined.", function() {
             const vm = new Vue({

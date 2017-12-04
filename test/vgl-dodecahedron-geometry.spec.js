@@ -12,11 +12,11 @@ describe("VglDodecahedronGeometry component", function() {
         });
         it("When properties are string.", function() {
             const vm = new Vue({
-                template: `<vgl-namespace><vgl-dodecahedron-geometry ref="geo" radius="1.11" detail="3" /></vgl-namespace>`,
+                template: `<vgl-namespace><vgl-dodecahedron-geometry ref="geo" radius="1.11" detail="2" /></vgl-namespace>`,
                 components: {VglDodecahedronGeometry, VglNamespace}
             }).$mount();
             assert.strictEqual(vm.$refs.geo.inst.parameters.radius, 1.11);
-            assert.strictEqual(vm.$refs.geo.inst.parameters.detail, 3);
+            assert.strictEqual(vm.$refs.geo.inst.parameters.detail, 2);
         });
         it("When properties are undefined.", function() {
             const vm = new Vue({

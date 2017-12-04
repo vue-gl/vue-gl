@@ -5,12 +5,13 @@ module.exports = (config) => {
         files: [
             {pattern: require.resolve("chai/chai"), watched: false},
             {pattern: require.resolve("vue/dist/vue"), watched: false},
+            "https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame",
             {pattern: require.resolve("js-polyfills/typedarray.js"), watched: false},
             {pattern: require.resolve("three"), watched: false},
             {pattern: "test/index.js", watched: false},
             {pattern: "test/**/*.spec.js"},
-            {pattern: require.resolve("three/examples/fonts/helvetiker_regular.typeface.json"), included: false, watched: false},
-            {pattern: require.resolve("three/examples/fonts/helvetiker_bold.typeface.json"), included: false, watched: false},
+            {pattern: "test/helvetiker_regular.typeface.json", included: false, watched: false},
+            {pattern: "test/helvetiker_bold.typeface.json", included: false, watched: false},
             {pattern: "test/sample_texture.png", included: false, watched: false}
         ],
         preprocessors: {
@@ -41,11 +42,6 @@ module.exports = (config) => {
         options.coverageReporter = {type: "lcovonly", dir: "coverage"};
         options.browserNoActivityTimeout = 30000;
         options.browserDisconnectTolerance = 2;
-        options.client = {
-            mocha: {
-                timeout: 20000
-            }
-        };
         options.sauceLabs = {
             testName: "VueGL unit test",
             recordScreenshots: false,
