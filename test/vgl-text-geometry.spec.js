@@ -1,6 +1,7 @@
 describe("VglTextGeometry component", function() {
     const {VglTextGeometry, VglNamespace, VglFont} = VueGL;
     const assert = chai.assert;
+    this.timeout(5000);
     before(function(done) {
         const xhr = new XMLHttpRequest();
         xhr.addEventListener("load", () => {
@@ -13,13 +14,13 @@ describe("VglTextGeometry component", function() {
     describe("Parameters of a instance should be same as the component properties.", function() {
         it("When properties are number.", function(done) {
             const vm = new Vue({
-                template: `<vgl-namespace><vgl-font ref="font" name="font" src="${this.typeface}" /><vgl-text-geometry ref="geo" font="font" :size="10" :height="6" :curve-segments="8" :bevel-enabled="true" :bevel-thickness="3" :bevel-size="6" :bevel-segments="2">a</vgl-text-geometry></vgl-namespace>`,
+                template: `<vgl-namespace><vgl-font ref="font" name="font" src="${this.typeface}" /><vgl-text-geometry ref="geo" font="font" :size="120" :height="6" :curve-segments="8" :bevel-enabled="true" :bevel-thickness="3" :bevel-size="6" :bevel-segments="2">a</vgl-text-geometry></vgl-namespace>`,
                 components: {VglTextGeometry, VglNamespace, VglFont}
             }).$mount();
             vm.$refs.font.$watch("inst", () => {
                 vm.$nextTick(() => {
                     try {
-                        assert.strictEqual(vm.$refs.geo.inst.parameters.parameters.size, 10);
+                        assert.strictEqual(vm.$refs.geo.inst.parameters.parameters.size, 120);
                         assert.strictEqual(vm.$refs.geo.inst.parameters.parameters.height, 6);
                         assert.strictEqual(vm.$refs.geo.inst.parameters.parameters.curveSegments, 8);
                         assert.isTrue(vm.$refs.geo.inst.parameters.parameters.bevelEnabled);
@@ -35,13 +36,13 @@ describe("VglTextGeometry component", function() {
         });
         it("When properties are string.", function(done) {
             const vm = new Vue({
-                template: `<vgl-namespace><vgl-font ref="font" name="font" src="${this.typeface}" /><vgl-text-geometry ref="geo" font="font" size="10" height="6" curve-segments="8" bevel-enabled bevel-thickness="3" bevel-size="6" bevel-segments="2">a</vgl-text-geometry></vgl-namespace>`,
+                template: `<vgl-namespace><vgl-font ref="font" name="font" src="${this.typeface}" /><vgl-text-geometry ref="geo" font="font" size="110" height="6" curve-segments="8" bevel-enabled bevel-thickness="3" bevel-size="6" bevel-segments="2">a</vgl-text-geometry></vgl-namespace>`,
                 components: {VglTextGeometry, VglNamespace, VglFont}
             }).$mount();
             vm.$refs.font.$watch("inst", () => {
                 vm.$nextTick(() => {
                     try {
-                        assert.strictEqual(vm.$refs.geo.inst.parameters.parameters.size, 10);
+                        assert.strictEqual(vm.$refs.geo.inst.parameters.parameters.size, 110);
                         assert.strictEqual(vm.$refs.geo.inst.parameters.parameters.height, 6);
                         assert.strictEqual(vm.$refs.geo.inst.parameters.parameters.curveSegments, 8);
                         assert.isTrue(vm.$refs.geo.inst.parameters.parameters.bevelEnabled);
