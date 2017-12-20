@@ -45,6 +45,7 @@ import VglFont from "./vgl-font.js";
 import VglExtrudeGeometry from "./vgl-extrude-geometry.js";
 import VglTextGeometry from "./vgl-text-geometry.js";
 import VglSpriteMaterial from "./vgl-sprite-material.js";
+import VglGridHelper from "./vgl-grid-helper.js";
 
 export {
     VglNamespace,
@@ -93,5 +94,6 @@ export {
     VglFont,
     VglExtrudeGeometry,
     VglTextGeometry,
-    VglSpriteMaterial
+    VglSpriteMaterial,
+    VglGridHelper
 };
