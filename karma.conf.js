@@ -186,155 +186,155 @@ module.exports = (config) => {
                     base: "BrowserStack",
                     os: "Windows",
                     os_version: "7",
-                    browserName: "chrome",
-                    version: "26"
+                    browser: "chrome",
+                    browser_version: "26"
                 },
                 "Chrome (latest) on Windows 7": {
                     base: "BrowserStack",
                     os: "Windows",
                     os_version: "7",
-                    browserName: "chrome",
-                    version: "latest"
+                    browser: "chrome",
+                    browser_version: "latest"
                 },
                 "Internet Explorer 9 on Windows 7": {
                     base: "BrowserStack",
                     os: "Windows",
                     os_version: "7",
-                    browserName: "internet explorer",
-                    version: "9"
+                    browser: "internet explorer",
+                    browser_version: "9"
                 },
                 "Internet Explorer (latest) on Windows 7": {
                     base: "BrowserStack",
                     os: "Windows",
                     os_version: "7",
-                    browserName: "internet explorer",
-                    version: "latest"
+                    browser: "internet explorer",
+                    browser_version: "latest"
                 },
                 "Firefox 4 on Windows 7": {
                     base: "BrowserStack",
                     os: "Windows",
                     os_version: "7",
-                    browserName: "firefox",
-                    version: "4"
+                    browser: "firefox",
+                    browser_version: "4"
                 },
                 "Firefox (latest) on Windows 7": {
                     base: "BrowserStack",
                     os: "Windows",
                     os_version: "7",
-                    browserName: "firefox",
-                    version: "latest"
+                    browser: "firefox",
+                    browser_version: "latest"
                 },
                 "Edge 13 on Windows 10": {
                     base: "BrowserStack",
                     os: "Windows",
                     os_version: "10",
-                    browserName: "MicrosoftEdge",
-                    version: "13"
+                    browser: "MicrosoftEdge",
+                    browser_version: "13"
                 },
                 "Edge (latest) on Windows 10": {
                     base: "BrowserStack",
                     os: "Windows",
                     os_version: "10",
-                    browserName: "MicrosoftEdge",
-                    version: "latest"
+                    browser: "MicrosoftEdge",
+                    browser_version: "latest"
                 },
                 "Chrome 26 on Windows 10": {
                     base: "BrowserStack",
                     os: "Windows",
                     os_version: "10",
-                    browserName: "chrome",
-                    version: "26"
+                    browser: "chrome",
+                    browser_version: "26"
                 },
                 "Chrome (latest) on Windows 10": {
                     base: "BrowserStack",
                     os: "Windows",
                     os_version: "10",
-                    browserName: "chrome",
-                    version: "latest"
+                    browser: "chrome",
+                    browser_version: "latest"
                 },
                 "Firefox 4 on Windows 10": {
                     base: "BrowserStack",
                     os: "Windows",
                     os_version: "10",
-                    browserName: "firefox",
-                    version: "4"
+                    browser: "firefox",
+                    browser_version: "4"
                 },
                 "Firefox (latest) on Windows 10": {
                     base: "BrowserStack",
                     os: "Windows",
                     os_version: "10",
-                    browserName: "firefox",
-                    version: "latest"
+                    browser: "firefox",
+                    browser_version: "latest"
                 },
                 "Internet Explorer (latest) on Windows 10": {
                     base: "BrowserStack",
                     os: "Windows",
                     os_version: "10",
-                    browserName: "internet explorer",
-                    version: "latest"
+                    browser: "internet explorer",
+                    browser_version: "latest"
                 },
                 "Safari (latest) on Mac OS X High Sierra": {
                     base: "BrowserStack",
                     os: "OS X",
                     os_version: "High Sierra",
-                    browserName: "safari",
-                    version: "latest"
+                    browser: "safari",
+                    browser_version: "latest"
                 },
                 "Chrome (latest) on Mac OS X High Sierra": {
                     base: "BrowserStack",
                     os: "OS X",
                     os_version: "High Sierra",
-                    browserName: "chrome",
-                    version: "latest"
+                    browser: "chrome",
+                    browser_version: "latest"
                 },
                 "Chrome 27 on Mac OS X High Sierra": {
                     base: "BrowserStack",
                     os: "OS X",
                     os_version: "High Sierra",
-                    browserName: "chrome",
-                    version: "27"
+                    browser: "chrome",
+                    browser_version: "27"
                 },
                 "Firefox (latest) on Mac OS X High Sierra": {
                     base: "BrowserStack",
                     os: "OS X",
                     os_version: "High Sierra",
-                    browserName: "firefox",
-                    version: "latest"
+                    browser: "firefox",
+                    browser_version: "latest"
                 },
                 "Firefox 4 on Mac OS X High Sierra": {
                     base: "BrowserStack",
                     os: "OS X",
                     os_version: "High Sierra",
-                    browserName: "firefox",
-                    version: "4"
+                    browser: "firefox",
+                    browser_version: "4"
                 },
                 "Safari 10 on Mac OS X Sierra": {
                     base: "BrowserStack",
                     os: "OS X",
                     os_version: "Sierra",
-                    browserName: "safari",
-                    version: "10"
+                    browser: "safari",
+                    browser_version: "10"
                 },
                 "Safari 9 on Mac OS X El Capitan": {
                     base: "BrowserStack",
                     os: "OS X",
                     os_version: "El Capitan",
-                    browserName: "safari",
-                    version: "9"
+                    browser: "safari",
+                    browser_version: "9"
                 },
                 "Safari 8 on Mac OS X Yosemite": {
                     base: "BrowserStack",
                     os: "OS X",
                     os_version: "Yosemite",
-                    browserName: "safari",
-                    version: "8"
+                    browser: "safari",
+                    browser_version: "8"
                 },
                 "Safari 7 on Mac OS X Mavericks": {
                     base: "BrowserStack",
                     os: "OS X",
                     os_version: "Mavericks",
-                    browserName: "safari",
-                    version: "7"
+                    browser: "safari",
+                    browser_version: "7"
                 }
             };
         }
