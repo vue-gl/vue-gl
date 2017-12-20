@@ -68,3 +68,10 @@ export const validatePropString = String;
 export function update(vm) {
     if (vm.vglUpdate) vm.vglUpdate();
 }
+
+/**
+ * Dispatch an update event on the instance of a component.
+ */
+export function dispatchUpdate(vm) {
+    vm.inst.dispatchEvent({type: "update"});
+}

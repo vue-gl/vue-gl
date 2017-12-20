@@ -113,7 +113,7 @@ When you open the html above in the browser, you'll see below.
   - [ ] **[VglRawShaderMaterial](src/vgl-raw-shader-material.js)** - Corresponding to [THREE.RawShaderMaterial](https://threejs.org/docs/index.html#api/materials/RawShaderMaterial)
   - [ ] **[VglShaderMaterial](src/vgl-shader-material.js)** - Corresponding to [THREE.ShaderMaterial](https://threejs.org/docs/index.html#api/materials/ShaderMaterial)
   - [ ] **[VglShadowMaterial](src/vgl-shadow-material.js)** - Corresponding to [THREE.ShadowMaterial](https://threejs.org/docs/index.html#api/materials/ShadowMaterial)
-  - [ ] **[VglSpriteMaterial](src/vgl-sprite-material.js)** - Corresponding to [THREE.SpriteMaterial](https://threejs.org/docs/index.html#api/materials/SpriteMaterial)
+  - [x] **[VglSpriteMaterial](src/vgl-sprite-material.js)** - Corresponding to [THREE.SpriteMaterial](https://threejs.org/docs/index.html#api/materials/SpriteMaterial)
 - Objects
   - [ ] **[VglBone](src/vgl-bone.js)** - Corresponding to [THREE.Bone](https://threejs.org/docs/index.html#api/objects/Bone)
   - [x] **[VglGroup](src/vgl-group.js)** - Corresponding to [THREE.Group](https://threejs.org/docs/index.html#api/objects/Group)

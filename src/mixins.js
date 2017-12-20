@@ -1,4 +1,4 @@
-import {parseFloat_, parseInt_, validatePropString, validatePropNumber, update} from "./utils.js";
+import {parseFloat_, parseInt_, validatePropString, validatePropNumber, update, dispatchUpdate} from "./utils.js";
 
 export function assetFactory(threeClass, namespace) {
     const t = {
@@ -79,3 +79,45 @@ export function hedronFactory(threeClass) {
         }
     };
 }
+
+export function hasColorFactory(defaultColor) {
+    return {
+        props: {
+            color: {
+                type: validatePropString,
+                default: defaultColor
+            }
+        },
+        watch: {
+            color: {
+                handler(color) {
+                    this.inst.color.setStyle(color);
+                    dispatchUpdate(this);
+                },
+                immediate: true
+            }
+        }
+    };
+}
+
+export let hasMap = {
+    props: {
+        map: validatePropString
+    },
+    inject: ["vglTextures"],
+    computed: {
+        tex() {
+            return this.vglTextures.forGet[this.map] || null;
+        }
+    },
+    watch: {
+        tex: {
+            handler(texture, before) {
+                this.inst.map = texture;
+                if (!before) this.inst.needsUpdate = true;
+                dispatchUpdate(this);
+            },
+            immediate: true
+        }
+    }
+};
