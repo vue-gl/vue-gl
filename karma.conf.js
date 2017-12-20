@@ -200,14 +200,14 @@ module.exports = (config) => {
                     base: "BrowserStack",
                     os: "Windows",
                     os_version: "7",
-                    browser: "internet explorer",
+                    browser: "IE",
                     browser_version: "9"
                 },
                 "Internet Explorer (latest) on Windows 7": {
                     base: "BrowserStack",
                     os: "Windows",
                     os_version: "7",
-                    browser: "internet explorer",
+                    browser: "IE",
                     browser_version: "latest"
                 },
                 "Firefox 4 on Windows 7": {
@@ -228,14 +228,14 @@ module.exports = (config) => {
                     base: "BrowserStack",
                     os: "Windows",
                     os_version: "10",
-                    browser: "MicrosoftEdge",
+                    browser: "Edge",
                     browser_version: "13"
                 },
                 "Edge (latest) on Windows 10": {
                     base: "BrowserStack",
                     os: "Windows",
                     os_version: "10",
-                    browser: "MicrosoftEdge",
+                    browser: "Edge",
                     browser_version: "latest"
                 },
                 "Chrome 26 on Windows 10": {
