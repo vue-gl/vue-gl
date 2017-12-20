@@ -50,6 +50,7 @@ layout: reference
 * [VglMaterial](vgl-material)
 * [VglMeshStandardMaterial](vgl-mesh-standard-material)
 * [VglPointsMaterial](vgl-points-material)
+* [VglSpriteMaterial](vgl-sprite-material)
 
 ## Objects
 * [VglGroup](vgl-group)
