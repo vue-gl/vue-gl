@@ -181,6 +181,7 @@ module.exports = (config) => {
         } else {
             options.concurrency = 1;
             options.captureTimeout = 300000;
+            options.browserNoActivityTimeout = 300000;
             options.reporters.push("BrowserStack");
             options.customLaunchers = {
                 "Chrome 26 on Windows 7": {
