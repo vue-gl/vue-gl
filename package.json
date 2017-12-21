@@ -37,6 +37,7 @@
     "js-polyfills": "^0.1.41",
     "karma": "^1.7.1",
     "karma-babel-preprocessor": "^7.0.0",
+    "karma-browserstack-launcher": "^1.3.0",
     "karma-coverage": "^1.1.1",
     "karma-junit-reporter": "^1.2.0",
     "karma-mocha": "^1.3.0",
