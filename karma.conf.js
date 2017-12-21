@@ -54,7 +54,8 @@ module.exports = (config) => {
             options.concurrency = 1;
             options.reporters.push("BrowserStack");
             options.browserStack = {
-                startTunnel: true
+                startTunnel: true,
+                "browserstack.video": false
             };
             options.customLaunchers = require("./karma.browsers").browserStack;
         }
