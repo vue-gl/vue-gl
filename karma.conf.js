@@ -37,11 +37,9 @@ module.exports = (config) => {
     };
     
     if (process.env.CI) {
-        options.reporters= ["coverage", "junit", "dots"];
         options.junitReporter = {outputDir: "junit"};
         options.coverageReporter = {type: "lcovonly", dir: "coverage"};
-        options.browserNoActivityTimeout = 30000;
-        options.browserDisconnectTolerance = 2;
+        options.reporters= ["coverage", "junit", "dots"];
         if (process.env.CIRCLE_BRANCH === "master") {
             options.concurrency = 4;
             options.reporters.push("saucelabs");
@@ -180,10 +178,10 @@ module.exports = (config) => {
             };
         } else {
             options.concurrency = 1;
-            options.captureTimeout = 300000;
-            options.browserNoActivityTimeout = 300000;
-            options.browserDisconnectTimeout = 10000;
             options.reporters.push("BrowserStack");
+            options.browserStack = {
+                startTunnel: true
+            };
             options.customLaunchers = {
                 "Chrome 26 on Windows 7": {
                     base: "BrowserStack",
@@ -241,12 +239,12 @@ module.exports = (config) => {
                     browser: "Edge",
                     browser_version: "latest"
                 },
-                "Chrome 26 on Windows 10": {
+                "Chrome 37 on Windows 10": {
                     base: "BrowserStack",
                     os: "Windows",
                     os_version: "10",
                     browser: "chrome",
-                    browser_version: "26"
+                    browser_version: "37"
                 },
                 "Chrome (latest) on Windows 10": {
                     base: "BrowserStack",
@@ -255,12 +253,12 @@ module.exports = (config) => {
                     browser: "chrome",
                     browser_version: "latest"
                 },
-                "Firefox 4 on Windows 10": {
+                "Firefox 32 on Windows 10": {
                     base: "BrowserStack",
                     os: "Windows",
                     os_version: "10",
                     browser: "firefox",
-                    browser_version: "4"
+                    browser_version: "32"
                 },
                 "Firefox (latest) on Windows 10": {
                     base: "BrowserStack",
@@ -273,7 +271,7 @@ module.exports = (config) => {
                     base: "BrowserStack",
                     os: "Windows",
                     os_version: "10",
-                    browser: "internet explorer",
+                    browser: "IE",
                     browser_version: "latest"
                 },
                 "Safari (latest) on Mac OS X High Sierra": {
