@@ -44,6 +44,8 @@ import VglLensFlareTexture from "./vgl-lens-flare-texture.js";
 import VglFont from "./vgl-font.js";
 import VglExtrudeGeometry from "./vgl-extrude-geometry.js";
 import VglTextGeometry from "./vgl-text-geometry.js";
+import VglSpriteMaterial from "./vgl-sprite-material.js";
+import VglGridHelper from "./vgl-grid-helper.js";
 
 export {
     VglNamespace,
@@ -91,5 +93,7 @@ export {
     VglLensFlareTexture,
     VglFont,
     VglExtrudeGeometry,
-    VglTextGeometry
+    VglTextGeometry,
+    VglSpriteMaterial,
+    VglGridHelper
 };

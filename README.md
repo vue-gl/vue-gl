@@ -81,7 +81,7 @@ When you open the html above in the browser, you'll see below.
   - [ ] **[VglCameraHelper](src/vgl-camera-helper.js)** - Corresponding to [THREE.CameraHelper](https://threejs.org/docs/index.html#api/helpers/CameraHelper)
   - [ ] **[VglDirectionalLightHelper](src/vgl-directional-light-helper.js)** - Corresponding to [THREE.DirectionalLightHelper](https://threejs.org/docs/index.html#api/helpers/DirectionalLightHelper)
   - [ ] **[VglFaceNormalsHelper](src/vgl-face-normals-helper.js)** - Corresponding to [THREE.FaceNormalsHelper](https://threejs.org/docs/index.html#api/helpers/FaceNormalsHelper)
-  - [ ] **[VglGridHelper](src/vgl-grid-helper.js)** - Corresponding to [THREE.GridHelper](https://threejs.org/docs/index.html#api/helpers/GridHelper)
+  - [x] **[VglGridHelper](src/vgl-grid-helper.js)** - Corresponding to [THREE.GridHelper](https://threejs.org/docs/index.html#api/helpers/GridHelper)
   - [ ] **[VglPolarGridHelper](src/vgl-polar-grid-helper.js)** - Corresponding to [THREE.PolarGridHelper](https://threejs.org/docs/index.html#api/helpers/PolarGridHelper)
   - [ ] **[VglHemisphereLightHelper](src/vgl-hemisphere-light-helper.js)** - Corresponding to [THREE.HemisphereLightHelper](https://threejs.org/docs/index.html#api/helpers/HemisphereLightHelper)
   - [ ] **[VglPointLightHelper](src/vgl-point-light-helper.js)** - Corresponding to [THREE.PointLightHelper](https://threejs.org/docs/index.html#api/helpers/PointLightHelper)
@@ -113,7 +113,7 @@ When you open the html above in the browser, you'll see below.
   - [ ] **[VglRawShaderMaterial](src/vgl-raw-shader-material.js)** - Corresponding to [THREE.RawShaderMaterial](https://threejs.org/docs/index.html#api/materials/RawShaderMaterial)
   - [ ] **[VglShaderMaterial](src/vgl-shader-material.js)** - Corresponding to [THREE.ShaderMaterial](https://threejs.org/docs/index.html#api/materials/ShaderMaterial)
   - [ ] **[VglShadowMaterial](src/vgl-shadow-material.js)** - Corresponding to [THREE.ShadowMaterial](https://threejs.org/docs/index.html#api/materials/ShadowMaterial)
-  - [ ] **[VglSpriteMaterial](src/vgl-sprite-material.js)** - Corresponding to [THREE.SpriteMaterial](https://threejs.org/docs/index.html#api/materials/SpriteMaterial)
+  - [x] **[VglSpriteMaterial](src/vgl-sprite-material.js)** - Corresponding to [THREE.SpriteMaterial](https://threejs.org/docs/index.html#api/materials/SpriteMaterial)
 - Objects
   - [ ] **[VglBone](src/vgl-bone.js)** - Corresponding to [THREE.Bone](https://threejs.org/docs/index.html#api/objects/Bone)
   - [x] **[VglGroup](src/vgl-group.js)** - Corresponding to [THREE.Group](https://threejs.org/docs/index.html#api/objects/Group)
