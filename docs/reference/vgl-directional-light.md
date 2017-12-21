@@ -7,3 +7,6 @@ A light that gets emitted in a specific direction, corresponding [THREE.Directio
 ## Mixins
 See the mixin components below for common properties.
 * [VglLight](vgl-light)
+
+## Properties
+* {% include prop.md name="castShadow" type="bool" %} - If set to true light will cast dynamic shadows.

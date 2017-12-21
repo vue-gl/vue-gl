@@ -1,3 +1,5 @@
+/* globals chai THREE Vue VueGL */
+
 describe("VglRenderer component", function() {
     const {VglRenderer, VglNamespace, VglPerspectiveCamera, VglScene} = VueGL;
     const assert = chai.assert;
@@ -5,6 +7,7 @@ describe("VglRenderer component", function() {
         this.WebGLRenderer = THREE.WebGLRenderer;
         THREE.WebGLRenderer = function(options) {
             this.options = options;
+            this.shadowMap = {};
         };
         THREE.WebGLRenderer.prototype.setSize = () => {};
     });
@@ -144,8 +147,36 @@ describe("VglRenderer component", function() {
                 });
             });
         });
+        describe("Properties", function() {
+            describe("The shadowMapEnabled property should affect the shadowMap.enabled.", function() {
+                it("When the property is false.", function(done) {
+                    const vm = new (Vue.extend(VglRenderer))({propsData: {shadowMapEnabled: false}}).$mount();
+                    vm.init();
+                    vm.$nextTick(() => {
+                        try {
+                            assert.isFalse(vm.inst.shadowMap.enabled);
+                            done();
+                        } catch(e) {
+                            done(e);
+                        }
+                    });
+                });
+                it("When the property is true.", function(done) {
+                    const vm = new (Vue.extend(VglRenderer))({propsData: {shadowMapEnabled: true}}).$mount();
+                    vm.init();
+                    vm.$nextTick(() => {
+                        try {
+                            assert.isTrue(vm.inst.shadowMap.enabled);
+                            done();
+                        } catch(e) {
+                            done(e);
+                        }
+                    });
+                });
+            });
+        });
     });
-    describe("When any properties are changed", function() {
+    describe("When an initial property changes", function() {
         describe("Output canvas", function() {
             it("The canvas element should be replaced.", function(done) {
                 const vm = new Vue(VglRenderer).$mount();
@@ -179,6 +210,22 @@ describe("VglRenderer component", function() {
                 vm.$nextTick(() => {
                     try {
                         assert.strictEqual(vm.inst.options.canvas, vm.$refs.rdr);
+                        done();
+                    } catch(e) {
+                        done(e);
+                    }
+                });
+            });
+        });
+    });
+    describe("When another property changes", function() {
+        describe("The shadowMapEnabled should affect the shadowMap.enabled.", function() {
+            it("From false to true.", function(done) {
+                const vm = new Vue(VglRenderer).$mount();
+                vm.shadowMapEnabled = true;
+                vm.$nextTick(() => {
+                    try {
+                        assert.isTrue(vm.inst.shadowMap.enabled);
                         done();
                     } catch(e) {
                         done(e);
