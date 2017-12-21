@@ -247,10 +247,10 @@ saucelabs["Firefox 4 on Mac OS X Sierra"] = {
     browserName: "firefox",
     version: "4"
 };
-browserStack["Firefox 4 on Mac OS X High Sierra"] = {
+browserStack["Firefox 4 on Mac OS X Snow Leopard"] = {
     base: "BrowserStack",
     os: "OS X",
-    os_version: "High Sierra",
+    os_version: "Snow Leopard",
     browser: "firefox",
     browser_version: "4"
 };
