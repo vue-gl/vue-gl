@@ -17,7 +17,6 @@ browserStack["Chrome 26 on Windows 7"] = {
     browser_version: "26"
 };
 
-
 saucelabs["Chrome (latest) on Windows 7"] = {
     base: "SauceLabs",
     platform: "Windows 7",
