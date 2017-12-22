@@ -163,6 +163,11 @@ describe("VglRenderer component", function() {
                 });
                 it("When the property is false.", function(done) {
                     const vm = new (Vue.extend(VglRenderer))({propsData: {shadowMapEnabled: false}, el: "#app"});
+                    function waitonload() {
+                        if (vm.$refs.frm.contentWindow) return;
+                        setTimeout(waitonload, 10);
+                    }
+                    waitonload();
                     vm.$nextTick(() => {
                         setTimeout(() => {
                             try {
@@ -176,6 +181,11 @@ describe("VglRenderer component", function() {
                 });
                 it("When the property is true.", function(done) {
                     const vm = new (Vue.extend(VglRenderer))({propsData: {shadowMapEnabled: true}, el: "#app"});
+                    function waitonload() {
+                        if (vm.$refs.frm.contentWindow) return;
+                        setTimeout(waitonload, 10);
+                    }
+                    waitonload();
                     vm.$nextTick(() => {
                         setTimeout(() => {
                             try {
@@ -290,7 +300,7 @@ describe("VglRenderer component", function() {
                         } catch(e) {
                             done(e);
                         }
-                    }, 0);
+                    });
                 });
             });
         });
@@ -328,7 +338,7 @@ describe("VglRenderer component", function() {
                                     } catch(e) {
                                         done(e);
                                     }
-                                }, 0);
+                                });
                             });
                         });
                     });
@@ -370,7 +380,7 @@ describe("VglRenderer component", function() {
                                 } catch(e) {
                                     done(e);
                                 }
-                            }, 0);
+                            });
                         });
                     });
                 });
