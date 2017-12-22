@@ -8,8 +8,12 @@ describe("VglRenderer component", function() {
         THREE.WebGLRenderer = function(options) {
             this.options = options;
             this.shadowMap = {};
+            this.calledRenderWith = [];
         };
         THREE.WebGLRenderer.prototype.setSize = () => {};
+        THREE.WebGLRenderer.prototype.render = function(scene, camera) {
+            this.calledRenderWith.push([scene, camera]);
+        };
     });
     after(function() {
         THREE.WebGLRenderer = this.WebGLRenderer;
@@ -149,9 +153,19 @@ describe("VglRenderer component", function() {
         });
         describe("Properties", function() {
             describe("The shadowMapEnabled property should affect the shadowMap.enabled.", function() {
+                beforeEach(function() {
+                    const outerDiv = document.createElement("div");
+                    outerDiv.id = "wrapper";
+                    const innerDiv = document.createElement("div");
+                    innerDiv.id = "app";
+                    outerDiv.appendChild(innerDiv);
+                    document.body.appendChild(outerDiv);
+                });
+                afterEach(function() {
+                    document.body.removeChild(document.getElementById("wrapper"));
+                });
                 it("When the property is false.", function(done) {
-                    const vm = new (Vue.extend(VglRenderer))({propsData: {shadowMapEnabled: false}}).$mount();
-                    vm.init();
+                    const vm = new (Vue.extend(VglRenderer))({propsData: {shadowMapEnabled: false}, el: "#app"});
                     vm.$nextTick(() => {
                         try {
                             assert.isFalse(vm.inst.shadowMap.enabled);
@@ -162,8 +176,7 @@ describe("VglRenderer component", function() {
                     });
                 });
                 it("When the property is true.", function(done) {
-                    const vm = new (Vue.extend(VglRenderer))({propsData: {shadowMapEnabled: true}}).$mount();
-                    vm.init();
+                    const vm = new (Vue.extend(VglRenderer))({propsData: {shadowMapEnabled: true}, el: "#app"});
                     vm.$nextTick(() => {
                         try {
                             assert.isTrue(vm.inst.shadowMap.enabled);
@@ -219,17 +232,131 @@ describe("VglRenderer component", function() {
         });
     });
     describe("When another property changes", function() {
+        beforeEach(function() {
+            const outerDiv = document.createElement("div");
+            outerDiv.id = "wrapper";
+            const innerDiv = document.createElement("div");
+            innerDiv.id = "app";
+            outerDiv.appendChild(innerDiv);
+            document.body.appendChild(outerDiv);
+        });
+        afterEach(function() {
+            document.body.removeChild(document.getElementById("wrapper"));
+        });
         describe("The shadowMapEnabled should affect the shadowMap.enabled.", function() {
             it("From false to true.", function(done) {
-                const vm = new Vue(VglRenderer).$mount();
-                vm.shadowMapEnabled = true;
+                const vm = new Vue(VglRenderer).$mount("#app");
                 vm.$nextTick(() => {
+                    vm.shadowMapEnabled = true;
+                    vm.$nextTick(() => {
+                        try {
+                            assert.isTrue(vm.inst.shadowMap.enabled);
+                            done();
+                        } catch(e) {
+                            done(e);
+                        }
+                    });
+                });
+            });
+        });
+    });
+    describe("Testing the rendering function", function() {
+        beforeEach(function() {
+            const outerDiv = document.createElement("div");
+            outerDiv.id = "wrapper";
+            const innerDiv = document.createElement("div");
+            innerDiv.id = "app";
+            outerDiv.appendChild(innerDiv);
+            document.body.appendChild(outerDiv);
+        });
+        afterEach(function() {
+            document.body.removeChild(document.getElementById("wrapper"));
+        });
+        it("The render function of the instance should be called once with the scene and camera after the initialization.", function(done) {
+            const vm = new Vue({
+                template: `<vgl-renderer scene="s" camera="c" ref="r"><vgl-scene name="s" ref="s"></vgl-scene><vgl-perspective-camera name="c" ref="c" /></vgl-renderer>`,
+                components: {
+                    VglRenderer,
+                    VglScene,
+                    VglPerspectiveCamera
+                }
+            }).$mount("#app");
+            requestAnimationFrame(() => {
+                setTimeout(() => {
                     try {
-                        assert.isTrue(vm.inst.shadowMap.enabled);
+                        assert.lengthOf(vm.$refs.r.inst.calledRenderWith, 1);
+                        assert.strictEqual(vm.$refs.r.inst.calledRenderWith[0][0], vm.$refs.s.inst);
+                        assert.strictEqual(vm.$refs.r.inst.calledRenderWith[0][1], vm.$refs.c.inst);
                         done();
                     } catch(e) {
                         done(e);
                     }
+                });
+            });
+        });
+        it("The render function of the instance should be called once with the scene and camera after vglUpdate() called.", function(done) {
+            const vm = new Vue({
+                template: `<vgl-renderer scene="s" camera="c" ref="r"><vgl-scene name="s" ref="s"><trigger-component ref="t" /></vgl-scene><vgl-perspective-camera name="c" ref="c" /></vgl-renderer>`,
+                components: {
+                    VglRenderer,
+                    VglScene,
+                    VglPerspectiveCamera,
+                    TriggerComponent: {
+                        inject: ["vglUpdate"],
+                        render: () => {}
+                    }
+                }
+            }).$mount("#app");
+            requestAnimationFrame(() => {
+                setTimeout(() => {
+                    vm.$refs.r.inst.calledRenderWith = [];
+                    vm.$refs.t.vglUpdate();
+                    requestAnimationFrame(() => {
+                        setTimeout(() => {
+                            try {
+                                assert.lengthOf(vm.$refs.r.inst.calledRenderWith, 1);
+                                assert.strictEqual(vm.$refs.r.inst.calledRenderWith[0][0], vm.$refs.s.inst);
+                                assert.strictEqual(vm.$refs.r.inst.calledRenderWith[0][1], vm.$refs.c.inst);
+                                done();
+                            } catch(e) {
+                                done(e);
+                            }
+                        });
+                    });
+                });
+            });
+        });
+        it("The render function should be called only once when vglUpdate() called multiple times.", function(done) {
+            const vm = new Vue({
+                template: `<vgl-renderer scene="s" camera="c" ref="r"><vgl-scene name="s" ref="s"><trigger-component ref="t" /></vgl-scene><vgl-perspective-camera name="c" ref="c" /></vgl-renderer>`,
+                components: {
+                    VglRenderer,
+                    VglScene,
+                    VglPerspectiveCamera,
+                    TriggerComponent: {
+                        inject: ["vglUpdate"],
+                        render: () => {}
+                    }
+                }
+            }).$mount("#app");
+            requestAnimationFrame(() => {
+                setTimeout(() => {
+                    vm.$refs.r.inst.calledRenderWith = [];
+                    vm.$refs.t.vglUpdate();
+                    vm.$refs.t.vglUpdate();
+                    vm.$refs.t.vglUpdate();
+                    requestAnimationFrame(() => {
+                        setTimeout(() => {
+                            try {
+                                assert.lengthOf(vm.$refs.r.inst.calledRenderWith, 1);
+                                assert.strictEqual(vm.$refs.r.inst.calledRenderWith[0][0], vm.$refs.s.inst);
+                                assert.strictEqual(vm.$refs.r.inst.calledRenderWith[0][1], vm.$refs.c.inst);
+                                done();
+                            } catch(e) {
+                                done(e);
+                            }
+                        });
+                    });
                 });
             });
         });
