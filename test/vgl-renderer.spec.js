@@ -164,7 +164,7 @@ describe("VglRenderer component", function() {
                 it("When the property is false.", function(done) {
                     const vm = new (Vue.extend(VglRenderer))({propsData: {shadowMapEnabled: false}, el: "#app"});
                     function waitonload(callback) {
-                        if (!vm.$refs.frm.contentWindow) {
+                        if (!vm.$refs.frm.contentDocument) {
                             setTimeout(() => {
                                 waitonload(callback);
                             }, 10);
@@ -188,7 +188,7 @@ describe("VglRenderer component", function() {
                 it("When the property is true.", function(done) {
                     const vm = new (Vue.extend(VglRenderer))({propsData: {shadowMapEnabled: true}, el: "#app"});
                     function waitonload(callback) {
-                        if (!vm.$refs.frm.contentWindow) {
+                        if (!vm.$refs.frm.contentDocument) {
                             setTimeout(() => {
                                 waitonload(callback);
                             }, 10);
@@ -297,7 +297,7 @@ describe("VglRenderer component", function() {
                 }
             }).$mount("#app");
             function waitonload(callback) {
-                if (!vm.$refs.r.$refs.frm.contentWindow) {
+                if (!vm.$refs.r.$refs.frm.contentDocument) {
                     setTimeout(() => {
                         waitonload(callback);
                     }, 10);
@@ -336,7 +336,7 @@ describe("VglRenderer component", function() {
                 }
             }).$mount("#app");
             function waitonload(callback) {
-                if (!vm.$refs.r.$refs.frm.contentWindow) {
+                if (!vm.$refs.r.$refs.frm.contentDocument) {
                     setTimeout(() => {
                         waitonload(callback);
                     }, 10);
@@ -383,7 +383,7 @@ describe("VglRenderer component", function() {
                 }
             }).$mount("#app");
             function waitonload(callback) {
-                if (!vm.$refs.r.$refs.frm.contentWindow) {
+                if (!vm.$refs.r.$refs.frm.contentDocument) {
                     setTimeout(() => {
                         waitonload(callback);
                     }, 10);
