@@ -165,7 +165,9 @@ describe("VglRenderer component", function() {
                     const vm = new (Vue.extend(VglRenderer))({propsData: {shadowMapEnabled: false}, el: "#app"});
                     function waitonload(callback) {
                         if (!vm.$refs.frm.contentWindow) {
-                            setTimeout(waitonload, 10);
+                            setTimeout(() => {
+                                waitonload(callback);
+                            }, 10);
                         } else {
                             callback();
                         }
@@ -187,7 +189,9 @@ describe("VglRenderer component", function() {
                     const vm = new (Vue.extend(VglRenderer))({propsData: {shadowMapEnabled: true}, el: "#app"});
                     function waitonload(callback) {
                         if (!vm.$refs.frm.contentWindow) {
-                            setTimeout(waitonload, 10);
+                            setTimeout(() => {
+                                waitonload(callback);
+                            }, 10);
                         } else {
                             callback();
                         }
@@ -294,7 +298,9 @@ describe("VglRenderer component", function() {
             }).$mount("#app");
             function waitonload(callback) {
                 if (!vm.$refs.r.$refs.frm.contentWindow) {
-                    setTimeout(waitonload, 10);
+                    setTimeout(() => {
+                        waitonload(callback);
+                    }, 10);
                 } else {
                     callback();
                 }
@@ -331,7 +337,9 @@ describe("VglRenderer component", function() {
             }).$mount("#app");
             function waitonload(callback) {
                 if (!vm.$refs.r.$refs.frm.contentWindow) {
-                    setTimeout(waitonload, 10);
+                    setTimeout(() => {
+                        waitonload(callback);
+                    }, 10);
                 } else {
                     callback();
                 }
@@ -376,7 +384,9 @@ describe("VglRenderer component", function() {
             }).$mount("#app");
             function waitonload(callback) {
                 if (!vm.$refs.r.$refs.frm.contentWindow) {
-                    setTimeout(waitonload, 10);
+                    setTimeout(() => {
+                        waitonload(callback);
+                    }, 10);
                 } else {
                     callback();
                 }
