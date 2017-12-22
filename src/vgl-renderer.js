@@ -93,8 +93,8 @@ export default {
         },
         init() {
             this.$nextTick(() => {
-                this.inst.shadowMap.enabled = this.shadowMapEnabled;
                 this.resize();
+                this.inst.shadowMap.enabled = this.shadowMapEnabled;
             });
         }
     },
