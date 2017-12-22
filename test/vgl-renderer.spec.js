@@ -176,7 +176,7 @@ describe("VglRenderer component", function() {
                             } catch(e) {
                                 done(e);
                             }
-                        });
+                        }, 0);
                     });
                 });
                 it("When the property is true.", function(done) {
@@ -194,7 +194,7 @@ describe("VglRenderer component", function() {
                             } catch(e) {
                                 done(e);
                             }
-                        });
+                        }, 0);
                     });
                 });
             });
@@ -300,7 +300,7 @@ describe("VglRenderer component", function() {
                         } catch(e) {
                             done(e);
                         }
-                    });
+                    }, 0);
                 });
             });
         });
@@ -341,7 +341,7 @@ describe("VglRenderer component", function() {
                                 });
                             });
                         });
-                    });
+                    }, 0);
                 });
             });
         });
@@ -382,7 +382,7 @@ describe("VglRenderer component", function() {
                                 }
                             });
                         });
-                    });
+                    }, 0);
                 });
             });
         });
