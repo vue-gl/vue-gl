@@ -10,6 +10,8 @@ This is the base mixin component for most object components in VueGL, correspond
 * {% include prop.md name="position" type="vector3" %} - The object's local position as a 3D vector.
 * {% include prop.md name="rotation" type="euler" %} - The object's local rotation as a euler angle.
 * {% include prop.md name="scale" type="vector3" %} - The object's local scale as a 3D vector.
+* {% include prop.md name="castShadow" type="bool" %} - Whether the object gets rendered into shadow map.
+* {% include prop.md name="receiveShadow" type="bool" %} - Whether the material receives shadows.
 
 ## Slots
 * `default` - VglObject3d components inside default slots are added as children.

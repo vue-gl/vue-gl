@@ -46,6 +46,7 @@ import VglExtrudeGeometry from "./vgl-extrude-geometry.js";
 import VglTextGeometry from "./vgl-text-geometry.js";
 import VglSpriteMaterial from "./vgl-sprite-material.js";
 import VglGridHelper from "./vgl-grid-helper.js";
+import VglShadowMaterial from "./vgl-shadow-material.js";
 
 export {
     VglNamespace,
@@ -95,5 +96,6 @@ export {
     VglExtrudeGeometry,
     VglTextGeometry,
     VglSpriteMaterial,
-    VglGridHelper
+    VglGridHelper,
+    VglShadowMaterial
 };

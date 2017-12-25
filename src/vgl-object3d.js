@@ -19,7 +19,9 @@ export default {
         scale: {
             type: [String, Vector3],
             default: () => defaultScale
-        }
+        },
+        castShadow: Boolean,
+        receiveShadow: Boolean
     },
     computed: {
         inst: () => new Object3D()
@@ -52,6 +54,20 @@ export default {
         scale: {
             handler(scale) {
                 parseVector3(scale || defaultScale, this.inst.scale);
+                update(this);
+            },
+            immediate: true
+        },
+        castShadow: {
+            handler(castShadow) {
+                this.inst.castShadow = castShadow;
+                update(this);
+            },
+            immediate: true
+        },
+        receiveShadow: {
+            handler(receiveShadow) {
+                this.inst.receiveShadow = receiveShadow;
                 update(this);
             },
             immediate: true
