@@ -92,16 +92,14 @@ export default {
             }
         },
         init() {
-            this.$nextTick(() => {
-                this.resize();
-                this.inst.shadowMap.enabled = this.shadowMapEnabled;
-            });
+            this.resize();
+            this.inst.shadowMap.enabled = this.shadowMapEnabled;
         }
     },
     watch: {
         opt() {
             ++this.key;
-            this.init();
+            this.$nextTick(this.init);
         },
         scn(scn, oldScn) {
             if (oldScn) oldScn.removeEventListener("update", this.render);
@@ -126,6 +124,9 @@ export default {
         if (this.scn) this.scn.addEventListener("update", this.render);
         if (this.cmr) this.cmr.addEventListener("update", this.render);
     },
+    mounted() {
+        this.init();
+    },
     render(h) {
         return h("div", [
             h("canvas", {
@@ -142,7 +143,6 @@ export default {
                 on: {
                     load: (evt) => {
                         evt.target.contentWindow.addEventListener("resize", this.resize);
-                        this.init();
                     }
                 }
             })
