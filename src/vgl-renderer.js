@@ -31,7 +31,8 @@ export default {
         disableDepth: Boolean,
         logarithmicDepthBuffer: Boolean,
         camera: String,
-        scene: String
+        scene: String,
+        shadowMapEnabled: Boolean
     },
     provide() {
         return {
@@ -89,14 +90,16 @@ export default {
                 });
                 this.req = false;
             }
+        },
+        init() {
+            this.resize();
+            this.inst.shadowMap.enabled = this.shadowMapEnabled;
         }
     },
     watch: {
         opt() {
             ++this.key;
-            this.$nextTick(() => {
-                this.resize();
-            });
+            this.$nextTick(this.init);
         },
         scn(scn, oldScn) {
             if (oldScn) oldScn.removeEventListener("update", this.render);
@@ -112,11 +115,17 @@ export default {
                 resizeCamera(cmr, this.$el);
                 this.render();
             }
+        },
+        shadowMapEnabled(enabled) {
+            this.inst.shadowMap.enabled = enabled;
         }
     },
     created() {
         if (this.scn) this.scn.addEventListener("update", this.render);
         if (this.cmr) this.cmr.addEventListener("update", this.render);
+    },
+    mounted() {
+        this.init();
     },
     render(h) {
         return h("div", [
@@ -133,8 +142,7 @@ export default {
                 },
                 on: {
                     load: (evt) => {
-                        evt.target.contentWindow.addEventListener("resize", this.resize);
-                        this.$nextTick(this.resize);
+                        evt.target.contentWindow.addEventListener("resize", this.resize, false);
                     }
                 }
             })

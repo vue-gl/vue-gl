@@ -19,6 +19,7 @@ See the mixin components below for common properties.
 * {% include prop.md name="logarithmicDepthBuffer" type="boolean" %} - Whether to use a logarithmic depth buffer.
 * {% include prop.md name="camera" type="string" %} - Name of the using camera.
 * {% include prop.md name="scene" type="string" %} - Name of the target scene.
+* {% include prop.md name="shadowMapEnabled" type="bool" %} - If set, use shadow maps in the scene.
 
 ## Slots
 * `default` - VglScene and VglCamera components inside default slots are added as referable components.

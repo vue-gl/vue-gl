@@ -1,9 +1,14 @@
+/* globals chai THREE Vue VueGL */
+
 describe("VglScene component", function() {
     const {VglScene, VglRenderer} = VueGL;
     const assert = chai.assert;
     before(function() {
         this.WebGLRenderer = THREE.WebGLRenderer;
-        THREE.WebGLRenderer = function() {};
+        THREE.WebGLRenderer = function() {
+            this.shadowMap = {};
+        };
+        THREE.WebGLRenderer.prototype.setSize = () => {};
     });
     after(function() {
         THREE.WebGLRenderer = this.WebGLRenderer;

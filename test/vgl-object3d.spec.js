@@ -1,3 +1,5 @@
+/* globals chai THREE Vue VueGL */
+
 describe("VglObject3d component", function() {
     const {VglObject3d} = VueGL;
     const assert = chai.assert;
@@ -105,6 +107,26 @@ describe("VglObject3d component", function() {
                     assert.strictEqual(vm.inst.scale.x, -1);
                     assert.strictEqual(vm.inst.scale.y, -5e8);
                     assert.strictEqual(vm.inst.scale.z, 6.8);
+                });
+            });
+            describe("The castShadow property should affect the castShadow of the instance.", function() {
+                it("When the property is false.", function() {
+                    const vm = new (Vue.extend(VglObject3d))({propsData: {castShadow: false}});
+                    assert.isFalse(vm.inst.castShadow);
+                });
+                it("When the property is true.", function() {
+                    const vm = new (Vue.extend(VglObject3d))({propsData: {castShadow: true}});
+                    assert.isTrue(vm.inst.castShadow);
+                });
+            });
+            describe("The recieveShadow property should affect the recieveShadow of the instance.", function() {
+                it("When the property is false.", function() {
+                    const vm = new (Vue.extend(VglObject3d))({propsData: {receiveShadow: false}});
+                    assert.isFalse(vm.inst.receiveShadow);
+                });
+                it("When the property is true.", function() {
+                    const vm = new (Vue.extend(VglObject3d))({propsData: {receiveShadow: true}});
+                    assert.isTrue(vm.inst.receiveShadow);
                 });
             });
         });
@@ -238,6 +260,34 @@ describe("VglObject3d component", function() {
                         assert.strictEqual(vm.inst.scale.x, 1);
                         assert.strictEqual(vm.inst.scale.y, 1);
                         assert.strictEqual(vm.inst.scale.z, 1);
+                        done();
+                    } catch(e) {
+                        done(e);
+                    }
+                });
+            });
+        });
+        describe("Should affect the castShadow of the object when the castShadow property is changed.", function() {
+            it("From false to true.", function(done) {
+                const vm = new Vue(VglObject3d);
+                vm.castShadow = true;
+                vm.$nextTick(() => {
+                    try {
+                        assert.isTrue(vm.inst.castShadow);
+                        done();
+                    } catch(e) {
+                        done(e);
+                    }
+                });
+            });
+        });
+        describe("Should affect the recieveShadow of the object when the recieveShadow property is changed.", function() {
+            it("From false to true.", function(done) {
+                const vm = new Vue(VglObject3d);
+                vm.receiveShadow = true;
+                vm.$nextTick(() => {
+                    try {
+                        assert.isTrue(vm.inst.receiveShadow);
                         done();
                     } catch(e) {
                         done(e);
