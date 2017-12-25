@@ -10,7 +10,7 @@ See the mixin components below for common properties.
 
 ## Example usage
 ```html
-<vgl-renderer antialias style="width: 300px; height: 150px;">
+<vgl-renderer antialias shadow-map-enabled alpha style="width: 300px; height: 150px;">
     <vgl-scene>
         <vgl-box-geometry name="box" width=1 height=1 depth=1></vgl-box-geometry>
         <vgl-mesh-standard-material name="std" color="#ffbbaa"></vgl-mesh-standard-material>
