@@ -142,7 +142,7 @@ export default {
                 },
                 on: {
                     load: (evt) => {
-                        evt.target.contentWindow.addEventListener("resize", this.resize);
+                        evt.target.contentWindow.addEventListener("resize", this.resize, false);
                     }
                 }
             })
