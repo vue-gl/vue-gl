@@ -40,6 +40,7 @@ layout: reference
 * [VglCameraHelper](vgl-camera-helper)
 * [VglDirectionalLightHelper](vgl-directional-light-helper)
 * [VglGridHelper](vgl-grid-helper)
+* [VglPolarGridHelper](vgl-polar-grid-helper)
 
 ## Lights
 * [VglAmbientLight](vgl-ambient-light)

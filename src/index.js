@@ -49,6 +49,7 @@ import VglGridHelper from "./vgl-grid-helper.js";
 import VglShadowMaterial from "./vgl-shadow-material.js";
 import VglCameraHelper from "./vgl-camera-helper.js";
 import VglDirectionalLightHelper from "./vgl-directional-light-helper.js";
+import VglPolarGridHelper from "./vgl-polar-grid-helper.js";
 
 export {
     VglNamespace,
@@ -101,5 +102,6 @@ export {
     VglGridHelper,
     VglShadowMaterial,
     VglCameraHelper,
-    VglDirectionalLightHelper
+    VglDirectionalLightHelper,
+    VglPolarGridHelper
 };
