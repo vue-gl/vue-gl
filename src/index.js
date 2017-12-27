@@ -47,6 +47,10 @@ import VglTextGeometry from "./vgl-text-geometry.js";
 import VglSpriteMaterial from "./vgl-sprite-material.js";
 import VglGridHelper from "./vgl-grid-helper.js";
 import VglShadowMaterial from "./vgl-shadow-material.js";
+import VglCameraHelper from "./vgl-camera-helper.js";
+import VglDirectionalLightHelper from "./vgl-directional-light-helper.js";
+import VglPolarGridHelper from "./vgl-polar-grid-helper.js";
+import VglMeshBasicMaterial from "./vgl-mesh-basic-material.js";
 
 export {
     VglNamespace,
@@ -97,5 +101,9 @@ export {
     VglTextGeometry,
     VglSpriteMaterial,
     VglGridHelper,
-    VglShadowMaterial
+    VglShadowMaterial,
+    VglCameraHelper,
+    VglDirectionalLightHelper,
+    VglPolarGridHelper,
+    VglMeshBasicMaterial
 };
