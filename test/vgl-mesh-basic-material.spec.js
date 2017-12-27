@@ -1,14 +1,14 @@
 /* globals chai Vue VueGL */
 
-describe("VglMeshStandardMaterial component", function() {
-    const {VglMeshStandardMaterial, VglNamespace} = VueGL;
+describe("VglMeshBasicMaterial component", function() {
+    const {VglMeshBasicMaterial, VglNamespace} = VueGL;
     const assert = chai.assert;
     describe("Creating a material", function() {
         describe("The color of the material should be same as the color property.", function() {
             it("When the property is undefined.", function() {
                 const vm = new Vue({
-                    template: `<vgl-namespace><vgl-mesh-standard-material ref="mat" /></vgl-namespace>`,
-                    components: {VglMeshStandardMaterial, VglNamespace}
+                    template: `<vgl-namespace><vgl-mesh-basic-material ref="mat" /></vgl-namespace>`,
+                    components: {VglMeshBasicMaterial, VglNamespace}
                 }).$mount();
                 assert.strictEqual(vm.$refs.mat.inst.color.r, 255/255);
                 assert.strictEqual(vm.$refs.mat.inst.color.g, 255/255);
@@ -16,8 +16,8 @@ describe("VglMeshStandardMaterial component", function() {
             });
             it("When the property is a color name.", function() {
                 const vm = new Vue({
-                    template: `<vgl-namespace><vgl-mesh-standard-material color="orangered" ref="mat" /></vgl-namespace>`,
-                    components: {VglMeshStandardMaterial, VglNamespace}
+                    template: `<vgl-namespace><vgl-mesh-basic-material color="orangered" ref="mat" /></vgl-namespace>`,
+                    components: {VglMeshBasicMaterial, VglNamespace}
                 }).$mount();
                 assert.strictEqual(vm.$refs.mat.inst.color.r, 255/255);
                 assert.strictEqual(vm.$refs.mat.inst.color.g, 69/255);
@@ -28,8 +28,8 @@ describe("VglMeshStandardMaterial component", function() {
     describe("Watching property", function() {
         it("The color of the material should change when the color property changes.", function(done) {
             const vm = new Vue({
-                template: `<vgl-namespace><vgl-mesh-standard-material :color="color" ref="mat" /></vgl-namespace>`,
-                components: {VglMeshStandardMaterial, VglNamespace},
+                template: `<vgl-namespace><vgl-mesh-basic-material :color="color" ref="mat" /></vgl-namespace>`,
+                components: {VglMeshBasicMaterial, VglNamespace},
                 data: {color: "orangered"}
             }).$mount();
             vm.color = "#fff5ee";

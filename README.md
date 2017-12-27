@@ -101,7 +101,7 @@ When you open the html above in the browser, you'll see below.
   - [x] **[VglLineBasicMaterial](src/vgl-line-basic-material.js)** - Corresponding to [THREE.LineBasicMaterial](https://threejs.org/docs/index.html#api/materials/LineBasicMaterial)
   - [ ] **[VglLineDashedMaterial](src/vgl-line-dashed-material.js)** - Corresponding to [THREE.LineDashedMaterial](https://threejs.org/docs/index.html#api/materials/LineDashedMaterial)
   - [x] **[VglMaterial](src/vgl-material.js)** - Corresponding to [THREE.Material](https://threejs.org/docs/index.html#api/materials/Material)
-  - [ ] **[VglMeshBasicMaterial](src/vgl-mesh-basic-material.js)** - Corresponding to [THREE.MeshBasicMaterial](https://threejs.org/docs/index.html#api/materials/MeshBasicMaterial)
+  - [x] **[VglMeshBasicMaterial](src/vgl-mesh-basic-material.js)** - Corresponding to [THREE.MeshBasicMaterial](https://threejs.org/docs/index.html#api/materials/MeshBasicMaterial)
   - [ ] **[VglMeshDepthMaterial](src/vgl-mesh-depth-material.js)** - Corresponding to [THREE.MeshDepthMaterial](https://threejs.org/docs/index.html#api/materials/MeshDepthMaterial)
   - [ ] **[VglMeshLambertMaterial](src/vgl-mesh-lambert-material.js)** - Corresponding to [THREE.MeshLambertMaterial](https://threejs.org/docs/index.html#api/materials/MeshLambertMaterial)
   - [ ] **[VglMeshNormalMaterial](src/vgl-mesh-normal-material.js)** - Corresponding to [THREE.MeshNormalMaterial](https://threejs.org/docs/index.html#api/materials/MeshNormalMaterial)

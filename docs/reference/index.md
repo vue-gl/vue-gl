@@ -52,6 +52,7 @@ layout: reference
 ## Materials
 * [VglLineBasicMaterial](vgl-line-basic-material)
 * [VglMaterial](vgl-material)
+* [VglMeshBasicMaterial](vgl-mesh-basic-material)
 * [VglMeshStandardMaterial](vgl-mesh-standard-material)
 * [VglPointsMaterial](vgl-points-material)
 * [VglShadowMaterial](vgl-shadow-material)
