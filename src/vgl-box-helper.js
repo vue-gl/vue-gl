@@ -1,6 +1,6 @@
 import VglLineSegments from "./vgl-line-segments.js";
 import {BoxHelper} from "./three.js";
-import {validatePropString, findParent} from "./utils.js";
+import {validatePropString} from "./utils.js";
 
 export default {
     mixins: [VglLineSegments],

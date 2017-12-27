@@ -37,7 +37,10 @@ layout: reference
 * [VglArrowHelper](vgl-arrow-helper)
 * [VglAxesHelper](vgl-axes-helper)
 * [VglBoxHelper](vgl-box-helper)
+* [VglCameraHelper](vgl-camera-helper)
+* [VglDirectionalLightHelper](vgl-directional-light-helper)
 * [VglGridHelper](vgl-grid-helper)
+* [VglPolarGridHelper](vgl-polar-grid-helper)
 
 ## Lights
 * [VglAmbientLight](vgl-ambient-light)

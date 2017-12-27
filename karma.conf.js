@@ -19,17 +19,20 @@ module.exports = (config) => {
             "test/**/*.spec.js": ["babel"]
         },
         rollupPreprocessor: {
-            format: "iife",
-            name: "VueGL",
-            external: "three",
-            globals: {
-                three: "THREE"
+            output: {
+                format: "iife",
+                name: "VueGL",
+                globals: {
+                    three: "THREE"
+                },
+                sourcemap: "inline"
             },
+            intro: require("child_process").execSync("babel-external-helpers -t var"),
+            external: "three",
             plugins: [
                 require("rollup-plugin-istanbul")({include: "src/**"}),
                 require("rollup-plugin-babel")()
-            ],
-            sourcemap: "inline"
+            ]
         },
         coverageReporter: {
             type: "text-summary",
