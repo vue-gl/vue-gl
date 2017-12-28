@@ -1,9 +1,9 @@
-import VglPath from "./vgl-path.js";
-import {Shape} from "./three.js";
+import VglPath from './vgl-path.js'
+import { Shape } from './three.js'
 
 export default {
-    mixins: [VglPath],
-    computed: {
-        inst: () => new Shape()
-    }
-};
+  mixins: [VglPath],
+  computed: {
+    inst: () => new Shape()
+  }
+}
