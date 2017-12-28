@@ -32,9 +32,6 @@ export default {
     created() {
         this.c = this.color;
     },
-    beforeDestroy() {
-        this.uw();
-    },
     data() {
         return {
             c: false,
