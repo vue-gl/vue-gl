@@ -78,7 +78,7 @@ When you open the html above in the browser, you'll see below.
   - [x] **[VglArrowHelper](src/vgl-arrow-helper.js)** - Corresponding to [THREE.ArrowHelper](https://threejs.org/docs/index.html#api/helpers/ArrowHelper)
   - [x] **[VglAxesHelper](src/vgl-axes-helper.js)** - Corresponding to [THREE.AxesHelper](https://threejs.org/docs/index.html#api/helpers/AxesHelper)
   - [x] **[VglBoxHelper](src/vgl-box-helper.js)** - Corresponding to [THREE.BoxHelper](https://threejs.org/docs/index.html#api/helpers/BoxHelper)
-  - [ ] **[VglCameraHelper](src/vgl-camera-helper.js)** - Corresponding to [THREE.CameraHelper](https://threejs.org/docs/index.html#api/helpers/CameraHelper)
+  - [x] **[VglCameraHelper](src/vgl-camera-helper.js)** - Corresponding to [THREE.CameraHelper](https://threejs.org/docs/index.html#api/helpers/CameraHelper)
   - [ ] **[VglDirectionalLightHelper](src/vgl-directional-light-helper.js)** - Corresponding to [THREE.DirectionalLightHelper](https://threejs.org/docs/index.html#api/helpers/DirectionalLightHelper)
   - [ ] **[VglFaceNormalsHelper](src/vgl-face-normals-helper.js)** - Corresponding to [THREE.FaceNormalsHelper](https://threejs.org/docs/index.html#api/helpers/FaceNormalsHelper)
   - [x] **[VglGridHelper](src/vgl-grid-helper.js)** - Corresponding to [THREE.GridHelper](https://threejs.org/docs/index.html#api/helpers/GridHelper)

@@ -47,6 +47,7 @@ import VglTextGeometry from "./vgl-text-geometry.js";
 import VglSpriteMaterial from "./vgl-sprite-material.js";
 import VglGridHelper from "./vgl-grid-helper.js";
 import VglShadowMaterial from "./vgl-shadow-material.js";
+import VglCameraHelper from "./vgl-camera-helper.js";
 
 export {
     VglNamespace,
@@ -97,5 +98,6 @@ export {
     VglTextGeometry,
     VglSpriteMaterial,
     VglGridHelper,
-    VglShadowMaterial
+    VglShadowMaterial,
+    VglCameraHelper
 };
