@@ -99,16 +99,14 @@ describe("VglDirectionalLightHelper component", function() {
             vm.$nextTick(() => {
                 vm.color = "#aa87C5";
                 vm.$nextTick(() => {
-                    vm.$nextTick(() => {
-                        try {
-                            assert.strictEqual(vm.$refs.helper.inst.lightPlane.material.color.r, 170/255);
-                            assert.strictEqual(vm.$refs.helper.inst.lightPlane.material.color.g, 135/255);
-                            assert.strictEqual(vm.$refs.helper.inst.lightPlane.material.color.b, 197/255);
-                            done();
-                        } catch(e) {
-                            done(e);
-                        }
-                    });
+                    try {
+                        assert.strictEqual(vm.$refs.helper.inst.lightPlane.material.color.r, 170/255);
+                        assert.strictEqual(vm.$refs.helper.inst.lightPlane.material.color.g, 135/255);
+                        assert.strictEqual(vm.$refs.helper.inst.lightPlane.material.color.b, 197/255);
+                        done();
+                    } catch(e) {
+                        done(e);
+                    }
                 });
             });
         });

@@ -1,6 +1,6 @@
 import VglObject3d from "./vgl-object3d.js";
 import {DirectionalLightHelper, Object3D} from "./three.js";
-import {validatePropString, validatePropNumber, parseFloat_} from "./utils.js";
+import {validatePropString, validatePropNumber, parseFloat_, findParent} from "./utils.js";
 
 export default {
     mixins: [VglObject3d],
@@ -14,47 +14,40 @@ export default {
         }
     },
     computed: {
-        inst() {return this.i;}
+        inst() {
+            if (this.c !== false) {
+                const p = findParent(this, "isVglObject3d");
+                if (p) {
+                    this.p = p.inst.color;
+                    return new DirectionalLightHelper(p.inst, parseFloat_(this.size), this.c);
+                }
+            }
+            this.p = null;
+            return new Object3D();
+        },
+        hex() {
+            return this.p && this.p.getHex();
+        }
+    },
+    created() {
+        this.c = this.color;
+    },
+    beforeDestroy() {
+        this.uw();
     },
     data() {
         return {
-            i: new Object3D(),
-            uw: null
+            c: false,
+            p: null
         };
-    },
-    beforeDestroy() {
-        if (this.uw) this.uw();
     },
     watch: {
         color(color) {
-            if (this.i.parent) {
-                this.i.color = color;
-                this.i.update();
-            }
+            this.inst.color = color;
+            this.inst.update();
         },
-        "i.parent": {
-            handler(light, oldLight) {
-                if (light !== oldLight) {
-                    if (oldLight) {
-                        this.uw();
-                        if (!light) {
-                            this.i = new Object3D();
-                            return;
-                        }
-                    }
-                    if (light) {
-                        this.i = new DirectionalLightHelper(light, parseFloat_(this.size), this.color);
-                        this.uw = this.$watch(() => this.i.parent && this.i.parent.color.getHex(), () => {
-                            if (!this.color) {
-                                this.$nextTick(() => {
-                                    this.i.update();
-                                });
-                            }
-                        });
-                    }
-                }
-            },
-            immediate: true
+        hex(hex) {
+            if (hex && !this.color) this.inst.update();
         }
     }
 };
