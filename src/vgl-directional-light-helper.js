@@ -15,36 +15,37 @@ export default {
     },
     computed: {
         inst() {
-            if (this.c !== false) {
-                const p = findParent(this, "isVglObject3d");
-                if (p) {
-                    this.p = p.inst.color;
-                    return new DirectionalLightHelper(p.inst, parseFloat_(this.size), this.c);
-                }
-            }
-            this.p = null;
-            return new Object3D();
+            return this.i;
         },
         hex() {
-            return this.p && this.p.getHex();
+            return "color" in this.i && this.i.parent && this.i.parent.color.getHex();
         }
     },
     created() {
-        this.c = this.color;
+        const p = findParent(this, "isVglObject3d");
+        if (p) {
+            this.i = new DirectionalLightHelper(p.inst, parseFloat_(this.size), this.color);
+        }
     },
     data() {
         return {
-            c: false,
-            p: null
+            i: new Object3D()
         };
     },
     watch: {
         color(color) {
-            this.inst.color = color;
-            this.inst.update();
+            if ("color" in this.i) {
+                this.inst.color = color;
+                this.inst.update();
+            }
         },
         hex(hex) {
             if (hex && !this.color) this.inst.update();
+        },
+        size(size) {
+            if (this.i.parent) {
+                this.i = new DirectionalLightHelper(this.i.parent, parseFloat_(size), this.color);
+            }
         }
     }
 };
