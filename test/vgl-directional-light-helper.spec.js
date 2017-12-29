@@ -110,5 +110,30 @@ describe("VglDirectionalLightHelper component", function() {
                 });
             });
         });
+        it ("The instance should be replaced when the size property changes.", function(done) {
+            const vm = new Vue({
+                template: `<vgl-namespace><vgl-directional-light><vgl-directional-light-helper ref="helper" :size="size" /></vgl-directional-light></vgl-namespace>`,
+                components: {VglDirectionalLightHelper, VglDirectionalLight, VglNamespace},
+                data: {size: 2}
+            }).$mount();
+            vm.$nextTick(() => {
+                try {
+                    assert.strictEqual(vm.$refs.helper.inst.lightPlane.geometry.getAttribute('position').array[1], 2);
+                } catch(e) {
+                    done(e);
+                }
+                const before = vm.$refs.helper.inst;
+                vm.size = 3;
+                vm.$nextTick(() => {
+                    try {
+                        assert.notEqual(before, vm.$refs.helper.inst);
+                        assert.strictEqual(vm.$refs.helper.inst.lightPlane.geometry.getAttribute('position').array[1], 3);
+                        done();
+                    } catch(e) {
+                        done(e);
+                    }
+                })
+            });
+        });
     });
 });
