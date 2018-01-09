@@ -3087,9 +3087,9 @@ karma-mocha@^1.3.0:
   dependencies:
     minimist "1.2.0"
 
-karma-rollup-preprocessor@^5.0.3:
-  version "5.0.3"
-  resolved "https://registry.yarnpkg.com/karma-rollup-preprocessor/-/karma-rollup-preprocessor-5.0.3.tgz#99eca9d5fc06836e03c331f19d26eca1d5561636"
+karma-rollup-preprocessor@^5.1.1:
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/karma-rollup-preprocessor/-/karma-rollup-preprocessor-5.1.1.tgz#0b15cd061eaf600b1f28332a2bcc9585623a1505"
   dependencies:
     chokidar "^2.0.0"
     object-assign "^4.1.1"
