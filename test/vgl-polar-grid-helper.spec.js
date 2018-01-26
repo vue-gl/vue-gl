@@ -1,184 +1,88 @@
-/* globals chai Vue VueGL */
-
-describe("VglPolarGridHelper component's", () => {
-  const { VglPolarGridHelper, VglNamespace } = VueGL
-  const assert = chai.assert
-  describe('initial property:', () => {
-    describe('radius should be the passed value', () => {
-      it('When the property is a number', () => {
-        const vm = new Vue({
-          template: `<vgl-namespace><vgl-polar-grid-helper :radius="3.8" ref="helper" /></vgl-namespace>`,
-          components: { VglPolarGridHelper, VglNamespace }
-        }).$mount()
-        vm.$refs.helper.inst.geometry.computeBoundingBox()
-        const size = vm.$refs.helper.inst.geometry.boundingBox.getSize()
-        assert.closeTo(size.x, 7.6, 1e-6)
-        assert.closeTo(size.y, 0, 1e-6)
-        assert.closeTo(size.z, 7.6, 1e-6)
-      })
-      it('When the property is a string', () => {
-        const vm = new Vue({
-          template: `<vgl-namespace><vgl-polar-grid-helper radius="4.3" ref="helper" /></vgl-namespace>`,
-          components: { VglPolarGridHelper, VglNamespace }
-        }).$mount()
-        vm.$refs.helper.inst.geometry.computeBoundingBox()
-        const size = vm.$refs.helper.inst.geometry.boundingBox.getSize()
-        assert.closeTo(size.x, 8.6, 1e-6)
-        assert.closeTo(size.y, 0, 1e-6)
-        assert.closeTo(size.z, 8.6, 1e-6)
-      })
-      it('When the property is undefined', () => {
-        const vm = new Vue({
-          template: `<vgl-namespace><vgl-polar-grid-helper ref="helper" /></vgl-namespace>`,
-          components: { VglPolarGridHelper, VglNamespace }
-        }).$mount()
-        vm.$refs.helper.inst.geometry.computeBoundingBox()
-        const size = vm.$refs.helper.inst.geometry.boundingBox.getSize()
-        assert.closeTo(size.x, 20, 1e-6)
-        assert.closeTo(size.y, 0, 1e-6)
-        assert.closeTo(size.z, 20, 1e-6)
-      })
-    })
-    describe('radials should be the passed value', () => {
-      it('when the property is a number', () => {
-        const vm = new Vue({
-          template: `<vgl-namespace><vgl-polar-grid-helper :radials="3" ref="helper" /></vgl-namespace>`,
-          components: { VglPolarGridHelper, VglNamespace }
-        }).$mount()
-        const vertices = vm.$refs.helper.inst.geometry.getAttribute('position').array
-        assert.lengthOf(vertices, 6 * (3 + 1) + 6 * 64 * (8 + 1))
-      })
-      it('When the property is a string', () => {
-        const vm = new Vue({
-          template: `<vgl-namespace><vgl-polar-grid-helper radials="4" ref="helper" /></vgl-namespace>`,
-          components: { VglPolarGridHelper, VglNamespace }
-        }).$mount()
-        const vertices = vm.$refs.helper.inst.geometry.getAttribute('position').array
-        assert.lengthOf(vertices, 6 * (4 + 1) + 6 * 64 * (8 + 1))
-      })
-      it('When the property is undefined', () => {
-        const vm = new Vue({
-          template: `<vgl-namespace><vgl-polar-grid-helper ref="helper" /></vgl-namespace>`,
-          components: { VglPolarGridHelper, VglNamespace }
-        }).$mount()
-        const vertices = vm.$refs.helper.inst.geometry.getAttribute('position').array
-        assert.lengthOf(vertices, 6 * (16 + 1) + 6 * 64 * (8 + 1))
-      })
-    })
-    describe('circles should be the passed value', () => {
-      it('when the property is a number', () => {
-        const vm = new Vue({
-          template: `<vgl-namespace><vgl-polar-grid-helper :circles="3" ref="helper" /></vgl-namespace>`,
-          components: { VglPolarGridHelper, VglNamespace }
-        }).$mount()
-        const vertices = vm.$refs.helper.inst.geometry.getAttribute('position').array
-        assert.lengthOf(vertices, 6 * (16 + 1) + 6 * 64 * (3 + 1))
-      })
-      it('When the property is a string', () => {
-        const vm = new Vue({
-          template: `<vgl-namespace><vgl-polar-grid-helper circles="4" ref="helper" /></vgl-namespace>`,
-          components: { VglPolarGridHelper, VglNamespace }
-        }).$mount()
-        const vertices = vm.$refs.helper.inst.geometry.getAttribute('position').array
-        assert.lengthOf(vertices, 6 * (16 + 1) + 6 * 64 * (4 + 1))
-      })
-      it('When the property is undefined', () => {
-        const vm = new Vue({
-          template: `<vgl-namespace><vgl-polar-grid-helper ref="helper" /></vgl-namespace>`,
-          components: { VglPolarGridHelper, VglNamespace }
-        }).$mount()
-        const vertices = vm.$refs.helper.inst.geometry.getAttribute('position').array
-        assert.lengthOf(vertices, 6 * (16 + 1) + 6 * 64 * (8 + 1))
-      })
-    })
-    describe('divisions should be the passed value', () => {
-      it('when the property is a number', () => {
-        const vm = new Vue({
-          template: `<vgl-namespace><vgl-polar-grid-helper :divisions="24" ref="helper" /></vgl-namespace>`,
-          components: { VglPolarGridHelper, VglNamespace }
-        }).$mount()
-        const vertices = vm.$refs.helper.inst.geometry.getAttribute('position').array
-        assert.lengthOf(vertices, 6 * (16 + 1) + 6 * 24 * (8 + 1))
-      })
-      it('When the property is a string', () => {
-        const vm = new Vue({
-          template: `<vgl-namespace><vgl-polar-grid-helper divisions="48" ref="helper" /></vgl-namespace>`,
-          components: { VglPolarGridHelper, VglNamespace }
-        }).$mount()
-        const vertices = vm.$refs.helper.inst.geometry.getAttribute('position').array
-        assert.lengthOf(vertices, 6 * (16 + 1) + 6 * 48 * (8 + 1))
-      })
-      it('When the property is undefined', () => {
-        const vm = new Vue({
-          template: `<vgl-namespace><vgl-polar-grid-helper ref="helper" /></vgl-namespace>`,
-          components: { VglPolarGridHelper, VglNamespace }
-        }).$mount()
-        const vertices = vm.$refs.helper.inst.geometry.getAttribute('position').array
-        assert.lengthOf(vertices, 6 * (16 + 1) + 6 * 64 * (8 + 1))
-      })
-    })
-    describe('second color should be the passed value', () => {
-      it('When the property is a string', () => {
-        const vm = new Vue({
-          template: `<vgl-namespace><vgl-polar-grid-helper color2="#2819fe" ref="helper" /></vgl-namespace>`,
-          components: { VglPolarGridHelper, VglNamespace }
-        }).$mount()
-        const colors = vm.$refs.helper.inst.geometry.getAttribute('color').array
-        assert.closeTo(colors[0], 0.1568627, 1e-6)
-        assert.closeTo(colors[1], 0.0980392, 1e-6)
-        assert.closeTo(colors[2], 0.9960784, 1e-6)
-      })
-      it('When the property is undefined', () => {
-        const vm = new Vue({
-          template: `<vgl-namespace><vgl-polar-grid-helper ref="helper" /></vgl-namespace>`,
-          components: { VglPolarGridHelper, VglNamespace }
-        }).$mount()
-        const colors = vm.$refs.helper.inst.geometry.getAttribute('color').array
-        assert.closeTo(colors[0], 0.5333333, 1e-6)
-        assert.closeTo(colors[1], 0.5333333, 1e-6)
-        assert.closeTo(colors[2], 0.5333333, 1e-6)
-      })
-    })
-    describe('first color should be the passed value', () => {
-      it('When the property is a string', () => {
-        const vm = new Vue({
-          template: `<vgl-namespace><vgl-polar-grid-helper color1="#dea54f" ref="helper" /></vgl-namespace>`,
-          components: { VglPolarGridHelper, VglNamespace }
-        }).$mount()
-        const colors = vm.$refs.helper.inst.geometry.getAttribute('color').array
-        assert.closeTo(colors[6], 0.8705882, 1e-6)
-        assert.closeTo(colors[7], 0.6470588, 1e-6)
-        assert.closeTo(colors[8], 0.3098039, 1e-6)
-      })
-      it('When the property is undefined', () => {
-        const vm = new Vue({
-          template: `<vgl-namespace><vgl-polar-grid-helper ref="helper" /></vgl-namespace>`,
-          components: { VglPolarGridHelper, VglNamespace }
-        }).$mount()
-        const colors = vm.$refs.helper.inst.geometry.getAttribute('color').array
-        assert.closeTo(colors[6], 0.2666667, 1e-6)
-        assert.closeTo(colors[7], 0.2666667, 1e-6)
-        assert.closeTo(colors[8], 0.2666667, 1e-6)
-      })
-    })
-  })
-  describe('Watching properties', () => {
-    it('The instance should be recreated when a property changes.', (done) => {
-      const vm = new Vue({
-        template: `<vgl-namespace><vgl-polar-grid-helper :radius="radius" ref="helper" /></vgl-namespace>`,
-        components: { VglPolarGridHelper, VglNamespace },
-        data: { radius: 1.1 }
-      }).$mount()
-      const before = vm.$refs.helper.inst
-      vm.radius = 1.5
-      vm.$nextTick(() => {
-        try {
-          assert.notEqual(before, vm.$refs.helper.inst)
-          done()
-        } catch (e) {
-          done(e)
-        }
-      })
-    })
-  })
-})
+describe('VglPolarGridHelper:', function suite() {
+  const { VglPolarGridHelper, VglObject3d, VglNamespace } = VueGL;
+  const { expect } = chai;
+  let updatedHistory;
+  const ObjectWatcher = {
+    mixins: [VglObject3d, VglNamespace],
+    props: ['renderer', 'camera'],
+    created() {
+      this.vglObject3d.listeners.push(() => {
+        this.renderer.render(new THREE.Scene().add(this.inst), this.camera);
+        updatedHistory.push(this.renderer.domElement.toDataURL());
+      });
+    },
+  };
+  before(function hook(done) {
+    this.renderer = new THREE.WebGLRenderer();
+    this.camera = new THREE.PerspectiveCamera();
+    this.renderer.setSize(355, 219);
+    this.camera.aspect = 355 / 219;
+    this.camera.position.set(15, 15, 15);
+    this.camera.lookAt(new THREE.Vector3());
+    this.camera.updateProjectionMatrix();
+    done();
+  });
+  after(function hook(done) {
+    this.renderer.dispose();
+    done();
+  });
+  beforeEach(function hook(done) {
+    updatedHistory = [];
+    done();
+  });
+  it('default', function test() {
+    const vm = new Vue({
+      template: '<object-watcher :renderer="renderer" :camera="camera"><vgl-polar-grid-helper /></object-watcher>',
+      components: { VglPolarGridHelper, ObjectWatcher },
+      computed: { renderer: () => this.renderer, camera: () => this.camera },
+    }).$mount();
+    return vm.$nextTick().then(() => {
+      expect(updatedHistory).to.have.lengthOf(1);
+      const scene = new THREE.Scene();
+      scene.add(new THREE.Object3D().add(new THREE.PolarGridHelper()));
+      this.renderer.render(scene, this.camera);
+      const expected = this.renderer.domElement.toDataURL();
+      expect(updatedHistory[0]).to.equal(expected);
+    });
+  });
+  it('with properties', function test() {
+    const vm = new Vue({
+      template: '<object-watcher :renderer="renderer" :camera="camera"><vgl-polar-grid-helper radius="27.21" radials="11" circles="11" divisions="32" color1="#aa823f" color2="#f3dae2" /></object-watcher>',
+      components: { VglPolarGridHelper, ObjectWatcher },
+      computed: { renderer: () => this.renderer, camera: () => this.camera },
+    }).$mount();
+    return vm.$nextTick().then(() => {
+      expect(updatedHistory).to.have.lengthOf(1);
+      const scene = new THREE.Scene();
+      const obj = new THREE.Object3D();
+      scene.add(obj.add(new THREE.PolarGridHelper(27.21, 11, 11, 32, 0xaa823f, 0xf3dae2)));
+      this.renderer.render(scene, this.camera);
+      const expected = this.renderer.domElement.toDataURL();
+      expect(updatedHistory[0]).to.equal(expected);
+    });
+  });
+  it('after radius property is changed', function test() {
+    const vm = new Vue({
+      template: '<object-watcher :renderer="renderer" :camera="camera"><vgl-polar-grid-helper :radius="radius" /></object-watcher>',
+      components: { VglPolarGridHelper, ObjectWatcher },
+      computed: { renderer: () => this.renderer, camera: () => this.camera },
+      data: { radius: '10.3' },
+    }).$mount();
+    return vm.$nextTick().then(() => {
+      vm.radius = '13.7';
+      return vm.$nextTick().then(() => {
+        expect(updatedHistory).to.have.lengthOf(2);
+        const scene1 = new THREE.Scene();
+        scene1.add(new THREE.Object3D().add(new THREE.PolarGridHelper(10.3)));
+        this.renderer.render(scene1, this.camera);
+        const expected1 = this.renderer.domElement.toDataURL();
+        expect(updatedHistory[0]).to.equal(expected1);
+        const scene2 = new THREE.Scene();
+        scene2.add(new THREE.Object3D().add(new THREE.PolarGridHelper(13.7)));
+        this.renderer.render(scene2, this.camera);
+        const expected2 = this.renderer.domElement.toDataURL();
+        expect(updatedHistory[1]).to.equal(expected2);
+      });
+    });
+  });
+});

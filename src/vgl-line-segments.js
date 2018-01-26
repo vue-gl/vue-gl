@@ -1,9 +1,9 @@
-import VglLine from './vgl-line.js'
-import { LineSegments } from './three.js'
+import VglLine from './vgl-line.js';
+import { LineSegments } from './three.js';
 
 export default {
   mixins: [VglLine],
   computed: {
-    inst: () => new LineSegments()
-  }
-}
+    inst: () => new LineSegments(),
+  },
+};

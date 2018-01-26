@@ -1,10 +1,10 @@
-import VglObject3d from './vgl-object3d.js'
-import { objectMixinFactory } from './mixins.js'
-import { Mesh } from './three.js'
+import VglObject3d from './vgl-object3d.js';
+import { VglMaterialListener, VglGeometryListener } from './mixins.js';
+import { Mesh } from './three.js';
 
 export default {
-  mixins: [VglObject3d, objectMixinFactory(true)],
+  mixins: [VglObject3d, VglMaterialListener, VglGeometryListener],
   computed: {
-    inst: () => new Mesh()
-  }
-}
+    inst: () => new Mesh(),
+  },
+};

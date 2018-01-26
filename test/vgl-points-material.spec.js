@@ -1,126 +1,205 @@
-describe('VglPointsMaterial component', () => {
-  const { VglPointsMaterial, VglNamespace } = VueGL
-  const assert = chai.assert
-  describe('Creating a material', () => {
-    describe('The color of the material should be same as the color property.', () => {
-      it('When the property is undefined.', () => {
-        const vm = new Vue({
-          template: `<vgl-namespace><vgl-points-material ref="mat" /></vgl-namespace>`,
-          components: { VglPointsMaterial, VglNamespace }
-        }).$mount()
-        assert.strictEqual(vm.$refs.mat.inst.color.r, 255 / 255)
-        assert.strictEqual(vm.$refs.mat.inst.color.g, 255 / 255)
-        assert.strictEqual(vm.$refs.mat.inst.color.b, 255 / 255)
-      })
-      it('When the property is a hex code.', () => {
-        const vm = new Vue({
-          template: `<vgl-namespace><vgl-points-material color="#24d85a" ref="mat" /></vgl-namespace>`,
-          components: { VglPointsMaterial, VglNamespace }
-        }).$mount()
-        assert.strictEqual(vm.$refs.mat.inst.color.r, 36 / 255)
-        assert.strictEqual(vm.$refs.mat.inst.color.g, 216 / 255)
-        assert.strictEqual(vm.$refs.mat.inst.color.b, 90 / 255)
-      })
-      it('When the property is a color name.', () => {
-        const vm = new Vue({
-          template: `<vgl-namespace><vgl-points-material color="salmon" ref="mat" /></vgl-namespace>`,
-          components: { VglPointsMaterial, VglNamespace }
-        }).$mount()
-        assert.strictEqual(vm.$refs.mat.inst.color.r, 250 / 255)
-        assert.strictEqual(vm.$refs.mat.inst.color.g, 128 / 255)
-        assert.strictEqual(vm.$refs.mat.inst.color.b, 114 / 255)
-      })
-    })
-    describe('The size of the material should be same as the size property.', () => {
-      it('When the property is undefined.', () => {
-        const vm = new Vue({
-          template: `<vgl-namespace><vgl-points-material ref="mat" /></vgl-namespace>`,
-          components: { VglPointsMaterial, VglNamespace }
-        }).$mount()
-        assert.strictEqual(vm.$refs.mat.inst.size, 1)
-      })
-      it('When the property is a number.', () => {
-        const vm = new Vue({
-          template: `<vgl-namespace><vgl-points-material :size="2.1" ref="mat" /></vgl-namespace>`,
-          components: { VglPointsMaterial, VglNamespace }
-        }).$mount()
-        assert.strictEqual(vm.$refs.mat.inst.size, 2.1)
-      })
-      it('When the property is a string.', () => {
-        const vm = new Vue({
-          template: `<vgl-namespace><vgl-points-material size="1.1" ref="mat" /></vgl-namespace>`,
-          components: { VglPointsMaterial, VglNamespace }
-        }).$mount()
-        assert.strictEqual(vm.$refs.mat.inst.size, 1.1)
-      })
-    })
-    describe('The sizeAttenuation of the material should be disabled by the desableSizeAttenuation property.', () => {
-      it('When the property is false.', () => {
-        const vm = new Vue({
-          template: `<vgl-namespace><vgl-points-material ref="mat" /></vgl-namespace>`,
-          components: { VglPointsMaterial, VglNamespace }
-        }).$mount()
-        assert.isTrue(vm.$refs.mat.inst.sizeAttenuation)
-      })
-      it('When the property is a string.', () => {
-        const vm = new Vue({
-          template: `<vgl-namespace><vgl-points-material disable-size-attenuation ref="mat" /></vgl-namespace>`,
-          components: { VglPointsMaterial, VglNamespace }
-        }).$mount()
-        assert.isFalse(vm.$refs.mat.inst.sizeAttenuation)
-      })
-    })
-  })
-  describe('Watching properties', () => {
-    it('The color of the material should change when the color property changes.', (done) => {
-      const vm = new Vue({
-        template: `<vgl-namespace><vgl-points-material :color="color" ref="mat" /></vgl-namespace>`,
-        components: { VglPointsMaterial, VglNamespace },
-        data: { color: 'lemonchiffon' }
-      }).$mount()
-      vm.color = 'mediumseagreen'
-      vm.$nextTick(() => {
-        try {
-          assert.strictEqual(vm.$refs.mat.inst.color.r, 0x3c / 0xff)
-          assert.strictEqual(vm.$refs.mat.inst.color.g, 0xb3 / 0xff)
-          assert.strictEqual(vm.$refs.mat.inst.color.b, 0x71 / 0xff)
-          done()
-        } catch (e) {
-          done(e)
-        }
-      })
-    })
-    it('The size of the material should change when the size property changes.', (done) => {
-      const vm = new Vue({
-        template: `<vgl-namespace><vgl-points-material :size="size" ref="mat" /></vgl-namespace>`,
-        components: { VglPointsMaterial, VglNamespace },
-        data: { size: 0.8 }
-      }).$mount()
-      vm.size = '1.2'
-      vm.$nextTick(() => {
-        try {
-          assert.strictEqual(vm.$refs.mat.inst.size, 1.2)
-          done()
-        } catch (e) {
-          done(e)
-        }
-      })
-    })
-    it('The sizeAttenuation of the material should change when the disableSizeAttenuation property changes.', (done) => {
-      const vm = new Vue({
-        template: `<vgl-namespace><vgl-points-material :disable-size-attenuation="disabled" ref="mat" /></vgl-namespace>`,
-        components: { VglPointsMaterial, VglNamespace },
-        data: { disabled: false }
-      }).$mount()
-      vm.disabled = true
-      vm.$nextTick(() => {
-        try {
-          assert.isFalse(vm.$refs.mat.inst.sizeAttenuation)
-          done()
-        } catch (e) {
-          done(e)
-        }
-      })
-    })
-  })
-})
+describe('VglPointsMaterial:', function suite() {
+  const { VglPointsMaterial, VglPoints, VglNamespace } = VueGL;
+  const { expect } = chai;
+  let updatedHistory;
+  const MaterialWatcher = {
+    mixins: [VglPoints],
+    created() {
+      this.vglObject3d.listeners.push(() => {
+        updatedHistory.push(this.inst.material.clone());
+      });
+    },
+  };
+  beforeEach(function hook(done) {
+    updatedHistory = [];
+    done();
+  });
+  it('default', function test() {
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-points-material name="abc1#2" /><material-watcher material="abc1#2" /></vgl-namespace>',
+      components: { VglNamespace, VglPointsMaterial, MaterialWatcher },
+    }).$mount();
+    return vm.$nextTick().then(() => {
+      expect(updatedHistory).to.have.lengthOf(1);
+      const expected = new THREE.PointsMaterial();
+      expect(updatedHistory[0]).to.have.property('type', expected.type);
+      expect(updatedHistory[0].color.equals(expected.color)).to.equal(true);
+      expect(updatedHistory[0]).to.have.property('map', expected.map);
+      expect(updatedHistory[0]).to.have.property('size', expected.size);
+      expect(updatedHistory[0]).to.have.property('sizeAttenuation', expected.sizeAttenuation);
+      expect(updatedHistory[0]).to.have.property('lights', expected.lights);
+    });
+  });
+  it('with color property', function test() {
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-points-material name="abc1#2" color="#3499f0" /><material-watcher material="abc1#2" /></vgl-namespace>',
+      components: { VglNamespace, VglPointsMaterial, MaterialWatcher },
+    }).$mount();
+    return vm.$nextTick().then(() => {
+      expect(updatedHistory).to.have.lengthOf(1);
+      const expected = new THREE.PointsMaterial({ color: 0x3499f0 });
+      expect(updatedHistory[0]).to.have.property('type', expected.type);
+      expect(updatedHistory[0].color.equals(expected.color)).to.equal(true);
+      expect(updatedHistory[0]).to.have.property('map', expected.map);
+      expect(updatedHistory[0]).to.have.property('size', expected.size);
+      expect(updatedHistory[0]).to.have.property('sizeAttenuation', expected.sizeAttenuation);
+      expect(updatedHistory[0]).to.have.property('lights', expected.lights);
+    });
+  });
+  it('with lights property', function test() {
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-points-material name="abc1#2" lights /><material-watcher material="abc1#2" /></vgl-namespace>',
+      components: { VglNamespace, VglPointsMaterial, MaterialWatcher },
+    }).$mount();
+    return vm.$nextTick().then(() => {
+      expect(updatedHistory).to.have.lengthOf(1);
+      const expected = new THREE.PointsMaterial({ lights: true });
+      expect(updatedHistory[0]).to.have.property('type', expected.type);
+      expect(updatedHistory[0].color.equals(expected.color)).to.equal(true);
+      expect(updatedHistory[0]).to.have.property('map', expected.map);
+      expect(updatedHistory[0]).to.have.property('size', expected.size);
+      expect(updatedHistory[0]).to.have.property('sizeAttenuation', expected.sizeAttenuation);
+      expect(updatedHistory[0]).to.have.property('lights', expected.lights);
+    });
+  });
+  it('with size property', function test() {
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-points-material name="abc1#2" size="3.8" /><material-watcher material="abc1#2" /></vgl-namespace>',
+      components: { VglNamespace, VglPointsMaterial, MaterialWatcher },
+    }).$mount();
+    return vm.$nextTick().then(() => {
+      expect(updatedHistory).to.have.lengthOf(1);
+      const expected = new THREE.PointsMaterial({ size: 3.8 });
+      expect(updatedHistory[0]).to.have.property('type', expected.type);
+      expect(updatedHistory[0].color.equals(expected.color)).to.equal(true);
+      expect(updatedHistory[0]).to.have.property('map', expected.map);
+      expect(updatedHistory[0]).to.have.property('size', expected.size);
+      expect(updatedHistory[0]).to.have.property('sizeAttenuation', expected.sizeAttenuation);
+      expect(updatedHistory[0]).to.have.property('lights', expected.lights);
+    });
+  });
+  it('with disableSizeAttenuation property', function test() {
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-points-material name="abc1#2" disable-size-attenuation /><material-watcher material="abc1#2" /></vgl-namespace>',
+      components: { VglNamespace, VglPointsMaterial, MaterialWatcher },
+    }).$mount();
+    return vm.$nextTick().then(() => {
+      expect(updatedHistory).to.have.lengthOf(1);
+      const expected = new THREE.PointsMaterial({ sizeAttenuation: false });
+      expect(updatedHistory[0]).to.have.property('type', expected.type);
+      expect(updatedHistory[0].color.equals(expected.color)).to.equal(true);
+      expect(updatedHistory[0]).to.have.property('map', expected.map);
+      expect(updatedHistory[0]).to.have.property('size', expected.size);
+      expect(updatedHistory[0]).to.have.property('sizeAttenuation', expected.sizeAttenuation);
+      expect(updatedHistory[0]).to.have.property('lights', expected.lights);
+    });
+  });
+  it('after color property is changed', function test() {
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-points-material name="abc1#2" :color="color" /><material-watcher material="abc1#2" /></vgl-namespace>',
+      components: { VglNamespace, VglPointsMaterial, MaterialWatcher },
+      data: { color: '#3499f0' },
+    }).$mount();
+    return vm.$nextTick().then(() => {
+      vm.color = '#18e35b';
+      return vm.$nextTick().then(() => {
+        expect(updatedHistory).to.have.lengthOf(2);
+        const expected1 = new THREE.PointsMaterial({ color: 0x3499f0 });
+        expect(updatedHistory[0]).to.have.property('type', expected1.type);
+        expect(updatedHistory[0].color.equals(expected1.color)).to.equal(true);
+        expect(updatedHistory[0]).to.have.property('map', expected1.map);
+        expect(updatedHistory[0]).to.have.property('size', expected1.size);
+        expect(updatedHistory[0]).to.have.property('sizeAttenuation', expected1.sizeAttenuation);
+        expect(updatedHistory[0]).to.have.property('lights', expected1.lights);
+        const expected2 = new THREE.PointsMaterial({ color: 0x18e35b });
+        expect(updatedHistory[1]).to.have.property('type', expected2.type);
+        expect(updatedHistory[1].color.equals(expected2.color)).to.equal(true);
+        expect(updatedHistory[1]).to.have.property('map', expected2.map);
+        expect(updatedHistory[1]).to.have.property('size', expected2.size);
+        expect(updatedHistory[1]).to.have.property('sizeAttenuation', expected2.sizeAttenuation);
+        expect(updatedHistory[1]).to.have.property('lights', expected2.lights);
+      });
+    });
+  });
+  it('after size property is changed', function test() {
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-points-material name="abc1#2" :size="size" /><material-watcher material="abc1#2" /></vgl-namespace>',
+      components: { VglNamespace, VglPointsMaterial, MaterialWatcher },
+      data: { size: '2.2' },
+    }).$mount();
+    return vm.$nextTick().then(() => {
+      vm.size = '3.6';
+      return vm.$nextTick().then(() => {
+        expect(updatedHistory).to.have.lengthOf(2);
+        const expected1 = new THREE.PointsMaterial({ size: 2.2 });
+        expect(updatedHistory[0]).to.have.property('type', expected1.type);
+        expect(updatedHistory[0].color.equals(expected1.color)).to.equal(true);
+        expect(updatedHistory[0]).to.have.property('map', expected1.map);
+        expect(updatedHistory[0]).to.have.property('size', expected1.size);
+        expect(updatedHistory[0]).to.have.property('sizeAttenuation', expected1.sizeAttenuation);
+        expect(updatedHistory[0]).to.have.property('lights', expected1.lights);
+        const expected2 = new THREE.PointsMaterial({ size: 3.6 });
+        expect(updatedHistory[1]).to.have.property('type', expected2.type);
+        expect(updatedHistory[1].color.equals(expected2.color)).to.equal(true);
+        expect(updatedHistory[1]).to.have.property('map', expected2.map);
+        expect(updatedHistory[1]).to.have.property('size', expected2.size);
+        expect(updatedHistory[1]).to.have.property('sizeAttenuation', expected2.sizeAttenuation);
+        expect(updatedHistory[1]).to.have.property('lights', expected2.lights);
+      });
+    });
+  });
+  it('after disbleSizeAttenuation property is changed', function test() {
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-points-material name="abc1#2" :disable-size-attenuation="!attenuation" /><material-watcher material="abc1#2" /></vgl-namespace>',
+      components: { VglNamespace, VglPointsMaterial, MaterialWatcher },
+      data: { attenuation: true },
+    }).$mount();
+    return vm.$nextTick().then(() => {
+      vm.attenuation = false;
+      return vm.$nextTick().then(() => {
+        expect(updatedHistory).to.have.lengthOf(2);
+        const expected1 = new THREE.PointsMaterial({ sizeAttenuation: true });
+        expect(updatedHistory[0]).to.have.property('type', expected1.type);
+        expect(updatedHistory[0].color.equals(expected1.color)).to.equal(true);
+        expect(updatedHistory[0]).to.have.property('map', expected1.map);
+        expect(updatedHistory[0]).to.have.property('size', expected1.size);
+        expect(updatedHistory[0]).to.have.property('sizeAttenuation', expected1.sizeAttenuation);
+        expect(updatedHistory[0]).to.have.property('lights', expected1.lights);
+        const expected2 = new THREE.PointsMaterial({ sizeAttenuation: false });
+        expect(updatedHistory[1]).to.have.property('type', expected2.type);
+        expect(updatedHistory[1].color.equals(expected2.color)).to.equal(true);
+        expect(updatedHistory[1]).to.have.property('map', expected2.map);
+        expect(updatedHistory[1]).to.have.property('size', expected2.size);
+        expect(updatedHistory[1]).to.have.property('sizeAttenuation', expected2.sizeAttenuation);
+        expect(updatedHistory[1]).to.have.property('lights', expected2.lights);
+      });
+    });
+  });
+  it('after lights property is changed', function test() {
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-points-material name="abc1#2" :lights="lights" /><material-watcher material="abc1#2" /></vgl-namespace>',
+      components: { VglNamespace, VglPointsMaterial, MaterialWatcher },
+      data: { lights: true },
+    }).$mount();
+    return vm.$nextTick().then(() => {
+      vm.lights = false;
+      return vm.$nextTick().then(() => {
+        expect(updatedHistory).to.have.lengthOf(2);
+        const expected1 = new THREE.PointsMaterial({ lights: true });
+        expect(updatedHistory[0]).to.have.property('type', expected1.type);
+        expect(updatedHistory[0].color.equals(expected1.color)).to.equal(true);
+        expect(updatedHistory[0]).to.have.property('map', expected1.map);
+        expect(updatedHistory[0]).to.have.property('size', expected1.size);
+        expect(updatedHistory[0]).to.have.property('sizeAttenuation', expected1.sizeAttenuation);
+        expect(updatedHistory[0]).to.have.property('lights', expected1.lights);
+        const expected2 = new THREE.PointsMaterial({ lights: false });
+        expect(updatedHistory[1]).to.have.property('type', 'PointsMaterial');
+        expect(updatedHistory[1].color.equals(expected2.color)).to.equal(true);
+        expect(updatedHistory[1]).to.have.property('map', expected2.map);
+        expect(updatedHistory[1]).to.have.property('size', expected2.size);
+        expect(updatedHistory[1]).to.have.property('sizeAttenuation', expected2.sizeAttenuation);
+        expect(updatedHistory[1]).to.have.property('lights', expected2.lights);
+      });
+    });
+  });
+});

@@ -1,392 +1,720 @@
-/* globals chai THREE Vue VueGL */
-
-describe('VglObject3d component', () => {
-  const { VglObject3d } = VueGL
-  const assert = chai.assert
-  describe('Component tree', () => {
-    it('The instance should be added to the parent when created.', () => {
+describe('VglObject3d:', function component() {
+  const { VglObject3d } = VueGL;
+  const { assert } = chai;
+  describe('Instances should make a correct tree structure', function suite() {
+    it('after initialization', function test(done) {
       const vm = new Vue({
-        template: `<vgl-object3d ref="parent"><vgl-object3d ref="child" /></vgl-object3d>`,
-        components: { VglObject3d }
-      }).$mount()
-      assert.lengthOf(vm.$refs.parent.inst.children, 1)
-      assert.include(vm.$refs.parent.inst.children, vm.$refs.child.inst)
-      assert.include(vm.$refs.child.inst.parent, vm.$refs.parent.inst)
-    })
-    it('The instance under other components should be added to the nearest ancestor.', () => {
-      const vm = new Vue({
-        template: `<vgl-object3d ref="parent"><other-component><vgl-object3d ref="child" /></other-component></vgl-object3d>`,
-        components: {
-          VglObject3d,
-          OtherComponent: { template: `<div><slot /></div>` }
-        }
-      }).$mount()
-      assert.lengthOf(vm.$refs.parent.inst.children, 1)
-      assert.include(vm.$refs.parent.inst.children, vm.$refs.child.inst)
-      assert.include(vm.$refs.child.inst.parent, vm.$refs.parent.inst)
-    })
-    it('The instance should be removed from the parent when destroyed.', (done) => {
-      const vm = new Vue({
-        template: `<vgl-object3d ref="parent"><vgl-object3d v-if="!destroyed" ref="child" /></vgl-object3d>`,
+        template: '<vgl-object3d ref="a"><vgl-object3d ref="b"><vgl-object3d ref="e"><vgl-object3d ref="g" /><vgl-object3d ref="h" /></vgl-object3d><vgl-object3d ref="f" /></vgl-object3d><vgl-object3d ref="c" /><vgl-object3d ref="d" /></vgl-object3d>',
         components: { VglObject3d },
-        data: { destroyed: false }
-      }).$mount()
-      assert.include(vm.$refs.parent.inst.children, vm.$refs.child.inst)
-      const parent = vm.$refs.parent
-      vm.destroyed = true
+      }).$mount();
       vm.$nextTick(() => {
         try {
-          assert.isEmpty(parent.inst.children)
-          done()
+          const a = vm.$refs.a.inst;
+          const b = vm.$refs.b.inst;
+          const c = vm.$refs.c.inst;
+          const d = vm.$refs.d.inst;
+          const e = vm.$refs.e.inst;
+          const f = vm.$refs.f.inst;
+          const g = vm.$refs.g.inst;
+          const h = vm.$refs.h.inst;
+          assert.sameMembers(a.children, [b, c, d]);
+          assert.sameMembers(b.children, [e, f]);
+          assert.isEmpty(c.children);
+          assert.isEmpty(d.children);
+          assert.sameMembers(e.children, [g, h]);
+          assert.isEmpty(f.children);
+          assert.isEmpty(g.children);
+          assert.isEmpty(h.children);
+          done();
         } catch (e) {
-          done(e)
+          done(e);
         }
-      })
-    })
-  })
-  describe('Creating a object', () => {
-    describe('Properties of the object', () => {
-      describe('The position property should affect the position of the instance.', () => {
-        it('When the property is undefined.', () => {
-          const vm = new Vue(VglObject3d)
-          assert.strictEqual(vm.inst.position.x, 0)
-          assert.strictEqual(vm.inst.position.y, 0)
-          assert.strictEqual(vm.inst.position.z, 0)
-        })
-        it('When the property is a Vector3 object.', () => {
-          const vm = new (Vue.extend(VglObject3d))({ propsData: { position: new THREE.Vector3(-1, -5, 6.8) }})
-          assert.strictEqual(vm.inst.position.x, -1)
-          assert.strictEqual(vm.inst.position.y, -5)
-          assert.strictEqual(vm.inst.position.z, 6.8)
-        })
-        it('When the property is a string.', () => {
-          const vm = new (Vue.extend(VglObject3d))({ propsData: { position: '-1.0 -5e8 6.8' }})
-          assert.strictEqual(vm.inst.position.x, -1)
-          assert.strictEqual(vm.inst.position.y, -5e8)
-          assert.strictEqual(vm.inst.position.z, 6.8)
-        })
-      })
-      describe('The rotation property should affect the rotation of the instance.', () => {
-        it('When the property is undefined.', () => {
-          const vm = new Vue(VglObject3d)
-          assert.strictEqual(vm.inst.rotation.x, 0)
-          assert.strictEqual(vm.inst.rotation.y, 0)
-          assert.strictEqual(vm.inst.rotation.z, 0)
-          assert.equal(vm.inst.rotation.order, 'XYZ')
-        })
-        it('When the property is a Euler object.', () => {
-          const vm = new (Vue.extend(VglObject3d))({ propsData: { rotation: new THREE.Euler(-1, -5, 6.8, 'ZYX') }})
-          assert.strictEqual(vm.inst.rotation.x, -1)
-          assert.strictEqual(vm.inst.rotation.y, -5)
-          assert.strictEqual(vm.inst.rotation.z, 6.8)
-          assert.strictEqual(vm.inst.rotation.order, 'ZYX')
-        })
-        it('When the property is a string.', () => {
-          const vm = new (Vue.extend(VglObject3d))({ propsData: { rotation: '-1.0 -5e8 6.8 XZY ' }})
-          assert.strictEqual(vm.inst.rotation.x, -1)
-          assert.strictEqual(vm.inst.rotation.y, -5e8)
-          assert.strictEqual(vm.inst.rotation.z, 6.8)
-          assert.strictEqual(vm.inst.rotation.order, 'XZY')
-        })
-      })
-      describe('The scale property should affect the scale of the instance.', () => {
-        it('When the property is undefined.', () => {
-          const vm = new Vue(VglObject3d)
-          assert.strictEqual(vm.inst.scale.x, 1)
-          assert.strictEqual(vm.inst.scale.y, 1)
-          assert.strictEqual(vm.inst.scale.z, 1)
-        })
-        it('When the property is a Vector3 object.', () => {
-          const vm = new (Vue.extend(VglObject3d))({ propsData: { scale: new THREE.Vector3(-1, -5, 6.8) }})
-          assert.strictEqual(vm.inst.scale.x, -1)
-          assert.strictEqual(vm.inst.scale.y, -5)
-          assert.strictEqual(vm.inst.scale.z, 6.8)
-        })
-        it('When the property is a string.', () => {
-          const vm = new (Vue.extend(VglObject3d))({ propsData: { scale: ' -1.0 -5e8 6.8 ' }})
-          assert.strictEqual(vm.inst.scale.x, -1)
-          assert.strictEqual(vm.inst.scale.y, -5e8)
-          assert.strictEqual(vm.inst.scale.z, 6.8)
-        })
-      })
-      describe('The castShadow property should affect the castShadow of the instance.', () => {
-        it('When the property is false.', () => {
-          const vm = new (Vue.extend(VglObject3d))({ propsData: { castShadow: false }})
-          assert.isFalse(vm.inst.castShadow)
-        })
-        it('When the property is true.', () => {
-          const vm = new (Vue.extend(VglObject3d))({ propsData: { castShadow: true }})
-          assert.isTrue(vm.inst.castShadow)
-        })
-      })
-      describe('The recieveShadow property should affect the recieveShadow of the instance.', () => {
-        it('When the property is false.', () => {
-          const vm = new (Vue.extend(VglObject3d))({ propsData: { receiveShadow: false }})
-          assert.isFalse(vm.inst.receiveShadow)
-        })
-        it('When the property is true.', () => {
-          const vm = new (Vue.extend(VglObject3d))({ propsData: { receiveShadow: true }})
-          assert.isTrue(vm.inst.receiveShadow)
-        })
-      })
-    })
-  })
-  describe('Watching properties', () => {
-    describe('Should affect the position of the object when the position property is changed.', () => {
-      it('From undefined to a string.', (done) => {
-        const vm = new Vue(VglObject3d)
-        vm.position = ' 1.1  -1.9 8'
+      });
+    });
+    it('after instances are replaced', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-object3d :test-meaningless-property-for-replace-instance="a" ref="a"><vgl-object3d ref="b"><vgl-object3d :test-meaningless-property-for-replace-instance="e" ref="e"><vgl-object3d ref="g" /><vgl-object3d ref="h" /></vgl-object3d><vgl-object3d ref="f" /></vgl-object3d><vgl-object3d :test-meaningless-property-for-replace-instance="c" ref="c" /><vgl-object3d ref="d" /></vgl-object3d>',
+        components: {
+          VglObject3d: {
+            mixins: [VglObject3d],
+            props: ['testMeaninglessPropertyForReplaceInstance'],
+            computed: {
+              inst() {
+                const obj = new THREE.Object3D();
+                obj.meaninglessProperty = this.testMeaninglessPropertyForReplaceInstance;
+                return obj;
+              },
+            },
+          },
+        },
+        data: {
+          a: 0,
+          c: 0,
+          e: 0,
+        },
+      }).$mount();
+      vm.$nextTick(() => {
+        vm.a = 1;
+        vm.c = 2;
+        vm.e = 3;
         vm.$nextTick(() => {
           try {
-            assert.strictEqual(vm.inst.position.x, 1.1)
-            assert.strictEqual(vm.inst.position.y, -1.9)
-            assert.strictEqual(vm.inst.position.z, 8)
-            done()
+            const a = vm.$refs.a.inst;
+            const b = vm.$refs.b.inst;
+            const c = vm.$refs.c.inst;
+            const d = vm.$refs.d.inst;
+            const e = vm.$refs.e.inst;
+            const f = vm.$refs.f.inst;
+            const g = vm.$refs.g.inst;
+            const h = vm.$refs.h.inst;
+            assert.sameMembers(a.children, [b, c, d]);
+            assert.sameMembers(b.children, [e, f]);
+            assert.isEmpty(c.children);
+            assert.isEmpty(d.children);
+            assert.sameMembers(e.children, [g, h]);
+            assert.isEmpty(f.children);
+            assert.isEmpty(g.children);
+            assert.isEmpty(h.children);
+            done();
           } catch (e) {
-            done(e)
+            done(e);
           }
-        })
-      })
-      it('From a string to a string.', (done) => {
-        const vm = new (Vue.extend(VglObject3d))({ propsData: { position: '2.1 3  5' }})
-        vm.position = '1.1 -1.9 8'
+        });
+      });
+    });
+    it('when components are created after initialization', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-object3d ref="a"><vgl-object3d ref="b"><vgl-object3d v-if="e" ref="e"><vgl-object3d ref="g" /><vgl-object3d ref="h" /></vgl-object3d><vgl-object3d ref="f" /></vgl-object3d><vgl-object3d v-if="c" ref="c" /><vgl-object3d ref="d" /></vgl-object3d>',
+        components: { VglObject3d },
+        data: {
+          c: false,
+          e: false,
+        },
+      }).$mount();
+      vm.$nextTick(() => {
+        try {
+          const a = vm.$refs.a.inst;
+          const b = vm.$refs.b.inst;
+          const d = vm.$refs.d.inst;
+          const f = vm.$refs.f.inst;
+          assert.sameMembers(a.children, [b, d]);
+          assert.sameMembers(b.children, [f]);
+          assert.isEmpty(d.children);
+          assert.isEmpty(f.children);
+          assert.isUndefined(vm.$refs.c);
+          assert.isUndefined(vm.$refs.e);
+          assert.isUndefined(vm.$refs.g);
+          assert.isUndefined(vm.$refs.h);
+        } catch (e) {
+          done(e);
+        }
+        vm.c = true;
+        vm.e = true;
         vm.$nextTick(() => {
           try {
-            assert.strictEqual(vm.inst.position.x, 1.1)
-            assert.strictEqual(vm.inst.position.y, -1.9)
-            assert.strictEqual(vm.inst.position.z, 8)
-            done()
+            const a = vm.$refs.a.inst;
+            const b = vm.$refs.b.inst;
+            const c = vm.$refs.c.inst;
+            const d = vm.$refs.d.inst;
+            const e = vm.$refs.e.inst;
+            const f = vm.$refs.f.inst;
+            const g = vm.$refs.g.inst;
+            const h = vm.$refs.h.inst;
+            assert.sameMembers(a.children, [b, c, d]);
+            assert.sameMembers(b.children, [e, f]);
+            assert.isEmpty(c.children);
+            assert.isEmpty(d.children);
+            assert.sameMembers(e.children, [g, h]);
+            assert.isEmpty(f.children);
+            assert.isEmpty(g.children);
+            assert.isEmpty(h.children);
+            done();
           } catch (e) {
-            done(e)
+            done(e);
           }
-        })
-      })
-      it('From a Vector3 object to undefined.', (done) => {
-        const vm = new (Vue.extend(VglObject3d))({ propsData: { position: new THREE.Vector3(1.1, -1.9, 8) }})
-        vm.position = undefined
+        });
+      });
+    });
+    it('after components are destroyed', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-object3d ref="a"><vgl-object3d ref="b"><vgl-object3d v-if="e" ref="e"><vgl-object3d ref="g" /><vgl-object3d ref="h" /></vgl-object3d><vgl-object3d ref="f" /></vgl-object3d><vgl-object3d v-if="c" ref="c" /><vgl-object3d ref="d" /></vgl-object3d>',
+        components: { VglObject3d },
+        data: {
+          c: true,
+          e: true,
+        },
+      }).$mount();
+      vm.$nextTick(() => {
+        try {
+          const a = vm.$refs.a.inst;
+          const b = vm.$refs.b.inst;
+          const c = vm.$refs.c.inst;
+          const d = vm.$refs.d.inst;
+          const e = vm.$refs.e.inst;
+          const f = vm.$refs.f.inst;
+          const g = vm.$refs.g.inst;
+          const h = vm.$refs.h.inst;
+          assert.sameMembers(a.children, [b, c, d]);
+          assert.sameMembers(b.children, [e, f]);
+          assert.isEmpty(c.children);
+          assert.isEmpty(d.children);
+          assert.sameMembers(e.children, [g, h]);
+          assert.isEmpty(f.children);
+          assert.isEmpty(g.children);
+          assert.isEmpty(h.children);
+        } catch (e) {
+          done(e);
+        }
+        vm.c = false;
+        vm.e = false;
         vm.$nextTick(() => {
           try {
-            assert.strictEqual(vm.inst.position.x, 0)
-            assert.strictEqual(vm.inst.position.y, 0)
-            assert.strictEqual(vm.inst.position.z, 0)
-            done()
+            const a = vm.$refs.a.inst;
+            const b = vm.$refs.b.inst;
+            const d = vm.$refs.d.inst;
+            const f = vm.$refs.f.inst;
+            assert.sameMembers(a.children, [b, d]);
+            assert.sameMembers(b.children, [f]);
+            assert.isEmpty(d.children);
+            assert.isEmpty(f.children);
+            assert.isUndefined(vm.$refs.c);
+            assert.isUndefined(vm.$refs.e);
+            assert.isUndefined(vm.$refs.g);
+            assert.isUndefined(vm.$refs.h);
+            done();
           } catch (e) {
-            done(e)
+            done(e);
           }
-        })
-      })
-    })
-    describe('Should affect the rotation of the object when the rotation property is changed.', () => {
-      it('From undefined to a string.', (done) => {
-        const vm = new Vue(VglObject3d)
-        vm.rotation = '  1.1 -1.9 8  ZYX'
+        });
+      });
+    });
+  });
+  describe('The object\'s position should be appropriate', function suite() {
+    it('after initialization when the property is undefined', function test(done) {
+      const vm = new Vue(VglObject3d);
+      vm.$nextTick(() => {
+        try {
+          assert(vm.inst.position.equals(new THREE.Vector3()), 'Different position vectors.');
+          done();
+        } catch (e) {
+          done(e);
+        }
+      });
+    });
+    it('after initialization when the property is a Vector3 object', function test(done) {
+      const vm = new (Vue.extend(VglObject3d))({
+        propsData: { position: new THREE.Vector3(-1, -5, 6.8) },
+      });
+      vm.$nextTick(() => {
+        try {
+          assert(vm.inst.position.equals(new THREE.Vector3(-1, -5, 6.8)), 'Different position vectors.');
+          done();
+        } catch (e) {
+          done(e);
+        }
+      });
+    });
+    it('after initialization when the property is a string', function test(done) {
+      const vm = new (Vue.extend(VglObject3d))({
+        propsData: { position: '-1.0 -5e8 6.8' },
+      });
+      vm.$nextTick(() => {
+        try {
+          assert(vm.inst.position.equals(new THREE.Vector3(-1, -5e8, 6.8)), 'Different position vectors.');
+          done();
+        } catch (e) {
+          done(e);
+        }
+      });
+    });
+    it('after property is changed', function test(done) {
+      const vm = new (Vue.extend(VglObject3d))({
+        propsData: { position: '2.1 3  5' },
+      });
+      vm.$nextTick(() => {
+        vm.position = ' 1.1  -1.9 8';
         vm.$nextTick(() => {
           try {
-            assert.strictEqual(vm.inst.rotation.x, 1.1)
-            assert.strictEqual(vm.inst.rotation.y, -1.9)
-            assert.strictEqual(vm.inst.rotation.z, 8)
-            assert.strictEqual(vm.inst.rotation.order, 'ZYX')
-            done()
+            assert(vm.inst.position.equals(new THREE.Vector3(1.1, -1.9, 8)), 'Different position vectors.');
+            done();
           } catch (e) {
-            done(e)
+            done(e);
           }
-        })
-      })
-      it('From a string to a string.', (done) => {
-        const vm = new (Vue.extend(VglObject3d))({ propsData: { rotation: '2.1 3 5 ZYX' }})
-        vm.rotation = '1.1 -1.9 8  YZX'
+        });
+      });
+    });
+    it('after the instance is replaced', function test(done) {
+      const vm = new Vue({
+        mixins: [VglObject3d],
+        computed: {
+          inst() {
+            const obj = new THREE.Object3D();
+            obj.meaninglessProperty = this.testMeaninglessDataForReplaceInstance;
+            return obj;
+          },
+        },
+        data: { testMeaninglessDataForReplaceInstance: 0 },
+        propsData: { position: '-2.1 3e2  59 ' },
+      });
+      vm.$nextTick(() => {
+        const instBefore = vm.inst;
+        try {
+          assert(instBefore.position.equals(new THREE.Vector3(-2.1, 3e2, 59)), 'Different position vectors.');
+        } catch (e) {
+          done(e);
+        }
+        vm.testMeaninglessDataForReplaceInstance = 1;
+        vm.$nextTick(() => {
+          const instAfter = vm.inst;
+          try {
+            assert.notEqual(instBefore, instAfter);
+            assert(instAfter.position.equals(new THREE.Vector3(-2.1, 3e2, 59)), 'Different position vectors.');
+            done();
+          } catch (e) {
+            done(e);
+          }
+        });
+      });
+    });
+  });
+  describe('The object\'s rotation should be appropriate', function suite() {
+    it('after initialization when the property is undefined', function test(done) {
+      const vm = new Vue(VglObject3d);
+      vm.$nextTick(() => {
+        try {
+          assert(vm.inst.quaternion.equals(new THREE.Quaternion()), 'Different quaternions.');
+          done();
+        } catch (e) {
+          done(e);
+        }
+      });
+    });
+    it('after initialization when the property is an Euler object', function test(done) {
+      const vm = new (Vue.extend(VglObject3d))({
+        propsData: { rotation: new THREE.Euler(-1, -5, 6.8, 'ZYX') },
+      });
+      vm.$nextTick(() => {
+        try {
+          assert(vm.inst.quaternion.equals(new THREE.Quaternion().setFromEuler(new THREE.Euler(-1, -5, 6.8, 'ZYX'))), 'Different quaternions.');
+          done();
+        } catch (e) {
+          done(e);
+        }
+      });
+    });
+    it('after initialization when the property is a string', function test(done) {
+      const vm = new (Vue.extend(VglObject3d))({
+        propsData: { rotation: '-1.0 -5e8 6.8 XZY ' },
+      });
+      vm.$nextTick(() => {
+        try {
+          assert(vm.inst.quaternion.equals(new THREE.Quaternion().setFromEuler(new THREE.Euler(-1, -5e8, 6.8, 'XZY'))), 'Different quaternions.');
+          done();
+        } catch (e) {
+          done(e);
+        }
+      });
+    });
+    it('after property is changed', function test(done) {
+      const vm = new (Vue.extend(VglObject3d))({
+        propsData: { rotation: '2.1 3 5 ZYX' },
+      });
+      vm.$nextTick(() => {
+        vm.rotation = '1.1 -1.9 8  YZX';
         vm.$nextTick(() => {
           try {
-            assert.strictEqual(vm.inst.rotation.x, 1.1)
-            assert.strictEqual(vm.inst.rotation.y, -1.9)
-            assert.strictEqual(vm.inst.rotation.z, 8)
-            assert.strictEqual(vm.inst.rotation.order, 'YZX')
-            done()
+            assert(vm.inst.quaternion.equals(new THREE.Quaternion().setFromEuler(new THREE.Euler(1.1, -1.9, 8, 'YZX'))), 'Different quaternions.');
+            done();
           } catch (e) {
-            done(e)
+            done(e);
           }
-        })
-      })
-      it('From an Euler object to undefined.', (done) => {
-        const vm = new (Vue.extend(VglObject3d))({ propsData: { rotation: new THREE.Euler(1.1, -1.9, 8, 'ZYX') }})
-        vm.rotation = undefined
+        });
+      });
+    });
+    it('after the instance is replaced', function test(done) {
+      const vm = new Vue({
+        mixins: [VglObject3d],
+        computed: {
+          inst() {
+            const obj = new THREE.Object3D();
+            obj.meaninglessProperty = this.testMeaninglessDataForReplaceInstance;
+            return obj;
+          },
+        },
+        data: { testMeaninglessDataForReplaceInstance: 0 },
+        propsData: { rotation: '-1.1 3.1 5 ZYX ' },
+      });
+      vm.$nextTick(() => {
+        const instBefore = vm.inst;
+        try {
+          assert(instBefore.quaternion.equals(new THREE.Quaternion().setFromEuler(new THREE.Euler(-1.1, 3.1, 5, 'ZYX'))), 'Different quaternions.');
+        } catch (e) {
+          done(e);
+        }
+        vm.testMeaninglessDataForReplaceInstance = 1;
+        vm.$nextTick(() => {
+          const instAfter = vm.inst;
+          try {
+            assert.notEqual(instBefore, instAfter);
+            assert(instAfter.quaternion.equals(new THREE.Quaternion().setFromEuler(new THREE.Euler(-1.1, 3.1, 5, 'ZYX'))), 'Different quaternions.');
+            done();
+          } catch (e) {
+            done(e);
+          }
+        });
+      });
+    });
+  });
+  describe('The object\'s scale should be appropriate', function suite() {
+    it('after initialization when the property is undefined', function test(done) {
+      const vm = new Vue(VglObject3d);
+      vm.$nextTick(() => {
+        try {
+          assert(vm.inst.scale.equals(new THREE.Vector3(1, 1, 1)), 'Different scale vectors.');
+          done();
+        } catch (e) {
+          done(e);
+        }
+      });
+    });
+    it('after initialization when the property is an Euler object', function test(done) {
+      const vm = new (Vue.extend(VglObject3d))({
+        propsData: { scale: new THREE.Vector3(-1, -5, 6.8) },
+      });
+      vm.$nextTick(() => {
+        try {
+          assert(vm.inst.scale.equals(new THREE.Vector3(-1, -5, 6.8)), 'Different scale vectors.');
+          done();
+        } catch (e) {
+          done(e);
+        }
+      });
+    });
+    it('after initialization when the property is a string', function test(done) {
+      const vm = new (Vue.extend(VglObject3d))({
+        propsData: { scale: ' -1.0 -5e8 6.8 ' },
+      });
+      vm.$nextTick(() => {
+        try {
+          assert(vm.inst.scale.equals(new THREE.Vector3(-1, -5e8, 6.8)), 'Different scale vectors.');
+          done();
+        } catch (e) {
+          done(e);
+        }
+      });
+    });
+    it('after property is changed', function test(done) {
+      const vm = new (Vue.extend(VglObject3d))({
+        propsData: { scale: '2.1 3 5' },
+      });
+      vm.$nextTick(() => {
+        vm.scale = '1.1 -1.9 8';
         vm.$nextTick(() => {
           try {
-            assert.strictEqual(vm.inst.rotation.x, 0)
-            assert.strictEqual(vm.inst.rotation.y, 0)
-            assert.strictEqual(vm.inst.rotation.z, 0)
-            assert.strictEqual(vm.inst.rotation.order, 'XYZ')
-            done()
+            assert(vm.inst.scale.equals(new THREE.Vector3(1.1, -1.9, 8)), 'Different scale vectors.');
+            done();
           } catch (e) {
-            done(e)
+            done(e);
           }
-        })
-      })
-    })
-    describe('Should affect the scale of the object when the scale property is changed.', () => {
-      it('From undefined to a string.', (done) => {
-        const vm = new Vue(VglObject3d)
-        vm.scale = '1.1 -1.9 8a'
+        });
+      });
+    });
+    it('after the instance is replaced', function test(done) {
+      const vm = new Vue({
+        mixins: [VglObject3d],
+        computed: {
+          inst() {
+            const obj = new THREE.Object3D();
+            obj.meaninglessProperty = this.testMeaninglessDataForReplaceInstance;
+            return obj;
+          },
+        },
+        data: { testMeaninglessDataForReplaceInstance: 0 },
+        propsData: { scale: '   2 3.1 -5  ' },
+      });
+      vm.$nextTick(() => {
+        const instBefore = vm.inst;
+        try {
+          assert(instBefore.scale.equals(new THREE.Vector3(2, 3.1, -5)), 'Different scale vectors.');
+        } catch (e) {
+          done(e);
+        }
+        vm.testMeaninglessDataForReplaceInstance = 1;
+        vm.$nextTick(() => {
+          const instAfter = vm.inst;
+          try {
+            assert.notEqual(instBefore, instAfter);
+            assert(instAfter.scale.equals(new THREE.Vector3(2, 3.1, -5)), 'Different scale vectors.');
+            done();
+          } catch (e) {
+            done(e);
+          }
+        });
+      });
+    });
+  });
+  describe('The castShadow property should be set correctly', function suite() {
+    it('after initialization when the property is false', function test(done) {
+      const vm = new Vue(VglObject3d);
+      vm.$nextTick(() => {
+        try {
+          assert.isFalse(vm.inst.castShadow);
+          done();
+        } catch (e) {
+          done(e);
+        }
+      });
+    });
+    it('after initialization when the property is true', function test(done) {
+      const vm = new (Vue.extend(VglObject3d))({ propsData: { castShadow: true } });
+      vm.$nextTick(() => {
+        try {
+          assert.isTrue(vm.inst.castShadow);
+          done();
+        } catch (e) {
+          done(e);
+        }
+      });
+    });
+    it('after property is changed', function test(done) {
+      const vm = new (Vue.extend(VglObject3d))({ propsData: { castShadow: true } });
+      vm.$nextTick(() => {
+        vm.castShadow = false;
         vm.$nextTick(() => {
           try {
-            assert.strictEqual(vm.inst.scale.x, 1.1)
-            assert.strictEqual(vm.inst.scale.y, -1.9)
-            assert.strictEqual(vm.inst.scale.z, 8)
-            done()
+            assert.isFalse(vm.inst.castShadow);
+            done();
           } catch (e) {
-            done(e)
+            done(e);
           }
-        })
-      })
-      it('From a string to a string.', (done) => {
-        const vm = new (Vue.extend(VglObject3d))({ propsData: { scale: '2.1 3 5' }})
-        vm.scale = '1.1 -1.9 8'
+        });
+      });
+    });
+    it('after the instance is replaced', function test(done) {
+      const vm = new Vue({
+        mixins: [VglObject3d],
+        computed: {
+          inst() {
+            const obj = new THREE.Object3D();
+            obj.meaninglessProperty = this.testMeaninglessDataForReplaceInstance;
+            return obj;
+          },
+        },
+        data: { testMeaninglessDataForReplaceInstance: 0 },
+        propsData: { castShadow: true },
+      });
+      vm.$nextTick(() => {
+        const instBefore = vm.inst;
+        try {
+          assert.isTrue(instBefore.castShadow);
+        } catch (e) {
+          done(e);
+        }
+        vm.testMeaninglessDataForReplaceInstance = 1;
+        vm.$nextTick(() => {
+          const instAfter = vm.inst;
+          try {
+            assert.notEqual(instBefore, instAfter);
+            assert.isTrue(instAfter.castShadow);
+            done();
+          } catch (e) {
+            done(e);
+          }
+        });
+      });
+    });
+  });
+  describe('The receiveShadow property should be set correctly', function suite() {
+    it('after initialization when the property is false', function test(done) {
+      const vm = new Vue(VglObject3d);
+      vm.$nextTick(() => {
+        try {
+          assert.isFalse(vm.inst.receiveShadow);
+          done();
+        } catch (e) {
+          done(e);
+        }
+      });
+    });
+    it('after initialization when the property is true', function test(done) {
+      const vm = new (Vue.extend(VglObject3d))({ propsData: { receiveShadow: true } });
+      vm.$nextTick(() => {
+        try {
+          assert.isTrue(vm.inst.receiveShadow);
+          done();
+        } catch (e) {
+          done(e);
+        }
+      });
+    });
+    it('after property is changed', function test(done) {
+      const vm = new (Vue.extend(VglObject3d))({ propsData: { receiveShadow: true } });
+      vm.$nextTick(() => {
+        vm.receiveShadow = false;
         vm.$nextTick(() => {
           try {
-            assert.strictEqual(vm.inst.scale.x, 1.1)
-            assert.strictEqual(vm.inst.scale.y, -1.9)
-            assert.strictEqual(vm.inst.scale.z, 8)
-            done()
+            assert.isFalse(vm.inst.receiveShadow);
+            done();
           } catch (e) {
-            done(e)
+            done(e);
           }
-        })
-      })
-      it('From a Vector3 object to undefined.', (done) => {
-        const vm = new (Vue.extend(VglObject3d))({ propsData: { scale: new THREE.Vector3(1.1, -1.9, 8) }})
-        vm.scale = undefined
+        });
+      });
+    });
+    it('after the instance is replaced', function test(done) {
+      const vm = new Vue({
+        mixins: [VglObject3d],
+        computed: {
+          inst() {
+            const obj = new THREE.Object3D();
+            obj.meaninglessProperty = this.testMeaninglessDataForReplaceInstance;
+            return obj;
+          },
+        },
+        data: { testMeaninglessDataForReplaceInstance: 0 },
+        propsData: { receiveShadow: true },
+      });
+      vm.$nextTick(() => {
+        const instBefore = vm.inst;
+        try {
+          assert.isTrue(instBefore.receiveShadow);
+        } catch (e) {
+          done(e);
+        }
+        vm.testMeaninglessDataForReplaceInstance = 1;
         vm.$nextTick(() => {
+          const instAfter = vm.inst;
           try {
-            assert.strictEqual(vm.inst.scale.x, 1)
-            assert.strictEqual(vm.inst.scale.y, 1)
-            assert.strictEqual(vm.inst.scale.z, 1)
-            done()
+            assert.notEqual(instBefore, instAfter);
+            assert.isTrue(instAfter.receiveShadow);
+            done();
           } catch (e) {
-            done(e)
+            done(e);
           }
-        })
-      })
-    })
-    describe('Should affect the castShadow of the object when the castShadow property is changed.', () => {
-      it('From false to true.', (done) => {
-        const vm = new Vue(VglObject3d)
-        vm.castShadow = true
-        vm.$nextTick(() => {
-          try {
-            assert.isTrue(vm.inst.castShadow)
-            done()
-          } catch (e) {
-            done(e)
-          }
-        })
-      })
-    })
-    describe('Should affect the recieveShadow of the object when the recieveShadow property is changed.', () => {
-      it('From false to true.', (done) => {
-        const vm = new Vue(VglObject3d)
-        vm.receiveShadow = true
-        vm.$nextTick(() => {
-          try {
-            assert.isTrue(vm.inst.receiveShadow)
-            done()
-          } catch (e) {
-            done(e)
-          }
-        })
-      })
-    })
-  })
-  describe('Replacing the instance', () => {
-    const MixedIn = {
-      mixins: [VglObject3d],
-      computed: {
-        inst () { return this.i }
+        });
+      });
+    });
+  });
+  describe('Update listeners should be called at appropriate time', function suite() {
+    let updatedTimes;
+    const UpdateSetter = {
+      inject: ['vglObject3d'],
+      created() {
+        this.vglObject3d.listeners.push(() => { updatedTimes += 1; });
       },
-      data: () => ({ i: new THREE.Object3D() })
-    }
-    it('The position of the replaced object should be same as before.', (done) => {
-      const vm = new (Vue.extend(MixedIn))({ propsData: { position: '8  7^ 9' }})
-      const prev = vm.inst
-      vm.i = new THREE.Object3D()
-      vm.$nextTick(() => {
-        try {
-          assert.notEqual(prev, vm.inst)
-          assert.strictEqual(vm.inst.position.x, 8)
-          assert.strictEqual(vm.inst.position.y, 7)
-          assert.strictEqual(vm.inst.position.z, 9)
-          done()
-        } catch (e) {
-          done(e)
-        }
-      })
-    })
-    it('The rotation of the replaced object should be same as before.', (done) => {
-      const vm = new (Vue.extend(MixedIn))({ propsData: { rotation: '8  6^ 9 ZYX' }})
-      const prev = vm.inst
-      vm.i = new THREE.Object3D()
-      vm.$nextTick(() => {
-        try {
-          assert.notEqual(prev, vm.inst)
-          assert.strictEqual(vm.inst.rotation.x, 8)
-          assert.strictEqual(vm.inst.rotation.y, 6)
-          assert.strictEqual(vm.inst.rotation.z, 9)
-          assert.strictEqual(vm.inst.rotation.order, 'ZYX')
-          done()
-        } catch (e) {
-          done(e)
-        }
-      })
-    })
-    it('The scale of the replaced object should be same as before.', (done) => {
-      const vm = new (Vue.extend(MixedIn))({ propsData: { scale: '8  1^ 2.8' }})
-      const prev = vm.inst
-      vm.i = new THREE.Object3D()
-      vm.$nextTick(() => {
-        try {
-          assert.notEqual(prev, vm.inst)
-          assert.strictEqual(vm.inst.scale.x, 8)
-          assert.strictEqual(vm.inst.scale.y, 1)
-          assert.strictEqual(vm.inst.scale.z, 2.8)
-          done()
-        } catch (e) {
-          done(e)
-        }
-      })
-    })
-    it('The replaced object should have same children as before.', (done) => {
+      render() {},
+    };
+    beforeEach(function hook(done) {
+      updatedTimes = 0;
+      done();
+    });
+    it('after the initialization', function test(done) {
       const vm = new Vue({
-        template: `<mixed-in ref="me"><vgl-object3d v-for="i in 6" :key="i" /></mixed-in>`,
-        components: { VglObject3d, MixedIn }
-      }).$mount()
-      const prev = vm.$refs.me.inst
-      const children = prev.children.slice(0)
-      vm.$refs.me.i = new THREE.Object3D()
+        template: '<vgl-object3d><vgl-object3d position="0 1 2"><vgl-object3d rotation="1 1 1 XYZ" /></vgl-object3d><update-setter /></vgl-object3d>',
+        components: { VglObject3d, UpdateSetter },
+      }).$mount();
       vm.$nextTick(() => {
         try {
-          assert.notEqual(prev, vm.$refs.me.inst)
-          assert.sameMembers(children, vm.$refs.me.inst.children)
-          done()
+          assert.strictEqual(updatedTimes, 1);
+          done();
         } catch (e) {
-          done(e)
+          done(e);
         }
-      })
-    })
-    it('The replaced object should have the same parent as before.', (done) => {
+      });
+    });
+    it('when some properties are changed', function test(done) {
       const vm = new Vue({
-        template: `<vgl-object3d ref="parent"><mixed-in ref="me" /></vgl-object3d>`,
-        components: { VglObject3d, MixedIn }
-      }).$mount()
-      const prev = vm.$refs.me.inst
-      vm.$refs.me.i = new THREE.Object3D()
+        template: '<vgl-object3d><vgl-object3d :position="position" ref="obj1"><vgl-object3d :rotation="rotation" ref="obj2" /></vgl-object3d><update-setter /></vgl-object3d>',
+        components: { VglObject3d, UpdateSetter },
+        data: { position: '1 -1 2', rotation: '0 0 1 XYZ' },
+      }).$mount();
       vm.$nextTick(() => {
         try {
-          assert.notEqual(prev, vm.$refs.me.inst)
-          assert.strictEqual(vm.$refs.parent.inst, vm.$refs.me.inst.parent)
-          done()
+          assert.strictEqual(updatedTimes, 1);
         } catch (e) {
-          done(e)
+          done(e);
         }
-      })
-    })
-  })
-})
+        vm.position = '2.2 1.3 -6e1';
+        vm.rotation = '1 2 1 XYZ';
+        vm.$nextTick(() => {
+          try {
+            assert(vm.$refs.obj1.inst.position.equals(new THREE.Vector3(2.2, 1.3, -6e1)), 'Different position vectors.');
+          } catch (e) {
+            done(e);
+          }
+          vm.$nextTick(() => {
+            try {
+              assert.strictEqual(updatedTimes, 2);
+              done();
+            } catch (e) {
+              done(e);
+            }
+          });
+        });
+      });
+    });
+    it('when some instances are replaced', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-object3d><vgl-object3d :test-meaningless-property-for-replace-instance="testMeaninglessDataForReplaceInstance"><vgl-object3d :test-meaningless-property-for-replace-instance="testMeaninglessDataForReplaceInstance" /></vgl-object3d><update-setter /></vgl-object3d>',
+        components: {
+          VglObject3d: {
+            mixins: [VglObject3d],
+            props: ['testMeaninglessPropertyForReplaceInstance'],
+            computed: {
+              inst() {
+                const obj = new THREE.Object3D();
+                obj.meaninglessProperty = this.testMeaninglessPropertyForReplaceInstance;
+                return obj;
+              },
+            },
+          },
+          UpdateSetter,
+        },
+        data: { testMeaninglessDataForReplaceInstance: 1 },
+      }).$mount();
+      vm.$nextTick(() => {
+        try {
+          assert.strictEqual(updatedTimes, 1);
+        } catch (e) {
+          done(e);
+        }
+        vm.testMeaninglessDataForReplaceInstance = 2;
+        vm.$nextTick(() => {
+          vm.$nextTick(() => {
+            try {
+              assert.strictEqual(updatedTimes, 2);
+              done();
+            } catch (e) {
+              done(e);
+            }
+          });
+        });
+      });
+    });
+    it('after some instances are destroyed', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-object3d><vgl-object3d v-if="exist" /><vgl-object3d v-if="exist"><vgl-object3d /></vgl-object3d><update-setter /></vgl-object3d>',
+        components: { VglObject3d, UpdateSetter },
+        data: { exist: true },
+      }).$mount();
+      vm.$nextTick(() => {
+        try {
+          assert.strictEqual(updatedTimes, 1);
+        } catch (e) {
+          done(e);
+        }
+        vm.exist = false;
+        vm.$nextTick(() => {
+          vm.$nextTick(() => {
+            try {
+              assert.strictEqual(updatedTimes, 2);
+              done();
+            } catch (e) {
+              done(e);
+            }
+          });
+        });
+      });
+    });
+  });
+});

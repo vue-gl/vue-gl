@@ -1,74 +1,56 @@
-import { createObjectFromArray } from './utils.js'
-
-const globalNamespaces = [
-  'vglCameras',
-  'vglScenes'
-]
-
-const localNamespaces = [
-  'vglGeometries',
-  'vglMaterials',
-  'vglTextures',
-  'vglFonts'
-]
-
-const namespaces = [...globalNamespaces, ...localNamespaces]
-
-const localDataNames = localNamespaces.map(key => `${key}_`)
-const computedNames = localDataNames.map(key => `${key}_`)
-
-function createEmptyObject () {
-  return Object.create(null)
-}
-
-function createEmptyObjectsFromArray (arr, base) {
-  return createObjectFromArray(arr, () => createEmptyObject(), base)
-}
+import { VglMinimumRenderer } from './mixins.js';
 
 export default {
-  provide () {
-    const vm = this
-    class LocalProvider {
-      constructor (index) {
-        this.i = index
-      }
-      get forGet () {
-        return vm[computedNames[this.i]]
-      }
-      get forSet () {
-        return vm[localDataNames[this.i]]
-      }
-    }
-    class GlobalProvider {
-      constructor (index) {
-        this.i = index
-      }
-      get forGet () {
-        return vm[globalNamespaces[this.i]]
-      }
-      get forSet () {
-        return vm[globalNamespaces[this.i]]
-      }
-    }
-    return createObjectFromArray(
-      localNamespaces, (_, index) =>
-        new LocalProvider(index)
-      , vm.$data[globalNamespaces[0]] ? createObjectFromArray(globalNamespaces, (_, index) =>
-        new GlobalProvider(index)) : {}
-    )
+  mixins: [VglMinimumRenderer],
+  inject: {
+    vglNamespace: {
+      default() {
+        return Object.defineProperties({}, {
+          cameras: { get: () => this.cameras },
+          scenes: { get: () => this.scenes },
+        });
+      },
+    },
   },
-  inject: createObjectFromArray(namespaces, namespace => ({
-    default: undefined
-  })),
-  data () {
-    return createEmptyObjectsFromArray(localDataNames, this[globalNamespaces[0]] ? {} : createEmptyObjectsFromArray(globalNamespaces))
+  data() {
+    const data = {}.hasOwnProperty.call(this.vglNamespace, 'cameras') ? {
+      cameras: Object.create(null),
+      scenes: Object.create(null),
+    } : {};
+    return Object.assign(data, {
+      curves: Object.create(this.vglNamespace.curves || null),
+      fonts: Object.create(this.vglNamespace.fonts || null),
+      geometries: Object.create(this.vglNamespace.geometries || null),
+      materials: Object.create(this.vglNamespace.materials || null),
+      textures: Object.create(this.vglNamespace.textures || null),
+    });
   },
-  computed: createObjectFromArray(computedNames, (_, index) => function () {
-    const name = localNamespaces[index],
-      dataName = localDataNames[index]
-    return this[name] ? Object.assign(Object.create(this[name].forGet), this[dataName]) : this[dataName]
-  }),
-  render (h) {
-    if (this.$slots.default) return h('div', this.$slots.default)
-  }
-}
+  watch: {
+    'vglNamespace.curves': function curves(proto) {
+      this.curves = Object.assign(Object.create(proto), this.curves);
+    },
+    'vglNamespace.fonts': function fonts(proto) {
+      this.fonts = Object.assign(Object.create(proto), this.fonts);
+    },
+    'vglNamespace.geometries': function geometries(proto) {
+      this.geometries = Object.assign(Object.create(proto), this.geometries);
+    },
+    'vglNamespace.materials': function materials(proto) {
+      this.materials = Object.assign(Object.create(proto), this.materials);
+    },
+    'vglNamespace.textures': function textures(proto) {
+      this.textures = Object.assign(Object.create(proto), this.textures);
+    },
+  },
+  provide() {
+    return {
+      vglNamespace: Object.create(this.vglNamespace, {
+        curves: { get: () => this.curves },
+        fonts: { get: () => this.fonts },
+        geometries: { get: () => this.geometries },
+        materials: { get: () => this.materials },
+        textures: { get: () => this.textures },
+      }),
+    };
+  },
+};

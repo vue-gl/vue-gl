@@ -1,10 +1,10 @@
-import VglObject3d from './vgl-object3d.js'
-import { objectMixinFactory } from './mixins.js'
-import { Sprite } from './three.js'
+import VglObject3d from './vgl-object3d.js';
+import { Sprite } from './three.js';
+import { VglMaterialListener } from './mixins.js';
 
 export default {
-  mixins: [VglObject3d, objectMixinFactory()],
+  mixins: [VglObject3d, VglMaterialListener],
   computed: {
-    inst: () => new Sprite()
-  }
-}
+    inst: () => new Sprite(),
+  },
+};

@@ -1,46 +1,27 @@
-import VglLineSegments from './vgl-line-segments.js'
-import { PolarGridHelper } from './three.js'
-import { validatePropNumber, validatePropString, parseFloat_, parseInt_ } from './utils.js'
+import VglLineSegments from './vgl-line-segments.js';
+import { PolarGridHelper } from './three.js';
+import { number, string } from './constructor-arrays.js';
 
 export default {
   mixins: [VglLineSegments],
   props: {
-    radius: {
-      type: validatePropNumber,
-      default: 10
-    },
-    radials: {
-      type: validatePropNumber,
-      default: 16
-    },
-    circles: {
-      type: validatePropNumber,
-      default: 8
-    },
-    divisions: {
-      type: validatePropNumber,
-      default: 64
-    },
-    color1: {
-      type: validatePropString,
-      default: '#444444'
-    },
-    color2: {
-      type: validatePropString,
-      default: '#888888'
-    }
+    radius: { type: number, default: 10 },
+    radials: { type: number, default: 16 },
+    circles: { type: number, default: 8 },
+    divisions: { type: number, default: 64 },
+    color1: { type: string, default: '#444444' },
+    color2: { type: string, default: '#888888' },
   },
   computed: {
-    inst () {
-      const vm = this
+    inst() {
       return new PolarGridHelper(
-        parseFloat_(vm.radius),
-        parseInt_(vm.radials),
-        parseInt_(vm.circles),
-        parseInt_(vm.divisions),
-        vm.color1,
-        vm.color2
-      )
-    }
-  }
-}
+        parseFloat(this.radius),
+        parseInt(this.radials, 10),
+        parseInt(this.circles, 10),
+        parseInt(this.divisions, 10),
+        this.color1,
+        this.color2,
+      );
+    },
+  },
+};

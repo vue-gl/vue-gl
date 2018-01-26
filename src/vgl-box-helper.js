@@ -1,47 +1,30 @@
-import VglLineSegments from './vgl-line-segments.js'
-import { BoxHelper } from './three.js'
-import { validatePropString } from './utils.js'
+import VglLineSegments from './vgl-line-segments.js';
+import { BoxHelper } from './three.js';
+import { string } from './constructor-arrays.js';
 
 export default {
   mixins: [VglLineSegments],
   props: {
-    color: {
-      type: validatePropString,
-      default: '#ff0'
-    }
+    color: { type: string, default: '#ff0' },
   },
   computed: {
-    inst: () => new BoxHelper()
-  },
-  data () {
-    return {
-      uw: null,
-      r: true
-    }
-  },
-  created () {
-    const inst = this.inst
-    if (inst.parent) {
-      this.uw = this.$watch(() => inst.parent, () => {
-        if (this.r) {
-          this.$nextTick(() => {
-            inst.setFromObject(inst.parent)
-            this.r = true
-          })
-          this.r = false
-        }
-      }, { immediate: true })
-    }
-  },
-  beforeDestroy () {
-    if (this.uw) this.uw()
+    inst: () => new BoxHelper(),
   },
   watch: {
-    color: {
-      handler (color) {
-        this.inst.material.color.setStyle(color)
+    inst: {
+      handler(inst) {
+        inst.setFromObject(this.vglObject3d.inst);
+        inst.material.color.setStyle(this.color);
       },
-      immediate: true
-    }
-  }
-}
+      immediate: true,
+    },
+    'vglObject3d.inst': function parentInst(inst) {
+      this.inst.setFromObject(inst);
+      this.vglObject3d.update();
+    },
+    color(color) {
+      this.inst.material.color.setStyle(color);
+      this.vglObject3d.update();
+    },
+  },
+};

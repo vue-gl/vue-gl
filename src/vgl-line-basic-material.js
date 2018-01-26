@@ -1,54 +1,51 @@
-import VglMaterial from './vgl-material.js'
-import { LineBasicMaterial } from './three.js'
-import { parseFloat_ } from './utils.js'
+import VglMaterial from './vgl-material.js';
+import { LineBasicMaterial } from './three.js';
+import { string, boolean, number } from './constructor-arrays.js';
 
 export default {
   mixins: [VglMaterial],
   props: {
-    color: {
-      type: String,
-      default: '#fff'
-    },
-    lights: Boolean,
-    linewidth: {
-      type: [String, Number],
-      default: 1
-    },
-    linecap: {
-      type: String,
-      default: 'round'
-    },
-    linejoin: {
-      type: String,
-      default: 'round'
-    }
+    color: { type: string, default: '#fff' },
+    lights: boolean,
+    linewidth: { type: number, default: 1 },
+    linecap: { type: string, default: 'round' },
+    linejoin: { type: string, default: 'round' },
   },
   computed: {
-    inst: () => new LineBasicMaterial()
-  },
-  created () {
-    const inst = this.inst
-    inst.lights = this.lights
-    inst.linecap = this.linecap
-    inst.linejoin = this.linejoin
-    inst.linewidth = parseFloat_(this.linewidth)
-    inst.color.setStyle(this.color)
+    inst: () => new LineBasicMaterial(),
   },
   watch: {
-    color (color) {
-      this.inst.color.setStyle(color)
+    inst: {
+      handler(inst) {
+        Object.assign(inst, {
+          lights: this.lights,
+          linecap: this.linecap,
+          linejoin: this.linejoin,
+          linewidth: parseFloat(this.linewidth),
+        });
+        inst.color.setStyle(this.color);
+      },
+      immediate: true,
     },
-    lights (lights) {
-      this.inst.lights = lights
+    color(color) {
+      this.inst.color.setStyle(color);
+      this.inst.dispatchEvent({ type: 'update' });
     },
-    linewidth (width) {
-      this.inst.linewidth = parseFloat_(width)
+    lights(lights) {
+      Object.assign(this.inst, { lights });
+      this.inst.dispatchEvent({ type: 'update' });
     },
-    linecap (cap) {
-      this.inst.linecap = cap
+    linewidth(linewidth) {
+      Object.assign(this.inst, { linewidth: parseFloat(linewidth) });
+      this.inst.dispatchEvent({ type: 'update' });
     },
-    linejoin (join) {
-      this.inst.linejoin = join
-    }
-  }
-}
+    linecap(linecap) {
+      Object.assign(this.inst, { linecap });
+      this.inst.dispatchEvent({ type: 'update' });
+    },
+    linejoin(linejoin) {
+      Object.assign(this.inst, { linejoin });
+      this.inst.dispatchEvent({ type: 'update' });
+    },
+  },
+};

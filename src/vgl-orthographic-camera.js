@@ -1,47 +1,39 @@
-import VglCamera from './vgl-camera.js'
-import { OrthographicCamera } from './three.js'
-import { parseFloat_, update, validatePropNumber } from './utils.js'
+import VglCamera from './vgl-camera.js';
+import { OrthographicCamera } from './three.js';
+import { number } from './constructor-arrays.js';
 
 export default {
   mixins: [VglCamera],
   props: {
-    zoom: {
-      type: validatePropNumber,
-      default: 1
-    },
-    near: {
-      type: validatePropNumber,
-      default: 0.1
-    },
-    far: {
-      type: validatePropNumber,
-      default: 2000
-    }
+    zoom: { type: number, default: 1 },
+    near: { type: number, default: 0.1 },
+    far: { type: number, default: 2000 },
   },
   computed: {
-    inst: () => new OrthographicCamera()
+    inst: () => new OrthographicCamera(),
   },
   watch: {
-    zoom: {
-      handler (zoom) {
-        this.inst.zoom = parseFloat_(zoom)
-        update(this)
+    inst: {
+      handler(inst) {
+        Object.assign(inst, {
+          zoom: parseFloat(this.zoom),
+          near: parseFloat(this.near),
+          far: parseFloat(this.far),
+        });
       },
-      immediate: true
+      immediate: true,
     },
-    near: {
-      handler (near) {
-        this.inst.near = parseFloat_(near)
-        update(this)
-      },
-      immediate: true
+    zoom(zoom) {
+      Object.assign(this.inst, { zoom: parseFloat(zoom) });
+      this.vglObject3d.update();
     },
-    far: {
-      handler (far) {
-        this.inst.far = parseFloat_(far)
-        update(this)
-      },
-      immediate: true
-    }
-  }
-}
+    near(near) {
+      Object.assign(this.inst, { near: parseFloat(near) });
+      this.vglObject3d.update();
+    },
+    far(far) {
+      Object.assign(this.inst, { far: parseFloat(far) });
+      this.vglObject3d.update();
+    },
+  },
+};

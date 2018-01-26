@@ -1,64 +1,60 @@
-describe('VglSphereGeometry component', () => {
-  const { VglSphereGeometry, VglNamespace } = VueGL
-  const assert = chai.assert
-  describe('Parameters of a instance should be same as the component properties.', () => {
-    it('When properties are number.', () => {
-      const vm = new Vue({
-        template: `<vgl-namespace><vgl-sphere-geometry ref="geo" :radius="82.8" :widthSegments="31" :heightSegments="13" :phiStart="0.2" :phiLength="1.2" :thetaStart="0.3" :thetaLength="3.8" /></vgl-namespace>`,
-        components: { VglSphereGeometry, VglNamespace }
-      }).$mount()
-      assert.strictEqual(vm.$refs.geo.inst.parameters.radius, 82.8)
-      assert.strictEqual(vm.$refs.geo.inst.parameters.widthSegments, 31)
-      assert.strictEqual(vm.$refs.geo.inst.parameters.heightSegments, 13)
-      assert.strictEqual(vm.$refs.geo.inst.parameters.phiStart, 0.2)
-      assert.strictEqual(vm.$refs.geo.inst.parameters.phiLength, 1.2)
-      assert.strictEqual(vm.$refs.geo.inst.parameters.thetaStart, 0.3)
-      assert.strictEqual(vm.$refs.geo.inst.parameters.thetaLength, 3.8)
-    })
-    it('When properties are string.', () => {
-      const vm = new Vue({
-        template: `<vgl-namespace><vgl-sphere-geometry ref="geo" radius="82.8" widthSegments="31" heightSegments="13" phiStart="0.2" phiLength="1.2" thetaStart="0.3" thetaLength="3.8" /></vgl-namespace>`,
-        components: { VglSphereGeometry, VglNamespace }
-      }).$mount()
-      assert.strictEqual(vm.$refs.geo.inst.parameters.radius, 82.8)
-      assert.strictEqual(vm.$refs.geo.inst.parameters.widthSegments, 31)
-      assert.strictEqual(vm.$refs.geo.inst.parameters.heightSegments, 13)
-      assert.strictEqual(vm.$refs.geo.inst.parameters.phiStart, 0.2)
-      assert.strictEqual(vm.$refs.geo.inst.parameters.phiLength, 1.2)
-      assert.strictEqual(vm.$refs.geo.inst.parameters.thetaStart, 0.3)
-      assert.strictEqual(vm.$refs.geo.inst.parameters.thetaLength, 3.8)
-    })
-    it('When properties are undefined.', () => {
-      const vm = new Vue({
-        template: `<vgl-namespace><vgl-sphere-geometry ref="geo" /></vgl-namespace>`,
-        components: { VglSphereGeometry, VglNamespace }
-      }).$mount()
-      assert.isUndefined(vm.$refs.geo.inst.parameters.radius)
-      assert.isUndefined(vm.$refs.geo.inst.parameters.widthSegments)
-      assert.isUndefined(vm.$refs.geo.inst.parameters.heightSegments)
-      assert.isUndefined(vm.$refs.geo.inst.parameters.phiStart)
-      assert.isUndefined(vm.$refs.geo.inst.parameters.phiLength)
-      assert.isUndefined(vm.$refs.geo.inst.parameters.thetaStart)
-      assert.isUndefined(vm.$refs.geo.inst.parameters.thetaLength)
-    })
-  })
-  describe('Instance should be recreated when a property changed.', () => {
-    it('When the width property changes.', (done) => {
-      const vm = new Vue({
-        template: `<vgl-namespace><vgl-sphere-geometry ref="geo" :radius="radius" /></vgl-namespace>`,
-        components: { VglSphereGeometry, VglNamespace },
-        data: { radius: 0.5 }
-      }).$mount()
-      const before = vm.$refs.geo.inst
-      vm.radius = 1.03
-      vm.$nextTick(() => {
-        try {
-          assert.notEqual(before, vm.$refs.geo.inst)
-          done()
-        } catch (e) {
-          done(e)
-        }
-      })
-    })
-  })
-})
+describe('VglSphereGeometry:', function suite() {
+  const { VglSphereGeometry, VglMesh, VglNamespace } = VueGL;
+  const { expect } = chai;
+  let updatedHistory;
+  const GeometryWatcher = {
+    mixins: [VglMesh],
+    created() {
+      this.vglObject3d.listeners.push(() => {
+        updatedHistory.push(this.inst.geometry.clone());
+      });
+    },
+  };
+  beforeEach(function hook(done) {
+    updatedHistory = [];
+    done();
+  });
+  it('without properties', function test() {
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-sphere-geometry name="abc1#2" /><geometry-watcher geometry="abc1#2" /></vgl-namespace>',
+      components: { VglNamespace, VglSphereGeometry, GeometryWatcher },
+    }).$mount();
+    return vm.$nextTick().then(() => {
+      expect(updatedHistory).to.have.lengthOf(1);
+      const actual = updatedHistory[0].vertices;
+      const expected = new THREE.SphereGeometry().vertices;
+      expect(actual).to.have.deep.ordered.members(expected);
+    });
+  });
+  it('with properties', function test() {
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-sphere-geometry name="abc1#2" radius="22.24" width-segments="5" height-segments="7" phi-start="0.02" phi-length="1.2" theta-start="0.32" theta-length="2.2" /><geometry-watcher geometry="abc1#2" /></vgl-namespace>',
+      components: { VglNamespace, VglSphereGeometry, GeometryWatcher },
+    }).$mount();
+    return vm.$nextTick().then(() => {
+      expect(updatedHistory).to.have.lengthOf(1);
+      const actual = updatedHistory[0].vertices;
+      const expected = new THREE.SphereGeometry(22.24, 5, 7, 0.02, 1.2, 0.32, 2.2).vertices;
+      expect(actual).to.have.deep.ordered.members(expected);
+    });
+  });
+  it('after radius property is changed', function test() {
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-sphere-geometry name="abc1#2" :radius="radius" /><geometry-watcher geometry="abc1#2" /></vgl-namespace>',
+      components: { VglNamespace, VglSphereGeometry, GeometryWatcher },
+      data: { radius: 6.1 },
+    }).$mount();
+    return vm.$nextTick().then(() => {
+      vm.radius = 4.2;
+      return vm.$nextTick().then(() => {
+        expect(updatedHistory).to.have.lengthOf(2);
+        const actual1 = updatedHistory[0].vertices;
+        const expected1 = new THREE.SphereGeometry(6.1).vertices;
+        expect(actual1).to.have.deep.ordered.members(expected1);
+        const actual2 = updatedHistory[1].vertices;
+        const expected2 = new THREE.SphereGeometry(4.2).vertices;
+        expect(actual2).to.have.deep.ordered.members(expected2);
+      });
+    });
+  });
+});

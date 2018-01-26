@@ -1,61 +1,60 @@
-describe('VglTorusKnotGeometry component', () => {
-  const { VglTorusKnotGeometry, VglNamespace } = VueGL
-  const assert = chai.assert
-  describe('Parameters of a instance should be same as the component properties.', () => {
-    it('When properties are number.', () => {
-      const vm = new Vue({
-        template: `<vgl-namespace><vgl-torus-knot-geometry ref="geo" :radius="15.8" :tube="6.2" :radial-segments="20" :tubular-segments="30" :p="1.1" :q="2.1" /></vgl-namespace>`,
-        components: { VglTorusKnotGeometry, VglNamespace }
-      }).$mount()
-      assert.strictEqual(vm.$refs.geo.inst.parameters.radius, 15.8)
-      assert.strictEqual(vm.$refs.geo.inst.parameters.tube, 6.2)
-      assert.strictEqual(vm.$refs.geo.inst.parameters.radialSegments, 20)
-      assert.strictEqual(vm.$refs.geo.inst.parameters.tubularSegments, 30)
-      assert.strictEqual(vm.$refs.geo.inst.parameters.p, 1.1)
-      assert.strictEqual(vm.$refs.geo.inst.parameters.q, 2.1)
-    })
-    it('When properties are string.', () => {
-      const vm = new Vue({
-        template: `<vgl-namespace><vgl-torus-knot-geometry ref="geo" radius="15.8" tube="6.2" radial-segments="20" tubular-segments="30" p="1.1" q="2.1" /></vgl-namespace>`,
-        components: { VglTorusKnotGeometry, VglNamespace }
-      }).$mount()
-      assert.strictEqual(vm.$refs.geo.inst.parameters.radius, 15.8)
-      assert.strictEqual(vm.$refs.geo.inst.parameters.tube, 6.2)
-      assert.strictEqual(vm.$refs.geo.inst.parameters.radialSegments, 20)
-      assert.strictEqual(vm.$refs.geo.inst.parameters.tubularSegments, 30)
-      assert.strictEqual(vm.$refs.geo.inst.parameters.p, 1.1)
-      assert.strictEqual(vm.$refs.geo.inst.parameters.q, 2.1)
-    })
-    it('When segment numbers are undefined.', () => {
-      const vm = new Vue({
-        template: `<vgl-namespace><vgl-torus-knot-geometry ref="geo" /></vgl-namespace>`,
-        components: { VglTorusKnotGeometry, VglNamespace }
-      }).$mount()
-      assert.isUndefined(vm.$refs.geo.inst.parameters.radius)
-      assert.isUndefined(vm.$refs.geo.inst.parameters.tube)
-      assert.isUndefined(vm.$refs.geo.inst.parameters.radialSegments)
-      assert.isUndefined(vm.$refs.geo.inst.parameters.tubularSegments)
-      assert.isUndefined(vm.$refs.geo.inst.parameters.p)
-      assert.isUndefined(vm.$refs.geo.inst.parameters.q)
-    })
-  })
-  describe('Instance should be recreated when a property changed.', () => {
-    it('When the width property changes.', (done) => {
-      const vm = new Vue({
-        template: `<vgl-namespace><vgl-torus-knot-geometry ref="geo" :radius="radius" /></vgl-namespace>`,
-        components: { VglTorusKnotGeometry, VglNamespace },
-        data: { radius: 250 }
-      }).$mount()
-      const before = vm.$refs.geo.inst
-      vm.radius = 120
-      vm.$nextTick(() => {
-        try {
-          assert.notEqual(before, vm.$refs.geo.inst)
-          done()
-        } catch (e) {
-          done(e)
-        }
-      })
-    })
-  })
-})
+describe('VglTorusKnotGeometry:', function suite() {
+  const { VglTorusKnotGeometry, VglMesh, VglNamespace } = VueGL;
+  const { expect } = chai;
+  let updatedHistory;
+  const GeometryWatcher = {
+    mixins: [VglMesh],
+    created() {
+      this.vglObject3d.listeners.push(() => {
+        updatedHistory.push(this.inst.geometry.clone());
+      });
+    },
+  };
+  beforeEach(function hook(done) {
+    updatedHistory = [];
+    done();
+  });
+  it('without properties', function test() {
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-torus-knot-geometry name="abc1#2" /><geometry-watcher geometry="abc1#2" /></vgl-namespace>',
+      components: { VglNamespace, VglTorusKnotGeometry, GeometryWatcher },
+    }).$mount();
+    return vm.$nextTick().then(() => {
+      expect(updatedHistory).to.have.lengthOf(1);
+      const actual = updatedHistory[0].vertices;
+      const expected = new THREE.TorusKnotGeometry().vertices;
+      expect(actual).to.have.deep.ordered.members(expected);
+    });
+  });
+  it('with properties', function test() {
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-torus-knot-geometry name="abc1#2" radius="22.24" tube="3.8" tubular-segments="9" radial-segments="11" p="3" q="4" /><geometry-watcher geometry="abc1#2" /></vgl-namespace>',
+      components: { VglNamespace, VglTorusKnotGeometry, GeometryWatcher },
+    }).$mount();
+    return vm.$nextTick().then(() => {
+      expect(updatedHistory).to.have.lengthOf(1);
+      const actual = updatedHistory[0].vertices;
+      const expected = new THREE.TorusKnotGeometry(22.24, 3.8, 9, 11, 3, 4).vertices;
+      expect(actual).to.have.deep.ordered.members(expected);
+    });
+  });
+  it('after radius property is changed', function test() {
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-torus-knot-geometry name="abc1#2" :radius="radius" /><geometry-watcher geometry="abc1#2" /></vgl-namespace>',
+      components: { VglNamespace, VglTorusKnotGeometry, GeometryWatcher },
+      data: { radius: 6.1 },
+    }).$mount();
+    return vm.$nextTick().then(() => {
+      vm.radius = 4.2;
+      return vm.$nextTick().then(() => {
+        expect(updatedHistory).to.have.lengthOf(2);
+        const actual1 = updatedHistory[0].vertices;
+        const expected1 = new THREE.TorusKnotGeometry(6.1).vertices;
+        expect(actual1).to.have.deep.ordered.members(expected1);
+        const actual2 = updatedHistory[1].vertices;
+        const expected2 = new THREE.TorusKnotGeometry(4.2).vertices;
+        expect(actual2).to.have.deep.ordered.members(expected2);
+      });
+    });
+  });
+});

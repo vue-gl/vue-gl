@@ -1,422 +1,815 @@
-/* globals chai THREE Vue VueGL */
-
-describe('VglRenderer component', () => {
-  const {
-    VglRenderer, VglNamespace, VglPerspectiveCamera, VglScene
-  } = VueGL
-  const assert = chai.assert
-  before(function () {
-    this.WebGLRenderer = THREE.WebGLRenderer
-    THREE.WebGLRenderer = function (options) {
-      this.options = options
-      this.shadowMap = {}
-      this.calledRenderWith = []
-    }
-    THREE.WebGLRenderer.prototype.setSize = () => {}
-    THREE.WebGLRenderer.prototype.render = function (scene, camera) {
-      this.calledRenderWith.push([scene, camera])
-    }
-  })
-  after(function () {
-    THREE.WebGLRenderer = this.WebGLRenderer
-  })
-  describe('Namespace injection', () => {
-    describe('Should be able to access vglCameras', () => {
-      it('When the component is the root namespace.', () => {
-        const vm = new Vue({
-          template: `<vgl-renderer camera="('&%" ref="rdr"><vgl-perspective-camera name="('&%" ref="cmr" /></vgl-renderer>`,
-          components: { VglRenderer, VglPerspectiveCamera }
-        }).$mount()
-        assert.strictEqual(vm.$refs.rdr.cmr, vm.$refs.cmr.inst)
-      })
-      it('When the component is a descendant of the other namespace.', () => {
-        const vm = new Vue({
-          template: `<vgl-namespace><vgl-perspective-camera name="<!--" ref="cmr" /><vgl-renderer camera="<!--" ref="rdr" /></vgl-namespace>`,
-          components: { VglNamespace, VglRenderer, VglPerspectiveCamera }
-        }).$mount()
-        assert.strictEqual(vm.$refs.rdr.cmr, vm.$refs.cmr.inst)
-      })
-    })
-    describe('Should be able to access vglScenes', () => {
-      it('When the component is the root namespace.', () => {
-        const vm = new Vue({
-          template: `<vgl-renderer scene="('&%" ref="rdr"><vgl-scene name="('&%" ref="scn" /></vgl-renderer>`,
-          components: { VglRenderer, VglScene }
-        }).$mount()
-        assert.strictEqual(vm.$refs.rdr.scn, vm.$refs.scn.inst)
-      })
-      it('When the component is a descendant of the other namespace.', () => {
-        const vm = new Vue({
-          template: `<vgl-namespace><vgl-scene name="<!--" ref="scn" /><vgl-renderer scene="<!--" ref="rdr" /></vgl-namespace>`,
-          components: { VglNamespace, VglRenderer, VglScene }
-        }).$mount()
-        assert.strictEqual(vm.$refs.rdr.scn, vm.$refs.scn.inst)
-      })
-    })
-  })
-  describe('Creating a renderer', () => {
-    describe('Output canvas', () => {
-      it('The domElement property of WebGLRenderer instance should be the Vue created canvas.', () => {
-        const vm = new Vue(VglRenderer)
-        assert.strictEqual(vm.$refs.rdr, vm.inst.options.canvas)
-      })
-    })
-    describe('Context attributes', () => {
-      describe('The alpha property should affect the alpha attribute.', () => {
-        it('When the property is undefined (or false).', () => {
-          const vm = new Vue(VglRenderer)
-          assert.isFalse(vm.inst.options.alpha)
-        })
-        it('When the property is true.', () => {
-          const vm = new (Vue.extend(VglRenderer))({ propsData: { alpha: true }}).$mount()
-          assert.isTrue(vm.inst.options.alpha)
-        })
-      })
-      describe('The disableDepth property should affect the depth attribute.', () => {
-        it('When the property is undefined (or false).', () => {
-          const vm = new Vue(VglRenderer).$mount()
-          assert.isTrue(vm.inst.options.depth)
-        })
-        it('When the property is true.', () => {
-          const vm = new (Vue.extend(VglRenderer))({ propsData: { disableDepth: true }}).$mount()
-          assert.isFalse(vm.inst.options.depth)
-        })
-      })
-      describe('The disableStencil property should affect the stencil attribute.', () => {
-        it('When the property is undefined (or false).', () => {
-          const vm = new Vue(VglRenderer).$mount()
-          assert.isTrue(vm.inst.options.stencil)
-        })
-        it('When the property is true.', () => {
-          const vm = new (Vue.extend(VglRenderer))({ propsData: { disableStencil: true }}).$mount()
-          assert.isFalse(vm.inst.options.stencil)
-        })
-      })
-      describe('The antialias property should affect the antialias attribute.', () => {
-        it('When the property is undefined (or false).', () => {
-          const vm = new Vue(VglRenderer).$mount()
-          assert.isFalse(vm.inst.options.antialias)
-        })
-        it('When the property is true.', () => {
-          const vm = new (Vue.extend(VglRenderer))({ propsData: { antialias: true }}).$mount()
-          assert.isTrue(vm.inst.options.antialias)
-        })
-      })
-      describe('The disablePremultipliedAlpha property should affect the premultipliedAlpha attribute.', () => {
-        it('When the property is undefined (or false).', () => {
-          const vm = new Vue(VglRenderer).$mount()
-          assert.isTrue(vm.inst.options.premultipliedAlpha)
-        })
-        it('When the property is true.', () => {
-          const vm = new (Vue.extend(VglRenderer))({ propsData: { disablePremultipliedAlpha: true }}).$mount()
-          assert.isFalse(vm.inst.options.premultipliedAlpha)
-        })
-      })
-      describe('The preserveDrawingBuffer property should affect the preserveDrawingBuffer attribute.', () => {
-        it('When the property is undefined (or false).', () => {
-          const vm = new Vue(VglRenderer).$mount()
-          assert.isFalse(vm.inst.options.preserveDrawingBuffer)
-        })
-        it('When the property is true.', () => {
-          const vm = new (Vue.extend(VglRenderer))({ propsData: { preserveDrawingBuffer: true }}).$mount()
-          assert.isTrue(vm.inst.options.preserveDrawingBuffer)
-        })
-      })
-    })
-    describe('Capabilities', () => {
-      describe('The logarithmicDepthBuffer property should affect the logarithmicDepthBuffer capability.', () => {
-        it('When the property is undefined (or false).', () => {
-          const vm = new Vue(VglRenderer).$mount()
-          assert.isFalse(vm.inst.options.logarithmicDepthBuffer)
-        })
-        it('When the property is true.', () => {
-          const vm = new (Vue.extend(VglRenderer))({ propsData: { logarithmicDepthBuffer: true }}).$mount()
-          assert.isTrue(vm.inst.options.logarithmicDepthBuffer)
-        })
-      })
-      describe('The precision property should affect the precision capability.', () => {
-        it('When the property is undefined (or false).', () => {
-          const vm = new Vue(VglRenderer).$mount()
-          assert.isUndefined(vm.inst.options.precision)
-        })
-        it('When the property is "lowp".', () => {
-          const vm = new (Vue.extend(VglRenderer))({ propsData: { precision: 'lowp' }}).$mount()
-          assert.strictEqual(vm.inst.options.precision, 'lowp')
-        })
-        it('When the property is "mediump".', () => {
-          const vm = new (Vue.extend(VglRenderer))({ propsData: { precision: 'mediump' }}).$mount()
-          assert.strictEqual(vm.inst.options.precision, 'mediump')
-        })
-        it('When the property is "highp".', () => {
-          const vm = new (Vue.extend(VglRenderer))({ propsData: { precision: 'highp' }}).$mount()
-          assert.strictEqual(vm.inst.options.precision, 'highp')
-        })
-      })
-    })
-    describe('Properties', () => {
-      describe('The shadowMapEnabled property should affect the shadowMap.enabled.', () => {
-        beforeEach(function () {
-          this.outerDiv = document.createElement('div')
-          this.outerDiv.innerHTML = '<div id="app"></div>'
-          document.body.appendChild(this.outerDiv)
-        })
-        afterEach(function () {
-          document.body.removeChild(this.outerDiv)
-        })
-        it('When the property is false.', (done) => {
-          const vm = new (Vue.extend(VglRenderer))({ propsData: { shadowMapEnabled: false }, el: '#app' })
-          function waitonload (callback) {
-            if (!vm.$refs.frm.contentDocument || vm.$refs.frm.contentDocument.readyState !== 'complete') {
-              setTimeout(() => {
-                waitonload(callback)
-              }, 10)
-            } else {
-              callback()
-            }
-          }
-          waitonload(() => {
-            vm.$nextTick(() => {
-              setTimeout(() => {
-                try {
-                  assert.isFalse(vm.inst.shadowMap.enabled)
-                  done()
-                } catch (e) {
-                  done(e)
-                }
-              }, 0)
-            })
-          })
-        })
-        it('When the property is true.', (done) => {
-          const vm = new (Vue.extend(VglRenderer))({ propsData: { shadowMapEnabled: true }, el: '#app' })
-          function waitonload (callback) {
-            if (!vm.$refs.frm.contentDocument || vm.$refs.frm.contentDocument.readyState !== 'complete') {
-              setTimeout(() => {
-                waitonload(callback)
-              }, 10)
-            } else {
-              callback()
-            }
-          }
-          waitonload(() => {
-            vm.$nextTick(() => {
-              setTimeout(() => {
-                try {
-                  assert.isTrue(vm.inst.shadowMap.enabled)
-                  done()
-                } catch (e) {
-                  done(e)
-                }
-              }, 0)
-            })
-          })
-        })
-      })
-    })
-  })
-  describe('When an initial property changes', () => {
-    it('The canvas element should be replaced.', (done) => {
-      const vm = new Vue(VglRenderer).$mount()
-      const oldCanvas = vm.$refs.rdr
-      vm.alpha = true
+describe('VglRenderer:', function component() {
+  const { VglRenderer, VglNamespace } = VueGL;
+  const { assert } = chai;
+  this.timeout(0);
+  const testCamera = (() => {
+    const camera = new THREE.PerspectiveCamera();
+    camera.position.y = 10;
+    camera.position.z = 10;
+    camera.aspect = 287 / 199;
+    camera.lookAt(new THREE.Vector3());
+    camera.updateProjectionMatrix();
+    return camera;
+  })();
+  const testScene = (() => {
+    const scene = new THREE.Scene();
+    let light;
+    light = new THREE.AmbientLight(0x404040);
+    scene.add(light);
+    light = new THREE.DirectionalLight();
+    light.position.set(3, 10, 0);
+    light.castShadow = true;
+    scene.add(light);
+    const geometry = new THREE.TorusKnotGeometry();
+    const material = new THREE.MeshStandardMaterial();
+    const mesh = new THREE.Mesh(geometry, material);
+    mesh.castShadow = true;
+    mesh.receiveShadow = true;
+    scene.add(mesh);
+    return scene;
+  })();
+  const testCamera2 = (() => {
+    const camera = testCamera.clone();
+    camera.fov = 40;
+    camera.updateProjectionMatrix();
+    return camera;
+  })();
+  const testScene2 = (() => {
+    const scene = testScene.clone();
+    scene.fog = new THREE.Fog(0xffffff);
+    return scene;
+  })();
+  const RscSetter = {
+    inject: ['vglNamespace'],
+    data() {
+      return {
+        camera: testCamera.clone(),
+        scene: testScene.clone(),
+        camera2: testCamera2.clone(),
+        scene2: testScene2.clone(),
+      };
+    },
+    created() {
+      this.$set(this.vglNamespace.cameras, 'cmr', this.camera);
+      this.$set(this.vglNamespace.scenes, 'scn', this.scene);
+      this.$set(this.vglNamespace.cameras, 'cmr2', this.camera2);
+      this.$set(this.vglNamespace.scenes, 'scn2', this.scene2);
+    },
+    render() {},
+  };
+  beforeEach(function hook(done) {
+    this.sandbox = document.createElement('div');
+    this.sandbox.innerHTML = '<div class="app"></div>';
+    document.body.appendChild(this.sandbox);
+    this.sandboxApp = this.sandbox.querySelector('.app');
+    done();
+  });
+  afterEach(function hook(done) {
+    document.body.removeChild(this.sandbox);
+    done();
+  });
+  describe('The drawn images should be configured correctly', function suite() {
+    before(function hook(done) {
+      // Skip if WebGLRenderer creation fails.
+      const sandbox = document.createElement('div');
+      document.body.appendChild(sandbox);
+      try {
+        const renderer = new THREE.WebGLRenderer();
+        sandbox.appendChild(renderer.domElement);
+        renderer.setSize(287, 199);
+        renderer.render(testScene.clone(), testCamera.clone());
+        this.defaultImage = renderer.domElement.toDataURL();
+        assert.match(this.defaultImage, /^data:image\/png[,;]/);
+      } catch (e) {
+        document.body.removeChild(sandbox);
+        this.skip();
+      }
+      document.body.removeChild(sandbox);
+      done();
+    });
+    it('with default properties', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-renderer camera="cmr" scene="scn" style="width: 287px; height: 199px;"><rsc-setter /></vgl-renderer>',
+        components: { VglRenderer, RscSetter },
+      }).$mount(this.sandboxApp);
       vm.$nextTick(() => {
         try {
-          assert.notEqual(oldCanvas, vm.$refs.rdr)
-          done()
+          const actual = vm.$el.getElementsByTagName('canvas')[0].toDataURL();
+          assert.strictEqual(actual, this.defaultImage, 'Rendering results are different.');
+          done();
         } catch (e) {
-          done(e)
+          done(e);
         }
-      })
-    })
-    it('The WebGLRenderer instance should be newly created.', (done) => {
-      const vm = new Vue(VglRenderer).$mount()
-      const oldInst = vm.inst
-      vm.alpha = true
+      });
+    });
+    it('with alpha = true', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-renderer camera="cmr" scene="scn" alpha style="width: 287px; height: 199px;"><rsc-setter /></vgl-renderer>',
+        components: { VglRenderer, RscSetter },
+      }).$mount(this.sandboxApp);
+      const testRenderer = new THREE.WebGLRenderer({ alpha: true });
+      testRenderer.setSize(287, 199);
+      testRenderer.render(testScene.clone(), testCamera.clone());
+      const expected = testRenderer.domElement.toDataURL();
+      try {
+        assert.notEqual(expected, this.defaultImage);
+      } catch (e) {
+        // Skip if the option does not affect.
+        this.skip();
+      }
       vm.$nextTick(() => {
         try {
-          assert.notEqual(oldInst, vm.inst)
-          done()
+          const actual = vm.$el.getElementsByTagName('canvas')[0].toDataURL();
+          assert.strictEqual(actual, expected, 'Rendering results are different.');
+          done();
         } catch (e) {
-          done(e)
+          done(e);
         }
-      })
-    })
-    it('The domElement property of WebGLRenderer instance should be the replaced canvas.', (done) => {
-      const vm = new Vue(VglRenderer).$mount()
-      vm.alpha = true
+      });
+    });
+    it('with antialias = true', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-renderer camera="cmr" scene="scn" antialias style="width: 287px; height: 199px;"><rsc-setter /></vgl-renderer>',
+        components: { VglRenderer, RscSetter },
+      }).$mount(this.sandboxApp);
+      const testRenderer = new THREE.WebGLRenderer({ antialias: true });
+      testRenderer.setSize(287, 199);
+      testRenderer.render(testScene.clone(), testCamera.clone());
+      const expected = testRenderer.domElement.toDataURL();
+      try {
+        assert.notEqual(expected, this.defaultImage);
+      } catch (e) {
+        // Skip if the option does not affect.
+        this.skip();
+      }
       vm.$nextTick(() => {
         try {
-          assert.strictEqual(vm.inst.options.canvas, vm.$refs.rdr)
-          done()
+          const actual = vm.$el.getElementsByTagName('canvas')[0].toDataURL();
+          assert.strictEqual(actual, expected, 'Rendering results are different.');
+          done();
         } catch (e) {
-          done(e)
+          done(e);
         }
-      })
-    })
-  })
-  describe('When another property changes', () => {
-    beforeEach(function () {
-      this.outerDiv = document.createElement('div')
-      this.outerDiv.innerHTML = '<div id="app"></div>'
-      document.body.appendChild(this.outerDiv)
-    })
-    afterEach(function () {
-      document.body.removeChild(this.outerDiv)
-    })
-    describe('The shadowMapEnabled should affect the shadowMap.enabled.', () => {
-      it('From false to true.', (done) => {
-        const vm = new Vue(VglRenderer).$mount('#app')
-        vm.$nextTick(() => {
-          vm.shadowMapEnabled = true
-          vm.$nextTick(() => {
-            try {
-              assert.isTrue(vm.inst.shadowMap.enabled)
-              done()
-            } catch (e) {
-              done(e)
-            }
-          })
-        })
-      })
-    })
-  })
-  describe('Testing the rendering function', () => {
-    beforeEach(function () {
-      this.outerDiv = document.createElement('div')
-      this.outerDiv.innerHTML = '<div id="app" style="height:150px;"></div>'
-      document.body.appendChild(this.outerDiv)
-    })
-    afterEach(function () {
-      document.body.removeChild(this.outerDiv)
-    })
-    it('The render function of the instance should be called once with the scene and camera after the initialization.', (done) => {
+      });
+    });
+    it('with disablePremultipliedAlpha = true', function test(done) {
       const vm = new Vue({
-        template: `<vgl-renderer scene="s" camera="c" ref="r"><vgl-scene name="s" ref="s"></vgl-scene><vgl-perspective-camera name="c" ref="c" /></vgl-renderer>`,
-        components: {
-          VglRenderer,
-          VglScene,
-          VglPerspectiveCamera
-        }
-      }).$mount('#app')
-      function waitonload (callback) {
-        if (!vm.$refs.r.$refs.frm.contentDocument || vm.$refs.r.$refs.frm.contentDocument.readyState !== 'complete') {
-          setTimeout(() => {
-            waitonload(callback)
-          }, 10)
-        } else {
-          callback()
-        }
+        template: '<vgl-renderer camera="cmr" scene="scn" disable-premultiplied-alpha style="width: 287px; height: 199px;"><rsc-setter /></vgl-renderer>',
+        components: { VglRenderer, RscSetter },
+      }).$mount(this.sandboxApp);
+      const testRenderer = new THREE.WebGLRenderer({ premultipliedAlpha: false });
+      testRenderer.setSize(287, 199);
+      testRenderer.render(testScene.clone(), testCamera.clone());
+      const expected = testRenderer.domElement.toDataURL();
+      try {
+        assert.notEqual(expected, this.defaultImage);
+      } catch (e) {
+        // Skip if the option does not affect.
+        this.skip();
       }
-      waitonload(() => {
-        vm.$nextTick(() => {
-          requestAnimationFrame(() => {
-            setTimeout(() => {
-              try {
-                assert.lengthOf(vm.$refs.r.inst.calledRenderWith, 1)
-                assert.strictEqual(vm.$refs.r.inst.calledRenderWith[0][0], vm.$refs.s.inst)
-                assert.strictEqual(vm.$refs.r.inst.calledRenderWith[0][1], vm.$refs.c.inst)
-                done()
-              } catch (e) {
-                done(e)
-              }
-            }, 0)
-          })
-        })
-      })
-    })
-    it('The render function of the instance should be called once with the scene and camera after vglUpdate() called.', (done) => {
+      vm.$nextTick(() => {
+        try {
+          const actual = vm.$el.getElementsByTagName('canvas')[0].toDataURL();
+          assert.strictEqual(actual, expected, 'Rendering results are different.');
+          done();
+        } catch (e) {
+          done();
+        }
+      });
+    });
+    it('with shadowMapEnabled = true', function test(done) {
       const vm = new Vue({
-        template: `<vgl-renderer scene="s" camera="c" ref="r"><vgl-scene name="s" ref="s"><trigger-component ref="t" /></vgl-scene><vgl-perspective-camera name="c" ref="c" /></vgl-renderer>`,
-        components: {
-          VglRenderer,
-          VglScene,
-          VglPerspectiveCamera,
-          TriggerComponent: {
-            inject: ['vglUpdate'],
-            render: () => {}
+        template: '<vgl-renderer camera="cmr" scene="scn" shadow-map-enabled style="width: 287px; height: 199px;"><rsc-setter /></vgl-renderer>',
+        components: { VglRenderer, RscSetter },
+      }).$mount(this.sandboxApp);
+      const testRenderer = new THREE.WebGLRenderer();
+      testRenderer.shadowMap.enabled = true;
+      testRenderer.setSize(287, 199);
+      testRenderer.render(testScene.clone(), testCamera.clone());
+      const expected = testRenderer.domElement.toDataURL();
+      try {
+        assert.notEqual(expected, this.defaultImage);
+      } catch (e) {
+        // Skip if the option does not affect.
+        this.skip();
+      }
+      vm.$nextTick(() => {
+        try {
+          const actual = vm.$el.getElementsByTagName('canvas')[0].toDataURL();
+          assert.strictEqual(actual, expected, 'Rendering results are different.');
+          done();
+        } catch (e) {
+          done(e);
+        }
+      });
+    });
+    it('when the alpha property is changed after initilization', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-renderer camera="cmr" scene="scn" :alpha="alpha" style="width: 287px; height: 199px;"><rsc-setter /></vgl-renderer>',
+        components: { VglRenderer, RscSetter },
+        data: { alpha: false },
+      }).$mount(this.sandboxApp);
+      const testRenderer = new THREE.WebGLRenderer({ alpha: true });
+      testRenderer.setSize(287, 199);
+      testRenderer.render(testScene.clone(), testCamera.clone());
+      const expected = testRenderer.domElement.toDataURL();
+      try {
+        assert.notEqual(expected, this.defaultImage);
+      } catch (e) {
+        // Skip if the option does not affect.
+        this.skip();
+      }
+      vm.$nextTick(() => {
+        vm.alpha = true;
+        vm.$nextTick(() => {
+          try {
+            const actual = vm.$el.getElementsByTagName('canvas')[0].toDataURL();
+            assert.strictEqual(actual, expected, 'Rendering results are different.');
+            done();
+          } catch (e) {
+            done(e);
           }
-        }
-      }).$mount('#app')
-      function waitonload (callback) {
-        if (!vm.$refs.r.$refs.frm.contentDocument || vm.$refs.r.$refs.frm.contentDocument.readyState !== 'complete') {
-          setTimeout(() => {
-            waitonload(callback)
-          }, 10)
-        } else {
-          callback()
-        }
-      }
-      waitonload(() => {
-        vm.$nextTick(() => {
-          requestAnimationFrame(() => {
-            setTimeout(() => {
-              vm.$refs.r.inst.calledRenderWith = []
-              vm.$refs.t.vglUpdate()
-              vm.$nextTick(() => {
-                requestAnimationFrame(() => {
-                  setTimeout(() => {
-                    try {
-                      assert.lengthOf(vm.$refs.r.inst.calledRenderWith, 1)
-                      assert.strictEqual(vm.$refs.r.inst.calledRenderWith[0][0], vm.$refs.s.inst)
-                      assert.strictEqual(vm.$refs.r.inst.calledRenderWith[0][1], vm.$refs.c.inst)
-                      done()
-                    } catch (e) {
-                      done(e)
-                    }
-                  })
-                })
-              })
-            }, 0)
-          })
-        })
-      })
-    })
-    it('The render function should be called only once when vglUpdate() called multiple times.', (done) => {
+        });
+      });
+    });
+    it('without camera', function test(done) {
       const vm = new Vue({
-        template: `<vgl-renderer scene="s" camera="c" ref="r"><vgl-scene name="s" ref="s"><trigger-component ref="t" /></vgl-scene><vgl-perspective-camera name="c" ref="c" /></vgl-renderer>`,
-        components: {
-          VglRenderer,
-          VglScene,
-          VglPerspectiveCamera,
-          TriggerComponent: {
-            inject: ['vglUpdate'],
-            render: () => {}
-          }
+        template: '<vgl-renderer scene="scn" style="width: 287px; height: 199px;"><rsc-setter /></vgl-renderer>',
+        components: { VglRenderer, RscSetter },
+      }).$mount(this.sandboxApp);
+      const testRenderer = new THREE.WebGLRenderer();
+      testRenderer.setSize(287, 199);
+      const expected = testRenderer.domElement.toDataURL();
+      vm.$nextTick(() => {
+        try {
+          const actual = vm.$el.getElementsByTagName('canvas')[0].toDataURL();
+          assert.strictEqual(actual, expected, 'Rendering results are different.');
+          done();
+        } catch (e) {
+          done(e);
         }
-      }).$mount('#app')
-      function waitonload (callback) {
-        if (!vm.$refs.r.$refs.frm.contentDocument || vm.$refs.r.$refs.frm.contentDocument.readyState !== 'complete') {
-          setTimeout(() => {
-            waitonload(callback)
-          }, 10)
-        } else {
-          callback()
+      });
+    });
+    it('without scene', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-renderer camera="cmr" style="width: 287px; height: 199px;"><rsc-setter /></vgl-renderer>',
+        components: { VglRenderer, RscSetter },
+      }).$mount(this.sandboxApp);
+      const testRenderer = new THREE.WebGLRenderer();
+      testRenderer.setSize(287, 199);
+      const expected = testRenderer.domElement.toDataURL();
+      vm.$nextTick(() => {
+        try {
+          const actual = vm.$el.getElementsByTagName('canvas')[0].toDataURL();
+          assert.strictEqual(actual, expected, 'Rendering results are different.');
+          done();
+        } catch (e) {
+          done(e);
         }
-      }
-      waitonload(() => {
+      });
+    });
+    it('when camera is set after initilization', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-renderer :camera="camera" scene="scn" style="width: 287px; height: 199px;"><rsc-setter /></vgl-renderer>',
+        components: { VglRenderer, RscSetter },
+        data: { camera: undefined },
+      }).$mount(this.sandboxApp);
+      vm.$nextTick(() => {
+        vm.camera = 'cmr';
         vm.$nextTick(() => {
-          requestAnimationFrame(() => {
-            setTimeout(() => {
-              vm.$refs.r.inst.calledRenderWith = []
-              vm.$refs.t.vglUpdate()
-              vm.$refs.t.vglUpdate()
-              vm.$refs.t.vglUpdate()
-              requestAnimationFrame(() => {
-                setTimeout(() => {
-                  try {
-                    assert.lengthOf(vm.$refs.r.inst.calledRenderWith, 1)
-                    assert.strictEqual(vm.$refs.r.inst.calledRenderWith[0][0], vm.$refs.s.inst)
-                    assert.strictEqual(vm.$refs.r.inst.calledRenderWith[0][1], vm.$refs.c.inst)
-                    done()
-                  } catch (e) {
-                    done(e)
-                  }
-                })
-              })
-            }, 0)
-          })
-        })
-      })
-    })
-  })
-})
+          try {
+            const actual = vm.$el.getElementsByTagName('canvas')[0].toDataURL();
+            assert.strictEqual(actual, this.defaultImage, 'Rendering results are different.');
+            done();
+          } catch (e) {
+            done(e);
+          }
+        });
+      });
+    });
+    it('when scene is set after initialization', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-renderer camera="cmr" :scene="scene" style="width: 287px; height: 199px;"><rsc-setter /></vgl-renderer>',
+        components: { VglRenderer, RscSetter },
+        data: { scene: undefined },
+      }).$mount(this.sandboxApp);
+      vm.$nextTick(() => {
+        vm.scene = 'scn';
+        vm.$nextTick(() => {
+          try {
+            const actual = vm.$el.getElementsByTagName('canvas')[0].toDataURL();
+            assert.strictEqual(actual, this.defaultImage, 'Rendering results are different.');
+            done();
+          } catch (e) {
+            done(e);
+          }
+        });
+      });
+    });
+    it('when camera is changed after initialization', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-renderer :camera="camera" scene="scn" style="width: 287px; height: 199px;"><rsc-setter /></vgl-renderer>',
+        components: { VglRenderer, RscSetter },
+        data: { camera: 'cmr' },
+      }).$mount(this.sandboxApp);
+      const testRenderer = new THREE.WebGLRenderer();
+      testRenderer.setSize(287, 199);
+      testRenderer.render(testScene.clone(), testCamera2.clone());
+      const expected = testRenderer.domElement.toDataURL();
+      assert.notEqual(expected, this.defaultImage, 'Two test cameras are not different.');
+      vm.$nextTick(() => {
+        vm.camera = 'cmr2';
+        vm.$nextTick(() => {
+          try {
+            const actual = vm.$el.getElementsByTagName('canvas')[0].toDataURL();
+            assert.strictEqual(actual, expected, 'Rendering results are different.');
+            done();
+          } catch (e) {
+            done(e);
+          }
+        });
+      });
+    });
+    it('when scene is changed after initialization', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-renderer camera="cmr" :scene="scene" style="width: 287px; height: 199px;"><rsc-setter /></vgl-renderer>',
+        components: { VglRenderer, RscSetter },
+        data: { scene: 'scn' },
+      }).$mount(this.sandboxApp);
+      const testRenderer = new THREE.WebGLRenderer();
+      testRenderer.setSize(287, 199);
+      testRenderer.render(testScene2.clone(), testCamera.clone());
+      const expected = testRenderer.domElement.toDataURL();
+      assert.notEqual(expected, this.defaultImage, 'Two test scenes are not different.');
+      vm.$nextTick(() => {
+        vm.scene = 'scn2';
+        vm.$nextTick(() => {
+          try {
+            const actual = vm.$el.getElementsByTagName('canvas')[0].toDataURL();
+            assert.strictEqual(actual, expected, 'Rendering results are different.');
+            done();
+          } catch (e) {
+            done(e);
+          }
+        });
+      });
+    });
+  });
+  describe('Rendering function should be called appropriate times', function suite() {
+    before(function hook(done) {
+      const mocha = this;
+      this.WebGLRenderer = THREE.WebGLRenderer;
+      THREE.WebGLRenderer = class extends this.WebGLRenderer {
+        constructor(...params) {
+          super(...params);
+          const { render } = this;
+          this.render = function spyedRender(...args) {
+            mocha.renderingTimes += 1;
+            return render.call(this, ...args);
+          };
+        }
+      };
+      this.renderingTimes = 0;
+      try {
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(287, 199);
+        renderer.render(testScene.clone(), testCamera.clone());
+      } catch (e) {
+        this.skip();
+      }
+      assert.strictEqual(this.renderingTimes, 1);
+      done();
+    });
+    after(function hook(done) {
+      THREE.WebGLRenderer = this.WebGLRenderer;
+      done();
+    });
+    beforeEach(function hook(done) {
+      this.renderingTimes = 0;
+      done();
+    });
+    it('after initialization with camera and scene', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-renderer camera="cmr" scene="scn" style="width: 287px; height: 199px;"><rsc-setter /></vgl-renderer>',
+        components: { VglRenderer, RscSetter },
+      }).$mount(this.sandboxApp);
+      vm.$nextTick(() => {
+        try {
+          // should be called on watcher after mounted.
+          assert.strictEqual(this.renderingTimes, 1);
+          done();
+        } catch (e) {
+          done(e);
+        }
+      });
+    });
+    it('after initialization without camera', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-renderer scene="scn" style="width: 287px; height: 199px;"><rsc-setter /></vgl-renderer>',
+        components: { VglRenderer, RscSetter },
+      }).$mount(this.sandboxApp);
+      vm.$nextTick(() => {
+        try {
+          // should not be called.
+          assert.strictEqual(this.renderingTimes, 0);
+          done();
+        } catch (e) {
+          done(e);
+        }
+      });
+    });
+    it('after initialization without scene', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-renderer camera="cmr" style="width: 287px; height: 199px;"><rsc-setter /></vgl-renderer>',
+        components: { VglRenderer, RscSetter },
+      }).$mount(this.sandboxApp);
+      vm.$nextTick(() => {
+        try {
+          // should not be called.
+          assert.strictEqual(this.renderingTimes, 0);
+          done();
+        } catch (e) {
+          done(e);
+        }
+      });
+    });
+    it('when an \'update\' event is dispatched from the scene', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-renderer camera="cmr" scene="scn" style="width: 287px; height: 199px;"><rsc-setter ref="rsc" /></vgl-renderer>',
+        components: { VglRenderer, RscSetter },
+      }).$mount(this.sandboxApp);
+      vm.$nextTick(() => {
+        try {
+          vm.$refs.rsc.scene.dispatchEvent({ type: 'update' });
+          // should be called on watcher after mounted and when an event is dispatched.
+          assert.strictEqual(this.renderingTimes, 2);
+          done();
+        } catch (e) {
+          done(e);
+        }
+      });
+    });
+    it('when an \'update\' event is dispatched from the camera', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-renderer camera="cmr" scene="scn" style="width: 287px; height: 199px;"><rsc-setter ref="rsc" /></vgl-renderer>',
+        components: { VglRenderer, RscSetter },
+      }).$mount(this.sandboxApp);
+      vm.$nextTick(() => {
+        try {
+          vm.$refs.rsc.camera.dispatchEvent({ type: 'update' });
+          // should be called on watcher after mounted and when an event is dispatched.
+          assert.strictEqual(this.renderingTimes, 2);
+          done();
+        } catch (e) {
+          done(e);
+        }
+      });
+    });
+    it('when the scene is set after initialization', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-renderer camera="cmr" :scene="scene" style="width: 287px; height: 199px;"><rsc-setter /></vgl-renderer>',
+        components: { VglRenderer, RscSetter },
+        data: { scene: '' },
+      }).$mount(this.sandboxApp);
+      vm.$nextTick(() => {
+        vm.scene = 'scn';
+        vm.$nextTick(() => {
+          try {
+            // should be called on watcher after the scene is set.
+            assert.strictEqual(this.renderingTimes, 1);
+            done();
+          } catch (e) {
+            done(e);
+          }
+        });
+      });
+    });
+    it('when the camera is set after initialization', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-renderer :camera="camera" scene="scn" style="width: 287px; height: 199px;"><rsc-setter /></vgl-renderer>',
+        components: { VglRenderer, RscSetter },
+        data: { camera: '' },
+      }).$mount(this.sandboxApp);
+      vm.$nextTick(() => {
+        vm.camera = 'cmr';
+        vm.$nextTick(() => {
+          try {
+            // should be called on watcher after the camera is set.
+            assert.strictEqual(this.renderingTimes, 1);
+            done();
+          } catch (e) {
+            done(e);
+          }
+        });
+      });
+    });
+    it('when scene and camera are set at the same time after initialization', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-renderer :camera="camera" :scene="scene" style="width: 287px; height: 199px;"><rsc-setter /></vgl-renderer>',
+        components: { VglRenderer, RscSetter },
+        data: { camera: '', scene: '' },
+      }).$mount(this.sandboxApp);
+      vm.$nextTick(() => {
+        vm.camera = 'cmr';
+        vm.scene = 'scn';
+        vm.$nextTick(() => {
+          try {
+            // should be called on watcher in a lump.
+            assert.strictEqual(this.renderingTimes, 1);
+            done();
+          } catch (e) {
+            done(e);
+          }
+        });
+      });
+    });
+    it('when an \'update\' event is dispatched from the scene which is set after initialization', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-renderer camera="cmr" :scene="scene" style="width: 287px; height: 199px;"><rsc-setter ref="rsc" /></vgl-renderer>',
+        components: { VglRenderer, RscSetter },
+        data: { scene: '' },
+      }).$mount(this.sandboxApp);
+      vm.$nextTick(() => {
+        vm.scene = 'scn';
+        vm.$nextTick(() => {
+          try {
+            vm.$refs.rsc.scene.dispatchEvent({ type: 'update' });
+            // should be called on watcher after the scene is set and when an event is dispatched.
+            assert.strictEqual(this.renderingTimes, 2);
+            done();
+          } catch (e) {
+            done(e);
+          }
+        });
+      });
+    });
+    it('when an \'update\' event is dispatched from the camera which is set after initialization', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-renderer :camera="camera" scene="scn" style="width: 287px; height: 199px;"><rsc-setter ref="rsc" /></vgl-renderer>',
+        components: { VglRenderer, RscSetter },
+        data: { camera: '' },
+      }).$mount(this.sandboxApp);
+      vm.$nextTick(() => {
+        vm.camera = 'cmr';
+        vm.$nextTick(() => {
+          try {
+            vm.$refs.rsc.camera.dispatchEvent({ type: 'update' });
+            // should be called on watcher after the camera is set and when an event is dispatched.
+            assert.strictEqual(this.renderingTimes, 2);
+            done();
+          } catch (e) {
+            done(e);
+          }
+        });
+      });
+    });
+    it('when the scene is changed after initialization', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-renderer camera="cmr" :scene="scene" style="width: 287px; height: 199px;"><rsc-setter ref="rsc" /></vgl-renderer>',
+        components: { VglRenderer, RscSetter },
+        data: { scene: 'scn' },
+      }).$mount(this.sandboxApp);
+      vm.$nextTick(() => {
+        vm.scene = 'scn2';
+        vm.$nextTick(() => {
+          try {
+            // should be called on watcher after mounted,
+            // when the scene is changed, and when an event is dispatched.
+            assert.strictEqual(this.renderingTimes, 2);
+            done();
+          } catch (e) {
+            done(e);
+          }
+        });
+      });
+    });
+    it('when an \'update\' event is dispatched from the scene which is changed after initialization', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-renderer camera="cmr" :scene="scene" style="width: 287px; height: 199px;"><rsc-setter ref="rsc" /></vgl-renderer>',
+        components: { VglRenderer, RscSetter },
+        data: { scene: 'scn' },
+      }).$mount(this.sandboxApp);
+      vm.$nextTick(() => {
+        vm.scene = 'scn2';
+        vm.$nextTick(() => {
+          try {
+            vm.$refs.rsc.scene2.dispatchEvent({ type: 'update' });
+            // should be called on watcher after mounted,
+            // when the scene is changed, and when an event is dispatched.
+            assert.strictEqual(this.renderingTimes, 3);
+            done();
+          } catch (e) {
+            done(e);
+          }
+        });
+      });
+    });
+    it('when an \'update\' event is dispatched from a replaced old scene', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-renderer camera="cmr" :scene="scene" style="width: 287px; height: 199px;"><rsc-setter ref="rsc" /></vgl-renderer>',
+        components: { VglRenderer, RscSetter },
+        data: { scene: 'scn' },
+      }).$mount(this.sandboxApp);
+      vm.$nextTick(() => {
+        vm.scene = 'scn2';
+        vm.$nextTick(() => {
+          try {
+            vm.$refs.rsc.scene.dispatchEvent({ type: 'update' });
+            // should be called on watcher after mounted and when the scene is changed.
+            // should not be called when an event is dispatched from an old scene.
+            assert.strictEqual(this.renderingTimes, 2);
+            done();
+          } catch (e) {
+            done(e);
+          }
+        });
+      });
+    });
+    it('when the camera is changed after initialization', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-renderer :camera="camera" scene="scn" style="width: 287px; height: 199px;"><rsc-setter ref="rsc" /></vgl-renderer>',
+        components: { VglRenderer, RscSetter },
+        data: { camera: 'cmr' },
+      }).$mount(this.sandboxApp);
+      vm.$nextTick(() => {
+        vm.camera = 'cmr2';
+        vm.$nextTick(() => {
+          try {
+            // should be called on watcher after mounted,
+            // when the camera is changed, and when an event is dispatched.
+            assert.strictEqual(this.renderingTimes, 2);
+            done();
+          } catch (e) {
+            done(e);
+          }
+        });
+      });
+    });
+    it('when an \'update\' event is dispatched from the camera which is changed after initialization', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-renderer :camera="camera" scene="scn" style="width: 287px; height: 199px;"><rsc-setter ref="rsc" /></vgl-renderer>',
+        components: { VglRenderer, RscSetter },
+        data: { camera: 'cmr' },
+      }).$mount(this.sandboxApp);
+      vm.$nextTick(() => {
+        vm.camera = 'cmr2';
+        vm.$nextTick(() => {
+          try {
+            vm.$refs.rsc.camera2.dispatchEvent({ type: 'update' });
+            // should be called on watcher after mounted,
+            // when the camera is changed, and when an event is dispatched.
+            assert.strictEqual(this.renderingTimes, 3);
+            done();
+          } catch (e) {
+            done(e);
+          }
+        });
+      });
+    });
+    it('when an \'update\' event is dispatched from a replaced old camera', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-renderer :camera="camera" scene="scn" style="width: 287px; height: 199px;"><rsc-setter ref="rsc" /></vgl-renderer>',
+        components: { VglRenderer, RscSetter },
+        data: { camera: 'cmr' },
+      }).$mount(this.sandboxApp);
+      vm.$nextTick(() => {
+        vm.camera = 'cmr2';
+        vm.$nextTick(() => {
+          try {
+            vm.$refs.rsc.camera.dispatchEvent({ type: 'update' });
+            // should be called on watcher after mounted and when the camera is changed.
+            // should not be called when an event is dispatched from an old camera.
+            assert.strictEqual(this.renderingTimes, 2);
+            done();
+          } catch (e) {
+            done(e);
+          }
+        });
+      });
+    });
+    it('when an \'update\' event is dispatched from the scene after destroyed', function test(done) {
+      const vm = new Vue({
+        template: '<div><vgl-renderer v-if="exist" camera="cmr" scene="scn" style="width: 287px; height: 199px;"><rsc-setter ref="rsc" /></vgl-renderer></div>',
+        components: { VglRenderer, RscSetter },
+        data: { exist: true },
+      }).$mount(this.sandboxApp);
+      vm.$nextTick(() => {
+        const { scene } = vm.$refs.rsc;
+        vm.exist = false;
+        vm.$nextTick(() => {
+          try {
+            scene.dispatchEvent({ type: 'update' });
+            // should be called only after mounted.
+            assert.strictEqual(this.renderingTimes, 1);
+            done();
+          } catch (e) {
+            done(e);
+          }
+        });
+      });
+    });
+    it('when an \'update\' event is dispatched from the camera after destroyed', function test(done) {
+      const vm = new Vue({
+        template: '<div><vgl-renderer v-if="exist" camera="cmr" scene="scn" style="width: 287px; height: 199px;"><rsc-setter ref="rsc" /></vgl-renderer></div>',
+        components: { VglRenderer, RscSetter },
+        data: { exist: true },
+      }).$mount(this.sandboxApp);
+      vm.$nextTick(() => {
+        const { camera } = vm.$refs.rsc;
+        vm.exist = false;
+        vm.$nextTick(() => {
+          try {
+            camera.dispatchEvent({ type: 'update' });
+            // should be called only after mounted.
+            assert.strictEqual(this.renderingTimes, 1);
+            done();
+          } catch (e) {
+            done(e);
+          }
+        });
+      });
+    });
+  });
+  describe('Scenes and cameras in the namespace should be accessible', function suite() {
+    before(function hook(done) {
+      // Skip if WebGLRenderer creation fails.
+      const sandbox = document.createElement('div');
+      document.body.appendChild(sandbox);
+      try {
+        const renderer = new THREE.WebGLRenderer();
+        sandbox.appendChild(renderer.domElement);
+        renderer.setSize(287, 199);
+        renderer.render(testScene.clone(), testCamera.clone());
+        this.defaultImage = renderer.domElement.toDataURL();
+        assert.match(this.defaultImage, /^data:image\/png[,;]/);
+      } catch (e) {
+        document.body.removeChild(sandbox);
+        this.skip();
+      }
+      document.body.removeChild(sandbox);
+      done();
+    });
+    it('when they are children of the renderer', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-renderer camera="cmr" scene="scn" style="width: 287px; height: 199px;"><rsc-setter /></vgl-renderer>',
+        components: { VglRenderer, RscSetter },
+      }).$mount(this.sandboxApp);
+      vm.$nextTick(() => {
+        const actual = vm.$el.getElementsByTagName('canvas')[0].toDataURL();
+        try {
+          assert.strictEqual(actual, this.defaultImage);
+          done();
+        } catch (e) {
+          done(e);
+        }
+      });
+    });
+    it('when they are in a child namespace', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-renderer camera="cmr" scene="scn" style="width: 287px; height: 199px;"><vgl-namespace><rsc-setter /></vgl-namespace></vgl-renderer>',
+        components: { VglRenderer, RscSetter, VglNamespace },
+      }).$mount(this.sandboxApp);
+      vm.$nextTick(() => {
+        const actual = vm.$el.getElementsByTagName('canvas')[0].toDataURL();
+        try {
+          assert.strictEqual(actual, this.defaultImage);
+          done();
+        } catch (e) {
+          done(e);
+        }
+      });
+    });
+    it('when they are siblings of the renderer', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-namespace><vgl-renderer camera="cmr" scene="scn" style="width: 287px; height: 199px;" /><rsc-setter /></vgl-namespace>',
+        components: { VglRenderer, RscSetter, VglNamespace },
+      }).$mount(this.sandboxApp);
+      vm.$nextTick(() => {
+        vm.$nextTick(() => {
+          const actual = vm.$el.getElementsByTagName('canvas')[0].toDataURL();
+          try {
+            assert.strictEqual(actual, this.defaultImage);
+            done();
+          } catch (e) {
+            done(e);
+          }
+        });
+      });
+    });
+    it('when they are in the parent namespace', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-namespace><vgl-namespace><vgl-renderer camera="cmr" scene="scn" style="width: 287px; height: 199px;" /></vgl-namespace><rsc-setter /></vgl-namespace>',
+        components: { VglRenderer, RscSetter, VglNamespace },
+      }).$mount(this.sandboxApp);
+      vm.$nextTick(() => {
+        const actual = vm.$el.getElementsByTagName('canvas')[0].toDataURL();
+        try {
+          assert.strictEqual(actual, this.defaultImage);
+          done();
+        } catch (e) {
+          done(e);
+        }
+      });
+    });
+  });
+});

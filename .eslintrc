@@ -1,3 +1,10 @@
 {
-    "extends": ["airbnb-base", "secure", "vue"]
+  "extends": ["airbnb-base"],
+  "rules": {
+    "import/extensions": "ignorePackage",
+    "curly": 2,
+  },
+  "env": {
+    "browser": true
+  },
 }

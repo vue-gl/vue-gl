@@ -1,17 +1,16 @@
-import VglLineSegments from './vgl-line-segments.js'
-import { CameraHelper, LineSegments } from './three.js'
-import { validatePropString } from './utils.js'
+import VglLineSegments from './vgl-line-segments.js';
+import { CameraHelper } from './three.js';
+import { string } from './constructor-arrays.js';
 
 export default {
   mixins: [VglLineSegments],
   props: {
-    camera: validatePropString
+    camera: string,
   },
-  inject: ['vglCameras'],
+  inject: ['vglNamespace'],
   computed: {
-    inst () {
-      const cmr = this.vglCameras.forGet[this.camera]
-      return cmr ? new CameraHelper(cmr) : new LineSegments()
-    }
-  }
-}
+    inst() {
+      return new CameraHelper(this.vglNamespace.cameras[this.camera]);
+    },
+  },
+};

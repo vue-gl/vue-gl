@@ -1,58 +1,33 @@
-import VglExtrudeGeometry from './vgl-extrude-geometry.js'
-import { TextGeometry } from './three.js'
-import { parseFloat_, parseInt_, validatePropNumber, validatePropString } from './utils.js'
-
-function getText (nodes) {
-  return nodes.map(node => (node.children ? getText(node.children) : node.text)).join('')
-}
+import VglExtrudeGeometry from './vgl-extrude-geometry.js';
+import { TextGeometry } from './three.js';
+import { string, number, boolean } from './constructor-arrays.js';
 
 export default {
   mixins: [VglExtrudeGeometry],
-  inject: ['vglFonts'],
+  inject: ['vglNamespace'],
   props: {
-    font: validatePropString,
-    size: {
-      type: validatePropNumber,
-      default: 100
-    },
-    height: {
-      type: validatePropNumber,
-      default: 50
-    },
-    curveSegments: {
-      type: validatePropNumber,
-      default: 12
-    },
-    bevelEnabled: Boolean,
-    bevelThickness: {
-      type: validatePropNumber,
-      default: 10
-    },
-    bevelSize: {
-      type: validatePropNumber,
-      default: 8
-    },
-    bevelSegments: {
-      type: validatePropNumber,
-      default: 3
-    }
+    text: string,
+    font: string,
+    size: { type: number, default: 100 },
+    height: { type: number, default: 50 },
+    curveSegments: { type: number, default: 12 },
+    bevelEnabled: boolean,
+    bevelThickness: { type: number, default: 10 },
+    bevelSize: { type: number, default: 8 },
+    bevelSegments: { type: number, default: 3 },
   },
   computed: {
-    inst () {
-      const font = this.vglFonts.forGet[this.font]
-      const nodes = this.$slots.default
-      if (font && nodes) {
-        return new TextGeometry(getText(nodes), {
-          font,
-          size: parseFloat_(this.size),
-          height: parseFloat_(this.height),
-          curveSegments: parseInt_(this.curveSegments),
-          bevelEnabled: this.bevelEnabled,
-          bevelThickness: parseFloat_(this.bevelThickness),
-          bevelSize: parseFloat_(this.bevelSize),
-          bevelSegments: parseInt_(this.bevelSegments)
-        })
-      }
-    }
-  }
-}
+    inst() {
+      return new TextGeometry(this.text, {
+        font: this.vglNamespace.fonts[this.font],
+        size: parseFloat(this.size),
+        height: parseFloat(this.height),
+        curveSegments: parseInt(this.curveSegments, 10),
+        bevelEnabled: this.bevelEnabled,
+        bevelThickness: parseFloat(this.bevelThickness),
+        bevelSize: parseFloat(this.bevelSize),
+        bevelSegments: parseInt(this.bevelSegments, 10),
+      });
+    },
+  },
+};

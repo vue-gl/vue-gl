@@ -1,36 +1,23 @@
-import VglLineSegments from './vgl-line-segments.js'
-import { GridHelper } from './three.js'
-import { validatePropNumber, validatePropString, parseFloat_, parseInt_ } from './utils.js'
+import VglLineSegments from './vgl-line-segments.js';
+import { GridHelper } from './three.js';
+import { number, string } from './constructor-arrays.js';
 
 export default {
   mixins: [VglLineSegments],
   props: {
-    size: {
-      type: validatePropNumber,
-      default: 10
-    },
-    divisions: {
-      type: validatePropNumber,
-      default: 10
-    },
-    colorCenterLine: {
-      type: validatePropString,
-      default: '#444444'
-    },
-    colorGrid: {
-      type: validatePropString,
-      default: '#888888'
-    }
+    size: { type: number, default: 10 },
+    divisions: { type: number, default: 10 },
+    colorCenterLine: { type: string, default: '#444444' },
+    colorGrid: { type: string, default: '#888888' },
   },
   computed: {
-    inst () {
-      const vm = this
+    inst() {
       return new GridHelper(
-        parseFloat_(vm.size),
-        parseInt_(vm.divisions),
-        vm.colorCenterLine,
-        vm.colorGrid
-      )
-    }
-  }
-}
+        parseFloat(this.size),
+        parseInt(this.divisions, 10),
+        this.colorCenterLine,
+        this.colorGrid,
+      );
+    },
+  },
+};

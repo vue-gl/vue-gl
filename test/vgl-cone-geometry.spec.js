@@ -1,64 +1,60 @@
-describe('VglConeGeometry component', () => {
-  const { VglConeGeometry, VglNamespace } = VueGL
-  const assert = chai.assert
-  describe('Parameters of a instance should be same as the component properties.', () => {
-    it('When properties are number.', () => {
-      const vm = new Vue({
-        template: `<vgl-namespace><vgl-cone-geometry ref="geo" :radius="10.1" :height="15.86" :radialSegments="12" :heightSegments="6" :openEnded="true" :thetaStart="0.67" :thetaLength="2.24" /></vgl-namespace>`,
-        components: { VglConeGeometry, VglNamespace }
-      }).$mount()
-      assert.strictEqual(vm.$refs.geo.inst.parameters.radius, 10.1)
-      assert.strictEqual(vm.$refs.geo.inst.parameters.height, 15.86)
-      assert.strictEqual(vm.$refs.geo.inst.parameters.radialSegments, 12)
-      assert.strictEqual(vm.$refs.geo.inst.parameters.heightSegments, 6)
-      assert.isTrue(vm.$refs.geo.inst.parameters.openEnded)
-      assert.strictEqual(vm.$refs.geo.inst.parameters.thetaStart, 0.67)
-      assert.strictEqual(vm.$refs.geo.inst.parameters.thetaLength, 2.24)
-    })
-    it('When properties are string.', () => {
-      const vm = new Vue({
-        template: `<vgl-namespace><vgl-cone-geometry ref="geo" radius="1.01" height="1.586" radialSegments="11" heightSegments="5" openEnded thetaStart="0.63" thetaLength="2.21" /></vgl-namespace>`,
-        components: { VglConeGeometry, VglNamespace }
-      }).$mount()
-      assert.strictEqual(vm.$refs.geo.inst.parameters.radius, 1.01)
-      assert.strictEqual(vm.$refs.geo.inst.parameters.height, 1.586)
-      assert.strictEqual(vm.$refs.geo.inst.parameters.radialSegments, 11)
-      assert.strictEqual(vm.$refs.geo.inst.parameters.heightSegments, 5)
-      assert.isTrue(vm.$refs.geo.inst.parameters.openEnded)
-      assert.strictEqual(vm.$refs.geo.inst.parameters.thetaStart, 0.63)
-      assert.strictEqual(vm.$refs.geo.inst.parameters.thetaLength, 2.21)
-    })
-    it('When properties are undefined.', () => {
-      const vm = new Vue({
-        template: `<vgl-namespace><vgl-cone-geometry ref="geo" /></vgl-namespace>`,
-        components: { VglConeGeometry, VglNamespace }
-      }).$mount()
-      assert.isUndefined(vm.$refs.geo.inst.parameters.radius)
-      assert.isUndefined(vm.$refs.geo.inst.parameters.height)
-      assert.isUndefined(vm.$refs.geo.inst.parameters.radialSegments)
-      assert.isUndefined(vm.$refs.geo.inst.parameters.heightSegments)
-      assert.isFalse(vm.$refs.geo.inst.parameters.openEnded)
-      assert.isUndefined(vm.$refs.geo.inst.parameters.thetaStart)
-      assert.isUndefined(vm.$refs.geo.inst.parameters.thetaLength)
-    })
-  })
-  describe('Instance should be recreated when a property changed.', () => {
-    it('When the radius property changes.', (done) => {
-      const vm = new Vue({
-        template: `<vgl-namespace><vgl-cone-geometry ref="geo" :radius="radius" /></vgl-namespace>`,
-        components: { VglConeGeometry, VglNamespace },
-        data: { radius: 25 }
-      }).$mount()
-      const before = vm.$refs.geo.inst
-      vm.radius = 11
-      vm.$nextTick(() => {
-        try {
-          assert.notEqual(before, vm.$refs.geo.inst)
-          done()
-        } catch (e) {
-          done(e)
-        }
-      })
-    })
-  })
-})
+describe('VglConeGeometry:', function suite() {
+  const { VglConeGeometry, VglMesh, VglNamespace } = VueGL;
+  const { expect } = chai;
+  let updatedHistory;
+  const GeometryWatcher = {
+    mixins: [VglMesh],
+    created() {
+      this.vglObject3d.listeners.push(() => {
+        updatedHistory.push(this.inst.geometry.clone());
+      });
+    },
+  };
+  beforeEach(function hook(done) {
+    updatedHistory = [];
+    done();
+  });
+  it('without properties', function test() {
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-cone-geometry name="abc1#2" /><geometry-watcher geometry="abc1#2" /></vgl-namespace>',
+      components: { VglNamespace, VglConeGeometry, GeometryWatcher },
+    }).$mount();
+    return vm.$nextTick().then(() => {
+      expect(updatedHistory).to.have.lengthOf(1);
+      const actual = updatedHistory[0].vertices;
+      const expected = new THREE.ConeGeometry().vertices;
+      expect(actual).to.have.deep.ordered.members(expected);
+    });
+  });
+  it('with properties', function test() {
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-cone-geometry name="abc1#2" radius="22.24" height="15" radial-segments="11" height-segments="7" open-ended theta-start="0.32" theta-length="2.2" /><geometry-watcher geometry="abc1#2" /></vgl-namespace>',
+      components: { VglNamespace, VglConeGeometry, GeometryWatcher },
+    }).$mount();
+    return vm.$nextTick().then(() => {
+      expect(updatedHistory).to.have.lengthOf(1);
+      const actual = updatedHistory[0].vertices;
+      const expected = new THREE.ConeGeometry(22.24, 15, 11, 7, true, 0.32, 2.2).vertices;
+      expect(actual).to.have.deep.ordered.members(expected);
+    });
+  });
+  it('after radius property is changed', function test() {
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-cone-geometry name="abc1#2" :radius="radius" /><geometry-watcher geometry="abc1#2" /></vgl-namespace>',
+      components: { VglNamespace, VglConeGeometry, GeometryWatcher },
+      data: { radius: 26 },
+    }).$mount();
+    return vm.$nextTick().then(() => {
+      vm.radius = 42;
+      return vm.$nextTick().then(() => {
+        expect(updatedHistory).to.have.lengthOf(2);
+        const actual1 = updatedHistory[0].vertices;
+        const expected1 = new THREE.ConeGeometry(26).vertices;
+        expect(actual1).to.have.deep.ordered.members(expected1);
+        const actual2 = updatedHistory[1].vertices;
+        const expected2 = new THREE.ConeGeometry(42).vertices;
+        expect(actual2).to.have.deep.ordered.members(expected2);
+      });
+    });
+  });
+});

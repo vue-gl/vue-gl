@@ -1,49 +1,60 @@
-describe('VglDodecahedronGeometry component', () => {
-  const { VglDodecahedronGeometry, VglNamespace } = VueGL
-  const assert = chai.assert
-  describe('Parameters of a instance should be same as the component properties.', () => {
-    it('When properties are number.', () => {
-      const vm = new Vue({
-        template: `<vgl-namespace><vgl-dodecahedron-geometry ref="geo" :radius="11.1" :detail="2" /></vgl-namespace>`,
-        components: { VglDodecahedronGeometry, VglNamespace }
-      }).$mount()
-      assert.strictEqual(vm.$refs.geo.inst.parameters.radius, 11.1)
-      assert.strictEqual(vm.$refs.geo.inst.parameters.detail, 2)
-    })
-    it('When properties are string.', () => {
-      const vm = new Vue({
-        template: `<vgl-namespace><vgl-dodecahedron-geometry ref="geo" radius="1.11" detail="3" /></vgl-namespace>`,
-        components: { VglDodecahedronGeometry, VglNamespace }
-      }).$mount()
-      assert.strictEqual(vm.$refs.geo.inst.parameters.radius, 1.11)
-      assert.strictEqual(vm.$refs.geo.inst.parameters.detail, 3)
-    })
-    it('When properties are undefined.', () => {
-      const vm = new Vue({
-        template: `<vgl-namespace><vgl-dodecahedron-geometry ref="geo" /></vgl-namespace>`,
-        components: { VglDodecahedronGeometry, VglNamespace }
-      }).$mount()
-      assert.isUndefined(vm.$refs.geo.inst.parameters.radius)
-      assert.isUndefined(vm.$refs.geo.inst.parameters.detail)
-    })
-  })
-  describe('Instance should be recreated when a property changed.', () => {
-    it('When the radius property changes.', (done) => {
-      const vm = new Vue({
-        template: `<vgl-namespace><vgl-dodecahedron-geometry ref="geo" :radius="radius" /></vgl-namespace>`,
-        components: { VglDodecahedronGeometry, VglNamespace },
-        data: { radius: 25 }
-      }).$mount()
-      const before = vm.$refs.geo.inst
-      vm.radius = 11
-      vm.$nextTick(() => {
-        try {
-          assert.notEqual(before, vm.$refs.geo.inst)
-          done()
-        } catch (e) {
-          done(e)
-        }
-      })
-    })
-  })
-})
+describe('VglIcosahedronGeometry:', function suite() {
+  const { VglIcosahedronGeometry, VglMesh, VglNamespace } = VueGL;
+  const { expect } = chai;
+  let updatedHistory;
+  const GeometryWatcher = {
+    mixins: [VglMesh],
+    created() {
+      this.vglObject3d.listeners.push(() => {
+        updatedHistory.push(this.inst.geometry.clone());
+      });
+    },
+  };
+  beforeEach(function hook(done) {
+    updatedHistory = [];
+    done();
+  });
+  it('without properties', function test() {
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-icosahedron-geometry name="abc1#2" /><geometry-watcher geometry="abc1#2" /></vgl-namespace>',
+      components: { VglNamespace, VglIcosahedronGeometry, GeometryWatcher },
+    }).$mount();
+    return vm.$nextTick().then(() => {
+      expect(updatedHistory).to.have.lengthOf(1);
+      const actual = updatedHistory[0].vertices;
+      const expected = new THREE.IcosahedronGeometry().vertices;
+      expect(actual).to.have.deep.ordered.members(expected);
+    });
+  });
+  it('with properties', function test() {
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-icosahedron-geometry name="abc1#2" radius="22.24" detail="3" /><geometry-watcher geometry="abc1#2" /></vgl-namespace>',
+      components: { VglNamespace, VglIcosahedronGeometry, GeometryWatcher },
+    }).$mount();
+    return vm.$nextTick().then(() => {
+      expect(updatedHistory).to.have.lengthOf(1);
+      const actual = updatedHistory[0].vertices;
+      const expected = new THREE.IcosahedronGeometry(22.24, 3).vertices;
+      expect(actual).to.have.deep.ordered.members(expected);
+    });
+  });
+  it('after radius property is changed', function test() {
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-icosahedron-geometry name="abc1#2" :radius="radius" /><geometry-watcher geometry="abc1#2" /></vgl-namespace>',
+      components: { VglNamespace, VglIcosahedronGeometry, GeometryWatcher },
+      data: { radius: 26 },
+    }).$mount();
+    return vm.$nextTick().then(() => {
+      vm.radius = 42;
+      return vm.$nextTick().then(() => {
+        expect(updatedHistory).to.have.lengthOf(2);
+        const actual1 = updatedHistory[0].vertices;
+        const expected1 = new THREE.IcosahedronGeometry(26).vertices;
+        expect(actual1).to.have.deep.ordered.members(expected1);
+        const actual2 = updatedHistory[1].vertices;
+        const expected2 = new THREE.IcosahedronGeometry(42).vertices;
+        expect(actual2).to.have.deep.ordered.members(expected2);
+      });
+    });
+  });
+});

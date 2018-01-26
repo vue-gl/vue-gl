@@ -1,58 +1,45 @@
-import VglCamera from './vgl-camera.js'
-import { PerspectiveCamera } from './three.js'
-import { parseFloat_, update, validatePropNumber } from './utils.js'
+import VglCamera from './vgl-camera.js';
+import { PerspectiveCamera } from './three.js';
+import { number } from './constructor-arrays.js';
 
 export default {
   mixins: [VglCamera],
   props: {
-    zoom: {
-      type: validatePropNumber,
-      default: 1
-    },
-    near: {
-      type: validatePropNumber,
-      default: 0.1
-    },
-    far: {
-      type: validatePropNumber,
-      default: 2000
-    },
-    fov: {
-      type: validatePropNumber,
-      default: 50
-    }
+    zoom: { type: number, default: 1 },
+    near: { type: number, default: 0.1 },
+    far: { type: number, default: 2000 },
+    fov: { type: number, default: 50 },
   },
   computed: {
-    inst: () => new PerspectiveCamera()
+    inst: () => new PerspectiveCamera(),
   },
   watch: {
-    zoom: {
-      handler (zoom) {
-        this.inst.zoom = parseFloat_(zoom)
-        update(this)
+    inst: {
+      handler(inst) {
+        Object.assign(inst, {
+          zoom: parseFloat(this.zoom),
+          near: parseFloat(this.near),
+          far: parseFloat(this.far),
+          fov: parseFloat(this.fov),
+        });
       },
-      immediate: true
+      immediate: true,
     },
-    near: {
-      handler (near) {
-        this.inst.near = parseFloat_(near)
-        update(this)
-      },
-      immediate: true
+    zoom(zoom) {
+      Object.assign(this.inst, { zoom: parseFloat(zoom) });
+      this.vglObject3d.update();
     },
-    far: {
-      handler (far) {
-        this.inst.far = parseFloat_(far)
-        update(this)
-      },
-      immediate: true
+    near(near) {
+      Object.assign(this.inst, { near: parseFloat(near) });
+      this.vglObject3d.update();
     },
-    fov: {
-      handler (fov) {
-        this.inst.fov = parseFloat_(fov)
-        update(this)
-      },
-      immediate: true
-    }
-  }
-}
+    far(far) {
+      Object.assign(this.inst, { far: parseFloat(far) });
+      this.vglObject3d.update();
+    },
+    fov(fov) {
+      Object.assign(this.inst, { fov: parseFloat(fov) });
+      this.vglObject3d.update();
+    },
+  },
+};

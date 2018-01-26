@@ -1,9 +1,9 @@
-import VglLight from './vgl-light.js'
-import { AmbientLight } from './three.js'
+import VglLight from './vgl-light.js';
+import { AmbientLight } from './three.js';
 
 export default {
   mixins: [VglLight],
   computed: {
-    inst: () => new AmbientLight()
-  }
-}
+    inst: () => new AmbientLight(),
+  },
+};

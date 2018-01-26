@@ -1,60 +1,87 @@
-describe('VglAxesHelper component', () => {
-  const { VglAxesHelper, VglNamespace } = VueGL
-  const assert = chai.assert
-  describe('Creating an object', () => {
-    describe('The size of axes should be same as the size property.', () => {
-      it('When the property is a number', () => {
-        const vm = new Vue({
-          template: `<vgl-namespace><vgl-axes-helper :size="3.8" ref="helper" /></vgl-namespace>`,
-          components: { VglAxesHelper, VglNamespace }
-        }).$mount()
-        vm.$refs.helper.inst.geometry.computeBoundingBox()
-        const size = vm.$refs.helper.inst.geometry.boundingBox.getSize()
-        assert.closeTo(size.x, 3.8, 1e-6)
-        assert.closeTo(size.y, 3.8, 1e-6)
-        assert.closeTo(size.z, 3.8, 1e-6)
-      })
-      it('When the property is a string', () => {
-        const vm = new Vue({
-          template: `<vgl-namespace><vgl-axes-helper size="4.3" ref="helper" /></vgl-namespace>`,
-          components: { VglAxesHelper, VglNamespace }
-        }).$mount()
-        vm.$refs.helper.inst.geometry.computeBoundingBox()
-        const size = vm.$refs.helper.inst.geometry.boundingBox.getSize()
-        assert.closeTo(size.x, 4.3, 1e-6)
-        assert.closeTo(size.y, 4.3, 1e-6)
-        assert.closeTo(size.z, 4.3, 1e-6)
-      })
-      it('When the property is undefined', () => {
-        const vm = new Vue({
-          template: `<vgl-namespace><vgl-axes-helper ref="helper" /></vgl-namespace>`,
-          components: { VglAxesHelper, VglNamespace }
-        }).$mount()
-        vm.$refs.helper.inst.geometry.computeBoundingBox()
-        const size = vm.$refs.helper.inst.geometry.boundingBox.getSize()
-        assert.closeTo(size.x, 1, 1e-6)
-        assert.closeTo(size.y, 1, 1e-6)
-        assert.closeTo(size.z, 1, 1e-6)
-      })
-    })
-  })
-  describe('Watching properties', () => {
-    it('The instance should be recreated when a property changes.', (done) => {
-      const vm = new Vue({
-        template: `<vgl-namespace><vgl-axes-helper :size="size" ref="helper" /></vgl-namespace>`,
-        components: { VglAxesHelper, VglNamespace },
-        data: { size: 1.1 }
-      }).$mount()
-      const before = vm.$refs.helper.inst
-      vm.size = 1.5
-      vm.$nextTick(() => {
-        try {
-          assert.notEqual(before, vm.$refs.helper.inst)
-          done()
-        } catch (e) {
-          done(e)
-        }
-      })
-    })
-  })
-})
+describe('VglAxesHelper:', function suite() {
+  const { VglAxesHelper, VglObject3d, VglNamespace } = VueGL;
+  const { expect } = chai;
+  let updatedHistory;
+  const ObjectWatcher = {
+    mixins: [VglObject3d, VglNamespace],
+    props: ['renderer', 'camera'],
+    created() {
+      this.vglObject3d.listeners.push(() => {
+        this.renderer.render(new THREE.Scene().add(this.inst), this.camera);
+        updatedHistory.push(this.renderer.domElement.toDataURL());
+      });
+    },
+  };
+  before(function hook(done) {
+    this.renderer = new THREE.WebGLRenderer();
+    this.camera = new THREE.PerspectiveCamera();
+    this.renderer.setSize(355, 219);
+    this.camera.aspect = 355 / 219;
+    this.camera.position.set(3, 3, 3);
+    this.camera.lookAt(new THREE.Vector3());
+    this.camera.updateProjectionMatrix();
+    done();
+  });
+  after(function hook(done) {
+    this.renderer.dispose();
+    done();
+  });
+  beforeEach(function hook(done) {
+    updatedHistory = [];
+    done();
+  });
+  it('default', function test() {
+    const vm = new Vue({
+      template: '<object-watcher :renderer="renderer" :camera="camera"><vgl-axes-helper /></object-watcher>',
+      components: { VglAxesHelper, ObjectWatcher },
+      computed: { renderer: () => this.renderer, camera: () => this.camera },
+    }).$mount();
+    return vm.$nextTick().then(() => {
+      expect(updatedHistory).to.have.lengthOf(1);
+      const scene = new THREE.Scene();
+      scene.add(new THREE.Object3D().add(new THREE.AxesHelper()));
+      this.renderer.render(scene, this.camera);
+      const expected = this.renderer.domElement.toDataURL();
+      expect(updatedHistory[0]).to.equal(expected);
+    });
+  });
+  it('with size property', function test() {
+    const vm = new Vue({
+      template: '<object-watcher :renderer="renderer" :camera="camera"><vgl-axes-helper size="2.7" /></object-watcher>',
+      components: { VglAxesHelper, ObjectWatcher },
+      computed: { renderer: () => this.renderer, camera: () => this.camera },
+    }).$mount();
+    return vm.$nextTick().then(() => {
+      expect(updatedHistory).to.have.lengthOf(1);
+      const scene = new THREE.Scene();
+      scene.add(new THREE.Object3D().add(new THREE.AxesHelper(2.7)));
+      this.renderer.render(scene, this.camera);
+      const expected = this.renderer.domElement.toDataURL();
+      expect(updatedHistory[0]).to.equal(expected);
+    });
+  });
+  it('after size property is changed', function test() {
+    const vm = new Vue({
+      template: '<object-watcher :renderer="renderer" :camera="camera"><vgl-axes-helper :size="size" /></object-watcher>',
+      components: { VglAxesHelper, ObjectWatcher },
+      computed: { renderer: () => this.renderer, camera: () => this.camera },
+      data: { size: '1.3' },
+    }).$mount();
+    return vm.$nextTick().then(() => {
+      vm.size = '1.7';
+      return vm.$nextTick().then(() => {
+        expect(updatedHistory).to.have.lengthOf(2);
+        const scene1 = new THREE.Scene();
+        scene1.add(new THREE.Object3D().add(new THREE.AxesHelper(1.3)));
+        this.renderer.render(scene1, this.camera);
+        const expected1 = this.renderer.domElement.toDataURL();
+        expect(updatedHistory[0]).to.equal(expected1);
+        const scene2 = new THREE.Scene();
+        scene2.add(new THREE.Object3D().add(new THREE.AxesHelper(1.7)));
+        this.renderer.render(scene2, this.camera);
+        const expected2 = this.renderer.domElement.toDataURL();
+        expect(updatedHistory[1]).to.equal(expected2);
+      });
+    });
+  });
+});

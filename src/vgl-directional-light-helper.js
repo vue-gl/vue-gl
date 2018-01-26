@@ -1,60 +1,34 @@
-import VglObject3d from './vgl-object3d.js'
-import { DirectionalLightHelper, Object3D } from './three.js'
-import { validatePropString, validatePropNumber, parseFloat_ } from './utils.js'
+import VglObject3d from './vgl-object3d.js';
+import { DirectionalLightHelper } from './three.js';
+import { string, number } from './constructor-arrays.js';
 
 export default {
   mixins: [VglObject3d],
   props: {
-    color: {
-      type: validatePropString
-    },
-    size: {
-      type: validatePropNumber,
-      default: 1
-    }
+    color: string,
+    size: { type: number, default: 1 },
   },
   computed: {
-    inst () { return this.i }
-  },
-  data () {
-    return {
-      i: new Object3D(),
-      uw: null
-    }
-  },
-  beforeDestroy () {
-    if (this.uw) this.uw()
+    inst() {
+      return new DirectionalLightHelper(this.vglObject3d.inst, parseFloat(this.size));
+    },
   },
   watch: {
-    color (color) {
-      if (this.i.parent) {
-        this.i.color = color
-        this.i.update()
-      }
-    },
-    'i.parent': {
-      handler (light, oldLight) {
-        if (light !== oldLight) {
-          if (oldLight) {
-            this.uw()
-            if (!light) {
-              this.i = new Object3D()
-              return
-            }
-          }
-          if (light) {
-            this.i = new DirectionalLightHelper(light, parseFloat_(this.size), this.color)
-            this.uw = this.$watch(() => this.i.parent && this.i.parent.color.getHex(), () => {
-              if (!this.color) {
-                this.$nextTick(() => {
-                  this.i.update()
-                })
-              }
-            })
-          }
-        }
+    inst: {
+      handler(inst) {
+        Object.assign(inst, {
+          color: this.color,
+        });
+        this.inst.update();
       },
-      immediate: true
-    }
-  }
-}
+      immediate: true,
+    },
+    color(color) {
+      Object.assign(this.inst, {
+        color,
+      });
+      this.inst.update();
+      this.vglObject3d.update();
+    },
+  },
+};
