@@ -13,7 +13,11 @@ describe('VglArrowHelper:', function suite() {
     },
   };
   before(function hook(done) {
-    this.renderer = new THREE.WebGLRenderer();
+    try {
+      this.renderer = new THREE.WebGLRenderer();
+    } catch (e) {
+      this.skip();
+    }
     this.camera = new THREE.PerspectiveCamera();
     this.renderer.setSize(355, 219);
     this.camera.aspect = 355 / 219;
