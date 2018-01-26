@@ -1,7 +1,7 @@
 {
   "extends": ["airbnb-base"],
   "rules": {
-    "import/extensions": "ignorePackage",
+    "import/extensions": [2, "ignorePackage"],
     "curly": 2,
   },
   "env": {
