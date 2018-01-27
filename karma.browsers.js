@@ -57,18 +57,18 @@ browserStack['Internet Explorer (latest) on Windows 7'] = {
   browser_version: 'latest',
 };
 
-saucelabs['Firefox 4 on Windows 7'] = {
+saucelabs['Firefox 6 on Windows 7'] = {
   base: 'SauceLabs',
   platform: 'Windows 7',
   browserName: 'firefox',
-  version: '4',
+  version: '6',
 };
-browserStack['Firefox 4 on Windows 7'] = {
+browserStack['Firefox 6 on Windows 7'] = {
   base: 'BrowserStack',
   os: 'Windows',
   os_version: '7',
   browser: 'firefox',
-  browser_version: '4',
+  browser_version: '6',
 };
 
 saucelabs['Firefox (latest) on Windows 7'] = {
@@ -141,11 +141,11 @@ browserStack['Chrome (latest) on Windows 10'] = {
   browser_version: 'latest',
 };
 
-saucelabs['Firefox 4 on Windows 10'] = {
+saucelabs['Firefox 32 on Windows 10'] = {
   base: 'SauceLabs',
   platform: 'Windows 10',
   browserName: 'firefox',
-  version: '4',
+  version: '32',
 };
 browserStack['Firefox 32 on Windows 10'] = {
   base: 'BrowserStack',
@@ -239,18 +239,18 @@ browserStack['Firefox (latest) on Mac OS X High Sierra'] = {
   browser_version: 'latest',
 };
 
-saucelabs['Firefox 4 on Mac OS X Sierra'] = {
+saucelabs['Firefox 6 on Mac OS X Sierra'] = {
   base: 'SauceLabs',
   platform: 'macOS 10.12',
   browserName: 'firefox',
-  version: '4',
+  version: '6',
 };
-browserStack['Firefox 4 on Mac OS X Snow Leopard'] = {
+browserStack['Firefox 6 on Mac OS X Snow Leopard'] = {
   base: 'BrowserStack',
   os: 'OS X',
   os_version: 'Snow Leopard',
   browser: 'firefox',
-  browser_version: '4',
+  browser_version: '6',
 };
 
 browserStack['Safari 10 on Mac OS X Sierra'] = {
