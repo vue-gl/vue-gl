@@ -21,9 +21,6 @@ describe('VglGridHelper:', function suite() {
     } catch (e) {
       this.skip();
     }
-    if (!this.renderer) {
-      this.skip();
-    }
     this.camera = new THREE.PerspectiveCamera();
     this.renderer.setSize(355, 219);
     this.camera.aspect = 355 / 219;
