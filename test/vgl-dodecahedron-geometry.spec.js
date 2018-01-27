@@ -36,14 +36,14 @@ describe('VglDodecahedronGeometry:', function suite() {
   });
   it('with properties', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-dodecahedron-geometry name="abc1#2" radius="22.24" detail="3" /><geometry-watcher geometry="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><vgl-dodecahedron-geometry name="abc1#2" radius="22.24" detail="1" /><geometry-watcher geometry="abc1#2" /></vgl-namespace>',
       components: { VglNamespace, VglDodecahedronGeometry, GeometryWatcher },
     }).$mount();
     after10ticks(vm, () => {
       try {
         expect(updatedHistory).to.have.lengthOf(1);
         const actual = updatedHistory[0].vertices;
-        const expected = new THREE.DodecahedronGeometry(22.24, 3).vertices;
+        const expected = new THREE.DodecahedronGeometry(22.24, 1).vertices;
         expect(actual).to.have.deep.ordered.members(expected);
         done();
       } catch (e) {
