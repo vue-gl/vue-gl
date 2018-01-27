@@ -49,6 +49,7 @@ module.exports = (config) => {
     options.coverageReporter = { type: 'lcovonly', dir: 'coverage' };
     options.reporters = ['coverage', 'junit', 'dots'];
     options.browserNoActivityTimeout = 30000;
+    options.client = { mocha: { timeout : 10000 } };
     if (process.env.CIRCLE_BRANCH === 'master') {
       options.concurrency = 4;
       options.reporters.push('saucelabs');
