@@ -33,7 +33,9 @@ describe('VglArrowHelper:', function suite() {
     done();
   });
   after(function hook(done) {
-    this.renderer.dispose();
+    if (this.renderer) {
+      this.renderer.dispose();
+    }
     done();
   });
   beforeEach(function hook(done) {

@@ -59,7 +59,7 @@ module.exports = (config) => {
       };
       options.customLaunchers = saucelabs;
     } else {
-      options.concurrency = 1;
+      options.concurrency = 2;
       options.reporters.push('BrowserStack');
       options.browserStack = {
         startTunnel: true,
