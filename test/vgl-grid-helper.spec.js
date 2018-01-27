@@ -12,6 +12,9 @@ describe('VglGridHelper:', function suite() {
       });
     },
   };
+  function after10ticks(vm, callback, count = 10) {
+    vm.$nextTick(count > 0 ? () => { after10ticks(vm, callback, count - 1); } : callback);
+  }
   before(function hook(done) {
     try {
       this.renderer = new THREE.WebGLRenderer();
@@ -34,57 +37,72 @@ describe('VglGridHelper:', function suite() {
     updatedHistory = [];
     done();
   });
-  it('default', function test() {
+  it('default', function test(done) {
     const vm = new Vue({
       template: '<object-watcher :renderer="renderer" :camera="camera"><vgl-grid-helper /></object-watcher>',
       components: { VglGridHelper, ObjectWatcher },
       computed: { renderer: () => this.renderer, camera: () => this.camera },
     }).$mount();
-    return vm.$nextTick().then(() => {
-      expect(updatedHistory).to.have.lengthOf(1);
-      const scene = new THREE.Scene();
-      scene.add(new THREE.Object3D().add(new THREE.GridHelper()));
-      this.renderer.render(scene, this.camera);
-      const expected = this.renderer.domElement.toDataURL();
-      expect(updatedHistory[0]).to.equal(expected);
+    after10ticks(vm, () => {
+      try {
+        expect(updatedHistory).to.have.lengthOf(1);
+        const scene = new THREE.Scene();
+        scene.add(new THREE.Object3D().add(new THREE.GridHelper()));
+        this.renderer.render(scene, this.camera);
+        const expected = this.renderer.domElement.toDataURL();
+        expect(updatedHistory[0]).to.equal(expected);
+        done();
+      } catch (e) {
+        done(e);
+      }
     });
   });
-  it('with properties', function test() {
+  it('with properties', function test(done) {
     const vm = new Vue({
       template: '<object-watcher :renderer="renderer" :camera="camera"><vgl-grid-helper size="2.7" divisions="21" color-center-line="green" color-grid="red" /></object-watcher>',
       components: { VglGridHelper, ObjectWatcher },
       computed: { renderer: () => this.renderer, camera: () => this.camera },
     }).$mount();
-    return vm.$nextTick().then(() => {
-      expect(updatedHistory).to.have.lengthOf(1);
-      const scene = new THREE.Scene();
-      scene.add(new THREE.Object3D().add(new THREE.GridHelper(2.7, 21, 'green', 'red')));
-      this.renderer.render(scene, this.camera);
-      const expected = this.renderer.domElement.toDataURL();
-      expect(updatedHistory[0]).to.equal(expected);
+    after10ticks(vm, () => {
+      try {
+        expect(updatedHistory).to.have.lengthOf(1);
+        const scene = new THREE.Scene();
+        scene.add(new THREE.Object3D().add(new THREE.GridHelper(2.7, 21, 'green', 'red')));
+        this.renderer.render(scene, this.camera);
+        const expected = this.renderer.domElement.toDataURL();
+        expect(updatedHistory[0]).to.equal(expected);
+        done();
+      } catch (e) {
+        done(e);
+      }
     });
   });
-  it('after size property is changed', function test() {
+  it('after size property is changed', function test(done) {
     const vm = new Vue({
       template: '<object-watcher :renderer="renderer" :camera="camera"><vgl-grid-helper :size="size" /></object-watcher>',
       components: { VglGridHelper, ObjectWatcher },
       computed: { renderer: () => this.renderer, camera: () => this.camera },
       data: { size: 1.3 },
     }).$mount();
-    return vm.$nextTick().then(() => {
+    vm.$nextTick(() => {
       vm.size = 1.7;
-      return vm.$nextTick().then(() => {
-        expect(updatedHistory).to.have.lengthOf(2);
-        const scene1 = new THREE.Scene();
-        scene1.add(new THREE.Object3D().add(new THREE.GridHelper(1.3)));
-        this.renderer.render(scene1, this.camera);
-        const expected1 = this.renderer.domElement.toDataURL();
-        expect(updatedHistory[0]).to.equal(expected1);
-        const scene2 = new THREE.Scene();
-        scene2.add(new THREE.Object3D().add(new THREE.GridHelper(1.7)));
-        this.renderer.render(scene2, this.camera);
-        const expected2 = this.renderer.domElement.toDataURL();
-        expect(updatedHistory[1]).to.equal(expected2);
+      after10ticks(vm, () => {
+        try {
+          expect(updatedHistory).to.have.lengthOf(2);
+          const scene1 = new THREE.Scene();
+          scene1.add(new THREE.Object3D().add(new THREE.GridHelper(1.3)));
+          this.renderer.render(scene1, this.camera);
+          const expected1 = this.renderer.domElement.toDataURL();
+          expect(updatedHistory[0]).to.equal(expected1);
+          const scene2 = new THREE.Scene();
+          scene2.add(new THREE.Object3D().add(new THREE.GridHelper(1.7)));
+          this.renderer.render(scene2, this.camera);
+          const expected2 = this.renderer.domElement.toDataURL();
+          expect(updatedHistory[1]).to.equal(expected2);
+          done();
+        } catch (e) {
+          done(e);
+        }
       });
     });
   });
