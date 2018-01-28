@@ -8,7 +8,6 @@ const baseOpts = {
   input: path.resolve('src/index.js'),
   external: 'three',
   plugins: [babel(), minify()],
-  intro: execSync('babel-external-helpers -t var'),
 };
 
 export default [Object.assign({
@@ -18,6 +17,7 @@ export default [Object.assign({
     paths: {
       three: `https://unpkg.com/three@${version}/build/three.module.js`,
     },
+    intro: execSync('babel-external-helpers -t var'),
   },
 }, baseOpts), Object.assign({
   output: {
@@ -27,5 +27,6 @@ export default [Object.assign({
     globals: {
       three: 'THREE',
     },
+    intro: execSync('babel-external-helpers -t var'),
   },
 }, baseOpts)];
