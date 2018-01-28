@@ -31,8 +31,8 @@ module.exports = (config) => {
           three: 'THREE',
         },
         sourcemap: 'inline',
+        banner: execSync('babel-external-helpers -t var'),
       },
-      banner: execSync('babel-external-helpers -t var'),
       external: 'three',
       plugins: [
         rollupPluginIstanbul({ include: 'src/**' }),
