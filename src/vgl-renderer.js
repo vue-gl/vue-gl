@@ -13,6 +13,7 @@ export default {
     preserveDrawingBuffer: boolean,
     disableDepth: boolean,
     logarithmicDepthBuffer: boolean,
+    powerPreference: string,
     camera: string,
     scene: string,
     shadowMapEnabled: boolean,
@@ -33,6 +34,7 @@ export default {
         preserveDrawingBuffer: this.preserveDrawingBuffer,
         depth: !this.disableDepth,
         logarithmicDepthBuffer: this.logarithmicDepthBuffer,
+        powerPreference: this.powerPreference,
       });
       renderer.shadowMap.enabled = this.shadowMapEnabled;
       return renderer;
