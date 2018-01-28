@@ -63,18 +63,21 @@ export default {
           this.render();
         }
       } else if (currEl) {
-        if (prevRenderer !== currRenderer) {
+        const diffRenderer = prevRenderer !== currRenderer;
+        const diffCamera = prevCamera !== currCamera;
+        const diffScene = prevScene !== currScene;
+        if (diffRenderer) {
           this.resizeRenderer();
           this.$el.replaceChild(currRenderer.domElement, prevRenderer.domElement);
           prevRenderer.dispose();
         }
         if (prevCamera && prevScene && currCamera && currScene) {
-          if (prevCamera !== currCamera) {
+          if (diffCamera) {
             this.resizeCamera();
             prevCamera.removeEventListener('update', this.render);
             currCamera.addEventListener('update', this.render);
           }
-          if (prevScene !== currScene) {
+          if (diffScene) {
             prevScene.removeEventListener('update', this.render);
             currScene.addEventListener('update', this.render);
           }
@@ -86,7 +89,7 @@ export default {
           currCamera.addEventListener('update', this.render);
           currScene.addEventListener('update', this.render);
         }
-        if (currCamera && currScene) {
+        if (currCamera && currScene && (diffCamera || diffScene || diffRenderer)) {
           this.render();
         }
       }

@@ -30,6 +30,26 @@ export default {
       vglObject3d: Object.create(this.vglObject3d, { inst: { get: () => this.inst } }),
     };
   },
+  created() {
+    this.inst.addEventListener('added', this.vglObject3d.update);
+    this.inst.addEventListener('removed', this.vglObject3d.update);
+    if (this.vglObject3d.inst) {
+      this.vglObject3d.inst.add(this.inst);
+    }
+    if (this.position) {
+      this.inst.position.copy(parseVector3(this.position));
+    }
+    if (this.rotation) {
+      this.inst.rotation.copy(parseEuler(this.rotation));
+    }
+    if (this.scale) {
+      this.inst.scale.copy(parseVector3(this.scale));
+    }
+    Object.assign(this.inst, {
+      castShadow: this.castShadow,
+      receiveShadow: this.receiveShadow,
+    });
+  },
   beforeDestroy() {
     if (this.inst.parent) {
       this.inst.parent.remove(this.inst);
@@ -47,40 +67,37 @@ export default {
     name: string,
   },
   watch: {
-    inst: {
-      handler(inst, oldInst) {
-        if (oldInst) {
-          oldInst.removeEventListener('added', this.vglObject3d.update);
-          oldInst.removeEventListener('removed', this.vglObject3d.update);
-          const { children, parent } = oldInst;
-          if (children.length) {
-            inst.add(...children);
-          }
-          if (parent) {
-            parent.remove(oldInst);
-          }
+    inst(inst, oldInst) {
+      if (oldInst) {
+        oldInst.removeEventListener('added', this.vglObject3d.update);
+        oldInst.removeEventListener('removed', this.vglObject3d.update);
+        const { children, parent } = oldInst;
+        if (children.length) {
+          inst.add(...children);
         }
-        inst.addEventListener('added', this.vglObject3d.update);
-        inst.addEventListener('removed', this.vglObject3d.update);
-        if (this.vglObject3d.inst) {
-          this.vglObject3d.inst.add(inst);
+        if (parent) {
+          parent.remove(oldInst);
         }
-        if (this.position) {
-          this.inst.position.copy(parseVector3(this.position));
-        }
-        if (this.rotation) {
-          this.inst.rotation.copy(parseEuler(this.rotation));
-        }
-        if (this.scale) {
-          this.inst.scale.copy(parseVector3(this.scale));
-        }
-        Object.assign(inst, {
-          castShadow: this.castShadow,
-          receiveShadow: this.receiveShadow,
-        });
-        this.vglObject3d.update();
-      },
-      immediate: true,
+      }
+      inst.addEventListener('added', this.vglObject3d.update);
+      inst.addEventListener('removed', this.vglObject3d.update);
+      if (this.vglObject3d.inst) {
+        this.vglObject3d.inst.add(inst);
+      }
+      if (this.position) {
+        this.inst.position.copy(parseVector3(this.position));
+      }
+      if (this.rotation) {
+        this.inst.rotation.copy(parseEuler(this.rotation));
+      }
+      if (this.scale) {
+        this.inst.scale.copy(parseVector3(this.scale));
+      }
+      Object.assign(inst, {
+        castShadow: this.castShadow,
+        receiveShadow: this.receiveShadow,
+      });
+      this.vglObject3d.update();
     },
     position(position) {
       this.inst.position.copy(parseVector3(position));
