@@ -19,7 +19,7 @@ describe('VglPointsMaterial:', function suite() {
   });
   it('default', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-points-material name="abc1#2" /><material-watcher material="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><material-watcher material="abc1#2" /><vgl-points-material name="abc1#2" /></vgl-namespace>',
       components: { VglNamespace, VglPointsMaterial, MaterialWatcher },
     }).$mount();
     after10ticks(vm, () => {
@@ -40,7 +40,7 @@ describe('VglPointsMaterial:', function suite() {
   });
   it('with color property', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-points-material name="abc1#2" color="#3499f0" /><material-watcher material="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><material-watcher material="abc1#2" /><vgl-points-material name="abc1#2" color="#3499f0" /></vgl-namespace>',
       components: { VglNamespace, VglPointsMaterial, MaterialWatcher },
     }).$mount();
     after10ticks(vm, () => {
@@ -61,7 +61,7 @@ describe('VglPointsMaterial:', function suite() {
   });
   it('with lights property', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-points-material name="abc1#2" lights /><material-watcher material="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><material-watcher material="abc1#2" /><vgl-points-material name="abc1#2" lights /></vgl-namespace>',
       components: { VglNamespace, VglPointsMaterial, MaterialWatcher },
     }).$mount();
     after10ticks(vm, () => {
@@ -82,7 +82,7 @@ describe('VglPointsMaterial:', function suite() {
   });
   it('with size property', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-points-material name="abc1#2" size="3.8" /><material-watcher material="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><material-watcher material="abc1#2" /><vgl-points-material name="abc1#2" size="3.8" /></vgl-namespace>',
       components: { VglNamespace, VglPointsMaterial, MaterialWatcher },
     }).$mount();
     after10ticks(vm, () => {
@@ -103,7 +103,7 @@ describe('VglPointsMaterial:', function suite() {
   });
   it('with disableSizeAttenuation property', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-points-material name="abc1#2" disable-size-attenuation /><material-watcher material="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><material-watcher material="abc1#2" /><vgl-points-material name="abc1#2" disable-size-attenuation /></vgl-namespace>',
       components: { VglNamespace, VglPointsMaterial, MaterialWatcher },
     }).$mount();
     after10ticks(vm, () => {
@@ -124,7 +124,7 @@ describe('VglPointsMaterial:', function suite() {
   });
   it('after color property is changed', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-points-material name="abc1#2" :color="color" /><material-watcher material="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><material-watcher material="abc1#2" /><vgl-points-material name="abc1#2" :color="color" /></vgl-namespace>',
       components: { VglNamespace, VglPointsMaterial, MaterialWatcher },
       data: { color: '#3499f0' },
     }).$mount();
@@ -156,7 +156,7 @@ describe('VglPointsMaterial:', function suite() {
   });
   it('after size property is changed', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-points-material name="abc1#2" :size="size" /><material-watcher material="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><material-watcher material="abc1#2" /><vgl-points-material name="abc1#2" :size="size" /></vgl-namespace>',
       components: { VglNamespace, VglPointsMaterial, MaterialWatcher },
       data: { size: '2.2' },
     }).$mount();
@@ -188,7 +188,7 @@ describe('VglPointsMaterial:', function suite() {
   });
   it('after disbleSizeAttenuation property is changed', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-points-material name="abc1#2" :disable-size-attenuation="!attenuation" /><material-watcher material="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><material-watcher material="abc1#2" /><vgl-points-material name="abc1#2" :disable-size-attenuation="!attenuation" /></vgl-namespace>',
       components: { VglNamespace, VglPointsMaterial, MaterialWatcher },
       data: { attenuation: true },
     }).$mount();
@@ -220,7 +220,7 @@ describe('VglPointsMaterial:', function suite() {
   });
   it('after lights property is changed', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-points-material name="abc1#2" :lights="lights" /><material-watcher material="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><material-watcher material="abc1#2" /><vgl-points-material name="abc1#2" :lights="lights" /></vgl-namespace>',
       components: { VglNamespace, VglPointsMaterial, MaterialWatcher },
       data: { lights: true },
     }).$mount();

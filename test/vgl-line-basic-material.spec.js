@@ -19,7 +19,7 @@ describe('VglLineBasicMaterial:', function suite() {
   });
   it('default', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-line-basic-material name="abc1#2" /><material-watcher material="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><material-watcher material="abc1#2" /><vgl-line-basic-material name="abc1#2" /></vgl-namespace>',
       components: { VglNamespace, VglLineBasicMaterial, MaterialWatcher },
     }).$mount();
     after10ticks(vm, () => {
@@ -40,7 +40,7 @@ describe('VglLineBasicMaterial:', function suite() {
   });
   it('with color property', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-line-basic-material name="abc1#2" color="#3499f0" /><material-watcher material="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><material-watcher material="abc1#2" /><vgl-line-basic-material name="abc1#2" color="#3499f0" /></vgl-namespace>',
       components: { VglNamespace, VglLineBasicMaterial, MaterialWatcher },
     }).$mount();
     after10ticks(vm, () => {
@@ -61,7 +61,7 @@ describe('VglLineBasicMaterial:', function suite() {
   });
   it('with lights property', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-line-basic-material name="abc1#2" lights /><material-watcher material="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><material-watcher material="abc1#2" /><vgl-line-basic-material name="abc1#2" lights /></vgl-namespace>',
       components: { VglNamespace, VglLineBasicMaterial, MaterialWatcher },
     }).$mount();
     after10ticks(vm, () => {
@@ -82,7 +82,7 @@ describe('VglLineBasicMaterial:', function suite() {
   });
   it('with linewidth property', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-line-basic-material name="abc1#2" linewidth="3" /><material-watcher material="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><material-watcher material="abc1#2" /><vgl-line-basic-material name="abc1#2" linewidth="3" /></vgl-namespace>',
       components: { VglNamespace, VglLineBasicMaterial, MaterialWatcher },
     }).$mount();
     after10ticks(vm, () => {
@@ -103,7 +103,7 @@ describe('VglLineBasicMaterial:', function suite() {
   });
   it('after color property is changed', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-line-basic-material name="abc1#2" :color="color" /><material-watcher material="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><material-watcher material="abc1#2" /><vgl-line-basic-material name="abc1#2" :color="color" /></vgl-namespace>',
       components: { VglNamespace, VglLineBasicMaterial, MaterialWatcher },
       data: { color: '#3499f0' },
     }).$mount();
@@ -135,7 +135,7 @@ describe('VglLineBasicMaterial:', function suite() {
   });
   it('after linewidth property is changed', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-line-basic-material name="abc1#2" :linewidth="width" /><material-watcher material="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><material-watcher material="abc1#2" /><vgl-line-basic-material name="abc1#2" :linewidth="width" /></vgl-namespace>',
       components: { VglNamespace, VglLineBasicMaterial, MaterialWatcher },
       data: { width: 3 },
     }).$mount();

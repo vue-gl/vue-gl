@@ -19,7 +19,7 @@ describe('VglMeshStandardMaterial:', function suite() {
   });
   it('default', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-mesh-standard-material name="abc1#2" /><material-watcher material="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><material-watcher material="abc1#2" /><vgl-mesh-standard-material name="abc1#2" /></vgl-namespace>',
       components: { VglNamespace, VglMeshStandardMaterial, MaterialWatcher },
     }).$mount();
     after10ticks(vm, () => {
@@ -37,7 +37,7 @@ describe('VglMeshStandardMaterial:', function suite() {
   });
   it('with color property', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-mesh-standard-material name="abc1#2" color="#3499f0" /><material-watcher material="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><material-watcher material="abc1#2" /><vgl-mesh-standard-material name="abc1#2" color="#3499f0" /></vgl-namespace>',
       components: { VglNamespace, VglMeshStandardMaterial, MaterialWatcher },
     }).$mount();
     after10ticks(vm, () => {
@@ -55,7 +55,7 @@ describe('VglMeshStandardMaterial:', function suite() {
   });
   it('after color property is changed', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-mesh-standard-material name="abc1#2" :color="color" /><material-watcher material="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><material-watcher material="abc1#2" /><vgl-mesh-standard-material name="abc1#2" :color="color" /></vgl-namespace>',
       components: { VglNamespace, VglMeshStandardMaterial, MaterialWatcher },
       data: { color: '#3499f0' },
     }).$mount();

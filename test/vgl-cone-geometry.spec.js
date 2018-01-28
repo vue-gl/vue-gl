@@ -19,7 +19,7 @@ describe('VglConeGeometry:', function suite() {
   });
   it('without properties', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-cone-geometry name="abc1#2" /><geometry-watcher geometry="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><geometry-watcher geometry="abc1#2" /><vgl-cone-geometry name="abc1#2" /></vgl-namespace>',
       components: { VglNamespace, VglConeGeometry, GeometryWatcher },
     }).$mount();
     after10ticks(vm, () => {
@@ -36,7 +36,7 @@ describe('VglConeGeometry:', function suite() {
   });
   it('with properties', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-cone-geometry name="abc1#2" radius="22.24" height="15" radial-segments="11" height-segments="7" open-ended theta-start="0.32" theta-length="2.2" /><geometry-watcher geometry="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><geometry-watcher geometry="abc1#2" /><vgl-cone-geometry name="abc1#2" radius="22.24" height="15" radial-segments="11" height-segments="7" open-ended theta-start="0.32" theta-length="2.2" /></vgl-namespace>',
       components: { VglNamespace, VglConeGeometry, GeometryWatcher },
     }).$mount();
     after10ticks(vm, () => {
@@ -53,7 +53,7 @@ describe('VglConeGeometry:', function suite() {
   });
   it('after radius property is changed', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-cone-geometry name="abc1#2" :radius="radius" /><geometry-watcher geometry="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><geometry-watcher geometry="abc1#2" /><vgl-cone-geometry name="abc1#2" :radius="radius" /></vgl-namespace>',
       components: { VglNamespace, VglConeGeometry, GeometryWatcher },
       data: { radius: 26 },
     }).$mount();

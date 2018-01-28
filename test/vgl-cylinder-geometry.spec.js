@@ -19,7 +19,7 @@ describe('VglCylinderGeometry:', function suite() {
   });
   it('without properties', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-cylinder-geometry name="abc1#2" /><geometry-watcher geometry="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><geometry-watcher geometry="abc1#2" /><vgl-cylinder-geometry name="abc1#2" /></vgl-namespace>',
       components: { VglNamespace, VglCylinderGeometry, GeometryWatcher },
     }).$mount();
     after10ticks(vm, () => {
@@ -36,7 +36,7 @@ describe('VglCylinderGeometry:', function suite() {
   });
   it('with properties', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-cylinder-geometry name="abc1#2" radius-top="22.24" radius-bottom="10.82" height="15" radial-segments="11" height-segments="7" open-ended theta-start="0.32" theta-length="2.2" /><geometry-watcher geometry="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><geometry-watcher geometry="abc1#2" /><vgl-cylinder-geometry name="abc1#2" radius-top="22.24" radius-bottom="10.82" height="15" radial-segments="11" height-segments="7" open-ended theta-start="0.32" theta-length="2.2" /></vgl-namespace>',
       components: { VglNamespace, VglCylinderGeometry, GeometryWatcher },
     }).$mount();
     after10ticks(vm, () => {
@@ -53,7 +53,7 @@ describe('VglCylinderGeometry:', function suite() {
   });
   it('after radiusTop property is changed', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-cylinder-geometry name="abc1#2" :radius-top="radius" /><geometry-watcher geometry="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><geometry-watcher geometry="abc1#2" /><vgl-cylinder-geometry name="abc1#2" :radius-top="radius" /></vgl-namespace>',
       components: { VglNamespace, VglCylinderGeometry, GeometryWatcher },
       data: { radius: 26 },
     }).$mount();

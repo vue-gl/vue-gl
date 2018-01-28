@@ -19,7 +19,7 @@ describe('VglPlaneGeometry:', function suite() {
   });
   it('without properties', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-plane-geometry name="abc1#2" /><geometry-watcher geometry="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><geometry-watcher geometry="abc1#2" /><vgl-plane-geometry name="abc1#2" /></vgl-namespace>',
       components: { VglNamespace, VglPlaneGeometry, GeometryWatcher },
     }).$mount();
     after10ticks(vm, () => {
@@ -36,7 +36,7 @@ describe('VglPlaneGeometry:', function suite() {
   });
   it('with properties', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-plane-geometry name="abc1#2" width="22.24" height="15" width-segments="3" height-segments="2" /><geometry-watcher geometry="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><geometry-watcher geometry="abc1#2" /><vgl-plane-geometry name="abc1#2" width="22.24" height="15" width-segments="3" height-segments="2" /></vgl-namespace>',
       components: { VglNamespace, VglPlaneGeometry, GeometryWatcher },
     }).$mount();
     after10ticks(vm, () => {
@@ -53,7 +53,7 @@ describe('VglPlaneGeometry:', function suite() {
   });
   it('after width property is changed', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-plane-geometry name="abc1#2" :width="width" /><geometry-watcher geometry="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><geometry-watcher geometry="abc1#2" /><vgl-plane-geometry name="abc1#2" :width="width" /></vgl-namespace>',
       components: { VglNamespace, VglPlaneGeometry, GeometryWatcher },
       data: { width: 6.1 },
     }).$mount();

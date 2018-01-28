@@ -19,7 +19,7 @@ describe('VglTorusGeometry:', function suite() {
   });
   it('without properties', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-torus-geometry name="abc1#2" /><geometry-watcher geometry="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><geometry-watcher geometry="abc1#2" /><vgl-torus-geometry name="abc1#2" /></vgl-namespace>',
       components: { VglNamespace, VglTorusGeometry, GeometryWatcher },
     }).$mount();
     after10ticks(vm, () => {
@@ -36,7 +36,7 @@ describe('VglTorusGeometry:', function suite() {
   });
   it('with properties', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-torus-geometry name="abc1#2" radius="22.24" tube="3.8" radial-segments="11" tubular-segments="9" arc="2.01" /><geometry-watcher geometry="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><geometry-watcher geometry="abc1#2" /><vgl-torus-geometry name="abc1#2" radius="22.24" tube="3.8" radial-segments="11" tubular-segments="9" arc="2.01" /></vgl-namespace>',
       components: { VglNamespace, VglTorusGeometry, GeometryWatcher },
     }).$mount();
     after10ticks(vm, () => {
@@ -53,7 +53,7 @@ describe('VglTorusGeometry:', function suite() {
   });
   it('after radius property is changed', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-torus-geometry name="abc1#2" :radius="radius" /><geometry-watcher geometry="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><geometry-watcher geometry="abc1#2" /><vgl-torus-geometry name="abc1#2" :radius="radius" /></vgl-namespace>',
       components: { VglNamespace, VglTorusGeometry, GeometryWatcher },
       data: { radius: 6.1 },
     }).$mount();

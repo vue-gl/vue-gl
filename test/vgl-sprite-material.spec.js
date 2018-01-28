@@ -19,7 +19,7 @@ describe('VglSpriteMaterial:', function suite() {
   });
   it('default', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-sprite-material name="abc1#2" /><material-watcher material="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><material-watcher material="abc1#2" /><vgl-sprite-material name="abc1#2" /></vgl-namespace>',
       components: { VglNamespace, VglSpriteMaterial, MaterialWatcher },
     }).$mount();
     after10ticks(vm, () => {
@@ -39,7 +39,7 @@ describe('VglSpriteMaterial:', function suite() {
   });
   it('with color property', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-sprite-material name="abc1#2" color="#3499f0" /><material-watcher material="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><material-watcher material="abc1#2" /><vgl-sprite-material name="abc1#2" color="#3499f0" /></vgl-namespace>',
       components: { VglNamespace, VglSpriteMaterial, MaterialWatcher },
     }).$mount();
     after10ticks(vm, () => {
@@ -60,7 +60,7 @@ describe('VglSpriteMaterial:', function suite() {
   });
   it('after color property is changed', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-sprite-material name="abc1#2" :color="color" /><material-watcher material="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><material-watcher material="abc1#2" /><vgl-sprite-material name="abc1#2" :color="color" /></vgl-namespace>',
       components: { VglNamespace, VglSpriteMaterial, MaterialWatcher },
       data: { color: '#3499f0' },
     }).$mount();

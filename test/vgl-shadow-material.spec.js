@@ -19,7 +19,7 @@ describe('VglShadowMaterial:', function suite() {
   });
   it('default', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-shadow-material name="abc1#2" /><material-watcher material="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><material-watcher material="abc1#2" /><vgl-shadow-material name="abc1#2" /></vgl-namespace>',
       components: { VglNamespace, VglShadowMaterial, MaterialWatcher },
     }).$mount();
     after10ticks(vm, () => {

@@ -19,7 +19,7 @@ describe('VglSphereGeometry:', function suite() {
   });
   it('without properties', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-sphere-geometry name="abc1#2" /><geometry-watcher geometry="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><geometry-watcher geometry="abc1#2" /><vgl-sphere-geometry name="abc1#2" /></vgl-namespace>',
       components: { VglNamespace, VglSphereGeometry, GeometryWatcher },
     }).$mount();
     after10ticks(vm, () => {
@@ -36,7 +36,7 @@ describe('VglSphereGeometry:', function suite() {
   });
   it('with properties', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-sphere-geometry name="abc1#2" radius="22.24" width-segments="5" height-segments="7" phi-start="0.02" phi-length="1.2" theta-start="0.32" theta-length="2.2" /><geometry-watcher geometry="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><geometry-watcher geometry="abc1#2" /><vgl-sphere-geometry name="abc1#2" radius="22.24" width-segments="5" height-segments="7" phi-start="0.02" phi-length="1.2" theta-start="0.32" theta-length="2.2" /></vgl-namespace>',
       components: { VglNamespace, VglSphereGeometry, GeometryWatcher },
     }).$mount();
     after10ticks(vm, () => {
@@ -53,7 +53,7 @@ describe('VglSphereGeometry:', function suite() {
   });
   it('after radius property is changed', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-sphere-geometry name="abc1#2" :radius="radius" /><geometry-watcher geometry="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><geometry-watcher geometry="abc1#2" /><vgl-sphere-geometry name="abc1#2" :radius="radius" /></vgl-namespace>',
       components: { VglNamespace, VglSphereGeometry, GeometryWatcher },
       data: { radius: 6.1 },
     }).$mount();

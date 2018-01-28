@@ -19,7 +19,7 @@ describe('VglDodecahedronGeometry:', function suite() {
   });
   it('without properties', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-dodecahedron-geometry name="abc1#2" /><geometry-watcher geometry="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><geometry-watcher geometry="abc1#2" /><vgl-dodecahedron-geometry name="abc1#2" /></vgl-namespace>',
       components: { VglNamespace, VglDodecahedronGeometry, GeometryWatcher },
     }).$mount();
     after10ticks(vm, () => {
@@ -36,7 +36,7 @@ describe('VglDodecahedronGeometry:', function suite() {
   });
   it('with properties', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-dodecahedron-geometry name="abc1#2" radius="22.24" detail="1" /><geometry-watcher geometry="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><geometry-watcher geometry="abc1#2" /><vgl-dodecahedron-geometry name="abc1#2" radius="22.24" detail="1" /></vgl-namespace>',
       components: { VglNamespace, VglDodecahedronGeometry, GeometryWatcher },
     }).$mount();
     after10ticks(vm, () => {
@@ -53,7 +53,7 @@ describe('VglDodecahedronGeometry:', function suite() {
   });
   it('after radius property is changed', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-dodecahedron-geometry name="abc1#2" :radius="radius" /><geometry-watcher geometry="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><geometry-watcher geometry="abc1#2" /><vgl-dodecahedron-geometry name="abc1#2" :radius="radius" /></vgl-namespace>',
       components: { VglNamespace, VglDodecahedronGeometry, GeometryWatcher },
       data: { radius: 26 },
     }).$mount();

@@ -19,7 +19,7 @@ describe('VglRingGeometry:', function suite() {
   });
   it('without properties', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-ring-geometry name="abc1#2" /><geometry-watcher geometry="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><geometry-watcher geometry="abc1#2" /><vgl-ring-geometry name="abc1#2" /></vgl-namespace>',
       components: { VglNamespace, VglRingGeometry, GeometryWatcher },
     }).$mount();
     after10ticks(vm, () => {
@@ -36,7 +36,7 @@ describe('VglRingGeometry:', function suite() {
   });
   it('with properties', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-ring-geometry name="abc1#2" inner-radius="22.24" outer-radius="35.01" theta-segments="5" phi-segments="7" theta-start="0.32" theta-length="2.2" /><geometry-watcher geometry="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><geometry-watcher geometry="abc1#2" /><vgl-ring-geometry name="abc1#2" inner-radius="22.24" outer-radius="35.01" theta-segments="5" phi-segments="7" theta-start="0.32" theta-length="2.2" /></vgl-namespace>',
       components: { VglNamespace, VglRingGeometry, GeometryWatcher },
     }).$mount();
     after10ticks(vm, () => {
@@ -53,7 +53,7 @@ describe('VglRingGeometry:', function suite() {
   });
   it('after innerRadius property is changed', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-ring-geometry name="abc1#2" :inner-radius="radius" /><geometry-watcher geometry="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><geometry-watcher geometry="abc1#2" /><vgl-ring-geometry name="abc1#2" :inner-radius="radius" /></vgl-namespace>',
       components: { VglNamespace, VglRingGeometry, GeometryWatcher },
       data: { radius: 6.1 },
     }).$mount();

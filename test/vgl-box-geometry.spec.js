@@ -19,7 +19,7 @@ describe('VglBoxGeometry:', function suite() {
   });
   it('without properties', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-box-geometry name="abc1#2" /><geometry-watcher geometry="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><geometry-watcher geometry="abc1#2" /><vgl-box-geometry name="abc1#2" /></vgl-namespace>',
       components: { VglNamespace, VglBoxGeometry, GeometryWatcher },
     }).$mount();
     after10ticks(vm, () => {
@@ -36,7 +36,7 @@ describe('VglBoxGeometry:', function suite() {
   });
   it('with properties', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-box-geometry name="abc1#2" width="2" height="3" depth="3.8" width-segments="2" height-segments="2" depth-segments="4" /><geometry-watcher geometry="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><geometry-watcher geometry="abc1#2" /><vgl-box-geometry name="abc1#2" width="2" height="3" depth="3.8" width-segments="2" height-segments="2" depth-segments="4" /></vgl-namespace>',
       components: { VglNamespace, VglBoxGeometry, GeometryWatcher },
     }).$mount();
     after10ticks(vm, () => {
@@ -53,7 +53,7 @@ describe('VglBoxGeometry:', function suite() {
   });
   it('after width property is changed', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-box-geometry name="abc1#2" :width="width" /><geometry-watcher geometry="abc1#2" /></vgl-namespace>',
+      template: '<vgl-namespace><geometry-watcher geometry="abc1#2" /><vgl-box-geometry name="abc1#2" :width="width" /></vgl-namespace>',
       components: { VglNamespace, VglBoxGeometry, GeometryWatcher },
       data: { width: 2 },
     }).$mount();
