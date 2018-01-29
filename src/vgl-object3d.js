@@ -49,7 +49,6 @@ export default {
       castShadow: this.castShadow,
       receiveShadow: this.receiveShadow,
     });
-    // this.vglObject3d.update();
   },
   beforeDestroy() {
     if (this.inst.parent) {
@@ -94,9 +93,8 @@ export default {
         castShadow: this.castShadow,
         receiveShadow: this.receiveShadow,
       });
-      // this.vglObject3d.update();
     },
-    'vglObject3d.inst'(inst) {
+    'vglObject3d.inst': function parentWatcher(inst) {
       inst.add(this.inst);
     },
     position(position) {
