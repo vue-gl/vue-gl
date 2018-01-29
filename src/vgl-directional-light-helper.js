@@ -10,14 +10,17 @@ export default {
   },
   computed: {
     inst() {
-      return new DirectionalLightHelper(this.vglObject3d.inst, parseFloat(this.size));
+      return new DirectionalLightHelper(new THREE.DirectionalLight(), parseFloat(this.size));
     },
   },
   watch: {
     inst: {
       handler(inst) {
+        this.vglObject3d.inst.updateMatrixWorld();
         Object.assign(inst, {
           color: this.color,
+          light: this.vglObject3d.inst,
+          matrix: this.vglObject3d.inst.matrixWorld,
         });
         this.inst.update();
       },
