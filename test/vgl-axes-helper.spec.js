@@ -81,9 +81,8 @@ describe('VglAxesHelper:', function suite() {
   });
   it('after size property is changed', function test(done) {
     const vm = new Vue({
-      template: '<object-watcher :renderer="renderer" :camera="camera"><vgl-axes-helper :size="size" /></object-watcher>',
+      template: '<object-watcher><vgl-axes-helper :size="size" /></object-watcher>',
       components: { VglAxesHelper, ObjectWatcher },
-      computed: { renderer: () => this.renderer, camera: () => this.camera },
       data: { size: '1.3' },
     }).$mount();
     vm.$nextTick(() => {
