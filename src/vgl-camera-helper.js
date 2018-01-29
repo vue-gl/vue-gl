@@ -1,5 +1,5 @@
 import VglLineSegments from './vgl-line-segments.js';
-import { CameraHelper } from './three.js';
+import { CameraHelper, Camera } from './three.js';
 import { string } from './constructor-arrays.js';
 
 export default {
@@ -10,7 +10,7 @@ export default {
   inject: ['vglNamespace'],
   computed: {
     inst() {
-      return new CameraHelper(this.vglNamespace.cameras[this.camera]);
+      return new CameraHelper(this.vglNamespace.cameras[this.camera] || new Camera());
     },
   },
 };
