@@ -49,6 +49,7 @@ export default {
       castShadow: this.castShadow,
       receiveShadow: this.receiveShadow,
     });
+    // this.vglObject3d.update();
   },
   beforeDestroy() {
     if (this.inst.parent) {
@@ -71,12 +72,8 @@ export default {
       if (oldInst) {
         oldInst.removeEventListener('added', this.vglObject3d.update);
         oldInst.removeEventListener('removed', this.vglObject3d.update);
-        const { children, parent } = oldInst;
-        if (children.length) {
-          inst.add(...children);
-        }
-        if (parent) {
-          parent.remove(oldInst);
+        if (oldInst.parent) {
+          oldInst.parent.remove(oldInst);
         }
       }
       inst.addEventListener('added', this.vglObject3d.update);
@@ -97,7 +94,10 @@ export default {
         castShadow: this.castShadow,
         receiveShadow: this.receiveShadow,
       });
-      this.vglObject3d.update();
+      // this.vglObject3d.update();
+    },
+    'vglObject3d.inst'(inst) {
+      inst.add(this.inst);
     },
     position(position) {
       this.inst.position.copy(parseVector3(position));
