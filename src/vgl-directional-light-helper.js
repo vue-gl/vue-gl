@@ -1,5 +1,5 @@
 import VglObject3d from './vgl-object3d.js';
-import { DirectionalLightHelper } from './three.js';
+import { DirectionalLightHelper, DirectionalLight } from './three.js';
 import { string, number } from './constructor-arrays.js';
 
 export default {
@@ -10,7 +10,7 @@ export default {
   },
   computed: {
     inst() {
-      return new DirectionalLightHelper(new THREE.DirectionalLight(), parseFloat(this.size));
+      return new DirectionalLightHelper(new DirectionalLight(), parseFloat(this.size));
     },
   },
   watch: {
