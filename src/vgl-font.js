@@ -1,35 +1,44 @@
-import {assetFactory} from "./mixins.js";
-import {FontLoader} from "./three.js";
-import {validatePropString} from "./utils.js";
+import { VglMinimumRenderer } from './mixins.js';
+import { FontLoader, Font } from './three.js';
+import { string } from './constructor-arrays.js';
 
 export default {
-    mixins: [assetFactory(null, "vglFonts")],
-    props: {
-        src: validatePropString
+  mixins: [VglMinimumRenderer],
+  inject: ['vglNamespace'],
+  props: {
+    src: string,
+    name: string,
+  },
+  data() {
+    return { inst: new Font({}) };
+  },
+  watch: {
+    inst: {
+      handler(inst) {
+        this.$set(this.vglNamespace.fonts, this.name, inst);
+      },
+      immediate: true,
     },
-    data() {
-        return {inst: null};
+    src: {
+      handler(src) {
+        new FontLoader().load(src, (font) => {
+          if (src === this.src) {
+            this.inst = font;
+          }
+        });
+      },
+      immediate: true,
     },
-    watch: {
-        src: {
-            handler(src) {
-                if (!/^data:.*?(?:;base64)?,.*$/.test(src)) {
-                    // GET src data manually and pass as a data URI.
-                    const xhr = new XMLHttpRequest();
-                    xhr.addEventListener("load", () => {
-                        new FontLoader().load(`data:,${encodeURIComponent(xhr.responseText)}`, (font) => {
-                            this.inst = font;
-                        });
-                    }, false);
-                    xhr.open("GET", src);
-                    xhr.send();
-                } else {
-                    new FontLoader().load(src, (font) => {
-                        this.inst = font;
-                    });
-                }
-            },
-            immediate: true
-        }
+    name(name, oldName) {
+      if (this.vglNamespace.fonts[oldName] === this.inst) {
+        this.$delete(this.vglNamespace.fonts, oldName);
+      }
+      this.$set(this.vglNamespace.fonts, name, this.inst);
+    },
+  },
+  beforeDestroy() {
+    if (this.vglNamespace.fonts[this.name] === this.inst) {
+      this.$delete(this.vglNamespace.fonts, this.name);
     }
+  },
 };

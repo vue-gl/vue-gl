@@ -1,151 +1,151 @@
-import VglNamespace from "./vgl-namespace.js";
-import {WebGLRenderer} from "./three.js";
-
-function resizeCamera(camera, domElement) {
-    const width = domElement.clientWidth;
-    const height = domElement.clientHeight;
-    if (camera.isPerspectiveCamera) {
-        camera.aspect = width / height;
-    } else { // isOrthographicCamera
-        camera.left = width / -2;
-        camera.right = width / 2;
-        camera.top = height / 2;
-        camera.bottom = height / -2;
-    }
-    camera.updateProjectionMatrix();
-}
-
-function resizeRenderer(renderer, domElement) {
-    renderer.setSize(domElement.clientWidth, domElement.clientHeight, false);
-}
+import VglNamespace from './vgl-namespace.js';
+import { WebGLRenderer } from './three.js';
+import { string, boolean } from './constructor-arrays.js';
 
 export default {
-    mixins: [VglNamespace],
-    props: {
-        precision: String,
-        alpha: Boolean,
-        disablePremultipliedAlpha: Boolean,
-        antialias: Boolean,
-        disableStencil: Boolean,
-        preserveDrawingBuffer: Boolean,
-        disableDepth: Boolean,
-        logarithmicDepthBuffer: Boolean,
-        camera: String,
-        scene: String,
-        shadowMapEnabled: Boolean
+  mixins: [VglNamespace],
+  props: {
+    precision: string,
+    alpha: boolean,
+    disablePremultipliedAlpha: boolean,
+    antialias: boolean,
+    disableStencil: boolean,
+    preserveDrawingBuffer: boolean,
+    disableDepth: boolean,
+    logarithmicDepthBuffer: boolean,
+    powerPreference: string,
+    camera: string,
+    scene: string,
+    shadowMapEnabled: boolean,
+  },
+  data() {
+    return {
+      el: false,
+    };
+  },
+  computed: {
+    renderer() {
+      const renderer = new WebGLRenderer({
+        precision: this.precision,
+        alpha: this.alpha,
+        premultipliedAlpha: !this.disablePremultipliedAlpha,
+        antialias: this.antialias,
+        stencil: !this.disableStencil,
+        preserveDrawingBuffer: this.preserveDrawingBuffer,
+        depth: !this.disableDepth,
+        logarithmicDepthBuffer: this.logarithmicDepthBuffer,
+        powerPreference: this.powerPreference,
+      });
+      renderer.shadowMap.enabled = this.shadowMapEnabled;
+      return renderer;
     },
-    provide() {
-        return {
-            vglUpdate: this.render
-        };
+    cameraObject() {
+      return this.vglNamespace.cameras[this.camera];
     },
-    data() {
-        return {
-            key: 0,
-            req: true
-        };
+    sceneObject() {
+      return this.vglNamespace.scenes[this.scene];
     },
-    computed: {
-        opt() {
-            return {
-                precision: this.precision,
-                alpha: this.alpha,
-                premultipliedAlpha: !this.disablePremultipliedAlpha,
-                antialias: this.antialias,
-                stencil: !this.disableStencil,
-                preserveDrawingBuffer: this.preserveDrawingBuffer,
-                depth: !this.disableDepth,
-                logarithmicDepthBuffer: this.logarithmicDepthBuffer
-            };
-        },
-        inst() {
-            return new WebGLRenderer(Object.assign({
-                canvas: this.$refs.rdr
-            }, this.opt));
-        },
-        cmr() {
-            return (this.$data.vglCameras || this.vglCameras.forGet)[this.camera];
-        },
-        scn() {
-            return (this.$data.vglScenes || this.vglScenes.forGet)[this.scene];
+    state() {
+      return [this.renderer, this.cameraObject, this.sceneObject, this.el];
+    },
+  },
+  watch: {
+    state(after, before) {
+      const [prevRenderer, prevCamera, prevScene, prevEl] = before;
+      const [currRenderer, currCamera, currScene, currEl] = after;
+      if (!prevEl && currEl) {
+        this.$el.insertBefore(this.renderer.domElement, this.$el.firstChild);
+        this.resizeRenderer();
+        if (currCamera && currScene) {
+          this.resizeCamera();
+          currCamera.addEventListener('update', this.render);
+          currScene.addEventListener('update', this.render);
+          this.render();
         }
-    },
-    methods: {
-        resize() {
-            resizeRenderer(this.inst, this.$el);
-            if (this.cmr) {
-                resizeCamera(this.cmr, this.$el);
-                if (this.scn) this.render();
-            }
-        },
-        render() {
-            if (this.req) {
-                this.$nextTick(() => {
-                    requestAnimationFrame(() => {
-                        if (this.scn && this.cmr) {
-                            this.inst.render(this.scn, this.cmr);
-                        }
-                        this.req = true;
-                    });
-                });
-                this.req = false;
-            }
-        },
-        init() {
-            this.resize();
-            this.inst.shadowMap.enabled = this.shadowMapEnabled;
+      } else if (currEl) {
+        const diffRenderer = prevRenderer !== currRenderer;
+        const diffCamera = prevCamera !== currCamera;
+        const diffScene = prevScene !== currScene;
+        if (diffRenderer) {
+          this.resizeRenderer();
+          this.$el.replaceChild(currRenderer.domElement, prevRenderer.domElement);
+          prevRenderer.dispose();
         }
-    },
-    watch: {
-        opt() {
-            ++this.key;
-            this.$nextTick(this.init);
-        },
-        scn(scn, oldScn) {
-            if (oldScn) oldScn.removeEventListener("update", this.render);
-            if (scn) {
-                scn.addEventListener("update", this.render);
-                this.render();
-            }
-        },
-        cmr(cmr, oldCmr) {
-            if (oldCmr) oldCmr.removeEventListener("update", this.render);
-            if (cmr) {
-                cmr.addEventListener("update", this.render);
-                resizeCamera(cmr, this.$el);
-                this.render();
-            }
-        },
-        shadowMapEnabled(enabled) {
-            this.inst.shadowMap.enabled = enabled;
+        if (prevCamera && prevScene && currCamera && currScene) {
+          if (diffCamera) {
+            this.resizeCamera();
+            prevCamera.removeEventListener('update', this.render);
+            currCamera.addEventListener('update', this.render);
+          }
+          if (diffScene) {
+            prevScene.removeEventListener('update', this.render);
+            currScene.addEventListener('update', this.render);
+          }
+        } else if (prevCamera && prevScene) {
+          prevCamera.removeEventListener('update', this.render);
+          prevScene.removeEventListener('update', this.render);
+        } else if (currCamera && currScene) {
+          this.resizeCamera();
+          currCamera.addEventListener('update', this.render);
+          currScene.addEventListener('update', this.render);
         }
+        if (currCamera && currScene && (diffCamera || diffScene || diffRenderer)) {
+          this.render();
+        }
+      }
     },
-    created() {
-        if (this.scn) this.scn.addEventListener("update", this.render);
-        if (this.cmr) this.cmr.addEventListener("update", this.render);
-    },
-    mounted() {
-        this.init();
-    },
-    render(h) {
-        return h("div", [
-            h("canvas", {
-                ref: "rdr",
-                key: this.key
-            }, this.$slots.default),
-            h("iframe", {
-                ref: "frm",
-                style: {
-                    visibility: "hidden",
-                    width: "100%",
-                    height: "100%"
-                },
-                on: {
-                    load: (evt) => {
-                        evt.target.contentWindow.addEventListener("resize", this.resize, false);
-                    }
-                }
-            })
-        ]);
+  },
+  beforeDestroy() {
+    if (this.el && this.cameraObject && this.sceneObject) {
+      this.cameraObject.removeEventListener('update', this.render);
+      this.sceneObject.removeEventListener('update', this.render);
     }
+    this.renderer.dispose();
+  },
+  methods: {
+    resizeRenderer() {
+      this.renderer.setSize(this.$el.clientWidth, this.$el.clientHeight);
+    },
+    resizeCamera() {
+      if (this.cameraObject.isPerspectiveCamera) {
+        Object.assign(this.cameraObject, {
+          aspect: this.$el.clientWidth / this.$el.clientHeight,
+        });
+      } else if (this.cameraObject.isOrthographicCamera) {
+        Object.assign(this.cameraObject, {
+          left: this.$el.clientWidth / -2,
+          right: this.$el.clientWidth / 2,
+          top: this.$el.clientHeight / 2,
+          bottom: this.$el.clientHeight / -2,
+        });
+      } else {
+        throw new TypeError('Unexpected camera type.');
+      }
+      this.cameraObject.updateProjectionMatrix();
+    },
+    render() {
+      this.renderer.render(this.sceneObject, this.cameraObject);
+    },
+  },
+  mounted() {
+    this.el = true;
+  },
+  render(h) {
+    return h('div', [
+      h('iframe', {
+        style: { visibility: 'hidden', width: '100%', height: '100%' },
+        on: {
+          load: (event) => {
+            event.target.contentWindow.addEventListener('resize', () => {
+              this.resizeRenderer();
+              if (this.cameraObject && this.sceneObject) {
+                this.resizeCamera();
+                this.render();
+              }
+            }, false);
+          },
+        },
+      }, this.$slots.default),
+    ]);
+  },
 };

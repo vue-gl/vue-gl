@@ -1,36 +1,33 @@
-import VglObject3d from "./vgl-object3d.js";
-import {Light} from "./three.js";
-import {parseFloat_, update} from "./utils.js";
+import VglObject3d from './vgl-object3d.js';
+import { Light } from './three.js';
+import { string, number } from './constructor-arrays.js';
 
 export default {
-    mixins: [VglObject3d],
-    props: {
-        color: {
-            type: String,
-            default: "white"
-        },
-        intensity: {
-            type: [String, Number],
-            default: 1
-        }
+  mixins: [VglObject3d],
+  props: {
+    color: { type: string, default: '#fff' },
+    intensity: { type: number, default: 1 },
+  },
+  computed: {
+    inst: () => new Light(),
+  },
+  watch: {
+    inst: {
+      handler(inst) {
+        Object.assign(inst, {
+          intensity: parseFloat(this.intensity),
+        });
+        inst.color.setStyle(this.color);
+      },
+      immediate: true,
     },
-    computed: {
-        inst: () => new Light()
+    color(color) {
+      this.inst.color.setStyle(color);
+      this.vglObject3d.update();
     },
-    watch: {
-        color: {
-            handler(color) {
-                this.inst.color.setStyle(color);
-                update(this);
-            },
-            immediate: true
-        },
-        intensity: {
-            handler(intensity) {
-                this.inst.intensity = parseFloat_(intensity);
-                update(this);
-            },
-            immediate: true
-        }
-    }
+    intensity(intensity) {
+      Object.assign(this.inst, { intensity: parseFloat(intensity) });
+      this.vglObject3d.update();
+    },
+  },
 };

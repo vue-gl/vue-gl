@@ -1,20 +1,150 @@
-describe("VglPoints component", function() {
-    const {VglPoints, VglGeometry, VglMaterial, VglNamespace} = VueGL;
-    const assert = chai.assert;
-    describe("Creating an object", function() {
-        it("The geometry of an instance should be set to the geometry that has the corresponding name property.", function() {
-            const vm = new Vue({
-                template: `<vgl-namespace><vgl-points geometry="u!$ok" ref="points" /><vgl-geometry name="u!$ok" ref="geo" /></vgl-namespace>`,
-                components: {VglPoints, VglGeometry, VglNamespace}
-            }).$mount();
-            assert.strictEqual(vm.$refs.points.inst.geometry, vm.$refs.geo.inst);
-        });
-        it("The material of an instance should be set to the material that has the corresponding name property.", function() {
-            const vm = new Vue({
-                template: `<vgl-namespace><vgl-material name="u!$ok" ref="mat" /><vgl-points material="u!$ok" ref="points" /></vgl-namespace>`,
-                components: {VglPoints, VglMaterial, VglNamespace}
-            }).$mount();
-            assert.strictEqual(vm.$refs.points.inst.material, vm.$refs.mat.inst);
-        });
+describe('VglPoints:', function suite() {
+  const { VglPoints, VglObject3d, VglNamespace } = VueGL;
+  const { expect } = chai;
+  let updatedHistory;
+  const ObjectWatcher = {
+    mixins: [VglObject3d, VglNamespace],
+    created() {
+      this.vglObject3d.listeners.push(() => {
+        updatedHistory.push(this.inst.clone());
+      });
+    },
+  };
+  function after10ticks(vm, callback, count = 10) {
+    vm.$nextTick(count > 0 ? () => { after10ticks(vm, callback, count - 1); } : callback);
+  }
+  beforeEach(function hook(done) {
+    updatedHistory = [];
+    done();
+  });
+  it('default', function test(done) {
+    const vm = new Vue({
+      template: '<object-watcher><vgl-points /></object-watcher>',
+      components: { VglPoints, ObjectWatcher },
+    }).$mount();
+    after10ticks(vm, () => {
+      try {
+        expect(updatedHistory).to.have.lengthOf(1);
+        expect(updatedHistory[0].children).to.have.lengthOf(1);
+        const [actual] = updatedHistory[0].children;
+        expect(actual).to.have.property('type', 'Points');
+        expect(actual.position.equals(new THREE.Points().position)).to.equal(true);
+        expect(actual.quaternion.equals(new THREE.Points().quaternion)).to.equal(true);
+        expect(actual.scale.equals(new THREE.Points().scale)).to.equal(true);
+        done();
+      } catch (e) {
+        done(e);
+      }
     });
+  });
+  it('with position, rotation, and scale property', function test(done) {
+    const vm = new Vue({
+      template: '<object-watcher><vgl-points position="-0.5 0.5 2" rotation="3 1 1 YZX" scale="1.2 1.5 0.8" /></object-watcher>',
+      components: { VglPoints, ObjectWatcher },
+    }).$mount();
+    after10ticks(vm, () => {
+      try {
+        expect(updatedHistory).to.have.lengthOf(1);
+        expect(updatedHistory[0].children).to.have.lengthOf(1);
+        const [actual] = updatedHistory[0].children;
+        expect(actual).to.have.property('type', 'Points');
+        expect(actual.position.equals(new THREE.Vector3(-0.5, 0.5, 2))).to.equal(true);
+        expect(actual.quaternion.equals(new THREE.Quaternion().setFromEuler(new THREE.Euler(3, 1, 1, 'YZX')))).to.equal(true);
+        expect(actual.scale.equals(new THREE.Vector3(1.2, 1.5, 0.8))).to.equal(true);
+        done();
+      } catch (e) {
+        done(e);
+      }
+    });
+  });
+  it('after position property is changed', function test(done) {
+    const vm = new Vue({
+      template: '<object-watcher><vgl-points :position="position" /></object-watcher>',
+      components: { VglPoints, ObjectWatcher },
+      data: { position: '0.5 1 -0.5' },
+    }).$mount();
+    vm.$nextTick(() => {
+      vm.position = '0 0 0.5';
+      after10ticks(vm, () => {
+        try {
+          expect(updatedHistory).to.have.lengthOf(2);
+          expect(updatedHistory[0].children).to.have.lengthOf(1);
+          const [actual1] = updatedHistory[0].children;
+          expect(actual1).to.have.property('type', 'Points');
+          expect(actual1.position.equals(new THREE.Vector3(0.5, 1, -0.5))).to.equal(true);
+          expect(actual1.quaternion.equals(new THREE.Points().quaternion)).to.equal(true);
+          expect(actual1.scale.equals(new THREE.Points().scale)).to.equal(true);
+          expect(updatedHistory[1].children).to.have.lengthOf(1);
+          const [actual2] = updatedHistory[1].children;
+          expect(actual2).to.have.property('type', 'Points');
+          expect(actual2.position.equals(new THREE.Vector3(0, 0, 0.5))).to.equal(true);
+          expect(actual2.quaternion.equals(new THREE.Points().quaternion)).to.equal(true);
+          expect(actual2.scale.equals(new THREE.Points().scale)).to.equal(true);
+          done();
+        } catch (e) {
+          done(e);
+        }
+      });
+    });
+  });
+  it('after rotation property is changed', function test(done) {
+    const vm = new Vue({
+      template: '<object-watcher><vgl-points :rotation="rotation" /></object-watcher>',
+      components: { VglPoints, ObjectWatcher },
+      data: { rotation: '0.5 1 -0.5 XYZ' },
+    }).$mount();
+    vm.$nextTick(() => {
+      vm.rotation = '0 0 0.5 YZX';
+      after10ticks(vm, () => {
+        try {
+          expect(updatedHistory).to.have.lengthOf(2);
+          expect(updatedHistory[0].children).to.have.lengthOf(1);
+          const [actual1] = updatedHistory[0].children;
+          expect(actual1).to.have.property('type', 'Points');
+          expect(actual1.position.equals(new THREE.Points().position)).to.equal(true);
+          expect(actual1.quaternion.equals(new THREE.Quaternion().setFromEuler(new THREE.Euler(0.5, 1, -0.5, 'XYZ')))).to.equal(true);
+          expect(actual1.scale.equals(new THREE.Points().scale)).to.equal(true);
+          expect(updatedHistory[1].children).to.have.lengthOf(1);
+          const [actual2] = updatedHistory[1].children;
+          expect(actual2).to.have.property('type', 'Points');
+          expect(actual2.position.equals(new THREE.Points().position)).to.equal(true);
+          expect(actual2.quaternion.equals(new THREE.Quaternion().setFromEuler(new THREE.Euler(0, 0, 0.5, 'YZX')))).to.equal(true);
+          expect(actual2.scale.equals(new THREE.Points().scale)).to.equal(true);
+          done();
+        } catch (e) {
+          done(e);
+        }
+      });
+    });
+  });
+  it('after scale property is changed', function test(done) {
+    const vm = new Vue({
+      template: '<object-watcher><vgl-points :scale="scale" /></object-watcher>',
+      components: { VglPoints, ObjectWatcher },
+      data: { scale: '0.5 1 -0.5' },
+    }).$mount();
+    vm.$nextTick(() => {
+      vm.scale = '1.2 1.2 0.5';
+      after10ticks(vm, () => {
+        try {
+          expect(updatedHistory).to.have.lengthOf(2);
+          expect(updatedHistory[0].children).to.have.lengthOf(1);
+          const [actual1] = updatedHistory[0].children;
+          expect(actual1).to.have.property('type', 'Points');
+          expect(actual1.position.equals(new THREE.Points().position)).to.equal(true);
+          expect(actual1.quaternion.equals(new THREE.Points().quaternion)).to.equal(true);
+          expect(actual1.scale.equals(new THREE.Vector3(0.5, 1, -0.5))).to.equal(true);
+          expect(updatedHistory[1].children).to.have.lengthOf(1);
+          const [actual2] = updatedHistory[1].children;
+          expect(actual2).to.have.property('type', 'Points');
+          expect(actual2.position.equals(new THREE.Points().position)).to.equal(true);
+          expect(actual2.quaternion.equals(new THREE.Points().quaternion)).to.equal(true);
+          expect(actual2.scale.equals(new THREE.Vector3(1.2, 1.2, 0.5))).to.equal(true);
+          done();
+        } catch (e) {
+          done(e);
+        }
+      });
+    });
+  });
 });

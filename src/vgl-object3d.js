@@ -1,87 +1,121 @@
-import {parseVector3, parseEuler, findParent, update} from "./utils.js";
-import {Object3D, Vector3, Euler} from "./three.js";
-
-const defaultPosition = new Vector3();
-const defaultRotation = new Euler();
-const defaultScale = new Vector3(1, 1, 1);
+import { VglMinimumRenderer } from './mixins.js';
+import { parseVector3, parseEuler } from './parsers.js';
+import { vector3, euler, boolean, string } from './constructor-arrays.js';
+import { Object3D } from './three.js';
 
 export default {
-    isVglObject3d: true,
-    props: {
-        position: {
-            type: [String, Vector3],
-            default: () => defaultPosition
-        },
-        rotation: {
-            type: [String, Euler],
-            default: () => defaultRotation
-        },
-        scale: {
-            type: [String, Vector3],
-            default: () => defaultScale
-        },
-        castShadow: Boolean,
-        receiveShadow: Boolean
+  mixins: [VglMinimumRenderer],
+  inject: {
+    vglObject3d: {
+      default() {
+        const listeners = [];
+        let toBeUpdated;
+        return {
+          listeners,
+          update: () => {
+            if (!toBeUpdated) {
+              this.$nextTick(() => {
+                listeners.forEach((listener) => { listener(); });
+                toBeUpdated = false;
+              });
+              toBeUpdated = true;
+            }
+          },
+        };
+      },
     },
-    computed: {
-        inst: () => new Object3D()
-    },
-    inject: {
-        vglUpdate: {default: undefined}
-    },
-    created() {
-        const parent = findParent(this, "isVglObject3d");
-        if (parent) parent.inst.add(this.inst);
-    },
-    beforeDestroy() {
-        if (this.inst.parent) this.inst.parent.remove(this.inst);
-    },
-    watch: {
-        position: {
-            handler(position) {
-                parseVector3(position || defaultPosition, this.inst.position);
-                update(this);
-            },
-            immediate: true
-        },
-        rotation: {
-            handler(rotation) {
-                parseEuler(rotation || defaultRotation, this.inst.rotation);
-                update(this);
-            },
-            immediate: true
-        },
-        scale: {
-            handler(scale) {
-                parseVector3(scale || defaultScale, this.inst.scale);
-                update(this);
-            },
-            immediate: true
-        },
-        castShadow: {
-            handler(castShadow) {
-                this.inst.castShadow = castShadow;
-                update(this);
-            },
-            immediate: true
-        },
-        receiveShadow: {
-            handler(receiveShadow) {
-                this.inst.receiveShadow = receiveShadow;
-                update(this);
-            },
-            immediate: true
-        },
-        inst(inst, oldInst) {
-            if (oldInst.children.length) inst.add(...oldInst.children);
-            inst.position.copy(oldInst.position);
-            inst.rotation.copy(oldInst.rotation);
-            inst.scale.copy(oldInst.scale);
-            if (oldInst.parent) oldInst.parent.remove(oldInst).add(inst);
-            update(this);
-        }
-    },
-    render(h) {
-        if (this.$slots.default) return h("div", this.$slots.default);
+  },
+  provide() {
+    return {
+      vglObject3d: Object.create(this.vglObject3d, { inst: { get: () => this.inst } }),
+    };
+  },
+  created() {
+    this.inst.addEventListener('added', this.vglObject3d.update);
+    this.inst.addEventListener('removed', this.vglObject3d.update);
+    if (this.vglObject3d.inst) {
+      this.vglObject3d.inst.add(this.inst);
     }
+    if (this.position) {
+      this.inst.position.copy(parseVector3(this.position));
+    }
+    if (this.rotation) {
+      this.inst.rotation.copy(parseEuler(this.rotation));
+    }
+    if (this.scale) {
+      this.inst.scale.copy(parseVector3(this.scale));
+    }
+    Object.assign(this.inst, {
+      castShadow: this.castShadow,
+      receiveShadow: this.receiveShadow,
+    });
+  },
+  beforeDestroy() {
+    if (this.inst.parent) {
+      this.inst.parent.remove(this.inst);
+    }
+  },
+  computed: {
+    inst: () => new Object3D(),
+  },
+  props: {
+    position: vector3,
+    rotation: euler,
+    scale: vector3,
+    castShadow: boolean,
+    receiveShadow: boolean,
+    name: string,
+  },
+  watch: {
+    inst(inst, oldInst) {
+      if (oldInst) {
+        oldInst.removeEventListener('added', this.vglObject3d.update);
+        oldInst.removeEventListener('removed', this.vglObject3d.update);
+        if (oldInst.parent) {
+          oldInst.parent.remove(oldInst);
+        }
+      }
+      inst.addEventListener('added', this.vglObject3d.update);
+      inst.addEventListener('removed', this.vglObject3d.update);
+      if (this.vglObject3d.inst) {
+        this.vglObject3d.inst.add(inst);
+      }
+      if (this.position) {
+        this.inst.position.copy(parseVector3(this.position));
+      }
+      if (this.rotation) {
+        this.inst.rotation.copy(parseEuler(this.rotation));
+      }
+      if (this.scale) {
+        this.inst.scale.copy(parseVector3(this.scale));
+      }
+      Object.assign(inst, {
+        castShadow: this.castShadow,
+        receiveShadow: this.receiveShadow,
+      });
+    },
+    'vglObject3d.inst': function parentWatcher(inst) {
+      inst.add(this.inst);
+    },
+    position(position) {
+      this.inst.position.copy(parseVector3(position));
+      this.vglObject3d.update();
+    },
+    rotation(rotation) {
+      this.inst.rotation.copy(parseEuler(rotation));
+      this.vglObject3d.update();
+    },
+    scale(scale) {
+      this.inst.scale.copy(parseVector3(scale));
+      this.vglObject3d.update();
+    },
+    castShadow(castShadow) {
+      Object.assign(this.inst, { castShadow });
+      this.vglObject3d.update();
+    },
+    receiveShadow(receiveShadow) {
+      Object.assign(this.inst, { receiveShadow });
+      this.vglObject3d.update();
+    },
+  },
 };

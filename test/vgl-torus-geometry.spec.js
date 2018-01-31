@@ -1,58 +1,78 @@
-describe("VglTorusGeometry component", function() {
-    const {VglTorusGeometry, VglNamespace} = VueGL;
-    const assert = chai.assert;
-    describe("Parameters of a instance should be same as the component properties.", function() {
-        it("When properties are number.", function() {
-            const vm = new Vue({
-                template: `<vgl-namespace><vgl-torus-geometry ref="geo" :radius="15.8" :tube="6.2" :radial-segments="20" :tubular-segments="30" :arc="1.1" /></vgl-namespace>`,
-                components: {VglTorusGeometry, VglNamespace}
-            }).$mount();
-            assert.strictEqual(vm.$refs.geo.inst.parameters.radius, 15.8);
-            assert.strictEqual(vm.$refs.geo.inst.parameters.tube, 6.2);
-            assert.strictEqual(vm.$refs.geo.inst.parameters.radialSegments, 20);
-            assert.strictEqual(vm.$refs.geo.inst.parameters.tubularSegments, 30);
-            assert.strictEqual(vm.$refs.geo.inst.parameters.arc, 1.1);
-        });
-        it("When properties are string.", function() {
-            const vm = new Vue({
-                template: `<vgl-namespace><vgl-torus-geometry ref="geo" radius="15.8" tube="6.2" radial-segments="20" tubular-segments="30" arc="1.1" /></vgl-namespace>`,
-                components: {VglTorusGeometry, VglNamespace}
-            }).$mount();
-            assert.strictEqual(vm.$refs.geo.inst.parameters.radius, 15.8);
-            assert.strictEqual(vm.$refs.geo.inst.parameters.tube, 6.2);
-            assert.strictEqual(vm.$refs.geo.inst.parameters.radialSegments, 20);
-            assert.strictEqual(vm.$refs.geo.inst.parameters.tubularSegments, 30);
-            assert.strictEqual(vm.$refs.geo.inst.parameters.arc, 1.1);
-        });
-        it("When segment numbers are undefined.", function() {
-            const vm = new Vue({
-                template: `<vgl-namespace><vgl-torus-geometry ref="geo" /></vgl-namespace>`,
-                components: {VglTorusGeometry, VglNamespace}
-            }).$mount();
-            assert.isUndefined(vm.$refs.geo.inst.parameters.radius);
-            assert.isUndefined(vm.$refs.geo.inst.parameters.tube);
-            assert.isUndefined(vm.$refs.geo.inst.parameters.radialSegments);
-            assert.isUndefined(vm.$refs.geo.inst.parameters.tubularSegments);
-            assert.isUndefined(vm.$refs.geo.inst.parameters.arc);
-        });
+describe('VglTorusGeometry:', function suite() {
+  const { VglTorusGeometry, VglMesh, VglNamespace } = VueGL;
+  const { expect } = chai;
+  let updatedHistory;
+  const GeometryWatcher = {
+    mixins: [VglMesh],
+    created() {
+      this.vglObject3d.listeners.push(() => {
+        updatedHistory.push(this.inst.geometry.clone());
+      });
+    },
+  };
+  function after10ticks(vm, callback, count = 10) {
+    vm.$nextTick(count > 0 ? () => { after10ticks(vm, callback, count - 1); } : callback);
+  }
+  beforeEach(function hook(done) {
+    updatedHistory = [];
+    done();
+  });
+  it('without properties', function test(done) {
+    const vm = new Vue({
+      template: '<vgl-namespace><geometry-watcher geometry="abc1#2" /><vgl-torus-geometry name="abc1#2" /></vgl-namespace>',
+      components: { VglNamespace, VglTorusGeometry, GeometryWatcher },
+    }).$mount();
+    after10ticks(vm, () => {
+      try {
+        expect(updatedHistory).to.have.lengthOf(1);
+        const actual = updatedHistory[0].vertices;
+        const expected = new THREE.TorusGeometry().vertices;
+        expect(actual).to.have.deep.ordered.members(expected);
+        done();
+      } catch (e) {
+        done(e);
+      }
     });
-    describe("Instance should be recreated when a property changed.", function() {
-        it("When the width property changes.", function(done) {
-            const vm = new Vue({
-                template: `<vgl-namespace><vgl-torus-geometry ref="geo" :radius="radius" /></vgl-namespace>`,
-                components: {VglTorusGeometry, VglNamespace},
-                data: {radius: 250}
-            }).$mount();
-            const before = vm.$refs.geo.inst;
-            vm.radius = 120;
-            vm.$nextTick(() => {
-                try {
-                    assert.notEqual(before, vm.$refs.geo.inst);
-                    done();
-                } catch(e) {
-                    done(e);
-                }
-            });
-        });
+  });
+  it('with properties', function test(done) {
+    const vm = new Vue({
+      template: '<vgl-namespace><geometry-watcher geometry="abc1#2" /><vgl-torus-geometry name="abc1#2" radius="22.24" tube="3.8" radial-segments="11" tubular-segments="9" arc="2.01" /></vgl-namespace>',
+      components: { VglNamespace, VglTorusGeometry, GeometryWatcher },
+    }).$mount();
+    after10ticks(vm, () => {
+      try {
+        expect(updatedHistory).to.have.lengthOf(1);
+        const actual = updatedHistory[0].vertices;
+        const expected = new THREE.TorusGeometry(22.24, 3.8, 11, 9, 2.01).vertices;
+        expect(actual).to.have.deep.ordered.members(expected);
+        done();
+      } catch (e) {
+        done(e);
+      }
     });
+  });
+  it('after radius property is changed', function test(done) {
+    const vm = new Vue({
+      template: '<vgl-namespace><geometry-watcher geometry="abc1#2" /><vgl-torus-geometry name="abc1#2" :radius="radius" /></vgl-namespace>',
+      components: { VglNamespace, VglTorusGeometry, GeometryWatcher },
+      data: { radius: 6.1 },
+    }).$mount();
+    vm.$nextTick(() => {
+      vm.radius = 4.2;
+      after10ticks(vm, () => {
+        try {
+          expect(updatedHistory).to.have.lengthOf(2);
+          const actual1 = updatedHistory[0].vertices;
+          const expected1 = new THREE.TorusGeometry(6.1).vertices;
+          expect(actual1).to.have.deep.ordered.members(expected1);
+          const actual2 = updatedHistory[1].vertices;
+          const expected2 = new THREE.TorusGeometry(4.2).vertices;
+          expect(actual2).to.have.deep.ordered.members(expected2);
+          done();
+        } catch (e) {
+          done(e);
+        }
+      });
+    });
+  });
 });

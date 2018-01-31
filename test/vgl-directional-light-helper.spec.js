@@ -1,139 +1,135 @@
-/* globals chai THREE Vue VueGL */
-
-describe("VglDirectionalLightHelper component", function() {
-    const {VglDirectionalLightHelper, VglDirectionalLight, VglNamespace} = VueGL;
-    const assert = chai.assert;
-    describe("Creating a helper", function() {
-        describe("The color of the helper", function() {
-            it("should be same as the color property.", function(done) {
-                const vm = new Vue({
-                    template: `<vgl-namespace><vgl-directional-light posision="1 0 0"><vgl-directional-light-helper color="red" ref="helper" /></vgl-directional-light></vgl-namespace>`,
-                    components: {VglDirectionalLightHelper, VglDirectionalLight, VglNamespace}
-                }).$mount();
-                vm.$nextTick(() => {
-                    try {
-                        assert.strictEqual(vm.$refs.helper.inst.lightPlane.material.color.r, 255/255);
-                        assert.strictEqual(vm.$refs.helper.inst.lightPlane.material.color.g, 0/255);
-                        assert.strictEqual(vm.$refs.helper.inst.lightPlane.material.color.b, 0/255);
-                        done();
-                    } catch(e) {
-                        done(e);
-                    }
-                });
-            });
-            it("should be same as the light's color.", function(done) {
-                const vm = new Vue({
-                    template: `<vgl-namespace><vgl-directional-light color="yellow"><vgl-directional-light-helper ref="helper" /></vgl-directional-light></vgl-namespace>`,
-                    components: {VglDirectionalLightHelper, VglDirectionalLight, VglNamespace}
-                }).$mount();
-                vm.$nextTick(() => {
-                    try {
-                        assert.strictEqual(vm.$refs.helper.inst.lightPlane.material.color.r, 255/255);
-                        assert.strictEqual(vm.$refs.helper.inst.lightPlane.material.color.g, 255/255);
-                        assert.strictEqual(vm.$refs.helper.inst.lightPlane.material.color.b, 0/255);
-                        done();
-                    } catch(e) {
-                        done(e);
-                    }
-                });
-            });
+describe('VglDirectionalLightHelper:', function suite() {
+  const { VglDirectionalLightHelper, VglDirectionalLight, VglNamespace } = VueGL;
+  const { expect } = chai;
+  let updatedHistory;
+  const ObjectWatcher = {
+    mixins: [VglDirectionalLight, VglNamespace],
+    created() {
+      this.vglObject3d.listeners.push(() => {
+        updatedHistory.push(this.inst);
+      });
+    },
+  };
+  function after10ticks(vm, callback, count = 10) {
+    vm.$nextTick(count > 0 ? () => { after10ticks(vm, callback, count - 1); } : callback);
+  }
+  beforeEach(function hook(done) {
+    updatedHistory = [];
+    done();
+  });
+  it('default', function test(done) {
+    const vm = new Vue({
+      template: '<object-watcher position="3 5 8" color="#28283f"><vgl-directional-light-helper /></object-watcher>',
+      components: { VglDirectionalLightHelper, ObjectWatcher },
+    }).$mount();
+    after10ticks(vm, () => {
+      try {
+        expect(updatedHistory).to.have.lengthOf(1);
+        expect(updatedHistory[0].children).to.have.lengthOf(1);
+        const [actual] = updatedHistory[0].children;
+        const light = new THREE.DirectionalLight(0x28283f);
+        light.position.set(3, 5, 8);
+        const expected = new THREE.DirectionalLightHelper(light);
+        expect(actual).to.have.property('type', expected.type);
+        expect(actual.position.equals(expected.position)).to.equal(true);
+        expect(actual.quaternion.equals(expected.quaternion)).to.equal(true);
+        expect(actual.scale.equals(expected.scale)).to.equal(true);
+        expect(actual.children).to.have.lengthOf(expected.children.length);
+        expected.children.forEach((expectedChild, index) => {
+          const actualChild = actual.children[index];
+          expect(actualChild).to.have.property('type', expectedChild.type);
+          expect(actualChild.position.equals(expectedChild.position)).to.equal(true);
+          expect(actualChild.quaternion.equals(expectedChild.quaternion)).to.equal(true);
+          expect(actualChild.scale.equals(expectedChild.scale)).to.equal(true);
+          expect(actualChild.material.color.equals(expectedChild.material.color)).to.equal(true);
+          const actualPositionAttribute = actualChild.geometry.getAttribute('position');
+          const actualPositionArray = [].slice.call(actualPositionAttribute.array, 0);
+          const expectedPositionAttribute = expectedChild.geometry.getAttribute('position');
+          const expectedPositionArray = [].slice.call(expectedPositionAttribute.array, 0);
+          expect(actualPositionArray).to.have.ordered.members(expectedPositionArray);
         });
-        describe("The visualized light should be the parent object.", function() {
-            it("When the parent component is a VglDirectionalLight.", function(done) {
-                const vm = new Vue({
-                    template: `<vgl-namespace><vgl-directional-light ref="light"><vgl-directional-light-helper ref="helper" /></vgl-directional-light></vgl-namespace>`,
-                    components: {VglDirectionalLight, VglDirectionalLightHelper, VglNamespace}
-                }).$mount();
-                vm.$nextTick(() => {
-                    try {
-                        assert.strictEqual(vm.$refs.light.inst, vm.$refs.helper.inst.light);
-                        done();
-                    } catch(e) {
-                        done(e);
-                    }
-                });
-            });
-            it("When a parent component does not exit.", function(done) {
-                const vm = new Vue({
-                    template: `<vgl-namespace><vgl-directional-light-helper ref="helper" /></vgl-namespace>`,
-                    components: {VglDirectionalLightHelper, VglNamespace}
-                }).$mount();
-                vm.$nextTick(() => {
-                    try {
-                        assert.notInstanceOf(vm.$refs.helper.inst, THREE.DirectionalLightHelper);
-                        done();
-                    } catch(e) {
-                        done(e);
-                    }
-                });
-            });
-        });
+        done();
+      } catch (e) {
+        done(e);
+      }
     });
-    describe("Watching properties", function() {
-        it("The color of the helper should change when the color property changes.", function(done) {
-            const vm = new Vue({
-                template: `<vgl-namespace><vgl-directional-light><vgl-directional-light-helper :color="color" ref="helper" /></vgl-directional-light></vgl-namespace>`,
-                components: {VglDirectionalLightHelper, VglDirectionalLight, VglNamespace},
-                data: {color: "red"}
-            }).$mount();
-            vm.$nextTick(() => {
-                vm.color = "#aa87C5";
-                vm.$nextTick(() => {
-                    try {
-                        assert.strictEqual(vm.$refs.helper.inst.lightPlane.material.color.r, 170/255);
-                        assert.strictEqual(vm.$refs.helper.inst.lightPlane.material.color.g, 135/255);
-                        assert.strictEqual(vm.$refs.helper.inst.lightPlane.material.color.b, 197/255);
-                        done();
-                    } catch(e) {
-                        done(e);
-                    }
-                });
-            });
+  });
+  it('with properties', function test(done) {
+    const vm = new Vue({
+      template: '<object-watcher position="3 5 8" color="#28283f"><vgl-directional-light-helper size="2.7" color="#e38a5d" /></object-watcher>',
+      components: { VglDirectionalLightHelper, ObjectWatcher },
+    }).$mount();
+    after10ticks(vm, () => {
+      try {
+        expect(updatedHistory).to.have.lengthOf(1);
+        expect(updatedHistory[0].children).to.have.lengthOf(1);
+        const [actual] = updatedHistory[0].children;
+        const light = new THREE.DirectionalLight(0x28283f);
+        light.position.set(3, 5, 8);
+        const expected = new THREE.DirectionalLightHelper(light, 2.7, 0xe38a5d);
+        expect(actual).to.have.property('type', expected.type);
+        expect(actual.position.equals(expected.position)).to.equal(true);
+        expect(actual.quaternion.equals(expected.quaternion)).to.equal(true);
+        expect(actual.scale.equals(expected.scale)).to.equal(true);
+        expect(actual.children).to.have.lengthOf(expected.children.length);
+        expected.children.forEach((expectedChild, index) => {
+          const actualChild = actual.children[index];
+          expect(actualChild).to.have.property('type', expectedChild.type);
+          expect(actualChild.position.equals(expectedChild.position)).to.equal(true);
+          expect(actualChild.quaternion.equals(expectedChild.quaternion)).to.equal(true);
+          expect(actualChild.scale.equals(expectedChild.scale)).to.equal(true);
+          expect(actualChild.material.color.equals(expectedChild.material.color)).to.equal(true);
+          const actualPositionAttribute = actualChild.geometry.getAttribute('position');
+          const actualPositionArray = [].slice.call(actualPositionAttribute.array, 0);
+          const expectedPositionAttribute = expectedChild.geometry.getAttribute('position');
+          const expectedPositionArray = [].slice.call(expectedPositionAttribute.array, 0);
+          expect(actualPositionArray).to.have.ordered.members(expectedPositionArray);
         });
-        it("The color of the helper should change when the parent light color changes.", function(done) {
-            const vm = new Vue({
-                template: `<vgl-namespace><vgl-directional-light :color="color"><vgl-directional-light-helper ref="helper" /></vgl-directional-light></vgl-namespace>`,
-                components: {VglDirectionalLightHelper, VglDirectionalLight, VglNamespace},
-                data: {color: "red"}
-            }).$mount();
-            vm.$nextTick(() => {
-                vm.color = "#aa87C5";
-                vm.$nextTick(() => {
-                    try {
-                        assert.strictEqual(vm.$refs.helper.inst.lightPlane.material.color.r, 170/255);
-                        assert.strictEqual(vm.$refs.helper.inst.lightPlane.material.color.g, 135/255);
-                        assert.strictEqual(vm.$refs.helper.inst.lightPlane.material.color.b, 197/255);
-                        done();
-                    } catch(e) {
-                        done(e);
-                    }
-                });
-            });
-        });
-        it ("The instance should be replaced when the size property changes.", function(done) {
-            const vm = new Vue({
-                template: `<vgl-namespace><vgl-directional-light><vgl-directional-light-helper ref="helper" :size="size" /></vgl-directional-light></vgl-namespace>`,
-                components: {VglDirectionalLightHelper, VglDirectionalLight, VglNamespace},
-                data: {size: 2}
-            }).$mount();
-            vm.$nextTick(() => {
-                try {
-                    assert.strictEqual(vm.$refs.helper.inst.lightPlane.geometry.getAttribute('position').array[1], 2);
-                } catch(e) {
-                    done(e);
-                }
-                const before = vm.$refs.helper.inst;
-                vm.size = 3;
-                vm.$nextTick(() => {
-                    try {
-                        assert.notEqual(before, vm.$refs.helper.inst);
-                        assert.strictEqual(vm.$refs.helper.inst.lightPlane.geometry.getAttribute('position').array[1], 3);
-                        done();
-                    } catch(e) {
-                        done(e);
-                    }
-                })
-            });
-        });
+        done();
+      } catch (e) {
+        done(e);
+      }
     });
+  });
+  it('after size property is changed', function test(done) {
+    const vm = new Vue({
+      template: '<object-watcher position="3 5 8" color="#28283f"><vgl-directional-light-helper :size="size" /></object-watcher>',
+      components: { VglDirectionalLightHelper, ObjectWatcher },
+      data: { size: '1.3' },
+    }).$mount();
+    vm.$nextTick(() => {
+      vm.size = '1.7';
+      after10ticks(vm, () => {
+        try {
+          expect(updatedHistory).to.have.lengthOf(2);
+          expect(updatedHistory[1].children).to.have.lengthOf(1);
+          const [actual] = updatedHistory[1].children;
+          const light = new THREE.DirectionalLight(0x28283f);
+          light.position.set(3, 5, 8);
+          const expected = new THREE.DirectionalLightHelper(light, 1.7);
+          expect(actual).to.have.property('type', expected.type);
+          expect(actual.position.equals(expected.position)).to.equal(true);
+          expect(actual.quaternion.equals(expected.quaternion)).to.equal(true);
+          expect(actual.scale.equals(expected.scale)).to.equal(true);
+          expect(actual.children).to.have.lengthOf(expected.children.length);
+          expected.children.forEach((expectedChild, index) => {
+            const actualChild = actual.children[index];
+            expect(actualChild).to.have.property('type', expectedChild.type);
+            expect(actualChild.position.equals(expectedChild.position)).to.equal(true);
+            expect(actualChild.quaternion.equals(expectedChild.quaternion)).to.equal(true);
+            expect(actualChild.scale.equals(expectedChild.scale)).to.equal(true);
+            expect(actualChild.material.color.equals(expectedChild.material.color)).to.equal(true);
+            const actualPositionAttribute = actualChild.geometry.getAttribute('position');
+            const actualPositionArray = [].slice.call(actualPositionAttribute.array, 0);
+            const expectedPositionAttribute = expectedChild.geometry.getAttribute('position');
+            const expectedPositionArray = [].slice.call(expectedPositionAttribute.array, 0);
+            expect(actualPositionArray).to.have.ordered.members(expectedPositionArray);
+          });
+          done();
+        } catch (e) {
+          done(e);
+        }
+      });
+    });
+  });
 });

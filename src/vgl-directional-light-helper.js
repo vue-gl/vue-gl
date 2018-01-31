@@ -1,51 +1,37 @@
-import VglObject3d from "./vgl-object3d.js";
-import {DirectionalLightHelper, Object3D} from "./three.js";
-import {validatePropString, validatePropNumber, parseFloat_, findParent} from "./utils.js";
+import VglObject3d from './vgl-object3d.js';
+import { DirectionalLightHelper, DirectionalLight } from './three.js';
+import { string, number } from './constructor-arrays.js';
 
 export default {
-    mixins: [VglObject3d],
-    props: {
-        color: {
-            type: validatePropString
-        },
-        size: {
-            type: validatePropNumber,
-            default: 1
-        }
+  mixins: [VglObject3d],
+  props: {
+    color: string,
+    size: { type: number, default: 1 },
+  },
+  computed: {
+    inst() {
+      return new DirectionalLightHelper(new DirectionalLight(), parseFloat(this.size));
     },
-    computed: {
-        inst() {
-            return this.i;
-        },
-        hex() {
-            return "color" in this.i && this.i.parent && this.i.parent.color.getHex();
-        }
+  },
+  watch: {
+    inst: {
+      handler(inst) {
+        this.vglObject3d.inst.updateMatrixWorld();
+        Object.assign(inst, {
+          color: this.color,
+          light: this.vglObject3d.inst,
+          matrix: this.vglObject3d.inst.matrixWorld,
+        });
+        this.inst.update();
+      },
+      immediate: true,
     },
-    created() {
-        const p = findParent(this, "isVglObject3d");
-        if (p) {
-            this.i = new DirectionalLightHelper(p.inst, parseFloat_(this.size), this.color);
-        }
+    color(color) {
+      Object.assign(this.inst, {
+        color,
+      });
+      this.inst.update();
+      this.vglObject3d.update();
     },
-    data() {
-        return {
-            i: new Object3D()
-        };
-    },
-    watch: {
-        color(color) {
-            if ("color" in this.i) {
-                this.inst.color = color;
-                this.inst.update();
-            }
-        },
-        hex(hex) {
-            if (hex && !this.color) this.inst.update();
-        },
-        size(size) {
-            if (this.i.parent) {
-                this.i = new DirectionalLightHelper(this.i.parent, parseFloat_(size), this.color);
-            }
-        }
-    }
+  },
 };

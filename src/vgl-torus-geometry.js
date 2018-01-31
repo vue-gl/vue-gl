@@ -1,23 +1,25 @@
-import VglGeometry from "./vgl-geometry.js";
-import {TorusGeometry} from "./three.js";
-import {parseFloat_, parseInt_, createObjectFromArray} from "./utils.js";
-
-const validator = [String, Number];
-
-const props = [
-    "radius",
-    "tube",
-    "radialSegments",
-    "tubularSegments",
-    "arc"
-];
+import VglGeometry from './vgl-geometry.js';
+import { TorusGeometry } from './three.js';
+import { number } from './constructor-arrays.js';
 
 export default {
-    mixins: [VglGeometry],
-    props: createObjectFromArray(props, () => validator),
-    computed: {
-        inst() {
-            return new TorusGeometry(...props.map((key, i) => (i < 2 || i > 3 ? parseFloat_: parseInt_)(this[key])));
-        }
-    }
+  mixins: [VglGeometry],
+  props: {
+    radius: { type: number, default: 1 },
+    tube: { type: number, default: 0.4 },
+    radialSegments: { type: number, default: 8 },
+    tubularSegments: { type: number, default: 6 },
+    arc: { type: number, default: Math.PI * 2 },
+  },
+  computed: {
+    inst() {
+      return new TorusGeometry(
+        parseFloat(this.radius),
+        parseFloat(this.tube),
+        parseInt(this.radialSegments, 10),
+        parseInt(this.tubularSegments, 10),
+        parseFloat(this.arc),
+      );
+    },
+  },
 };

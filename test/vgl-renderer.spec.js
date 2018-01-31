@@ -1,420 +1,544 @@
-/* globals chai THREE Vue VueGL */
+describe('VglRenderer:', function component() {
+  const { VglRenderer, VglPerspectiveCamera, VglScene } = VueGL;
+  const { expect } = chai;
+  function after10ticks(vm, callback, count = 10) {
+    vm.$nextTick(count > 0 ? () => { after10ticks(vm, callback, count - 1); } : callback);
+  }
+  describe('The renderer should be constructed with passed properties', function suite() {
+    let constructorOptionsHistory;
+    let optionSetHistory;
+    before(function hook(done) {
+      this.WebGLRenderer = THREE.WebGLRenderer;
+      THREE.WebGLRenderer = class {
+        constructor(...params) {
+          constructorOptionsHistory.push(params);
+          this.shadowMap = {
+            set enabled(val) { optionSetHistory.push({ 'shadowMap.enabled': val }); },
+          };
+          this.domElement = document.createElement('canvas');
+          this.setSize = () => {};
+          this.dispose = () => {};
+        }
+      };
+      done();
+    });
+    after(function hook(done) {
+      THREE.WebGLRenderer = this.WebGLRenderer;
+      done();
+    });
+    beforeEach(function hook(done) {
+      constructorOptionsHistory = [];
+      optionSetHistory = [];
+      done();
+    });
+    it('without properties', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-renderer />',
+        components: { VglRenderer },
+      }).$mount();
+      after10ticks(vm, () => {
+        try {
+          expect(constructorOptionsHistory).to.have.lengthOf(1);
+          expect(constructorOptionsHistory[0]).to.have.lengthOf.at.most(1);
+          if (constructorOptionsHistory[0].length === 1) {
+            const [actualOptions] = constructorOptionsHistory[0];
+            expect(actualOptions).not.to.have.property('canvas');
+            expect(actualOptions).not.to.have.property('context');
+            if ('precision' in actualOptions) {
+              expect(actualOptions.precision).to.be.oneOf(['highp', undefined]);
+            }
+            if ('alpha' in actualOptions) {
+              expect(actualOptions.alpha).to.be.oneOf([false, undefined]);
+            }
+            if ('antialias' in actualOptions) {
+              expect(actualOptions.antialias).to.be.oneOf([false, undefined]);
+            }
+            if ('premultipliedAlpha' in actualOptions) {
+              expect(actualOptions.premultipliedAlpha).to.be.oneOf([true, undefined]);
+            }
+            if ('stencil' in actualOptions) {
+              expect(actualOptions.stencil).to.be.oneOf([true, undefined]);
+            }
+            if ('preserveDrawingBuffer' in actualOptions) {
+              expect(actualOptions.preserveDrawingBuffer).to.be.oneOf([false, undefined]);
+            }
+            if ('powerPreference' in actualOptions) {
+              expect(actualOptions.powerPreference).to.be.oneOf(['default', undefined]);
+            }
+            if ('depth' in actualOptions) {
+              expect(actualOptions.depth).to.be.oneOf([true, undefined]);
+            }
+            if ('logarithmicDepthBuffer' in actualOptions) {
+              expect(actualOptions.logarithmicDepthBuffer).to.be.oneOf([false, undefined]);
+            }
+          }
+          expect(optionSetHistory).to.have.lengthOf.at.most(1);
+          if (optionSetHistory.length === 1) {
+            expect(optionSetHistory[0]).to.deep.equal({ 'shadowMap.enabled': false });
+          }
+          done();
+        } catch (e) {
+          done(e);
+        }
+      });
+    });
+    it('with properties', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-renderer precision="mediump" alpha antialias disable-premultiplied-alpha disable-stencil preserve-drawing-buffer power-preference="low-power" disable-depth logarithmic-depth-buffer shadow-map-enabled />',
+        components: { VglRenderer },
+      }).$mount();
+      after10ticks(vm, () => {
+        try {
+          expect(constructorOptionsHistory).to.have.lengthOf(1);
+          expect(constructorOptionsHistory[0]).to.have.lengthOf(1);
+          const [actualOptions] = constructorOptionsHistory[0];
+          expect(actualOptions).not.to.have.property('canvas');
+          expect(actualOptions).not.to.have.property('context');
+          expect(actualOptions).to.have.property('precision', 'mediump');
+          expect(actualOptions).to.have.property('alpha', true);
+          expect(actualOptions).to.have.property('antialias', true);
+          expect(actualOptions).to.have.property('premultipliedAlpha', false);
+          expect(actualOptions).to.have.property('stencil', false);
+          expect(actualOptions).to.have.property('preserveDrawingBuffer', true);
+          expect(actualOptions).to.have.property('powerPreference', 'low-power');
+          expect(actualOptions).to.have.property('depth', false);
+          expect(actualOptions).to.have.property('logarithmicDepthBuffer', true);
+          expect(optionSetHistory).to.have.lengthOf(1);
+          expect(optionSetHistory[0]).to.deep.equal({ 'shadowMap.enabled': true });
+          done();
+        } catch (e) {
+          done(e);
+        }
+      });
+    });
+    it('after properties are changed', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-renderer :antialias="aa" :power-preference="pp" :shadow-map-enabled="sme" />',
+        components: { VglRenderer },
+        data: { aa: false, pp: 'default', sme: false },
+      }).$mount();
+      vm.$nextTick(() => {
+        vm.aa = true;
+        vm.pp = 'high-performance';
+        vm.sme = true;
+        after10ticks(vm, () => {
+          try {
+            expect(constructorOptionsHistory).to.have.lengthOf(2);
+            expect(constructorOptionsHistory[0]).to.have.lengthOf(1);
+            const [actualOptions1] = constructorOptionsHistory[0];
+            expect(actualOptions1).not.to.have.property('canvas');
+            expect(actualOptions1).not.to.have.property('context');
+            expect(actualOptions1).to.have.property('antialias', false);
+            expect(actualOptions1).to.have.property('powerPreference', 'default');
+            if ('precision' in actualOptions1) {
+              expect(actualOptions1.precision).to.be.oneOf(['highp', undefined]);
+            }
+            if ('alpha' in actualOptions1) {
+              expect(actualOptions1.alpha).to.be.oneOf([false, undefined]);
+            }
+            if ('premultipliedAlpha' in actualOptions1) {
+              expect(actualOptions1.premultipliedAlpha).to.be.oneOf([true, undefined]);
+            }
+            if ('stencil' in actualOptions1) {
+              expect(actualOptions1.stencil).to.be.oneOf([true, undefined]);
+            }
+            if ('preserveDrawingBuffer' in actualOptions1) {
+              expect(actualOptions1.preserveDrawingBuffer).to.be.oneOf([false, undefined]);
+            }
+            if ('depth' in actualOptions1) {
+              expect(actualOptions1.depth).to.be.oneOf([true, undefined]);
+            }
+            if ('logarithmicDepthBuffer' in actualOptions1) {
+              expect(actualOptions1.logarithmicDepthBuffer).to.be.oneOf([false, undefined]);
+            }
 
-describe("VglRenderer component", function() {
-    const {VglRenderer, VglNamespace, VglPerspectiveCamera, VglScene} = VueGL;
-    const assert = chai.assert;
-    before(function() {
-        this.WebGLRenderer = THREE.WebGLRenderer;
-        THREE.WebGLRenderer = function(options) {
-            this.options = options;
-            this.shadowMap = {};
-            this.calledRenderWith = [];
-        };
-        THREE.WebGLRenderer.prototype.setSize = () => {};
-        THREE.WebGLRenderer.prototype.render = function(scene, camera) {
-            this.calledRenderWith.push([scene, camera]);
-        };
-    });
-    after(function() {
-        THREE.WebGLRenderer = this.WebGLRenderer;
-    });
-    describe("Namespace injection", function() {
-        describe("Should be able to access vglCameras", function() {
-            it("When the component is the root namespace.", function() {
-                const vm = new Vue({
-                    template: `<vgl-renderer camera="('&%" ref="rdr"><vgl-perspective-camera name="('&%" ref="cmr" /></vgl-renderer>`,
-                    components: {VglRenderer, VglPerspectiveCamera}
-                }).$mount();
-                assert.strictEqual(vm.$refs.rdr.cmr, vm.$refs.cmr.inst);
-            });
-            it("When the component is a descendant of the other namespace.", function() {
-                const vm = new Vue({
-                    template: `<vgl-namespace><vgl-perspective-camera name="<!--" ref="cmr" /><vgl-renderer camera="<!--" ref="rdr" /></vgl-namespace>`,
-                    components: {VglNamespace, VglRenderer, VglPerspectiveCamera}
-                }).$mount();
-                assert.strictEqual(vm.$refs.rdr.cmr, vm.$refs.cmr.inst);
-            });
-        });
-        describe("Should be able to access vglScenes", function() {
-            it("When the component is the root namespace.", function() {
-                const vm = new Vue({
-                    template: `<vgl-renderer scene="('&%" ref="rdr"><vgl-scene name="('&%" ref="scn" /></vgl-renderer>`,
-                    components: {VglRenderer, VglScene}
-                }).$mount();
-                assert.strictEqual(vm.$refs.rdr.scn, vm.$refs.scn.inst);
-            });
-            it("When the component is a descendant of the other namespace.", function() {
-                const vm = new Vue({
-                    template: `<vgl-namespace><vgl-scene name="<!--" ref="scn" /><vgl-renderer scene="<!--" ref="rdr" /></vgl-namespace>`,
-                    components: {VglNamespace, VglRenderer, VglScene}
-                }).$mount();
-                assert.strictEqual(vm.$refs.rdr.scn, vm.$refs.scn.inst);
-            });
-        });
-    });
-    describe("Creating a renderer", function() {
-        describe("Output canvas", function() {
-            it("The domElement property of WebGLRenderer instance should be the Vue created canvas.", function() {
-                const vm = new Vue(VglRenderer);
-                assert.strictEqual(vm.$refs.rdr, vm.inst.options.canvas);
-            });
-        });
-        describe("Context attributes", function() {
-            describe("The alpha property should affect the alpha attribute.", function() {
-                it("When the property is undefined (or false).", function() {
-                    const vm = new Vue(VglRenderer);
-                    assert.isFalse(vm.inst.options.alpha);
-                });
-                it("When the property is true.", function() {
-                    const vm = new (Vue.extend(VglRenderer))({propsData: {alpha: true}}).$mount();
-                    assert.isTrue(vm.inst.options.alpha);
-                });
-            });
-            describe("The disableDepth property should affect the depth attribute.", function() {
-                it("When the property is undefined (or false).", function() {
-                    const vm = new Vue(VglRenderer).$mount();
-                    assert.isTrue(vm.inst.options.depth);
-                });
-                it("When the property is true.", function() {
-                    const vm = new (Vue.extend(VglRenderer))({propsData: {disableDepth: true}}).$mount();
-                    assert.isFalse(vm.inst.options.depth);
-                });
-            });
-            describe("The disableStencil property should affect the stencil attribute.", function() {
-                it("When the property is undefined (or false).", function() {
-                    const vm = new Vue(VglRenderer).$mount();
-                    assert.isTrue(vm.inst.options.stencil);
-                });
-                it("When the property is true.", function() {
-                    const vm = new (Vue.extend(VglRenderer))({propsData: {disableStencil: true}}).$mount();
-                    assert.isFalse(vm.inst.options.stencil);
-                });
-            });
-            describe("The antialias property should affect the antialias attribute.", function() {
-                it("When the property is undefined (or false).", function() {
-                    const vm = new Vue(VglRenderer).$mount();
-                    assert.isFalse(vm.inst.options.antialias);
-                });
-                it("When the property is true.", function() {
-                    const vm = new (Vue.extend(VglRenderer))({propsData: {antialias: true}}).$mount();
-                    assert.isTrue(vm.inst.options.antialias);
-                });
-            });
-            describe("The disablePremultipliedAlpha property should affect the premultipliedAlpha attribute.", function() {
-                it("When the property is undefined (or false).", function() {
-                    const vm = new Vue(VglRenderer).$mount();
-                    assert.isTrue(vm.inst.options.premultipliedAlpha);
-                });
-                it("When the property is true.", function() {
-                    const vm = new (Vue.extend(VglRenderer))({propsData: {disablePremultipliedAlpha: true}}).$mount();
-                    assert.isFalse(vm.inst.options.premultipliedAlpha);
-                });
-            });
-            describe("The preserveDrawingBuffer property should affect the preserveDrawingBuffer attribute.", function() {
-                it("When the property is undefined (or false).", function() {
-                    const vm = new Vue(VglRenderer).$mount();
-                    assert.isFalse(vm.inst.options.preserveDrawingBuffer);
-                });
-                it("When the property is true.", function() {
-                    const vm = new (Vue.extend(VglRenderer))({propsData: {preserveDrawingBuffer: true}}).$mount();
-                    assert.isTrue(vm.inst.options.preserveDrawingBuffer);
-                });
-            });
-        });
-        describe("Capabilities", function() {
-            describe("The logarithmicDepthBuffer property should affect the logarithmicDepthBuffer capability.", function() {
-                it("When the property is undefined (or false).", function() {
-                    const vm = new Vue(VglRenderer).$mount();
-                    assert.isFalse(vm.inst.options.logarithmicDepthBuffer);
-                });
-                it("When the property is true.", function() {
-                    const vm = new (Vue.extend(VglRenderer))({propsData: {logarithmicDepthBuffer: true}}).$mount();
-                    assert.isTrue(vm.inst.options.logarithmicDepthBuffer);
-                });
-            });
-            describe("The precision property should affect the precision capability.", function() {
-                it("When the property is undefined (or false).", function() {
-                    const vm = new Vue(VglRenderer).$mount();
-                    assert.isUndefined(vm.inst.options.precision);
-                });
-                it("When the property is \"lowp\".", function() {
-                    const vm = new (Vue.extend(VglRenderer))({propsData: {precision: "lowp"}}).$mount();
-                    assert.strictEqual(vm.inst.options.precision, "lowp");
-                });
-                it("When the property is \"mediump\".", function() {
-                    const vm = new (Vue.extend(VglRenderer))({propsData: {precision: "mediump"}}).$mount();
-                    assert.strictEqual(vm.inst.options.precision, "mediump");
-                });
-                it("When the property is \"highp\".", function() {
-                    const vm = new (Vue.extend(VglRenderer))({propsData: {precision: "highp"}}).$mount();
-                    assert.strictEqual(vm.inst.options.precision, "highp");
-                });
-            });
-        });
-        describe("Properties", function() {
-            describe("The shadowMapEnabled property should affect the shadowMap.enabled.", function() {
-                beforeEach(function() {
-                    this.outerDiv = document.createElement("div");
-                    this.outerDiv.innerHTML = "<div id=\"app\"></div>";
-                    document.body.appendChild(this.outerDiv);
-                });
-                afterEach(function() {
-                    document.body.removeChild(this.outerDiv);
-                });
-                it("When the property is false.", function(done) {
-                    const vm = new (Vue.extend(VglRenderer))({propsData: {shadowMapEnabled: false}, el: "#app"});
-                    function waitonload(callback) {
-                        if (!vm.$refs.frm.contentDocument || vm.$refs.frm.contentDocument.readyState !== "complete") {
-                            setTimeout(() => {
-                                waitonload(callback);
-                            }, 10);
-                        } else {
-                            callback();
-                        }
-                    }
-                    waitonload(() => {
-                        vm.$nextTick(() => {
-                            setTimeout(() => {
-                                try {
-                                    assert.isFalse(vm.inst.shadowMap.enabled);
-                                    done();
-                                } catch(e) {
-                                    done(e);
-                                }
-                            }, 0);
-                        });
-                    });
-                });
-                it("When the property is true.", function(done) {
-                    const vm = new (Vue.extend(VglRenderer))({propsData: {shadowMapEnabled: true}, el: "#app"});
-                    function waitonload(callback) {
-                        if (!vm.$refs.frm.contentDocument || vm.$refs.frm.contentDocument.readyState !== "complete") {
-                            setTimeout(() => {
-                                waitonload(callback);
-                            }, 10);
-                        } else {
-                            callback();
-                        }
-                    }
-                    waitonload(() => {
-                        vm.$nextTick(() => {
-                            setTimeout(() => {
-                                try {
-                                    assert.isTrue(vm.inst.shadowMap.enabled);
-                                    done();
-                                } catch(e) {
-                                    done(e);
-                                }
-                            }, 0);
-                        });
-                    });
-                });
-            });
-        });
-    });
-    describe("When an initial property changes", function() {
-        it("The canvas element should be replaced.", function(done) {
-            const vm = new Vue(VglRenderer).$mount();
-            const oldCanvas = vm.$refs.rdr;
-            vm.alpha = true;
-            vm.$nextTick(() => {
-                try {
-                    assert.notEqual(oldCanvas, vm.$refs.rdr);
-                    done();
-                } catch(e) {
-                    done(e);
-                }
-            });
-        });
-        it("The WebGLRenderer instance should be newly created.", function(done) {
-            const vm = new Vue(VglRenderer).$mount();
-            const oldInst = vm.inst;
-            vm.alpha = true;
-            vm.$nextTick(() => {
-                try {
-                    assert.notEqual(oldInst, vm.inst);
-                    done();
-                } catch(e) {
-                    done(e);
-                }
-            });
-        });
-        it("The domElement property of WebGLRenderer instance should be the replaced canvas.", function(done) {
-            const vm = new Vue(VglRenderer).$mount();
-            vm.alpha = true;
-            vm.$nextTick(() => {
-                try {
-                    assert.strictEqual(vm.inst.options.canvas, vm.$refs.rdr);
-                    done();
-                } catch(e) {
-                    done(e);
-                }
-            });
-        });
-    });
-    describe("When another property changes", function() {
-        beforeEach(function() {
-            this.outerDiv = document.createElement("div");
-            this.outerDiv.innerHTML = "<div id=\"app\"></div>";
-            document.body.appendChild(this.outerDiv);
-        });
-        afterEach(function() {
-            document.body.removeChild(this.outerDiv);
-        });
-        describe("The shadowMapEnabled should affect the shadowMap.enabled.", function() {
-            it("From false to true.", function(done) {
-                const vm = new Vue(VglRenderer).$mount("#app");
-                vm.$nextTick(() => {
-                    vm.shadowMapEnabled = true;
-                    vm.$nextTick(() => {
-                        try {
-                            assert.isTrue(vm.inst.shadowMap.enabled);
-                            done();
-                        } catch(e) {
-                            done(e);
-                        }
-                    });
-                });
-            });
-        });
-    });
-    describe("Testing the rendering function", function() {
-        beforeEach(function() {
-            this.outerDiv = document.createElement("div");
-            this.outerDiv.innerHTML = "<div id=\"app\" style=\"height:150px;\"></div>";
-            document.body.appendChild(this.outerDiv);
-        });
-        afterEach(function() {
-            document.body.removeChild(this.outerDiv);
-        });
-        it("The render function of the instance should be called once with the scene and camera after the initialization.", function(done) {
-            const vm = new Vue({
-                template: `<vgl-renderer scene="s" camera="c" ref="r"><vgl-scene name="s" ref="s"></vgl-scene><vgl-perspective-camera name="c" ref="c" /></vgl-renderer>`,
-                components: {
-                    VglRenderer,
-                    VglScene,
-                    VglPerspectiveCamera
-                }
-            }).$mount("#app");
-            function waitonload(callback) {
-                if (!vm.$refs.r.$refs.frm.contentDocument || vm.$refs.r.$refs.frm.contentDocument.readyState !== "complete") {
-                    setTimeout(() => {
-                        waitonload(callback);
-                    }, 10);
-                } else {
-                    callback();
-                }
+            const [actualOptions2] = constructorOptionsHistory[1];
+            expect(actualOptions2).not.to.have.property('canvas');
+            expect(actualOptions2).not.to.have.property('context');
+            expect(actualOptions2).to.have.property('antialias', true);
+            expect(actualOptions2).to.have.property('powerPreference', 'high-performance');
+            if ('precision' in actualOptions2) {
+              expect(actualOptions2.precision).to.be.oneOf(['highp', undefined]);
             }
-            waitonload(() => {
-                vm.$nextTick(() => {
-                    requestAnimationFrame(() => {
-                        setTimeout(() => {
-                            try {
-                                assert.lengthOf(vm.$refs.r.inst.calledRenderWith, 1);
-                                assert.strictEqual(vm.$refs.r.inst.calledRenderWith[0][0], vm.$refs.s.inst);
-                                assert.strictEqual(vm.$refs.r.inst.calledRenderWith[0][1], vm.$refs.c.inst);
-                                done();
-                            } catch(e) {
-                                done(e);
-                            }
-                        }, 0);
-                    });
-                });
-            });
-        });
-        it("The render function of the instance should be called once with the scene and camera after vglUpdate() called.", function(done) {
-            const vm = new Vue({
-                template: `<vgl-renderer scene="s" camera="c" ref="r"><vgl-scene name="s" ref="s"><trigger-component ref="t" /></vgl-scene><vgl-perspective-camera name="c" ref="c" /></vgl-renderer>`,
-                components: {
-                    VglRenderer,
-                    VglScene,
-                    VglPerspectiveCamera,
-                    TriggerComponent: {
-                        inject: ["vglUpdate"],
-                        render: () => {}
-                    }
-                }
-            }).$mount("#app");
-            function waitonload(callback) {
-                if (!vm.$refs.r.$refs.frm.contentDocument || vm.$refs.r.$refs.frm.contentDocument.readyState !== "complete") {
-                    setTimeout(() => {
-                        waitonload(callback);
-                    }, 10);
-                } else {
-                    callback();
-                }
+            if ('alpha' in actualOptions2) {
+              expect(actualOptions2.alpha).to.be.oneOf([false, undefined]);
             }
-            waitonload(() => {
-                vm.$nextTick(() => {
-                    requestAnimationFrame(() => {
-                        setTimeout(() => {
-                            vm.$refs.r.inst.calledRenderWith = [];
-                            vm.$refs.t.vglUpdate();
-                            vm.$nextTick(() => {
-                                requestAnimationFrame(() => {
-                                    setTimeout(() => {
-                                        try {
-                                            assert.lengthOf(vm.$refs.r.inst.calledRenderWith, 1);
-                                            assert.strictEqual(vm.$refs.r.inst.calledRenderWith[0][0], vm.$refs.s.inst);
-                                            assert.strictEqual(vm.$refs.r.inst.calledRenderWith[0][1], vm.$refs.c.inst);
-                                            done();
-                                        } catch(e) {
-                                            done(e);
-                                        }
-                                    });
-                                });
-                            });
-                        }, 0);
-                    });
-                });
-            });
-        });
-        it("The render function should be called only once when vglUpdate() called multiple times.", function(done) {
-            const vm = new Vue({
-                template: `<vgl-renderer scene="s" camera="c" ref="r"><vgl-scene name="s" ref="s"><trigger-component ref="t" /></vgl-scene><vgl-perspective-camera name="c" ref="c" /></vgl-renderer>`,
-                components: {
-                    VglRenderer,
-                    VglScene,
-                    VglPerspectiveCamera,
-                    TriggerComponent: {
-                        inject: ["vglUpdate"],
-                        render: () => {}
-                    }
-                }
-            }).$mount("#app");
-            function waitonload(callback) {
-                if (!vm.$refs.r.$refs.frm.contentDocument || vm.$refs.r.$refs.frm.contentDocument.readyState !== "complete") {
-                    setTimeout(() => {
-                        waitonload(callback);
-                    }, 10);
-                } else {
-                    callback();
-                }
+            if ('premultipliedAlpha' in actualOptions2) {
+              expect(actualOptions2.premultipliedAlpha).to.be.oneOf([true, undefined]);
             }
-            waitonload(() => {
-                vm.$nextTick(() => {
-                    requestAnimationFrame(() => {
-                        setTimeout(() => {
-                            vm.$refs.r.inst.calledRenderWith = [];
-                            vm.$refs.t.vglUpdate();
-                            vm.$refs.t.vglUpdate();
-                            vm.$refs.t.vglUpdate();
-                            requestAnimationFrame(() => {
-                                setTimeout(() => {
-                                    try {
-                                        assert.lengthOf(vm.$refs.r.inst.calledRenderWith, 1);
-                                        assert.strictEqual(vm.$refs.r.inst.calledRenderWith[0][0], vm.$refs.s.inst);
-                                        assert.strictEqual(vm.$refs.r.inst.calledRenderWith[0][1], vm.$refs.c.inst);
-                                        done();
-                                    } catch(e) {
-                                        done(e);
-                                    }
-                                });
-                            });
-                        }, 0);
-                    });
-                });
-            });
+            if ('stencil' in actualOptions2) {
+              expect(actualOptions2.stencil).to.be.oneOf([true, undefined]);
+            }
+            if ('preserveDrawingBuffer' in actualOptions2) {
+              expect(actualOptions2.preserveDrawingBuffer).to.be.oneOf([false, undefined]);
+            }
+            if ('depth' in actualOptions2) {
+              expect(actualOptions2.depth).to.be.oneOf([true, undefined]);
+            }
+            if ('logarithmicDepthBuffer' in actualOptions2) {
+              expect(actualOptions2.logarithmicDepthBuffer).to.be.oneOf([false, undefined]);
+            }
+            expect(optionSetHistory).to.have.lengthOf(2);
+            expect(optionSetHistory[0]).to.deep.equal({ 'shadowMap.enabled': false });
+            expect(optionSetHistory[1]).to.deep.equal({ 'shadowMap.enabled': true });
+            done();
+          } catch (e) {
+            done(e);
+          }
         });
+      });
     });
+  });
+  describe('Canvas element should be added or replaced', function suite() {
+    let historicalCanvases;
+    before(function hook(done) {
+      this.WebGLRenderer = THREE.WebGLRenderer;
+      THREE.WebGLRenderer = class {
+        constructor() {
+          this.shadowMap = {};
+          this.setSize = () => {};
+          this.dispose = () => {};
+          this.domElement = document.createElement('canvas');
+          historicalCanvases.push(this.domElement);
+        }
+      };
+      done();
+    });
+    after(function hook(done) {
+      THREE.WebGLRenderer = this.WebGLRenderer;
+      done();
+    });
+    beforeEach(function hook(done) {
+      historicalCanvases = [];
+      done();
+    });
+    it('after mounted', function test(done) {
+      const vm = new Vue(VglRenderer).$mount();
+      after10ticks(vm, () => {
+        try {
+          expect(historicalCanvases).to.have.lengthOf(1);
+          expect(vm.$el.querySelector('canvas')).to.equal(historicalCanvases[0]);
+          done();
+        } catch (e) {
+          done(e);
+        }
+      });
+    });
+    it('after some properties are changed', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-renderer :antialias="aa" :power-preference="pp" />',
+        components: { VglRenderer },
+        data: { aa: true, pp: 'high-performance' },
+      }).$mount();
+      vm.$nextTick(() => {
+        vm.aa = false;
+        vm.pp = 'low-power';
+        after10ticks(vm, () => {
+          try {
+            expect(historicalCanvases).to.have.lengthOf(2);
+            expect(historicalCanvases[0]).not.to.equal(historicalCanvases[1]);
+            expect(vm.$el.querySelector('canvas')).to.equal(historicalCanvases[1]);
+            done();
+          } catch (e) {
+            done(e);
+          }
+        });
+      });
+    });
+  });
+  describe('The render function should be called appropriate times', function suite() {
+    let renderHistory;
+    before(function hook(done) {
+      this.renderer = THREE.WebGLRenderer;
+      THREE.WebGLRenderer = class {
+        constructor() {
+          this.shadowMap = {};
+          this.domElement = document.createElement('canvas');
+          this.setSize = () => {};
+          this.dispose = () => {};
+          this.render = (scene, camera) => { renderHistory.push({ scene, camera }); };
+        }
+      };
+      done();
+    });
+    after(function hook(done) {
+      THREE.WebGLRenderer = this.renderer;
+      done();
+    });
+    beforeEach(function hook(done) {
+      renderHistory = [];
+      done();
+    });
+    it('when scene and camera do not exist', function test(done) {
+      const vm = new Vue(VglRenderer).$mount();
+      after10ticks(vm, () => {
+        try {
+          expect(renderHistory).to.have.lengthOf(0);
+          done();
+        } catch (e) {
+          done(e);
+        }
+      });
+    });
+    it('when scene does not exist', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-renderer camera="c"><vgl-perspective-camera name="c" /></vgl-renderer>',
+        components: { VglRenderer, VglPerspectiveCamera },
+      }).$mount();
+      after10ticks(vm, () => {
+        try {
+          expect(renderHistory).to.have.lengthOf(0);
+          done();
+        } catch (e) {
+          done(e);
+        }
+      });
+    });
+    it('when camera does not exist', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-renderer scene="s"><vgl-scene name="s" /></vgl-renderer>',
+        components: { VglRenderer, VglScene },
+      }).$mount();
+      after10ticks(vm, () => {
+        try {
+          expect(renderHistory).to.have.lengthOf(0);
+          done();
+        } catch (e) {
+          done(e);
+        }
+      });
+    });
+    it('after mounted', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-renderer scene="s" camera="c"><vgl-scene name="s" ref="s" /><vgl-perspective-camera name="c" ref="c" /></vgl-renderer>',
+        components: { VglRenderer, VglScene, VglPerspectiveCamera },
+      }).$mount();
+      after10ticks(vm, () => {
+        try {
+          expect(renderHistory).to.have.lengthOf(1);
+          expect(renderHistory[0]).to.have.property('scene', vm.$refs.s.inst);
+          expect(renderHistory[0]).to.have.property('camera', vm.$refs.c.inst);
+          done();
+        } catch (e) {
+          done(e);
+        }
+      });
+    });
+    it('after some properties are changed', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-renderer :antialias="aa" :pricision="pc" scene="s" camera="c"><vgl-scene name="s" ref="s" /><vgl-perspective-camera name="c" ref="c" /></vgl-renderer>',
+        components: { VglRenderer, VglScene, VglPerspectiveCamera },
+        data: { aa: false, pc: 'mediump' },
+      }).$mount();
+      vm.$nextTick(() => {
+        vm.aa = true;
+        vm.pc = 'highp';
+        after10ticks(vm, () => {
+          try {
+            expect(renderHistory).to.have.lengthOf(2);
+            expect(renderHistory[0]).to.have.property('scene', vm.$refs.s.inst);
+            expect(renderHistory[0]).to.have.property('camera', vm.$refs.c.inst);
+            expect(renderHistory[1]).to.have.property('scene', vm.$refs.s.inst);
+            expect(renderHistory[1]).to.have.property('camera', vm.$refs.c.inst);
+            done();
+          } catch (e) {
+            done(e);
+          }
+        });
+      });
+    });
+    it('after scene is replaced', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-renderer :scene="s" camera="c"><vgl-scene name="s1" ref="s1" /><vgl-scene name="s2" ref="s2" /><vgl-perspective-camera name="c" ref="c" /></vgl-renderer>',
+        components: { VglRenderer, VglScene, VglPerspectiveCamera },
+        data: { s: 's1' },
+      }).$mount();
+      vm.$nextTick(() => {
+        vm.s = 's2';
+        after10ticks(vm, () => {
+          try {
+            expect(renderHistory).to.have.lengthOf(2);
+            expect(renderHistory[0]).to.have.property('scene', vm.$refs.s1.inst);
+            expect(renderHistory[0]).to.have.property('camera', vm.$refs.c.inst);
+            expect(renderHistory[1]).to.have.property('scene', vm.$refs.s2.inst);
+            expect(renderHistory[1]).to.have.property('camera', vm.$refs.c.inst);
+            done();
+          } catch (e) {
+            done(e);
+          }
+        });
+      });
+    });
+    it('after scene and camera are replaced', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-renderer :scene="s" :camera="c"><vgl-scene name="s1" ref="s1" /><vgl-scene name="s2" ref="s2" /><vgl-perspective-camera name="c1" ref="c1" /><vgl-perspective-camera name="c2" ref="c2" /></vgl-renderer>',
+        components: { VglRenderer, VglScene, VglPerspectiveCamera },
+        data: { c: 'c1', s: 's1' },
+      }).$mount();
+      vm.$nextTick(() => {
+        vm.c = 'c2';
+        vm.s = 's2';
+        after10ticks(vm, () => {
+          try {
+            expect(renderHistory).to.have.lengthOf(2);
+            expect(renderHistory[0]).to.have.property('scene', vm.$refs.s1.inst);
+            expect(renderHistory[0]).to.have.property('camera', vm.$refs.c1.inst);
+            expect(renderHistory[1]).to.have.property('scene', vm.$refs.s2.inst);
+            expect(renderHistory[1]).to.have.property('camera', vm.$refs.c2.inst);
+            done();
+          } catch (e) {
+            done(e);
+          }
+        });
+      });
+    });
+    it('after scene emits an update event', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-renderer scene="s" camera="c"><vgl-scene name="s" ref="s" :position="position" /><vgl-perspective-camera name="c" ref="c" /></vgl-renderer>',
+        components: { VglRenderer, VglScene, VglPerspectiveCamera },
+        data: { position: '0 0 0' },
+      }).$mount();
+      vm.$nextTick(() => {
+        vm.position = '1 1 1';
+        after10ticks(vm, () => {
+          try {
+            expect(renderHistory).to.have.lengthOf(2);
+            expect(renderHistory[0]).to.have.property('scene', vm.$refs.s.inst);
+            expect(renderHistory[0]).to.have.property('camera', vm.$refs.c.inst);
+            expect(renderHistory[1]).to.have.property('scene', vm.$refs.s.inst);
+            expect(renderHistory[1]).to.have.property('camera', vm.$refs.c.inst);
+            done();
+          } catch (e) {
+            done(e);
+          }
+        });
+      });
+    });
+    it('after camera emits an update event', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-renderer scene="s" camera="c"><vgl-scene name="s" ref="s" /><vgl-perspective-camera name="c" ref="c" :fov="fov" /></vgl-renderer>',
+        components: { VglRenderer, VglScene, VglPerspectiveCamera },
+        data: { fov: 30 },
+      }).$mount();
+      vm.$nextTick(() => {
+        vm.fov = 40;
+        after10ticks(vm, () => {
+          try {
+            expect(renderHistory).to.have.lengthOf(2);
+            expect(renderHistory[0]).to.have.property('scene', vm.$refs.s.inst);
+            expect(renderHistory[0]).to.have.property('camera', vm.$refs.c.inst);
+            expect(renderHistory[1]).to.have.property('scene', vm.$refs.s.inst);
+            expect(renderHistory[1]).to.have.property('camera', vm.$refs.c.inst);
+            done();
+          } catch (e) {
+            done(e);
+          }
+        });
+      });
+    });
+    it('after scene is replaced then new scene emits an update event', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-renderer :scene="s" camera="c"><vgl-scene name="s1" ref="s1" /><vgl-scene name="s2" ref="s2" :position="position" /><vgl-perspective-camera name="c" ref="c" /></vgl-renderer>',
+        components: { VglRenderer, VglScene, VglPerspectiveCamera },
+        data: { s: 's1', position: '0 0 0' },
+      }).$mount();
+      vm.$nextTick(() => {
+        vm.s = 's2';
+        vm.$nextTick(() => {
+          vm.position = '1 1 1';
+          after10ticks(vm, () => {
+            try {
+              expect(renderHistory).to.have.lengthOf(3);
+              expect(renderHistory[0]).to.have.property('scene', vm.$refs.s1.inst);
+              expect(renderHistory[0]).to.have.property('camera', vm.$refs.c.inst);
+              expect(renderHistory[1]).to.have.property('scene', vm.$refs.s2.inst);
+              expect(renderHistory[1]).to.have.property('camera', vm.$refs.c.inst);
+              expect(renderHistory[2]).to.have.property('scene', vm.$refs.s2.inst);
+              expect(renderHistory[2]).to.have.property('camera', vm.$refs.c.inst);
+              done();
+            } catch (e) {
+              done(e);
+            }
+          });
+        });
+      });
+    });
+    it('after camera is replaced then new camera emits an update event', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-renderer scene="s" :camera="c"><vgl-scene name="s" ref="s" /><vgl-perspective-camera name="c1" ref="c1" /><vgl-perspective-camera name="c2" ref="c2" :fov="fov" /></vgl-renderer>',
+        components: { VglRenderer, VglScene, VglPerspectiveCamera },
+        data: { c: 'c1', fov: 35 },
+      }).$mount();
+      vm.$nextTick(() => {
+        vm.c = 'c2';
+        vm.$nextTick(() => {
+          vm.fov = 45;
+          after10ticks(vm, () => {
+            try {
+              expect(renderHistory).to.have.lengthOf(3);
+              expect(renderHistory[0]).to.have.property('scene', vm.$refs.s.inst);
+              expect(renderHistory[0]).to.have.property('camera', vm.$refs.c1.inst);
+              expect(renderHistory[1]).to.have.property('scene', vm.$refs.s.inst);
+              expect(renderHistory[1]).to.have.property('camera', vm.$refs.c2.inst);
+              expect(renderHistory[2]).to.have.property('scene', vm.$refs.s.inst);
+              expect(renderHistory[2]).to.have.property('camera', vm.$refs.c2.inst);
+              done();
+            } catch (e) {
+              done(e);
+            }
+          });
+        });
+      });
+    });
+    it('after scene is replaced then old scene emits an update event', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-renderer :scene="s" camera="c"><vgl-scene name="s1" ref="s1" /><vgl-scene name="s2" ref="s2" :position="position" /><vgl-perspective-camera name="c" ref="c" /></vgl-renderer>',
+        components: { VglRenderer, VglScene, VglPerspectiveCamera },
+        data: { s: 's2', position: '0 0 0' },
+      }).$mount();
+      vm.$nextTick(() => {
+        vm.s = 's1';
+        vm.$nextTick(() => {
+          vm.position = '1 1 1';
+          after10ticks(vm, () => {
+            try {
+              expect(renderHistory).to.have.lengthOf(2);
+              expect(renderHistory[0]).to.have.property('scene', vm.$refs.s2.inst);
+              expect(renderHistory[0]).to.have.property('camera', vm.$refs.c.inst);
+              expect(renderHistory[1]).to.have.property('scene', vm.$refs.s1.inst);
+              expect(renderHistory[1]).to.have.property('camera', vm.$refs.c.inst);
+              done();
+            } catch (e) {
+              done(e);
+            }
+          });
+        });
+      });
+    });
+    it('after camera is replaced then old camera emits an update event', function test(done) {
+      const vm = new Vue({
+        template: '<vgl-renderer scene="s" :camera="c"><vgl-scene name="s" ref="s" /><vgl-perspective-camera name="c1" ref="c1" /><vgl-perspective-camera name="c2" ref="c2" :fov="fov" /></vgl-renderer>',
+        components: { VglRenderer, VglScene, VglPerspectiveCamera },
+        data: { c: 'c2', fov: 40 },
+      }).$mount();
+      vm.$nextTick(() => {
+        vm.c = 'c1';
+        vm.$nextTick(() => {
+          vm.fov = 50;
+          after10ticks(vm, () => {
+            try {
+              expect(renderHistory).to.have.lengthOf(2);
+              expect(renderHistory[0]).to.have.property('scene', vm.$refs.s.inst);
+              expect(renderHistory[0]).to.have.property('camera', vm.$refs.c2.inst);
+              expect(renderHistory[1]).to.have.property('scene', vm.$refs.s.inst);
+              expect(renderHistory[1]).to.have.property('camera', vm.$refs.c1.inst);
+              done();
+            } catch (e) {
+              done(e);
+            }
+          });
+        });
+      });
+    });
+  });
 });

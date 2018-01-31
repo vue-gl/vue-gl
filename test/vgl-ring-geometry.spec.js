@@ -1,61 +1,78 @@
-describe("VglRingGeometry component", function() {
-    const {VglRingGeometry, VglNamespace} = VueGL;
-    const assert = chai.assert;
-    describe("Parameters of a instance should be same as the component properties.", function() {
-        it("When properties are number.", function() {
-            const vm = new Vue({
-                template: `<vgl-namespace><vgl-ring-geometry ref="geo" :innerRadius="18.5" :outerRadius="62.7" :thetaSegments="31" :phiSegments="13" :thetaStart="0.2" :thetaLength="3.8" /></vgl-namespace>`,
-                components: {VglRingGeometry, VglNamespace}
-            }).$mount();
-            assert.strictEqual(vm.$refs.geo.inst.parameters.innerRadius, 18.5);
-            assert.strictEqual(vm.$refs.geo.inst.parameters.outerRadius, 62.7);
-            assert.strictEqual(vm.$refs.geo.inst.parameters.thetaSegments, 31);
-            assert.strictEqual(vm.$refs.geo.inst.parameters.phiSegments, 13);
-            assert.strictEqual(vm.$refs.geo.inst.parameters.thetaStart, 0.2);
-            assert.strictEqual(vm.$refs.geo.inst.parameters.thetaLength, 3.8);
-        });
-        it("When properties are string.", function() {
-            const vm = new Vue({
-                template: `<vgl-namespace><vgl-ring-geometry ref="geo" innerRadius="19.5" outerRadius="63.7" thetaSegments="33" phiSegments="11" thetaStart="0.5" thetaLength="3.6" /></vgl-namespace>`,
-                components: {VglRingGeometry, VglNamespace}
-            }).$mount();
-            assert.strictEqual(vm.$refs.geo.inst.parameters.innerRadius, 19.5);
-            assert.strictEqual(vm.$refs.geo.inst.parameters.outerRadius, 63.7);
-            assert.strictEqual(vm.$refs.geo.inst.parameters.thetaSegments, 33);
-            assert.strictEqual(vm.$refs.geo.inst.parameters.phiSegments, 11);
-            assert.strictEqual(vm.$refs.geo.inst.parameters.thetaStart, 0.5);
-            assert.strictEqual(vm.$refs.geo.inst.parameters.thetaLength, 3.6);
-        });
-        it("When properties are undefined.", function() {
-            const vm = new Vue({
-                template: `<vgl-namespace><vgl-ring-geometry ref="geo" /></vgl-namespace>`,
-                components: {VglRingGeometry, VglNamespace}
-            }).$mount();
-            assert.isUndefined(vm.$refs.geo.inst.parameters.innerRadius);
-            assert.isUndefined(vm.$refs.geo.inst.parameters.outerRadius);
-            assert.isUndefined(vm.$refs.geo.inst.parameters.thetaSegments);
-            assert.isUndefined(vm.$refs.geo.inst.parameters.phiSegments);
-            assert.isUndefined(vm.$refs.geo.inst.parameters.thetaStart);
-            assert.isUndefined(vm.$refs.geo.inst.parameters.thetaLength);
-        });
+describe('VglRingGeometry:', function suite() {
+  const { VglRingGeometry, VglMesh, VglNamespace } = VueGL;
+  const { expect } = chai;
+  let updatedHistory;
+  const GeometryWatcher = {
+    mixins: [VglMesh],
+    created() {
+      this.vglObject3d.listeners.push(() => {
+        updatedHistory.push(this.inst.geometry.clone());
+      });
+    },
+  };
+  function after10ticks(vm, callback, count = 10) {
+    vm.$nextTick(count > 0 ? () => { after10ticks(vm, callback, count - 1); } : callback);
+  }
+  beforeEach(function hook(done) {
+    updatedHistory = [];
+    done();
+  });
+  it('without properties', function test(done) {
+    const vm = new Vue({
+      template: '<vgl-namespace><geometry-watcher geometry="abc1#2" /><vgl-ring-geometry name="abc1#2" /></vgl-namespace>',
+      components: { VglNamespace, VglRingGeometry, GeometryWatcher },
+    }).$mount();
+    after10ticks(vm, () => {
+      try {
+        expect(updatedHistory).to.have.lengthOf(1);
+        const actual = updatedHistory[0].vertices;
+        const expected = new THREE.RingGeometry().vertices;
+        expect(actual).to.have.deep.ordered.members(expected);
+        done();
+      } catch (e) {
+        done(e);
+      }
     });
-    describe("Instance should be recreated when a property changed.", function() {
-        it("When the width property changes.", function(done) {
-            const vm = new Vue({
-                template: `<vgl-namespace><vgl-ring-geometry ref="geo" :innerRadius="radius" /></vgl-namespace>`,
-                components: {VglRingGeometry, VglNamespace},
-                data: {radius: 0.5}
-            }).$mount();
-            const before = vm.$refs.geo.inst;
-            vm.radius = 1.03;
-            vm.$nextTick(() => {
-                try {
-                    assert.notEqual(before, vm.$refs.geo.inst);
-                    done();
-                } catch(e) {
-                    done(e);
-                }
-            });
-        });
+  });
+  it('with properties', function test(done) {
+    const vm = new Vue({
+      template: '<vgl-namespace><geometry-watcher geometry="abc1#2" /><vgl-ring-geometry name="abc1#2" inner-radius="22.24" outer-radius="35.01" theta-segments="5" phi-segments="7" theta-start="0.32" theta-length="2.2" /></vgl-namespace>',
+      components: { VglNamespace, VglRingGeometry, GeometryWatcher },
+    }).$mount();
+    after10ticks(vm, () => {
+      try {
+        expect(updatedHistory).to.have.lengthOf(1);
+        const actual = updatedHistory[0].vertices;
+        const expected = new THREE.RingGeometry(22.24, 35.01, 5, 7, 0.32, 2.2).vertices;
+        expect(actual).to.have.deep.ordered.members(expected);
+        done();
+      } catch (e) {
+        done(e);
+      }
     });
+  });
+  it('after innerRadius property is changed', function test(done) {
+    const vm = new Vue({
+      template: '<vgl-namespace><geometry-watcher geometry="abc1#2" /><vgl-ring-geometry name="abc1#2" :inner-radius="radius" /></vgl-namespace>',
+      components: { VglNamespace, VglRingGeometry, GeometryWatcher },
+      data: { radius: 6.1 },
+    }).$mount();
+    vm.$nextTick(() => {
+      vm.radius = 4.2;
+      after10ticks(vm, () => {
+        try {
+          expect(updatedHistory).to.have.lengthOf(2);
+          const actual1 = updatedHistory[0].vertices;
+          const expected1 = new THREE.RingGeometry(6.1).vertices;
+          expect(actual1).to.have.deep.ordered.members(expected1);
+          const actual2 = updatedHistory[1].vertices;
+          const expected2 = new THREE.RingGeometry(4.2).vertices;
+          expect(actual2).to.have.deep.ordered.members(expected2);
+          done();
+        } catch (e) {
+          done(e);
+        }
+      });
+    });
+  });
 });

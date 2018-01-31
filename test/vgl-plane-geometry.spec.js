@@ -1,55 +1,78 @@
-describe("VglPlaneGeometry component", function() {
-    const {VglPlaneGeometry, VglNamespace} = VueGL;
-    const assert = chai.assert;
-    describe("Parameters of a instance should be same as the component properties.", function() {
-        it("When properties are number.", function() {
-            const vm = new Vue({
-                template: `<vgl-namespace><vgl-plane-geometry ref="geo" :width="10" :height="6" :widthSegments="2" :heightSegments="3" /></vgl-namespace>`,
-                components: {VglPlaneGeometry, VglNamespace}
-            }).$mount();
-            assert.strictEqual(vm.$refs.geo.inst.parameters.width, 10);
-            assert.strictEqual(vm.$refs.geo.inst.parameters.height, 6);
-            assert.strictEqual(vm.$refs.geo.inst.parameters.widthSegments, 2);
-            assert.strictEqual(vm.$refs.geo.inst.parameters.heightSegments, 3);
-        });
-        it("When properties are string.", function() {
-            const vm = new Vue({
-                template: `<vgl-namespace><vgl-plane-geometry ref="geo" width="100" height="60" widthSegments="20" heightSegments="30" /></vgl-namespace>`,
-                components: {VglPlaneGeometry, VglNamespace}
-            }).$mount();
-            assert.strictEqual(vm.$refs.geo.inst.parameters.width, 100);
-            assert.strictEqual(vm.$refs.geo.inst.parameters.height, 60);
-            assert.strictEqual(vm.$refs.geo.inst.parameters.widthSegments, 20);
-            assert.strictEqual(vm.$refs.geo.inst.parameters.heightSegments, 30);
-        });
-        it("When segment numbers are undefined.", function() {
-            const vm = new Vue({
-                template: `<vgl-namespace><vgl-plane-geometry ref="geo" :width="1.5" :height="6.2" /></vgl-namespace>`,
-                components: {VglPlaneGeometry, VglNamespace}
-            }).$mount();
-            assert.strictEqual(vm.$refs.geo.inst.parameters.width, 1.5);
-            assert.strictEqual(vm.$refs.geo.inst.parameters.height, 6.2);
-            assert.isUndefined(vm.$refs.geo.inst.parameters.widthSegments);
-            assert.isUndefined(vm.$refs.geo.inst.parameters.heightSegments);
-        });
+describe('VglPlaneGeometry:', function suite() {
+  const { VglPlaneGeometry, VglMesh, VglNamespace } = VueGL;
+  const { expect } = chai;
+  let updatedHistory;
+  const GeometryWatcher = {
+    mixins: [VglMesh],
+    created() {
+      this.vglObject3d.listeners.push(() => {
+        updatedHistory.push(this.inst.geometry.clone());
+      });
+    },
+  };
+  function after10ticks(vm, callback, count = 10) {
+    vm.$nextTick(count > 0 ? () => { after10ticks(vm, callback, count - 1); } : callback);
+  }
+  beforeEach(function hook(done) {
+    updatedHistory = [];
+    done();
+  });
+  it('without properties', function test(done) {
+    const vm = new Vue({
+      template: '<vgl-namespace><geometry-watcher geometry="abc1#2" /><vgl-plane-geometry name="abc1#2" /></vgl-namespace>',
+      components: { VglNamespace, VglPlaneGeometry, GeometryWatcher },
+    }).$mount();
+    after10ticks(vm, () => {
+      try {
+        expect(updatedHistory).to.have.lengthOf(1);
+        const actual = updatedHistory[0].vertices;
+        const expected = new THREE.PlaneGeometry().vertices;
+        expect(actual).to.have.deep.ordered.members(expected);
+        done();
+      } catch (e) {
+        done(e);
+      }
     });
-    describe("Instance should be recreated when a property changed.", function() {
-        it("When the width property changes.", function(done) {
-            const vm = new Vue({
-                template: `<vgl-namespace><vgl-plane-geometry ref="geo" :width="width" height="3" /></vgl-namespace>`,
-                components: {VglPlaneGeometry, VglNamespace},
-                data: {width: 25}
-            }).$mount();
-            const before = vm.$refs.geo.inst;
-            vm.width = 11;
-            vm.$nextTick(() => {
-                try {
-                    assert.notEqual(before, vm.$refs.geo.inst);
-                    done();
-                } catch(e) {
-                    done(e);
-                }
-            });
-        });
+  });
+  it('with properties', function test(done) {
+    const vm = new Vue({
+      template: '<vgl-namespace><geometry-watcher geometry="abc1#2" /><vgl-plane-geometry name="abc1#2" width="22.24" height="15" width-segments="3" height-segments="2" /></vgl-namespace>',
+      components: { VglNamespace, VglPlaneGeometry, GeometryWatcher },
+    }).$mount();
+    after10ticks(vm, () => {
+      try {
+        expect(updatedHistory).to.have.lengthOf(1);
+        const actual = updatedHistory[0].vertices;
+        const expected = new THREE.PlaneGeometry(22.24, 15, 3, 2).vertices;
+        expect(actual).to.have.deep.ordered.members(expected);
+        done();
+      } catch (e) {
+        done(e);
+      }
     });
+  });
+  it('after width property is changed', function test(done) {
+    const vm = new Vue({
+      template: '<vgl-namespace><geometry-watcher geometry="abc1#2" /><vgl-plane-geometry name="abc1#2" :width="width" /></vgl-namespace>',
+      components: { VglNamespace, VglPlaneGeometry, GeometryWatcher },
+      data: { width: 6.1 },
+    }).$mount();
+    vm.$nextTick(() => {
+      vm.width = 4.2;
+      after10ticks(vm, () => {
+        try {
+          expect(updatedHistory).to.have.lengthOf(2);
+          const actual1 = updatedHistory[0].vertices;
+          const expected1 = new THREE.PlaneGeometry(6.1).vertices;
+          expect(actual1).to.have.deep.ordered.members(expected1);
+          const actual2 = updatedHistory[1].vertices;
+          const expected2 = new THREE.PlaneGeometry(4.2).vertices;
+          expect(actual2).to.have.deep.ordered.members(expected2);
+          done();
+        } catch (e) {
+          done(e);
+        }
+      });
+    });
+  });
 });

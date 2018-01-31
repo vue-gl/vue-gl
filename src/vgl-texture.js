@@ -1,23 +1,36 @@
-import {assetFactory} from "./mixins.js";
-import {TextureLoader} from "./three.js";
-import {validatePropString} from "./utils.js";
+import { VglMinimumRenderer } from './mixins.js';
+import { TextureLoader } from './three.js';
+import { string } from './constructor-arrays.js';
 
 export default {
-    mixins: [assetFactory(null, "vglTextures")],
-    props: {
-        src: validatePropString
+  mixins: [VglMinimumRenderer],
+  inject: ['vglNamespace'],
+  props: {
+    src: string,
+    name: string,
+  },
+  computed: {
+    inst() {
+      return new TextureLoader().load(this.src);
     },
-    data() {
-        return {inst: null};
+  },
+  watch: {
+    inst: {
+      handler(inst) {
+        this.$set(this.vglNamespace.textures, this.name, inst);
+      },
+      immediate: true,
     },
-    watch: {
-        src: {
-            handler(src) {
-                new TextureLoader().load(src, (texture) => {
-                    this.inst = texture;
-                });
-            },
-            immediate: true
-        }
+    name(name, oldName) {
+      if (this.vglNamespace.textures[oldName] === this.inst) {
+        this.$delete(this.vglNamespace.textures, oldName);
+      }
+      this.$set(this.vglNamespace.textures, name, this.inst);
+    },
+  },
+  beforeDestroy() {
+    if (this.vglNamespace.textures[this.name] === this.inst) {
+      this.$delete(this.vglNamespace.textures, this.name);
     }
+  },
 };

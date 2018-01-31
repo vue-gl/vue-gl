@@ -1,48 +1,93 @@
-/* global chai Vue VueGL */
-
-describe("VglSpriteMaterial component", function() {
-    const {VglSpriteMaterial, VglNamespace} = VueGL;
-    const assert = chai.assert;
-    describe("Creating a material", function() {
-        describe("The color of the material should be same as the color property.", function() {
-            it("When the property is undefined.", function() {
-                const vm = new Vue({
-                    template: `<vgl-namespace><vgl-sprite-material ref="mat" /></vgl-namespace>`,
-                    components: {VglSpriteMaterial, VglNamespace}
-                }).$mount();
-                assert.strictEqual(vm.$refs.mat.inst.color.r, 255/255);
-                assert.strictEqual(vm.$refs.mat.inst.color.g, 255/255);
-                assert.strictEqual(vm.$refs.mat.inst.color.b, 255/255);
-            });
-            it("When the property is a color name.", function() {
-                const vm = new Vue({
-                    template: `<vgl-namespace><vgl-sprite-material color="orangered" ref="mat" /></vgl-namespace>`,
-                    components: {VglSpriteMaterial, VglNamespace}
-                }).$mount();
-                assert.strictEqual(vm.$refs.mat.inst.color.r, 255/255);
-                assert.strictEqual(vm.$refs.mat.inst.color.g, 69/255);
-                assert.strictEqual(vm.$refs.mat.inst.color.b, 0/255);
-            });
-        });
+describe('VglSpriteMaterial:', function suite() {
+  const { VglSpriteMaterial, VglSprite, VglNamespace } = VueGL;
+  const { expect } = chai;
+  let updatedHistory;
+  const MaterialWatcher = {
+    mixins: [VglSprite],
+    created() {
+      this.vglObject3d.listeners.push(() => {
+        updatedHistory.push(this.inst.material.clone());
+      });
+    },
+  };
+  function after10ticks(vm, callback, count = 10) {
+    vm.$nextTick(count > 0 ? () => { after10ticks(vm, callback, count - 1); } : callback);
+  }
+  beforeEach(function hook(done) {
+    updatedHistory = [];
+    done();
+  });
+  it('default', function test(done) {
+    const vm = new Vue({
+      template: '<vgl-namespace><material-watcher material="abc1#2" /><vgl-sprite-material name="abc1#2" /></vgl-namespace>',
+      components: { VglNamespace, VglSpriteMaterial, MaterialWatcher },
+    }).$mount();
+    after10ticks(vm, () => {
+      try {
+        expect(updatedHistory).to.have.lengthOf(1);
+        expect(updatedHistory[0]).to.have.property('type', 'SpriteMaterial');
+        expect(updatedHistory[0].color.equals(new THREE.SpriteMaterial().color)).to.equal(true);
+        expect(updatedHistory[0]).to.have.property('lights', new THREE.SpriteMaterial().lights);
+        expect(updatedHistory[0]).to.have.property('fog', new THREE.SpriteMaterial().fog);
+        expect(updatedHistory[0]).to.have.property('rotation', new THREE.SpriteMaterial().rotation);
+        expect(updatedHistory[0]).to.have.property('map', new THREE.SpriteMaterial().map);
+        done();
+      } catch (e) {
+        done(e);
+      }
     });
-    describe("Watching property", function() {
-        it("The color of the material should change when the color property changes.", function(done) {
-            const vm = new Vue({
-                template: `<vgl-namespace><vgl-sprite-material :color="color" ref="mat" /></vgl-namespace>`,
-                components: {VglSpriteMaterial, VglNamespace},
-                data: {color: "orangered"}
-            }).$mount();
-            vm.color = "#fff5ee";
-            vm.$nextTick(() => {
-                try {
-                    assert.strictEqual(vm.$refs.mat.inst.color.r, 255/255);
-                    assert.strictEqual(vm.$refs.mat.inst.color.g, 245/255);
-                    assert.strictEqual(vm.$refs.mat.inst.color.b, 238/255);
-                    done();
-                } catch(e) {
-                    done(e);
-                }
-            });
-        });
+  });
+  it('with color property', function test(done) {
+    const vm = new Vue({
+      template: '<vgl-namespace><material-watcher material="abc1#2" /><vgl-sprite-material name="abc1#2" color="#3499f0" /></vgl-namespace>',
+      components: { VglNamespace, VglSpriteMaterial, MaterialWatcher },
+    }).$mount();
+    after10ticks(vm, () => {
+      try {
+        expect(updatedHistory).to.have.lengthOf(1);
+        const expected = new THREE.SpriteMaterial({ color: 0x3499f0 });
+        expect(updatedHistory[0]).to.have.property('type', expected.type);
+        expect(updatedHistory[0].color.equals(expected.color)).to.equal(true);
+        expect(updatedHistory[0]).to.have.property('lights', expected.lights);
+        expect(updatedHistory[0]).to.have.property('fog', expected.fog);
+        expect(updatedHistory[0]).to.have.property('rotation', expected.rotation);
+        expect(updatedHistory[0]).to.have.property('map', expected.map);
+        done();
+      } catch (e) {
+        done(e);
+      }
     });
+  });
+  it('after color property is changed', function test(done) {
+    const vm = new Vue({
+      template: '<vgl-namespace><material-watcher material="abc1#2" /><vgl-sprite-material name="abc1#2" :color="color" /></vgl-namespace>',
+      components: { VglNamespace, VglSpriteMaterial, MaterialWatcher },
+      data: { color: '#3499f0' },
+    }).$mount();
+    vm.$nextTick(() => {
+      vm.color = '#18e35b';
+      after10ticks(vm, () => {
+        try {
+          expect(updatedHistory).to.have.lengthOf(2);
+          const expected1 = new THREE.SpriteMaterial({ color: 0x3499f0 });
+          expect(updatedHistory[0]).to.have.property('type', expected1.type);
+          expect(updatedHistory[0].color.equals(expected1.color)).to.equal(true);
+          expect(updatedHistory[0]).to.have.property('lights', expected1.lights);
+          expect(updatedHistory[0]).to.have.property('fog', expected1.fog);
+          expect(updatedHistory[0]).to.have.property('rotation', expected1.rotation);
+          expect(updatedHistory[0]).to.have.property('map', expected1.map);
+          const expected2 = new THREE.SpriteMaterial({ color: 0x18e35b });
+          expect(updatedHistory[1]).to.have.property('type', expected2.type);
+          expect(updatedHistory[1].color.equals(expected2.color)).to.equal(true);
+          expect(updatedHistory[1]).to.have.property('lights', expected2.lights);
+          expect(updatedHistory[1]).to.have.property('fog', expected2.fog);
+          expect(updatedHistory[1]).to.have.property('rotation', expected2.rotation);
+          expect(updatedHistory[1]).to.have.property('map', expected2.map);
+          done();
+        } catch (e) {
+          done(e);
+        }
+      });
+    });
+  });
 });

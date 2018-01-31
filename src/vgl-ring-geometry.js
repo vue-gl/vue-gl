@@ -1,24 +1,27 @@
-import VglGeometry from "./vgl-geometry.js";
-import {RingGeometry} from "./three.js";
-import {parseFloat_, parseInt_, createObjectFromArray} from "./utils.js";
-
-const validator = [String, Number];
-
-const props = [
-    "innerRadius",
-    "outerRadius",
-    "thetaSegments",
-    "phiSegments",
-    "thetaStart",
-    "thetaLength"
-];
+import VglGeometry from './vgl-geometry.js';
+import { RingGeometry } from './three.js';
+import { number } from './constructor-arrays.js';
 
 export default {
-    mixins: [VglGeometry],
-    props: createObjectFromArray(props, () => validator),
-    computed: {
-        inst() {
-            return new RingGeometry(...props.map((key, i) => (i < 2 || i > 3 ? parseFloat_: parseInt_)(this[key])));
-        }
-    }
+  mixins: [VglGeometry],
+  props: {
+    innerRadius: { type: number, default: 0.5 },
+    outerRadius: { type: number, default: 1 },
+    thetaSegments: { type: number, default: 8 },
+    phiSegments: { type: number, default: 1 },
+    thetaStart: { type: number, default: 0 },
+    thetaLength: { type: number, default: Math.PI * 2 },
+  },
+  computed: {
+    inst() {
+      return new RingGeometry(
+        parseFloat(this.innerRadius),
+        parseFloat(this.outerRadius),
+        parseInt(this.thetaSegments, 10),
+        parseInt(this.phiSegments, 10),
+        parseFloat(this.thetaStart),
+        parseFloat(this.thetaLength),
+      );
+    },
+  },
 };

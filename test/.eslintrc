@@ -1,0 +1,30 @@
+{
+  "env": {
+    "mocha": true,
+  },
+  "globals": {
+    "chai": false,
+    "THREE": false,
+    "Vue": false,
+    "VueGL": false,
+  },
+  "plugins": [
+    "mocha",
+  ],
+  "rules": {
+    "mocha/no-mocha-arrows": 2,
+    "prefer-arrow-callback": [2, { "allowNamedFunctions": true }],
+    "mocha/handle-done-callback": 2,
+    "mocha/max-top-level-suites": 2,
+    "mocha/no-exclusive-tests": 1,
+    "mocha/no-global-tests": 2,
+    "mocha/no-identical-title": 2,
+    "mocha/no-nested-tests": 2,
+    "mocha/no-pending-tests": 1,
+    "mocha/no-return-and-callback": 2,
+    "mocha/no-sibling-hooks": 2,
+    "mocha/no-skipped-tests": 1,
+    "mocha/no-top-level-hooks": 2,
+    "mocha/no-synchronous-tests": 2,
+  },
+}

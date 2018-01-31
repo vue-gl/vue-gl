@@ -1,5 +1,5 @@
-describe('VglGridHelper:', function suite() {
-  const { VglGridHelper, VglObject3d, VglNamespace } = VueGL;
+describe('VglPolarGridHelper:', function suite() {
+  const { VglPolarGridHelper, VglObject3d, VglNamespace } = VueGL;
   const { expect } = chai;
   let updatedHistory;
   const ObjectWatcher = {
@@ -19,15 +19,15 @@ describe('VglGridHelper:', function suite() {
   });
   it('default', function test(done) {
     const vm = new Vue({
-      template: '<object-watcher><vgl-grid-helper /></object-watcher>',
-      components: { VglGridHelper, ObjectWatcher },
+      template: '<object-watcher><vgl-polar-grid-helper /></object-watcher>',
+      components: { VglPolarGridHelper, ObjectWatcher },
     }).$mount();
     after10ticks(vm, () => {
       try {
         expect(updatedHistory).to.have.lengthOf(1);
         expect(updatedHistory[0].children).to.have.lengthOf(1);
         const [actual] = updatedHistory[0].children;
-        const expected = new THREE.GridHelper();
+        const expected = new THREE.PolarGridHelper();
         expect(actual).to.have.property('type', expected.type);
         expect(actual.position.equals(expected.position)).to.equal(true);
         expect(actual.quaternion.equals(expected.quaternion)).to.equal(true);
@@ -50,15 +50,15 @@ describe('VglGridHelper:', function suite() {
   });
   it('with properties', function test(done) {
     const vm = new Vue({
-      template: '<object-watcher><vgl-grid-helper size="2.7" divisions="21" color-center-line="green" color-grid="red" /></object-watcher>',
-      components: { VglGridHelper, ObjectWatcher },
+      template: '<object-watcher><vgl-polar-grid-helper radius="27.21" radials="11" circles="11" divisions="32" color1="#aa823f" color2="#f3dae2" /></object-watcher>',
+      components: { VglPolarGridHelper, ObjectWatcher },
     }).$mount();
     after10ticks(vm, () => {
       try {
         expect(updatedHistory).to.have.lengthOf(1);
         expect(updatedHistory[0].children).to.have.lengthOf(1);
         const [actual] = updatedHistory[0].children;
-        const expected = new THREE.GridHelper(2.7, 21, 'green', 'red');
+        const expected = new THREE.PolarGridHelper(27.21, 11, 11, 32, 0xaa823f, 0xf3dae2);
         expect(actual).to.have.property('type', expected.type);
         expect(actual.position.equals(expected.position)).to.equal(true);
         expect(actual.quaternion.equals(expected.quaternion)).to.equal(true);
@@ -79,20 +79,21 @@ describe('VglGridHelper:', function suite() {
       }
     });
   });
-  it('after size property is changed', function test(done) {
+  it('after radius property is changed', function test(done) {
     const vm = new Vue({
-      template: '<object-watcher><vgl-grid-helper :size="size" /></object-watcher>',
-      components: { VglGridHelper, ObjectWatcher },
-      data: { size: 1.3 },
+      template: '<object-watcher :renderer="renderer" :camera="camera"><vgl-polar-grid-helper :radius="radius" /></object-watcher>',
+      components: { VglPolarGridHelper, ObjectWatcher },
+      computed: { renderer: () => this.renderer, camera: () => this.camera },
+      data: { radius: '10.3' },
     }).$mount();
     vm.$nextTick(() => {
-      vm.size = 1.7;
+      vm.radius = '13.7';
       after10ticks(vm, () => {
         try {
           expect(updatedHistory).to.have.lengthOf(2);
           expect(updatedHistory[1].children).to.have.lengthOf(1);
           const [actual] = updatedHistory[1].children;
-          const expected = new THREE.GridHelper(1.7);
+          const expected = new THREE.PolarGridHelper(13.7);
           expect(actual).to.have.property('type', expected.type);
           expect(actual.position.equals(expected.position)).to.equal(true);
           expect(actual.quaternion.equals(expected.quaternion)).to.equal(true);

@@ -1,60 +1,117 @@
-describe("VglAxesHelper component", function() {
-    const {VglAxesHelper, VglNamespace} = VueGL;
-    const assert = chai.assert;
-    describe("Creating an object", function() {
-        describe("The size of axes should be same as the size property.", function() {
-            it("When the property is a number", function() {
-                const vm = new Vue({
-                    template: `<vgl-namespace><vgl-axes-helper :size="3.8" ref="helper" /></vgl-namespace>`,
-                    components: {VglAxesHelper, VglNamespace}
-                }).$mount();
-                vm.$refs.helper.inst.geometry.computeBoundingBox();
-                const size = vm.$refs.helper.inst.geometry.boundingBox.getSize();
-                assert.closeTo(size.x, 3.8, 1e-6);
-                assert.closeTo(size.y, 3.8, 1e-6);
-                assert.closeTo(size.z, 3.8, 1e-6);
-            });
-            it("When the property is a string", function() {
-                const vm = new Vue({
-                    template: `<vgl-namespace><vgl-axes-helper size="4.3" ref="helper" /></vgl-namespace>`,
-                    components: {VglAxesHelper, VglNamespace}
-                }).$mount();
-                vm.$refs.helper.inst.geometry.computeBoundingBox();
-                const size = vm.$refs.helper.inst.geometry.boundingBox.getSize();
-                assert.closeTo(size.x, 4.3, 1e-6);
-                assert.closeTo(size.y, 4.3, 1e-6);
-                assert.closeTo(size.z, 4.3, 1e-6);
-            });
-            it("When the property is undefined", function() {
-                const vm = new Vue({
-                    template: `<vgl-namespace><vgl-axes-helper ref="helper" /></vgl-namespace>`,
-                    components: {VglAxesHelper, VglNamespace}
-                }).$mount();
-                vm.$refs.helper.inst.geometry.computeBoundingBox();
-                const size = vm.$refs.helper.inst.geometry.boundingBox.getSize();
-                assert.closeTo(size.x, 1, 1e-6);
-                assert.closeTo(size.y, 1, 1e-6);
-                assert.closeTo(size.z, 1, 1e-6);
-            });
-        });
+describe('VglAxesHelper:', function suite() {
+  const { VglAxesHelper, VglObject3d, VglNamespace } = VueGL;
+  const { expect } = chai;
+  let updatedHistory;
+  const ObjectWatcher = {
+    mixins: [VglObject3d, VglNamespace],
+    created() {
+      this.vglObject3d.listeners.push(() => {
+        updatedHistory.push(this.inst);
+      });
+    },
+  };
+  function after10ticks(vm, callback, count = 10) {
+    vm.$nextTick(count > 0 ? () => { after10ticks(vm, callback, count - 1); } : callback);
+  }
+  beforeEach(function hook(done) {
+    updatedHistory = [];
+    done();
+  });
+  it('default', function test(done) {
+    const vm = new Vue({
+      template: '<object-watcher><vgl-axes-helper /></object-watcher>',
+      components: { VglAxesHelper, ObjectWatcher },
+    }).$mount();
+    after10ticks(vm, () => {
+      try {
+        expect(updatedHistory).to.have.lengthOf(1);
+        expect(updatedHistory[0].children).to.have.lengthOf(1);
+        const [actual] = updatedHistory[0].children;
+        const expected = new THREE.AxesHelper();
+        expect(actual).to.have.property('type', expected.type);
+        expect(actual.position.equals(expected.position)).to.equal(true);
+        expect(actual.quaternion.equals(expected.quaternion)).to.equal(true);
+        expect(actual.scale.equals(expected.scale)).to.equal(true);
+        const actualPositionAttributes = actual.geometry.getAttribute('position');
+        const actualPositionArray = [].slice.call(actualPositionAttributes.array, 0);
+        const expectedPositionAttributes = expected.geometry.getAttribute('position');
+        const expectedPositionArray = [].slice.call(expectedPositionAttributes.array, 0);
+        expect(actualPositionArray).to.have.ordered.members(expectedPositionArray);
+        const actualColorAttributes = actual.geometry.getAttribute('color');
+        const actualColorArray = [].slice.call(actualColorAttributes.array, 0);
+        const expectedColorAttributes = expected.geometry.getAttribute('color');
+        const expectedColorArray = [].slice.call(expectedColorAttributes.array, 0);
+        expect(actualColorArray).to.have.ordered.members(expectedColorArray);
+        done();
+      } catch (e) {
+        done(e);
+      }
     });
-    describe("Watching properties", function() {
-        it("The instance should be recreated when a property changes.", function(done) {
-            const vm = new Vue({
-                template: `<vgl-namespace><vgl-axes-helper :size="size" ref="helper" /></vgl-namespace>`,
-                components: {VglAxesHelper, VglNamespace},
-                data: {size: 1.1}
-            }).$mount();
-            const before = vm.$refs.helper.inst;
-            vm.size = 1.5;
-            vm.$nextTick(() => {
-                try {
-                    assert.notEqual(before, vm.$refs.helper.inst);
-                    done();
-                } catch(e) {
-                    done(e);
-                }
-            });
-        });
+  });
+  it('with size property', function test(done) {
+    const vm = new Vue({
+      template: '<object-watcher><vgl-axes-helper size="2.7" /></object-watcher>',
+      components: { VglAxesHelper, ObjectWatcher },
+    }).$mount();
+    after10ticks(vm, () => {
+      try {
+        expect(updatedHistory).to.have.lengthOf(1);
+        expect(updatedHistory[0].children).to.have.lengthOf(1);
+        const [actual] = updatedHistory[0].children;
+        const expected = new THREE.AxesHelper(2.7);
+        expect(actual).to.have.property('type', expected.type);
+        expect(actual.position.equals(expected.position)).to.equal(true);
+        expect(actual.quaternion.equals(expected.quaternion)).to.equal(true);
+        expect(actual.scale.equals(expected.scale)).to.equal(true);
+        const actualPositionAttributes = actual.geometry.getAttribute('position');
+        const actualPositionArray = [].slice.call(actualPositionAttributes.array, 0);
+        const expectedPositionAttributes = expected.geometry.getAttribute('position');
+        const expectedPositionArray = [].slice.call(expectedPositionAttributes.array, 0);
+        expect(actualPositionArray).to.have.ordered.members(expectedPositionArray);
+        const actualColorAttributes = actual.geometry.getAttribute('color');
+        const actualColorArray = [].slice.call(actualColorAttributes.array, 0);
+        const expectedColorAttributes = expected.geometry.getAttribute('color');
+        const expectedColorArray = [].slice.call(expectedColorAttributes.array, 0);
+        expect(actualColorArray).to.have.ordered.members(expectedColorArray);
+        done();
+      } catch (e) {
+        done(e);
+      }
     });
+  });
+  it('after size property is changed', function test(done) {
+    const vm = new Vue({
+      template: '<object-watcher><vgl-axes-helper :size="size" /></object-watcher>',
+      components: { VglAxesHelper, ObjectWatcher },
+      data: { size: '1.3' },
+    }).$mount();
+    vm.$nextTick(() => {
+      vm.size = '1.7';
+      after10ticks(vm, () => {
+        try {
+          expect(updatedHistory).to.have.lengthOf(2);
+          expect(updatedHistory[1].children).to.have.lengthOf(1);
+          const [actual] = updatedHistory[1].children;
+          const expected = new THREE.AxesHelper(1.7);
+          expect(actual).to.have.property('type', expected.type);
+          expect(actual.position.equals(expected.position)).to.equal(true);
+          expect(actual.quaternion.equals(expected.quaternion)).to.equal(true);
+          expect(actual.scale.equals(expected.scale)).to.equal(true);
+          const actualPositionAttributes = actual.geometry.getAttribute('position');
+          const actualPositionArray = [].slice.call(actualPositionAttributes.array, 0);
+          const expectedPositionAttributes = expected.geometry.getAttribute('position');
+          const expectedPositionArray = [].slice.call(expectedPositionAttributes.array, 0);
+          expect(actualPositionArray).to.have.ordered.members(expectedPositionArray);
+          const actualColorAttributes = actual.geometry.getAttribute('color');
+          const actualColorArray = [].slice.call(actualColorAttributes.array, 0);
+          const expectedColorAttributes = expected.geometry.getAttribute('color');
+          const expectedColorArray = [].slice.call(expectedColorAttributes.array, 0);
+          expect(actualColorArray).to.have.ordered.members(expectedColorArray);
+          done();
+        } catch (e) {
+          done(e);
+        }
+      });
+    });
+  });
 });

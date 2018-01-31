@@ -1,36 +1,33 @@
-import VglLight from "./vgl-light.js";
-import {PointLight} from "./three.js";
-import {parseFloat_, validatePropNumber, update} from "./utils.js";
+import VglLight from './vgl-light.js';
+import { PointLight } from './three.js';
+import { number } from './constructor-arrays.js';
 
 export default {
-    mixins: [VglLight],
-    props: {
-        distance: {
-            type: validatePropNumber,
-            default: 0
-        },
-        decay: {
-            type: validatePropNumber,
-            default: 1
-        }
+  mixins: [VglLight],
+  props: {
+    distance: { type: number, default: 0 },
+    decay: { type: number, default: 1 },
+  },
+  computed: {
+    inst: () => new PointLight(),
+  },
+  watch: {
+    inst: {
+      handler(inst) {
+        Object.assign(inst, {
+          distance: parseFloat(this.distance),
+          decay: parseFloat(this.decay),
+        });
+      },
+      immediate: true,
     },
-    computed: {
-        inst: () => new PointLight()
+    distance(distance) {
+      Object.assign(this.inst, { distance: parseFloat(distance) });
+      this.vglObject3d.update();
     },
-    watch: {
-        distance: {
-            handler(distance) {
-                this.inst.distance = parseFloat_(distance);
-                update(this);
-            },
-            immediate: true
-        },
-        decay: {
-            handler(decay) {
-                this.inst.decay = parseFloat_(decay);
-                update(this);
-            },
-            immediate: true
-        }
-    }
+    decay(decay) {
+      Object.assign(this.inst, { decay: parseFloat(decay) });
+      this.vglObject3d.update();
+    },
+  },
 };

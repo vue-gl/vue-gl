@@ -82,7 +82,7 @@ When you open the html above in the browser, you'll see below.
   - [x] **[VglDirectionalLightHelper](src/vgl-directional-light-helper.js)** - Corresponding to [THREE.DirectionalLightHelper](https://threejs.org/docs/index.html#api/helpers/DirectionalLightHelper)
   - [ ] **[VglFaceNormalsHelper](src/vgl-face-normals-helper.js)** - Corresponding to [THREE.FaceNormalsHelper](https://threejs.org/docs/index.html#api/helpers/FaceNormalsHelper)
   - [x] **[VglGridHelper](src/vgl-grid-helper.js)** - Corresponding to [THREE.GridHelper](https://threejs.org/docs/index.html#api/helpers/GridHelper)
-  - [ ] **[VglPolarGridHelper](src/vgl-polar-grid-helper.js)** - Corresponding to [THREE.PolarGridHelper](https://threejs.org/docs/index.html#api/helpers/PolarGridHelper)
+  - [x] **[VglPolarGridHelper](src/vgl-polar-grid-helper.js)** - Corresponding to [THREE.PolarGridHelper](https://threejs.org/docs/index.html#api/helpers/PolarGridHelper)
   - [ ] **[VglHemisphereLightHelper](src/vgl-hemisphere-light-helper.js)** - Corresponding to [THREE.HemisphereLightHelper](https://threejs.org/docs/index.html#api/helpers/HemisphereLightHelper)
   - [ ] **[VglPointLightHelper](src/vgl-point-light-helper.js)** - Corresponding to [THREE.PointLightHelper](https://threejs.org/docs/index.html#api/helpers/PointLightHelper)
   - [ ] **[VglRectAreaLightHelper](src/vgl-rect-area-light-helper.js)** - Corresponding to [THREE.RectAreaLightHelper](https://threejs.org/docs/index.html#api/helpers/RectAreaLightHelper)
