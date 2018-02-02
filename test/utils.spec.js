@@ -121,51 +121,51 @@ describe("The Utils module", function() {
             });
         });
     });
-    describe("parseFloat_ function", function() {
-        const {parseFloat_} = VueGL.Utils;
+    describe("parseFloatEx function", function() {
+        const {parseFloatEx} = VueGL.Utils;
         describe("When the argument is a string", function() {
             it("Should return a parsed float number", function() {
-                assert.strictEqual(parseFloat_("62.285e3'a"), 62285);
+                assert.strictEqual(parseFloatEx("62.285e3'a"), 62285);
             });
         });
         describe("When the argument is a number", function() {
             it("Should return a number same as the argument", function() {
-                assert.strictEqual(parseFloat_(23.85), 23.85);
+                assert.strictEqual(parseFloatEx(23.85), 23.85);
             });
         });
         describe("When the argument is an undefined", function() {
             it("Should return an undefined", function() {
-                assert.isUndefined(parseFloat_(undefined));
+                assert.isUndefined(parseFloatEx(undefined));
             });
         });
         describe("When the argument is an Object", function() {
             it("Should return the argument directly", function() {
                 const arg = {};
-                assert.strictEqual(parseFloat_(arg), arg);
+                assert.strictEqual(parseFloatEx(arg), arg);
             });
         });
     });
-    describe("parseInt_ function", function() {
-        const {parseInt_} = VueGL.Utils;
+    describe("parseIntEx function", function() {
+        const {parseIntEx} = VueGL.Utils;
         describe("When the argument is a string", function() {
             it("Should return a parsed integer number", function() {
-                assert.strictEqual(parseInt_("62.285e3'a"), 62);
+                assert.strictEqual(parseIntEx("62.285e3'a"), 62);
             });
         });
         describe("When the argument is a number", function() {
             it("Should return a number same as the argument", function() {
-                assert.strictEqual(parseInt_(23.85), 23.85);
+                assert.strictEqual(parseIntEx(23.85), 23.85);
             });
         });
         describe("When the argument is an undefined", function() {
             it("Should return an undefined", function() {
-                assert.isUndefined(parseInt_(undefined));
+                assert.isUndefined(parseIntEx(undefined));
             });
         });
         describe("When the argument is an Object", function() {
             it("Should return the argument directly", function() {
                 const arg = {};
-                assert.strictEqual(parseInt_(arg), arg);
+                assert.strictEqual(parseIntEx(arg), arg);
             });
         });
     });
