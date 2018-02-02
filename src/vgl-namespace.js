@@ -1,72 +1,79 @@
-import {createObjectFromArray} from "./utils.js";
+import { createObjectFromArray } from './utils.js';
 
 const globalNamespaces = [
-    "vglCameras",
-    "vglScenes"
+  'vglCameras',
+  'vglScenes',
 ];
 
 const localNamespaces = [
-    "vglGeometries",
-    "vglMaterials",
-    "vglTextures",
-    "vglFonts"
+  'vglGeometries',
+  'vglMaterials',
+  'vglTextures',
+  'vglFonts',
 ];
 
 const namespaces = [...globalNamespaces, ...localNamespaces];
 
-const localDataNames = localNamespaces.map((key) => key + "_");
-const computedNames = localDataNames.map((key) => key + "_");
+const localDataNames = localNamespaces.map(key => `${key}_`);
+const computedNames = localDataNames.map(key => `${key}_`);
 
 function createEmptyObject() {
-    return Object.create(null);
+  return Object.create(null);
 }
 
 function createEmptyObjectsFromArray(arr, base) {
-    return createObjectFromArray(arr, () => createEmptyObject(), base);
+  return createObjectFromArray(arr, () => createEmptyObject(), base);
 }
 
 export default {
-    provide() {
-        const vm = this;
-        class LocalProvider {
-            constructor(index) {
-                this.i = index;
-            }
-            get forGet() {
-                return vm[computedNames[this.i]];
-            }
-            get forSet() {
-                return vm[localDataNames[this.i]];
-            }
-        }
-        class GlobalProvider {
-            constructor(index) {
-                this.i = index;
-            }
-            get forGet() {
-                return vm[globalNamespaces[this.i]];
-            }
-            get forSet() {
-                return vm[globalNamespaces[this.i]];
-            }
-        }
-        return createObjectFromArray(localNamespaces, (_, index) =>
-            new LocalProvider(index)
-        , vm.$data[globalNamespaces[0]] ? createObjectFromArray(globalNamespaces, (_, index) =>
-            new GlobalProvider(index)
-        ): {});
-    },
-    inject: createObjectFromArray(namespaces, (namespace) => ({
-        default: undefined
-    })),
-    data() {
-        return createEmptyObjectsFromArray(localDataNames, this[globalNamespaces[0]] ? {}: createEmptyObjectsFromArray(globalNamespaces));
-    },
-    computed: createObjectFromArray(computedNames, (_, index) => function() {
-        const name = localNamespaces[index], dataName = localDataNames[index];
-        return this[name] ? Object.assign(Object.create(this[name].forGet), this[dataName]): this[dataName];
-    }),
-    render(h) {
-        if (this.$slots.default) return h("div", this.$slots.default);
+  provide() {
+    const vm = this;
+    class LocalProvider {
+      constructor(index) {
+        this.i = index;
+      }
+      get forGet() {
+        return vm[computedNames[this.i]];
+      }
+      get forSet() {
+        return vm[localDataNames[this.i]];
+      }
     }
+    class GlobalProvider {
+      constructor(index) {
+        this.i = index;
+      }
+      get forGet() {
+        return vm[globalNamespaces[this.i]];
+      }
+      get forSet() {
+        return vm[globalNamespaces[this.i]];
+      }
+    }
+    return createObjectFromArray(
+      localNamespaces, (_, index) =>
+        new LocalProvider(index)
+      , vm.$data[globalNamespaces[0]] ? createObjectFromArray(globalNamespaces, (_, index) =>
+        new GlobalProvider(index)) : {},
+    );
+  },
+  inject: createObjectFromArray(namespaces, () => ({
+    default: undefined,
+  })),
+  data() {
+    const baseObj = this[globalNamespaces[0]] ? {} : createEmptyObjectsFromArray(globalNamespaces);
+    return createEmptyObjectsFromArray(localDataNames, baseObj);
+  },
+  computed: createObjectFromArray(computedNames, (_, index) => function eachHash() {
+    const name = localNamespaces[index];
+    const dataName = localDataNames[index];
+    if (this[name]) {
+      return Object.assign(Object.create(this[name].forGet), this[dataName]);
+    }
+    return this[dataName];
+  }),
+  render(h) {
+    if (this.$slots.default) return h('div', this.$slots.default);
+    return undefined;
+  },
 };

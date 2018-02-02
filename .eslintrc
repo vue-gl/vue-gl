@@ -1,0 +1,9 @@
+{
+  "extends": ["airbnb-base"],
+  "rules": {
+    "import/extensions": ["error", "ignorePackage"],
+  },
+  "env": {
+    "browser": true
+  },
+}
