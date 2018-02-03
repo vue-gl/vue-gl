@@ -216,7 +216,7 @@ describe('VglRenderer component', function component() {
                 } catch (e) {
                   done(e);
                 }
-              }, 0);
+              }, 200);
             });
           });
         });
@@ -356,7 +356,7 @@ describe('VglRenderer component', function component() {
               } catch (e) {
                 done(e);
               }
-            }, 0);
+            }, 200);
           });
         });
       });
@@ -400,10 +400,10 @@ describe('VglRenderer component', function component() {
                     } catch (e) {
                       done(e);
                     }
-                  });
+                  }, 200);
                 });
               });
-            }, 0);
+            }, 200);
           });
         });
       });
@@ -448,9 +448,9 @@ describe('VglRenderer component', function component() {
                   } catch (e) {
                     done(e);
                   }
-                });
+                }, 200);
               });
-            }, 0);
+            }, 200);
           });
         });
       });
