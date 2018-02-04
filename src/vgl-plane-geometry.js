@@ -1,23 +1,23 @@
 import VglGeometry from './vgl-geometry.js';
 import { PlaneGeometry } from './three.js';
-import { parseFloatEx, parseIntEx, createObjectFromArray } from './utils.js';
-
-const validator = [String, Number];
-
-const props = [
-  'width',
-  'height',
-  'widthSegments',
-  'heightSegments',
-];
+import { validatePropNumber } from './utils.js';
 
 export default {
   mixins: [VglGeometry],
-  props: createObjectFromArray(props, () => validator),
+  props: {
+    width: { type: validatePropNumber, default: 1 },
+    height: { type: validatePropNumber, default: 1 },
+    widthSegments: { type: validatePropNumber, default: 1 },
+    heightSegments: { type: validatePropNumber, default: 1 },
+  },
   computed: {
     inst() {
-      const opts = props.map((key, i) => (i > 1 ? parseIntEx : parseFloatEx)(this[key]));
-      return new PlaneGeometry(...opts);
+      return new PlaneGeometry(
+        parseFloat(this.width),
+        parseFloat(this.height),
+        parseInt(this.widthSegments, 10),
+        parseInt(this.heightSegments, 10),
+      );
     },
   },
 };
