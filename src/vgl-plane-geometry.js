@@ -1,5 +1,5 @@
 import VglGeometry from './vgl-geometry.js';
-import { PlaneGeometry } from './three.js';
+import { PlaneBufferGeometry } from './three.js';
 import { validatePropNumber } from './utils.js';
 
 export default {
@@ -12,7 +12,7 @@ export default {
   },
   computed: {
     inst() {
-      return new PlaneGeometry(
+      return new PlaneBufferGeometry(
         parseFloat(this.width),
         parseFloat(this.height),
         parseInt(this.widthSegments, 10),

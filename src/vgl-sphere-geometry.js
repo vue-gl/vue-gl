@@ -1,5 +1,5 @@
 import VglGeometry from './vgl-geometry.js';
-import { SphereGeometry } from './three.js';
+import { SphereBufferGeometry } from './three.js';
 import { validatePropNumber } from './utils.js';
 
 export default {
@@ -15,7 +15,7 @@ export default {
   },
   computed: {
     inst() {
-      return new SphereGeometry(
+      return new SphereBufferGeometry(
         parseFloat(this.radius),
         parseInt(this.widthSegments, 10),
         parseInt(this.heightSegments, 10),

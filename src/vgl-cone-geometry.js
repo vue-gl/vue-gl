@@ -1,5 +1,5 @@
 import VglCylinderGeometry from './vgl-cylinder-geometry.js';
-import { ConeGeometry } from './three.js';
+import { ConeBufferGeometry } from './three.js';
 import { validatePropNumber } from './utils.js';
 
 export default {
@@ -9,7 +9,7 @@ export default {
   },
   computed: {
     inst() {
-      return new ConeGeometry(
+      return new ConeBufferGeometry(
         parseFloat(this.radius),
         parseFloat(this.height),
         parseInt(this.radialSegments, 10),

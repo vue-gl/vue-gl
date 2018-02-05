@@ -1,5 +1,5 @@
 import VglGeometry from './vgl-geometry.js';
-import { CircleGeometry } from './three.js';
+import { CircleBufferGeometry } from './three.js';
 import { validatePropNumber } from './utils.js';
 
 export default {
@@ -12,7 +12,7 @@ export default {
   },
   computed: {
     inst() {
-      return new CircleGeometry(
+      return new CircleBufferGeometry(
         parseFloat(this.radius),
         parseInt(this.segments, 10),
         parseFloat(this.thetaStart),

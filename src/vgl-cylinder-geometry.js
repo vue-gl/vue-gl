@@ -1,5 +1,5 @@
 import VglGeometry from './vgl-geometry.js';
-import { CylinderGeometry } from './three.js';
+import { CylinderBufferGeometry } from './three.js';
 import { validatePropNumber } from './utils.js';
 
 export default {
@@ -16,7 +16,7 @@ export default {
   },
   computed: {
     inst() {
-      return new CylinderGeometry(
+      return new CylinderBufferGeometry(
         parseFloat(this.radiusTop),
         parseFloat(this.radiusBottom),
         parseFloat(this.height),

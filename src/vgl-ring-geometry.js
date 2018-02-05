@@ -1,5 +1,5 @@
 import VglGeometry from './vgl-geometry.js';
-import { RingGeometry } from './three.js';
+import { RingBufferGeometry } from './three.js';
 import { validatePropNumber } from './utils.js';
 
 export default {
@@ -14,7 +14,7 @@ export default {
   },
   computed: {
     inst() {
-      return new RingGeometry(
+      return new RingBufferGeometry(
         parseFloat(this.innerRadius),
         parseFloat(this.outerRadius),
         parseInt(this.thetaSegments, 10),

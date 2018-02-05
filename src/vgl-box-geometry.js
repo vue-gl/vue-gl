@@ -1,5 +1,5 @@
 import VglGeometry from './vgl-geometry.js';
-import { BoxGeometry } from './three.js';
+import { BoxBufferGeometry } from './three.js';
 import { validatePropNumber } from './utils.js';
 
 export default {
@@ -14,7 +14,7 @@ export default {
   },
   computed: {
     inst() {
-      return new BoxGeometry(
+      return new BoxBufferGeometry(
         parseFloat(this.width),
         parseFloat(this.height),
         parseFloat(this.depth),

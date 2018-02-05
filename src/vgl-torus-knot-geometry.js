@@ -1,5 +1,5 @@
 import VglGeometry from './vgl-geometry.js';
-import { TorusKnotGeometry } from './three.js';
+import { TorusKnotBufferGeometry } from './three.js';
 import { validatePropNumber } from './utils.js';
 
 export default {
@@ -14,7 +14,7 @@ export default {
   },
   computed: {
     inst() {
-      return new TorusKnotGeometry(
+      return new TorusKnotBufferGeometry(
         parseFloat(this.radius),
         parseFloat(this.tube),
         parseInt(this.tubularSegments, 10),
