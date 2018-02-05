@@ -1,59 +1,100 @@
-describe('VglRingGeometry component', function component() {
+describe('VglRingGeometry:', function suite() {
   const { VglRingGeometry, VglNamespace } = VueGL;
-  const { assert } = chai;
-  describe('Parameters of a instance should be same as the component properties.', function suite() {
-    it('When properties are number.', function test(done) {
-      const vm = new Vue({
-        template: '<vgl-namespace><vgl-ring-geometry ref="geo" :innerRadius="18.5" :outerRadius="62.7" :thetaSegments="31" :phiSegments="13" :thetaStart="0.2" :thetaLength="3.8" /></vgl-namespace>',
-        components: { VglRingGeometry, VglNamespace },
-      }).$mount();
-      assert.strictEqual(vm.$refs.geo.inst.parameters.innerRadius, 18.5);
-      assert.strictEqual(vm.$refs.geo.inst.parameters.outerRadius, 62.7);
-      assert.strictEqual(vm.$refs.geo.inst.parameters.thetaSegments, 31);
-      assert.strictEqual(vm.$refs.geo.inst.parameters.phiSegments, 13);
-      assert.strictEqual(vm.$refs.geo.inst.parameters.thetaStart, 0.2);
-      assert.strictEqual(vm.$refs.geo.inst.parameters.thetaLength, 3.8);
-      done();
-    });
-    it('When properties are string.', function test(done) {
-      const vm = new Vue({
-        template: '<vgl-namespace><vgl-ring-geometry ref="geo" innerRadius="19.5" outerRadius="63.7" thetaSegments="33" phiSegments="11" thetaStart="0.5" thetaLength="3.6" /></vgl-namespace>',
-        components: { VglRingGeometry, VglNamespace },
-      }).$mount();
-      assert.strictEqual(vm.$refs.geo.inst.parameters.innerRadius, 19.5);
-      assert.strictEqual(vm.$refs.geo.inst.parameters.outerRadius, 63.7);
-      assert.strictEqual(vm.$refs.geo.inst.parameters.thetaSegments, 33);
-      assert.strictEqual(vm.$refs.geo.inst.parameters.phiSegments, 11);
-      assert.strictEqual(vm.$refs.geo.inst.parameters.thetaStart, 0.5);
-      assert.strictEqual(vm.$refs.geo.inst.parameters.thetaLength, 3.6);
-      done();
-    });
-    it('When properties are undefined.', function test(done) {
-      const vm = new Vue({
-        template: '<vgl-namespace><vgl-ring-geometry ref="geo" /></vgl-namespace>',
-        components: { VglRingGeometry, VglNamespace },
-      }).$mount();
-      assert.isUndefined(vm.$refs.geo.inst.parameters.innerRadius);
-      assert.isUndefined(vm.$refs.geo.inst.parameters.outerRadius);
-      assert.isUndefined(vm.$refs.geo.inst.parameters.thetaSegments);
-      assert.isUndefined(vm.$refs.geo.inst.parameters.phiSegments);
-      assert.isUndefined(vm.$refs.geo.inst.parameters.thetaStart);
-      assert.isUndefined(vm.$refs.geo.inst.parameters.thetaLength);
-      done();
+  const { expect } = chai;
+  let history;
+  const GeometryWatcher = {
+    inject: ['vglGeometries'],
+    props: ['name'],
+    created() {
+      this.$watch(() => this.vglGeometries.forGet[this.name], (geometry) => {
+        history.push(new THREE.BufferGeometry().copy(geometry));
+      }, { immediate: true });
+    },
+    render() {},
+  };
+  beforeEach(function hook(done) {
+    history = [];
+    done();
+  });
+  it('without properties', function test(done) {
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-ring-geometry name="g" /><geometry-watcher name="g" /></vgl-namespace>',
+      components: { VglRingGeometry, VglNamespace, GeometryWatcher },
+    }).$mount();
+    vm.$nextTick(() => {
+      try {
+        const geometry = history.pop();
+        const actual = geometry.toJSON();
+        const expected = geometry.copy(new THREE.RingBufferGeometry()).toJSON();
+        expect(actual).to.deep.equal(expected);
+        done();
+      } catch (e) {
+        done(e);
+      }
     });
   });
-  describe('Instance should be recreated when a property changed.', function suite() {
-    it('When the width property changes.', function test(done) {
-      const vm = new Vue({
-        template: '<vgl-namespace><vgl-ring-geometry ref="geo" :innerRadius="radius" /></vgl-namespace>',
-        components: { VglRingGeometry, VglNamespace },
-        data: { radius: 0.5 },
-      }).$mount();
-      const before = vm.$refs.geo.inst;
-      vm.radius = 1.03;
+  it('with properties', function test(done) {
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-ring-geometry name="g" inner-radius="19.5" outer-radius="63.7" theta-segments="33" phi-segments="11" theta-start="0.5" theta-length="3.6" /><geometry-watcher name="g" /></vgl-namespace>',
+      components: { VglRingGeometry, VglNamespace, GeometryWatcher },
+    }).$mount();
+    vm.$nextTick(() => {
+      try {
+        const geometry = history.pop();
+        const actual = geometry.toJSON();
+        const expected = geometry.copy(new THREE.RingBufferGeometry(
+          19.5,
+          63.7,
+          33,
+          11,
+          0.5,
+          3.6,
+        )).toJSON();
+        expect(actual).to.deep.equal(expected);
+        done();
+      } catch (e) {
+        done(e);
+      }
+    });
+  });
+  it('after properties are changed', function test(done) {
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-ring-geometry name="g" inner-radius="19.5" :outer-radius="r" :theta-segments="s" phi-segments="11" theta-start="0.5" theta-length="3.6" /><geometry-watcher name="g" /></vgl-namespace>',
+      components: { VglRingGeometry, VglNamespace, GeometryWatcher },
+      data: { r: 22.5, s: 8 },
+    }).$mount();
+    vm.$nextTick(() => {
+      vm.r = 80;
+      vm.s = 17;
       vm.$nextTick(() => {
         try {
-          assert.notEqual(before, vm.$refs.geo.inst);
+          let geometry;
+          let actual;
+          let expected;
+          // after
+          geometry = history.pop();
+          actual = geometry.toJSON();
+          expected = geometry.copy(new THREE.RingBufferGeometry(
+            19.5,
+            80,
+            17,
+            11,
+            0.5,
+            3.6,
+          )).toJSON();
+          expect(actual).to.deep.equal(expected);
+          // before
+          geometry = history.pop();
+          actual = geometry.toJSON();
+          expected = geometry.copy(new THREE.RingBufferGeometry(
+            19.5,
+            22.5,
+            8,
+            11,
+            0.5,
+            3.6,
+          )).toJSON();
+          expect(actual).to.deep.equal(expected);
           done();
         } catch (e) {
           done(e);
