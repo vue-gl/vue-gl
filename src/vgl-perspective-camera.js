@@ -14,33 +14,32 @@ export default {
     inst: () => new PerspectiveCamera(),
   },
   watch: {
-    zoom: {
-      handler(zoom) {
-        this.inst.zoom = parseFloat(zoom);
-        update(this);
+    inst: {
+      handler(inst) {
+        Object.assign(inst, {
+          zoom: parseFloat(this.zoom),
+          near: parseFloat(this.near),
+          far: parseFloat(this.far),
+          fov: parseFloat(this.fov),
+        });
       },
       immediate: true,
     },
-    near: {
-      handler(near) {
-        this.inst.near = parseFloat(near);
-        update(this);
-      },
-      immediate: true,
+    zoom(zoom) {
+      this.inst.zoom = parseFloat(zoom);
+      update(this);
     },
-    far: {
-      handler(far) {
-        this.inst.far = parseFloat(far);
-        update(this);
-      },
-      immediate: true,
+    near(near) {
+      this.inst.near = parseFloat(near);
+      update(this);
     },
-    fov: {
-      handler(fov) {
-        this.inst.fov = parseFloat(fov);
-        update(this);
-      },
-      immediate: true,
+    far(far) {
+      this.inst.far = parseFloat(far);
+      update(this);
+    },
+    fov(fov) {
+      this.inst.fov = parseFloat(fov);
+      update(this);
     },
   },
 };

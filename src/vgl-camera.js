@@ -22,11 +22,14 @@ export default {
     orbitPosition: validatePropSpherical,
   },
   watch: {
-    orbitTarget: {
-      handler(target) {
-        setPositionAndRotation(this, this.orbitPosition, target);
+    inst: {
+      handler(inst) {
+        setPositionAndRotation(this, this.orbitPosition, this.orbitTarget);
       },
       immediate: true,
+    },
+    orbitTarget(target) {
+      setPositionAndRotation(this, this.orbitPosition, target);
     },
     orbitPosition(position) {
       setPositionAndRotation(this, position, this.orbitTarget);

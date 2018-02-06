@@ -14,53 +14,50 @@ export default {
   computed: {
     inst: () => new SpotLight(),
   },
-  created() {
-    if (this.target) {
-      parseVector3(this.target, this.inst.target.position);
-      const $parent = findParent(this, 'isVglObject3d');
-      if ($parent) {
-        this.$watch(() => $parent.inst, (inst, old) => {
-          if (old) old.remove(this.inst.target);
-          inst.add(this.inst.target);
-          update(this);
-        }, { immediate: true });
-      }
-    }
-  },
   beforeDestroy() {
     if (this.inst.target.parent) this.inst.target.parent.remove(this.inst.target);
   },
   watch: {
-    distance: {
-      handler(distance) {
-        this.inst.distance = parseFloat(distance);
-        update(this);
+    inst: {
+      handler(inst) {
+        if (this.target) {
+          inst.target.position.copy(parseVector3(this.target));
+          const $parent = findParent(this, 'isVglObject3d');
+          if ($parent) {
+            this.$watch(() => $parent.inst, (parent, old) => {
+              if (old) old.remove(inst.target);
+              parent.add(inst.target);
+              update(this);
+            }, { immediate: true });
+          }
+        }
+        Object.assign(inst, {
+          distance: parseFloat(this.distance),
+          decay: parseFloat(this.decay),
+          angle: parseFloat(this.angle),
+          penumbra: parseFloat(this.penumbra),
+        });
       },
       immediate: true,
     },
-    decay: {
-      handler(decay) {
-        this.inst.decay = parseFloat(decay);
-        update(this);
-      },
-      immediate: true,
+    distance(distance) {
+      this.inst.distance = parseFloat(distance);
+      update(this);
     },
-    angle: {
-      handler(angle) {
-        this.inst.angle = parseFloat(angle);
-        update(this);
-      },
-      immediate: true,
+    decay(decay) {
+      this.inst.decay = parseFloat(decay);
+      update(this);
     },
-    penumbra: {
-      handler(penumbra) {
-        this.inst.penumbra = parseFloat(penumbra);
-        update(this);
-      },
-      immediate: true,
+    angle(angle) {
+      this.inst.angle = parseFloat(angle);
+      update(this);
+    },
+    penumbra(penumbra) {
+      this.inst.penumbra = parseFloat(penumbra);
+      update(this);
     },
     target(target) {
-      parseVector3(target, this.inst.target.position);
+      this.inst.target.position.copy(parseVector3(target));
       update(this);
     },
   },

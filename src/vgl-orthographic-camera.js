@@ -13,26 +13,27 @@ export default {
     inst: () => new OrthographicCamera(),
   },
   watch: {
-    zoom: {
-      handler(zoom) {
-        this.inst.zoom = parseFloat(zoom);
-        update(this);
+    inst: {
+      handler(inst) {
+        Object.assign(inst, {
+          zoom: parseFloat(this.zoom),
+          near: parseFloat(this.near),
+          far: parseFloat(this.far),
+        });
       },
       immediate: true,
     },
-    near: {
-      handler(near) {
-        this.inst.near = parseFloat(near);
-        update(this);
-      },
-      immediate: true,
+    zoom(zoom) {
+      this.inst.zoom = parseFloat(zoom);
+      update(this);
     },
-    far: {
-      handler(far) {
-        this.inst.far = parseFloat(far);
-        update(this);
-      },
-      immediate: true,
+    near(near) {
+      this.inst.near = parseFloat(near);
+      update(this);
+    },
+    far(far) {
+      this.inst.far = parseFloat(far);
+      update(this);
     },
   },
 };

@@ -11,12 +11,14 @@ export default {
     castShadow: validatePropBoolean,
   },
   watch: {
-    castShadow: {
-      handler(castShadow) {
-        this.inst.castShadow = castShadow;
-        update(this);
+    inst: {
+      handler(inst) {
+        Object.assign(inst, { castShadow: this.castShadow });
       },
-      immediate: true,
+    },
+    castShadow(castShadow) {
+      this.inst.castShadow = castShadow;
+      update(this);
     },
   },
 };

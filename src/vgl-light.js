@@ -12,19 +12,20 @@ export default {
     inst: () => new Light(),
   },
   watch: {
-    color: {
-      handler(color) {
-        this.inst.color.setStyle(color);
-        update(this);
+    inst: {
+      handler(inst) {
+        inst.color.setStyle(this.color);
+        Object.assign(inst, { intensity: parseFloat(this.intensity) });
       },
       immediate: true,
     },
-    intensity: {
-      handler(intensity) {
-        this.inst.intensity = parseFloat(intensity);
-        update(this);
-      },
-      immediate: true,
+    color(color) {
+      this.inst.color.setStyle(color);
+      update(this);
+    },
+    intensity(intensity) {
+      this.inst.intensity = parseFloat(intensity);
+      update(this);
     },
   },
 };

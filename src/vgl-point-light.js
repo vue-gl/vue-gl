@@ -12,19 +12,22 @@ export default {
     inst: () => new PointLight(),
   },
   watch: {
-    distance: {
-      handler(distance) {
-        this.inst.distance = parseFloat(distance);
-        update(this);
+    inst: {
+      handler(inst) {
+        Object.assign(inst, {
+          distance: parseFloat(this.distance),
+          decay: parseFloat(this.decay),
+        });
       },
       immediate: true,
     },
-    decay: {
-      handler(decay) {
-        this.inst.decay = parseFloat(decay);
-        update(this);
-      },
-      immediate: true,
+    distance(distance) {
+      this.inst.distance = parseFloat(distance);
+      update(this);
+    },
+    decay(decay) {
+      this.inst.decay = parseFloat(decay);
+      update(this);
     },
   },
 };
