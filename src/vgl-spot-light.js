@@ -1,29 +1,15 @@
 import VglLight from './vgl-light.js';
-import { SpotLight, Vector3 } from './three.js';
-import { parseVector3, findParent, validatePropNumber, parseFloatEx, update } from './utils.js';
+import { SpotLight } from './three.js';
+import { parseVector3, findParent, validatePropNumber, validatePropVector3, update } from './utils.js';
 
 export default {
   mixins: [VglLight],
   props: {
-    distance: {
-      type: validatePropNumber,
-      default: 0,
-    },
-    decay: {
-      type: validatePropNumber,
-      default: 1,
-    },
-    angle: {
-      type: validatePropNumber,
-      default: Math.PI / 3,
-    },
-    penumbra: {
-      type: validatePropNumber,
-      default: 0,
-    },
-    target: {
-      type: [String, Vector3],
-    },
+    distance: { type: validatePropNumber, default: 0 },
+    decay: { type: validatePropNumber, default: 1 },
+    angle: { type: validatePropNumber, default: Math.PI / 3 },
+    penumbra: { type: validatePropNumber, default: 0 },
+    target: validatePropVector3,
   },
   computed: {
     inst: () => new SpotLight(),
@@ -47,28 +33,28 @@ export default {
   watch: {
     distance: {
       handler(distance) {
-        this.inst.distance = parseFloatEx(distance);
+        this.inst.distance = parseFloat(distance);
         update(this);
       },
       immediate: true,
     },
     decay: {
       handler(decay) {
-        this.inst.decay = parseFloatEx(decay);
+        this.inst.decay = parseFloat(decay);
         update(this);
       },
       immediate: true,
     },
     angle: {
       handler(angle) {
-        this.inst.angle = parseFloatEx(angle);
+        this.inst.angle = parseFloat(angle);
         update(this);
       },
       immediate: true,
     },
     penumbra: {
       handler(penumbra) {
-        this.inst.penumbra = parseFloatEx(penumbra);
+        this.inst.penumbra = parseFloat(penumbra);
         update(this);
       },
       immediate: true,

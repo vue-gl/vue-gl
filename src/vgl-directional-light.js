@@ -1,6 +1,6 @@
 import VglLight from './vgl-light.js';
 import { DirectionalLight } from './three.js';
-import { update } from './utils.js';
+import { update, validatePropBoolean } from './utils.js';
 
 export default {
   mixins: [VglLight],
@@ -8,7 +8,7 @@ export default {
     inst: () => new DirectionalLight(),
   },
   props: {
-    castShadow: Boolean,
+    castShadow: validatePropBoolean,
   },
   watch: {
     castShadow: {

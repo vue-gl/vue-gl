@@ -1,4 +1,4 @@
-import { parseVector3, parseEuler, findParent, update } from './utils.js';
+import { parseVector3, parseEuler, findParent, update, validatePropVector3, validatePropEuler, validatePropBoolean } from './utils.js';
 import { Object3D, Vector3, Euler } from './three.js';
 
 const defaultPosition = new Vector3();
@@ -8,20 +8,11 @@ const defaultScale = new Vector3(1, 1, 1);
 export default {
   isVglObject3d: true,
   props: {
-    position: {
-      type: [String, Vector3],
-      default: () => defaultPosition,
-    },
-    rotation: {
-      type: [String, Euler],
-      default: () => defaultRotation,
-    },
-    scale: {
-      type: [String, Vector3],
-      default: () => defaultScale,
-    },
-    castShadow: Boolean,
-    receiveShadow: Boolean,
+    position: { type: validatePropVector3, default: () => defaultPosition },
+    rotation: { type: validatePropEuler, default: () => defaultRotation },
+    scale: { type: validatePropVector3, default: () => defaultScale },
+    castShadow: validatePropBoolean,
+    receiveShadow: validatePropBoolean,
   },
   computed: {
     inst: () => new Object3D(),

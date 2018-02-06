@@ -1,18 +1,12 @@
 import VglObject3d from './vgl-object3d.js';
 import { Light } from './three.js';
-import { parseFloatEx, update } from './utils.js';
+import { update, validatePropString, validatePropNumber } from './utils.js';
 
 export default {
   mixins: [VglObject3d],
   props: {
-    color: {
-      type: String,
-      default: 'white',
-    },
-    intensity: {
-      type: [String, Number],
-      default: 1,
-    },
+    color: { type: validatePropString, default: '#fff' },
+    intensity: { type: validatePropNumber, default: 1 },
   },
   computed: {
     inst: () => new Light(),
@@ -27,7 +21,7 @@ export default {
     },
     intensity: {
       handler(intensity) {
-        this.inst.intensity = parseFloatEx(intensity);
+        this.inst.intensity = parseFloat(intensity);
         update(this);
       },
       immediate: true,
