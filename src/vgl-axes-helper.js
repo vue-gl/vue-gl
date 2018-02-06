@@ -1,13 +1,13 @@
 import VglLineSegments from './vgl-line-segments.js';
 import { AxesHelper } from './three.js';
-import { parseFloatEx } from './utils.js';
+import { validatePropNumber } from './utils.js';
 
 export default {
   mixins: [VglLineSegments],
-  props: { size: [String, Number] },
+  props: {
+    size: { type: validatePropNumber, default: 1 },
+  },
   computed: {
-    inst() {
-      return new AxesHelper(parseFloatEx(this.size));
-    },
+    inst() { return new AxesHelper(parseFloat(this.size)); },
   },
 };

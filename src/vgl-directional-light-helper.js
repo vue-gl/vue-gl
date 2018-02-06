@@ -1,31 +1,20 @@
 import VglObject3d from './vgl-object3d.js';
 import { DirectionalLightHelper, Object3D } from './three.js';
-import { validatePropString, validatePropNumber, parseFloatEx, findParent } from './utils.js';
+import { validatePropString, validatePropNumber, findParent } from './utils.js';
 
 export default {
   mixins: [VglObject3d],
   props: {
-    color: {
-      type: validatePropString,
-    },
-    size: {
-      type: validatePropNumber,
-      default: 1,
-    },
+    color: { type: validatePropString },
+    size: { type: validatePropNumber, default: 1 },
   },
   computed: {
-    inst() {
-      return this.i;
-    },
-    hex() {
-      return 'color' in this.i && this.i.parent && this.i.parent.color.getHex();
-    },
+    inst() { return this.i; },
+    hex() { return 'color' in this.i && this.i.parent && this.i.parent.color.getHex(); },
   },
   created() {
     const p = findParent(this, 'isVglObject3d');
-    if (p) {
-      this.i = new DirectionalLightHelper(p.inst, parseFloatEx(this.size), this.color);
-    }
+    if (p) this.i = new DirectionalLightHelper(p.inst, parseFloat(this.size), this.color);
   },
   data() {
     return {
@@ -44,7 +33,7 @@ export default {
     },
     size(size) {
       if (this.i.parent) {
-        this.i = new DirectionalLightHelper(this.i.parent, parseFloatEx(size), this.color);
+        this.i = new DirectionalLightHelper(this.i.parent, parseFloat(size), this.color);
       }
     },
   },

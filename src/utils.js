@@ -67,6 +67,7 @@ export function findParent(vm, key) {
  */
 export const validatePropNumber = [String, Number];
 export const validatePropString = String;
+export const validatePropVector3 = [String, Vector3];
 
 /**
  * Call the ancestor renderer's vglUpdate function from object3d components.

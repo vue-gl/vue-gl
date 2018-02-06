@@ -5,10 +5,7 @@ import { validatePropString } from './utils.js';
 export default {
   mixins: [VglLineSegments],
   props: {
-    color: {
-      type: validatePropString,
-      default: '#ff0',
-    },
+    color: { type: validatePropString, default: '#ff0' },
   },
   computed: {
     inst: () => new BoxHelper(),
