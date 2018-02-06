@@ -178,22 +178,6 @@ describe('VglObject3d component', function component() {
           }
         });
       });
-      it('From a Vector3 object to undefined.', function test(done) {
-        const vm = new (Vue.extend(VglObject3d))({
-          propsData: { position: new THREE.Vector3(1.1, -1.9, 8) },
-        });
-        vm.position = undefined;
-        vm.$nextTick(() => {
-          try {
-            assert.strictEqual(vm.inst.position.x, 0);
-            assert.strictEqual(vm.inst.position.y, 0);
-            assert.strictEqual(vm.inst.position.z, 0);
-            done();
-          } catch (e) {
-            done(e);
-          }
-        });
-      });
     });
     describe('Should affect the rotation of the object when the rotation property is changed.', function suite() {
       it('From undefined to a string.', function test(done) {
@@ -226,21 +210,6 @@ describe('VglObject3d component', function component() {
           }
         });
       });
-      it('From an Euler object to undefined.', function test(done) {
-        const vm = new (Vue.extend(VglObject3d))({ propsData: { rotation: new THREE.Euler(1.1, -1.9, 8, 'ZYX') } });
-        vm.rotation = undefined;
-        vm.$nextTick(() => {
-          try {
-            assert.strictEqual(vm.inst.rotation.x, 0);
-            assert.strictEqual(vm.inst.rotation.y, 0);
-            assert.strictEqual(vm.inst.rotation.z, 0);
-            assert.strictEqual(vm.inst.rotation.order, 'XYZ');
-            done();
-          } catch (e) {
-            done(e);
-          }
-        });
-      });
     });
     describe('Should affect the scale of the object when the scale property is changed.', function suite() {
       it('From undefined to a string.', function test(done) {
@@ -265,22 +234,6 @@ describe('VglObject3d component', function component() {
             assert.strictEqual(vm.inst.scale.x, 1.1);
             assert.strictEqual(vm.inst.scale.y, -1.9);
             assert.strictEqual(vm.inst.scale.z, 8);
-            done();
-          } catch (e) {
-            done(e);
-          }
-        });
-      });
-      it('From a Vector3 object to undefined.', function test(done) {
-        const vm = new (Vue.extend(VglObject3d))({
-          propsData: { scale: new THREE.Vector3(1.1, -1.9, 8) },
-        });
-        vm.scale = undefined;
-        vm.$nextTick(() => {
-          try {
-            assert.strictEqual(vm.inst.scale.x, 1);
-            assert.strictEqual(vm.inst.scale.y, 1);
-            assert.strictEqual(vm.inst.scale.z, 1);
             done();
           } catch (e) {
             done(e);
