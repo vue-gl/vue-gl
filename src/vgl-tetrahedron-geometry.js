@@ -1,7 +1,11 @@
-import VglGeometry from './vgl-geometry.js';
-import { TetrahedronGeometry } from './three.js';
-import { hedronFactory } from './mixins.js';
+import { TetrahedronBufferGeometry } from './three.js';
+import { VglHedronGeometry } from './mixins.js';
 
 export default {
-  mixins: [VglGeometry, hedronFactory(TetrahedronGeometry)],
+  mixins: [VglHedronGeometry],
+  computed: {
+    inst() {
+      return new TetrahedronBufferGeometry(parseFloat(this.radius), parseInt(this.detail, 10));
+    },
+  },
 };

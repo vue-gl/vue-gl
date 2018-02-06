@@ -1,4 +1,5 @@
-import { parseFloatEx, parseIntEx, validatePropString, validatePropNumber, update, dispatchUpdate } from './utils.js';
+import VglGeometry from './vgl-geometry.js';
+import { validatePropString, validatePropNumber, update, dispatchUpdate } from './utils.js';
 
 export function assetFactory(ThreeClass, namespace) {
   const t = {
@@ -69,19 +70,13 @@ export function objectMixinFactory(hasGeometry) {
   return { mixins };
 }
 
-export function hedronFactory(ThreeClass) {
-  return {
-    props: {
-      radius: validatePropNumber,
-      detail: validatePropNumber,
-    },
-    computed: {
-      inst() {
-        return new ThreeClass(parseFloatEx(this.radius), parseIntEx(this.detail));
-      },
-    },
-  };
-}
+export const VglHedronGeometry = {
+  mixins: [VglGeometry],
+  props: {
+    radius: { type: validatePropNumber, default: 1 },
+    detail: { type: validatePropNumber, default: 0 },
+  },
+};
 
 export function hasColorFactory(defaultColor) {
   return {
