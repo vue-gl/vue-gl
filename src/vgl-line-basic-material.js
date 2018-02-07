@@ -5,7 +5,7 @@ import { validatePropString, validatePropNumber, validatePropBoolean } from './u
 export default {
   mixins: [VglMaterial],
   props: {
-    color: { type: String, default: '#fff' },
+    color: { type: validatePropString, default: '#fff' },
     lights: validatePropBoolean,
     linewidth: { type: validatePropNumber, default: 1 },
     linecap: { type: validatePropString, default: 'round' },
@@ -14,29 +14,23 @@ export default {
   computed: {
     inst: () => new LineBasicMaterial(),
   },
-  created() {
-    const { inst } = this;
-    inst.lights = this.lights;
-    inst.linecap = this.linecap;
-    inst.linejoin = this.linejoin;
-    inst.linewidth = parseFloat(this.linewidth);
-    inst.color.setStyle(this.color);
-  },
   watch: {
-    color(color) {
-      this.inst.color.setStyle(color);
+    inst: {
+      handler(inst) {
+        Object.assign(inst, {
+          lights: this.lights,
+          linecap: this.linecap,
+          linejoin: this.linejoin,
+          linewidth: parseFloat(this.linewidth),
+        });
+        inst.color.setStyle(this.color);
+      },
+      immediate: true,
     },
-    lights(lights) {
-      this.inst.lights = lights;
-    },
-    linewidth(width) {
-      this.inst.linewidth = parseFloat(width);
-    },
-    linecap(cap) {
-      this.inst.linecap = cap;
-    },
-    linejoin(join) {
-      this.inst.linejoin = join;
-    },
+    color(color) { this.inst.color.setStyle(color); },
+    lights(lights) { this.inst.lights = lights; },
+    linewidth(width) { this.inst.linewidth = parseFloat(width); },
+    linecap(cap) { this.inst.linecap = cap; },
+    linejoin(join) { this.inst.linejoin = join; },
   },
 };
