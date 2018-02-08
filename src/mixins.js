@@ -1,5 +1,5 @@
 import VglGeometry from './vgl-geometry.js';
-import { validatePropString, validatePropNumber, update, dispatchUpdate } from './utils.js';
+import { validatePropString, validatePropNumber, update } from './utils.js';
 
 export function assetFactory(ThreeClass, namespace) {
   const t = {

@@ -1,6 +1,6 @@
 import VglLight from './vgl-light.js';
 import { SpotLight } from './three.js';
-import { parseVector3, findParent, validatePropNumber, validatePropVector3, update } from './utils.js';
+import { parseVector3, validatePropNumber, validatePropVector3, update } from './utils.js';
 
 export default {
   mixins: [VglLight],
@@ -22,14 +22,8 @@ export default {
       handler(inst) {
         if (this.target) {
           inst.target.position.copy(parseVector3(this.target));
-          const $parent = findParent(this, 'isVglObject3d');
-          if ($parent) {
-            this.$watch(() => $parent.inst, (parent, old) => {
-              if (old) old.remove(inst.target);
-              parent.add(inst.target);
-              update(this);
-            }, { immediate: true });
-          }
+          const $parent = this.vglObject3d.inst;
+          if ($parent) $parent.add(inst.target);
         }
         Object.assign(inst, {
           distance: parseFloat(this.distance),
@@ -39,6 +33,9 @@ export default {
         });
       },
       immediate: true,
+    },
+    'vglObject3d.inst': function watcher(parent) {
+      if (parent) parent.add(this.inst.target);
     },
     distance(distance) {
       this.inst.distance = parseFloat(distance);

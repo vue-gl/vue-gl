@@ -1,6 +1,6 @@
 import VglObject3d from './vgl-object3d.js';
 import { DirectionalLightHelper, Object3D } from './three.js';
-import { validatePropString, validatePropNumber, findParent } from './utils.js';
+import { validatePropString, validatePropNumber } from './utils.js';
 
 export default {
   mixins: [VglObject3d],
@@ -13,8 +13,8 @@ export default {
     hex() { return 'color' in this.i && this.i.parent && this.i.parent.color.getHex(); },
   },
   created() {
-    const p = findParent(this, 'isVglObject3d');
-    if (p) this.i = new DirectionalLightHelper(p.inst, parseFloat(this.size), this.color);
+    const p = this.vglObject3d.inst;
+    if (p) this.i = new DirectionalLightHelper(p, parseFloat(this.size), this.color);
   },
   data() {
     return {

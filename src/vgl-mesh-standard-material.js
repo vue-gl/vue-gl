@@ -30,5 +30,5 @@ export default {
       if (!oldMap) this.inst.needsUpdate = true;
       dispatchUpdate(this);
     },
-  }
+  },
 };

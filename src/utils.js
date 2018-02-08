@@ -54,15 +54,6 @@ export function createObjectFromArray(keyArray, valueSetter, baseObject = {}) {
 }
 
 /**
- * Find the nearest ancestor component that has the [key] option.
- */
-export function findParent(vm, key) {
-  const { $parent } = vm;
-  if ($parent) return $parent.$options[key] ? $parent : findParent($parent, key);
-  return undefined;
-}
-
-/**
  * Constant arrays useful for props validation.
  */
 export const validatePropNumber = [String, Number];

@@ -1,5 +1,11 @@
 import { NormalBlending, Color } from './three.js';
-import { validatePropString, validatePropNumber, findParent, update } from './utils.js';
+import { validatePropString, validatePropNumber, update } from './utils.js';
+
+function findParent(vm, key) {
+  const { $parent } = vm;
+  if ($parent) return $parent.$options[key] ? $parent : findParent($parent, key);
+  return undefined;
+}
 
 function findLensFlareParent(vm) {
   return findParent(vm, 'isVglLensFlare');
