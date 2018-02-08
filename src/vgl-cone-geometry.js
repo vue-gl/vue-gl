@@ -1,23 +1,23 @@
 import VglCylinderGeometry from './vgl-cylinder-geometry.js';
-import { ConeGeometry } from './three.js';
-import { parseFloatEx, parseIntEx } from './utils.js';
+import { ConeBufferGeometry } from './three.js';
+import { validatePropNumber } from './utils.js';
 
 export default {
   mixins: [VglCylinderGeometry],
   props: {
-    radius: [String, Number],
+    radius: { type: validatePropNumber, default: 1 },
   },
   computed: {
     inst() {
-      return new ConeGeometry(...[
-        'radius',
-        'height',
-        'radialSegments',
-        'heightSegments',
-        'openEnded',
-        'thetaStart',
-        'thetaLength',
-      ].map((key, i) => (i < 2 || i > 4 ? parseFloatEx : parseIntEx)(this[key])));
+      return new ConeBufferGeometry(
+        parseFloat(this.radius),
+        parseFloat(this.height),
+        parseInt(this.radialSegments, 10),
+        parseInt(this.heightSegments, 10),
+        this.openEnded,
+        parseFloat(this.thetaStart),
+        parseFloat(this.thetaLength),
+      );
     },
   },
 };

@@ -1,5 +1,11 @@
 import { NormalBlending, Color } from './three.js';
-import { validatePropString, validatePropNumber, findParent, parseFloatEx, parseIntEx, update } from './utils.js';
+import { validatePropString, validatePropNumber, update } from './utils.js';
+
+function findParent(vm, key) {
+  const { $parent } = vm;
+  if ($parent) return $parent.$options[key] ? $parent : findParent($parent, key);
+  return undefined;
+}
 
 function findLensFlareParent(vm) {
   return findParent(vm, 'isVglLensFlare');
@@ -8,38 +14,22 @@ function findLensFlareParent(vm) {
 export default {
   inject: ['vglTextures'],
   props: {
-    texture: {
-      type: validatePropString,
-    },
-    size: {
-      type: validatePropNumber,
-      default: -1,
-    },
-    distance: {
-      type: validatePropNumber,
-      default: 0,
-    },
-    blending: {
-      type: validatePropNumber,
-      default: NormalBlending,
-    },
-    color: {
-      type: validatePropString,
-      default: '#fff',
-    },
+    texture: validatePropString,
+    size: { type: validatePropNumber, default: -1 },
+    distance: { type: validatePropNumber, default: 0 },
+    blending: { type: validatePropNumber, default: NormalBlending },
+    color: { type: validatePropString, default: '#fff' },
   },
   data() {
-    return {
-      inst: null,
-    };
+    return { inst: null };
   },
   computed: {
     opts() {
       return [
         this.vglTextures.forGet[this.texture],
-        parseIntEx(this.size),
-        parseFloatEx(this.distance),
-        parseIntEx(this.blending),
+        parseInt(this.size, 10),
+        parseFloat(this.distance),
+        parseInt(this.blending, 10),
         new Color(this.color),
       ];
     },

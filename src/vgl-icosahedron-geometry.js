@@ -1,7 +1,11 @@
-import VglGeometry from './vgl-geometry.js';
-import { IcosahedronGeometry } from './three.js';
-import { hedronFactory } from './mixins.js';
+import { IcosahedronBufferGeometry } from './three.js';
+import { VglHedronGeometry } from './mixins.js';
 
 export default {
-  mixins: [VglGeometry, hedronFactory(IcosahedronGeometry)],
+  mixins: [VglHedronGeometry],
+  computed: {
+    inst() {
+      return new IcosahedronBufferGeometry(parseFloat(this.radius), parseInt(this.detail, 10));
+    },
+  },
 };

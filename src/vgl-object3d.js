@@ -1,83 +1,64 @@
-import { parseVector3, parseEuler, findParent, update } from './utils.js';
-import { Object3D, Vector3, Euler } from './three.js';
-
-const defaultPosition = new Vector3();
-const defaultRotation = new Euler();
-const defaultScale = new Vector3(1, 1, 1);
+import { parseVector3, parseEuler, update, validatePropVector3, validatePropEuler, validatePropBoolean } from './utils.js';
+import { Object3D } from './three.js';
 
 export default {
   isVglObject3d: true,
   props: {
-    position: {
-      type: [String, Vector3],
-      default: () => defaultPosition,
-    },
-    rotation: {
-      type: [String, Euler],
-      default: () => defaultRotation,
-    },
-    scale: {
-      type: [String, Vector3],
-      default: () => defaultScale,
-    },
-    castShadow: Boolean,
-    receiveShadow: Boolean,
+    position: validatePropVector3,
+    rotation: validatePropEuler,
+    scale: validatePropVector3,
+    castShadow: validatePropBoolean,
+    receiveShadow: validatePropBoolean,
   },
   computed: {
     inst: () => new Object3D(),
   },
   inject: {
     vglUpdate: { default: undefined },
+    vglObject3d: { default: {} },
   },
-  created() {
-    const parent = findParent(this, 'isVglObject3d');
-    if (parent) parent.inst.add(this.inst);
+  provide() {
+    const vm = this;
+    return { vglObject3d: { get inst() { return vm.inst; } } };
   },
   beforeDestroy() {
     if (this.inst.parent) this.inst.parent.remove(this.inst);
   },
   watch: {
-    position: {
-      handler(position) {
-        parseVector3(position || defaultPosition, this.inst.position);
+    inst: {
+      handler(inst, oldInst) {
+        if (oldInst && oldInst.parent) oldInst.parent.remove(oldInst);
+        if (this.vglObject3d.inst) this.vglObject3d.inst.add(inst);
+        if (this.position) inst.position.copy(parseVector3(this.position));
+        if (this.rotation) inst.rotation.copy(parseEuler(this.rotation));
+        if (this.scale) inst.scale.copy(parseVector3(this.scale));
+        Object.assign(inst, { castShadow: this.castShadow, receiveShadow: this.receiveShadow });
         update(this);
       },
       immediate: true,
     },
-    rotation: {
-      handler(rotation) {
-        parseEuler(rotation || defaultRotation, this.inst.rotation);
-        update(this);
-      },
-      immediate: true,
+    'vglObject3d.inst': function watch(inst) {
+      inst.add(this.inst);
+      update(this);
     },
-    scale: {
-      handler(scale) {
-        parseVector3(scale || defaultScale, this.inst.scale);
-        update(this);
-      },
-      immediate: true,
+    position(position) {
+      this.inst.position.copy(parseVector3(position));
+      update(this);
     },
-    castShadow: {
-      handler(castShadow) {
-        this.inst.castShadow = castShadow;
-        update(this);
-      },
-      immediate: true,
+    rotation(rotation) {
+      this.inst.rotation.copy(parseEuler(rotation));
+      update(this);
     },
-    receiveShadow: {
-      handler(receiveShadow) {
-        this.inst.receiveShadow = receiveShadow;
-        update(this);
-      },
-      immediate: true,
+    scale(scale) {
+      this.inst.scale.copy(parseVector3(scale));
+      update(this);
     },
-    inst(inst, oldInst) {
-      if (oldInst.children.length) inst.add(...oldInst.children);
-      inst.position.copy(oldInst.position);
-      inst.rotation.copy(oldInst.rotation);
-      inst.scale.copy(oldInst.scale);
-      if (oldInst.parent) oldInst.parent.remove(oldInst).add(inst);
+    castShadow(castShadow) {
+      this.inst.castShadow = castShadow;
+      update(this);
+    },
+    receiveShadow(receiveShadow) {
+      this.inst.receiveShadow = receiveShadow;
       update(this);
     },
   },

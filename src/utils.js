@@ -54,19 +54,14 @@ export function createObjectFromArray(keyArray, valueSetter, baseObject = {}) {
 }
 
 /**
- * Find the nearest ancestor component that has the [key] option.
- */
-export function findParent(vm, key) {
-  const { $parent } = vm;
-  if ($parent) return $parent.$options[key] ? $parent : findParent($parent, key);
-  return undefined;
-}
-
-/**
  * Constant arrays useful for props validation.
  */
 export const validatePropNumber = [String, Number];
 export const validatePropString = String;
+export const validatePropVector3 = [String, Vector3];
+export const validatePropSpherical = [String, Spherical];
+export const validatePropBoolean = Boolean;
+export const validatePropEuler = [String, Euler];
 
 /**
  * Call the ancestor renderer's vglUpdate function from object3d components.

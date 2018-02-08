@@ -1,26 +1,29 @@
 import VglGeometry from './vgl-geometry.js';
-import { SphereGeometry } from './three.js';
-import { parseFloatEx, parseIntEx, createObjectFromArray } from './utils.js';
-
-const validator = [String, Number];
-
-const props = [
-  'radius',
-  'widthSegments',
-  'heightSegments',
-  'phiStart',
-  'phiLength',
-  'thetaStart',
-  'thetaLength',
-];
+import { SphereBufferGeometry } from './three.js';
+import { validatePropNumber } from './utils.js';
 
 export default {
   mixins: [VglGeometry],
-  props: createObjectFromArray(props, () => validator),
+  props: {
+    radius: { type: validatePropNumber, default: 1 },
+    widthSegments: { type: validatePropNumber, default: 8 },
+    heightSegments: { type: validatePropNumber, default: 6 },
+    phiStart: { type: validatePropNumber, default: 0 },
+    phiLength: { type: validatePropNumber, default: Math.PI * 2 },
+    thetaStart: { type: validatePropNumber, default: 0 },
+    thetaLength: { type: validatePropNumber, default: Math.PI },
+  },
   computed: {
     inst() {
-      const opts = props.map((key, i) => (i < 1 || i > 2 ? parseFloatEx : parseIntEx)(this[key]));
-      return new SphereGeometry(...opts);
+      return new SphereBufferGeometry(
+        parseFloat(this.radius),
+        parseInt(this.widthSegments, 10),
+        parseInt(this.heightSegments, 10),
+        parseFloat(this.phiStart),
+        parseFloat(this.phiLength),
+        parseFloat(this.thetaStart),
+        parseFloat(this.thetaLength),
+      );
     },
   },
 };

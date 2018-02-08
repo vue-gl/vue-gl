@@ -1,35 +1,26 @@
 import VglGeometry from './vgl-geometry.js';
-import { BoxGeometry } from './three.js';
-import { parseFloatEx, parseIntEx, createObjectFromArray } from './utils.js';
-
-const validator = [String, Number];
-
-const propsFloat = [
-  'width',
-  'height',
-  'depth',
-];
-const propsInt = [
-  'widthSegments',
-  'heightSegments',
-  'depthSegments',
-];
+import { BoxBufferGeometry } from './three.js';
+import { validatePropNumber } from './utils.js';
 
 export default {
   mixins: [VglGeometry],
-  props: createObjectFromArray(
-    propsFloat,
-    () => validator,
-    createObjectFromArray(
-      propsInt,
-      () => validator,
-    ),
-  ),
+  props: {
+    width: { type: validatePropNumber, default: 1 },
+    height: { type: validatePropNumber, default: 1 },
+    depth: { type: validatePropNumber, default: 1 },
+    widthSegments: { type: validatePropNumber, default: 1 },
+    heightSegments: { type: validatePropNumber, default: 1 },
+    depthSegments: { type: validatePropNumber, default: 1 },
+  },
   computed: {
     inst() {
-      return new BoxGeometry(
-        ...propsFloat.map(key => parseFloatEx(this[key])),
-        ...propsInt.map(key => parseIntEx(this[key])),
+      return new BoxBufferGeometry(
+        parseFloat(this.width),
+        parseFloat(this.height),
+        parseFloat(this.depth),
+        parseInt(this.widthSegments, 10),
+        parseInt(this.heightSegments, 10),
+        parseInt(this.depthSegments, 10),
       );
     },
   },

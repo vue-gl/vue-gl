@@ -5,43 +5,24 @@ import { validatePropString } from './utils.js';
 export default {
   mixins: [VglLineSegments],
   props: {
-    color: {
-      type: validatePropString,
-      default: '#ff0',
-    },
+    color: { type: validatePropString, default: '#ff0' },
   },
   computed: {
     inst: () => new BoxHelper(),
   },
-  data() {
-    return {
-      uw: null,
-      r: true,
-    };
-  },
-  created() {
-    const { inst } = this;
-    if (inst.parent) {
-      this.uw = this.$watch(() => inst.parent, () => {
-        if (this.r) {
-          this.$nextTick(() => {
-            inst.setFromObject(inst.parent);
-            this.r = true;
-          });
-          this.r = false;
-        }
-      }, { immediate: true });
-    }
-  },
-  beforeDestroy() {
-    if (this.uw) this.uw();
-  },
   watch: {
-    color: {
-      handler(color) {
-        this.inst.material.color.setStyle(color);
+    inst: {
+      handler(inst) {
+        this.$nextTick(() => { inst.setFromObject(this.vglObject3d.inst); });
+        inst.material.color.setStyle(this.color);
       },
       immediate: true,
+    },
+    'vglObject3d.inst': function watcher(parent) {
+      this.inst.setFromObject(parent);
+    },
+    color(color) {
+      this.inst.material.color.setStyle(color);
     },
   },
 };

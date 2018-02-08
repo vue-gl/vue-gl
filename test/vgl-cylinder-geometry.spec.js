@@ -1,65 +1,107 @@
-describe('VglCylinderGeometry component', function component() {
+describe('VglCylinderGeometry:', function suite() {
   const { VglCylinderGeometry, VglNamespace } = VueGL;
-  const { assert } = chai;
-  describe('Parameters of a instance should be same as the component properties.', function suite() {
-    it('When properties are number.', function test(done) {
-      const vm = new Vue({
-        template: '<vgl-namespace><vgl-cylinder-geometry ref="geo" :radiusTop="10.1" :radiusBottom="10.2" :height="15.86" :radialSegments="12" :heightSegments="6" :openEnded="true" :thetaStart="0.67" :thetaLength="2.24" /></vgl-namespace>',
-        components: { VglCylinderGeometry, VglNamespace },
-      }).$mount();
-      assert.strictEqual(vm.$refs.geo.inst.parameters.radiusTop, 10.1);
-      assert.strictEqual(vm.$refs.geo.inst.parameters.radiusBottom, 10.2);
-      assert.strictEqual(vm.$refs.geo.inst.parameters.height, 15.86);
-      assert.strictEqual(vm.$refs.geo.inst.parameters.radialSegments, 12);
-      assert.strictEqual(vm.$refs.geo.inst.parameters.heightSegments, 6);
-      assert.isTrue(vm.$refs.geo.inst.parameters.openEnded);
-      assert.strictEqual(vm.$refs.geo.inst.parameters.thetaStart, 0.67);
-      assert.strictEqual(vm.$refs.geo.inst.parameters.thetaLength, 2.24);
-      done();
-    });
-    it('When properties are string.', function test(done) {
-      const vm = new Vue({
-        template: '<vgl-namespace><vgl-cylinder-geometry ref="geo" radiusTop="1.01" radiusBottom="1.02" height="1.586" radialSegments="11" heightSegments="5" openEnded thetaStart="0.63" thetaLength="2.21" /></vgl-namespace>',
-        components: { VglCylinderGeometry, VglNamespace },
-      }).$mount();
-      assert.strictEqual(vm.$refs.geo.inst.parameters.radiusTop, 1.01);
-      assert.strictEqual(vm.$refs.geo.inst.parameters.radiusBottom, 1.02);
-      assert.strictEqual(vm.$refs.geo.inst.parameters.height, 1.586);
-      assert.strictEqual(vm.$refs.geo.inst.parameters.radialSegments, 11);
-      assert.strictEqual(vm.$refs.geo.inst.parameters.heightSegments, 5);
-      assert.isTrue(vm.$refs.geo.inst.parameters.openEnded);
-      assert.strictEqual(vm.$refs.geo.inst.parameters.thetaStart, 0.63);
-      assert.strictEqual(vm.$refs.geo.inst.parameters.thetaLength, 2.21);
-      done();
-    });
-    it('When properties are undefined.', function test(done) {
-      const vm = new Vue({
-        template: '<vgl-namespace><vgl-cylinder-geometry ref="geo" /></vgl-namespace>',
-        components: { VglCylinderGeometry, VglNamespace },
-      }).$mount();
-      assert.isUndefined(vm.$refs.geo.inst.parameters.radiusTop);
-      assert.isUndefined(vm.$refs.geo.inst.parameters.radiusBottom);
-      assert.isUndefined(vm.$refs.geo.inst.parameters.height);
-      assert.isUndefined(vm.$refs.geo.inst.parameters.radialSegments);
-      assert.isUndefined(vm.$refs.geo.inst.parameters.heightSegments);
-      assert.isFalse(vm.$refs.geo.inst.parameters.openEnded);
-      assert.isUndefined(vm.$refs.geo.inst.parameters.thetaStart);
-      assert.isUndefined(vm.$refs.geo.inst.parameters.thetaLength);
-      done();
+  const { expect } = chai;
+  let history;
+  const GeometryWatcher = {
+    inject: ['vglGeometries'],
+    props: ['name'],
+    created() {
+      this.$watch(() => this.vglGeometries.forGet[this.name], (geometry) => {
+        history.push(new THREE.BufferGeometry().copy(geometry));
+      }, { immediate: true });
+    },
+    render() {},
+  };
+  beforeEach(function hook(done) {
+    history = [];
+    done();
+  });
+  it('without properties', function test(done) {
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-cylinder-geometry name="g" /><geometry-watcher name="g" /></vgl-namespace>',
+      components: { VglCylinderGeometry, VglNamespace, GeometryWatcher },
+    }).$mount();
+    vm.$nextTick(() => {
+      try {
+        const geometry = history.pop();
+        const actual = geometry.toJSON();
+        const expected = geometry.copy(new THREE.CylinderBufferGeometry()).toJSON();
+        expect(actual).to.deep.equal(expected);
+        done();
+      } catch (e) {
+        done(e);
+      }
     });
   });
-  describe('Instance should be recreated when a property changed.', function suite() {
-    it('When the radius property changes.', function test(done) {
-      const vm = new Vue({
-        template: '<vgl-namespace><vgl-cylinder-geometry ref="geo" :radiusTop="radiusTop" /></vgl-namespace>',
-        components: { VglCylinderGeometry, VglNamespace },
-        data: { radiusTop: 25 },
-      }).$mount();
-      const before = vm.$refs.geo.inst;
-      vm.radiusTop = 11;
+  it('with properties', function test(done) {
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-cylinder-geometry name="g" radius-top="1.01" radius-bottom="1.02" height="1.586" radial-segments="11" height-segments="5" open-ended theta-start="0.63" theta-length="2.21" /><geometry-watcher name="g" /></vgl-namespace>',
+      components: { VglCylinderGeometry, VglNamespace, GeometryWatcher },
+    }).$mount();
+    vm.$nextTick(() => {
+      try {
+        const geometry = history.pop();
+        const actual = geometry.toJSON();
+        const expected = geometry.copy(new THREE.CylinderBufferGeometry(
+          1.01,
+          1.02,
+          1.586,
+          11,
+          5,
+          true,
+          0.63,
+          2.21,
+        )).toJSON();
+        expect(actual).to.deep.equal(expected);
+        done();
+      } catch (e) {
+        done(e);
+      }
+    });
+  });
+  it('after properties are changed', function test(done) {
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-cylinder-geometry name="g" radius-top="1.01" :radius-bottom="r" height="1.586" radial-segments="11" height-segments="5" :open-ended="o" theta-start="0.63" :theta-length="tLen" /><geometry-watcher name="g" /></vgl-namespace>',
+      components: { VglCylinderGeometry, VglNamespace, GeometryWatcher },
+      data: { r: 1.2, o: false, tLen: 2.8 },
+    }).$mount();
+    vm.$nextTick(() => {
+      vm.r = 0.842;
+      vm.o = true;
+      vm.tLen = 1.21;
       vm.$nextTick(() => {
         try {
-          assert.notEqual(before, vm.$refs.geo.inst);
+          let geometry;
+          let actual;
+          let expected;
+          // after
+          geometry = history.pop();
+          actual = geometry.toJSON();
+          expected = geometry.copy(new THREE.CylinderBufferGeometry(
+            1.01,
+            0.842,
+            1.586,
+            11,
+            5,
+            true,
+            0.63,
+            1.21,
+          )).toJSON();
+          expect(actual).to.deep.equal(expected);
+          // before
+          geometry = history.pop();
+          actual = geometry.toJSON();
+          expected = geometry.copy(new THREE.CylinderBufferGeometry(
+            1.01,
+            1.2,
+            1.586,
+            11,
+            5,
+            false,
+            0.63,
+            2.8,
+          )).toJSON();
+          expect(actual).to.deep.equal(expected);
           done();
         } catch (e) {
           done(e);

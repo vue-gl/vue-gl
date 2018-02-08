@@ -191,21 +191,4 @@ describe('The Utils module', function module() {
       });
     });
   });
-  describe('findParent function', function target() {
-    const { findParent } = VueGL.Utils;
-    it('Should return undefined when the vm.$parent is undefined.', function test(done) {
-      assert.isUndefined(findParent({}));
-      done();
-    });
-    it('Should return vm.$parent when the vm.$parent has [key] option.', function test(done) {
-      const vm = { $parent: { $options: { testkey: true } } };
-      assert.strictEqual(findParent(vm, 'testkey'), vm.$parent);
-      done();
-    });
-    it("Should return vm.$parent.$parent when the vm.$parent doesn't has [key] option and its parent has it.", function test(done) {
-      const vm = { $parent: { $options: {}, $parent: { $options: { mockkey: true } } } };
-      assert.strictEqual(findParent(vm, 'mockkey'), vm.$parent.$parent);
-      done();
-    });
-  });
 });

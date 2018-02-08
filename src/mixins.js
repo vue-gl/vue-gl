@@ -1,4 +1,5 @@
-import { parseFloatEx, parseIntEx, validatePropString, validatePropNumber, update, dispatchUpdate } from './utils.js';
+import VglGeometry from './vgl-geometry.js';
+import { validatePropString, validatePropNumber, update } from './utils.js';
 
 export function assetFactory(ThreeClass, namespace) {
   const t = {
@@ -69,58 +70,10 @@ export function objectMixinFactory(hasGeometry) {
   return { mixins };
 }
 
-export function hedronFactory(ThreeClass) {
-  return {
-    props: {
-      radius: validatePropNumber,
-      detail: validatePropNumber,
-    },
-    computed: {
-      inst() {
-        return new ThreeClass(parseFloatEx(this.radius), parseIntEx(this.detail));
-      },
-    },
-  };
-}
-
-export function hasColorFactory(defaultColor) {
-  return {
-    props: {
-      color: {
-        type: validatePropString,
-        default: defaultColor,
-      },
-    },
-    watch: {
-      color: {
-        handler(color) {
-          this.inst.color.setStyle(color);
-          dispatchUpdate(this);
-        },
-        immediate: true,
-      },
-    },
-  };
-}
-
-export const hasMap = {
+export const VglHedronGeometry = {
+  mixins: [VglGeometry],
   props: {
-    map: validatePropString,
-  },
-  inject: ['vglTextures'],
-  computed: {
-    tex() {
-      return this.vglTextures.forGet[this.map] || null;
-    },
-  },
-  watch: {
-    tex: {
-      handler(texture, before) {
-        this.inst.map = texture;
-        if (!before) this.inst.needsUpdate = true;
-        dispatchUpdate(this);
-      },
-      immediate: true,
-    },
+    radius: { type: validatePropNumber, default: 1 },
+    detail: { type: validatePropNumber, default: 0 },
   },
 };

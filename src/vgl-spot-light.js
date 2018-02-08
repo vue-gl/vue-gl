@@ -1,80 +1,60 @@
 import VglLight from './vgl-light.js';
-import { SpotLight, Vector3 } from './three.js';
-import { parseVector3, findParent, validatePropNumber, parseFloatEx, update } from './utils.js';
+import { SpotLight } from './three.js';
+import { parseVector3, validatePropNumber, validatePropVector3, update } from './utils.js';
 
 export default {
   mixins: [VglLight],
   props: {
-    distance: {
-      type: validatePropNumber,
-      default: 0,
-    },
-    decay: {
-      type: validatePropNumber,
-      default: 1,
-    },
-    angle: {
-      type: validatePropNumber,
-      default: Math.PI / 3,
-    },
-    penumbra: {
-      type: validatePropNumber,
-      default: 0,
-    },
-    target: {
-      type: [String, Vector3],
-    },
+    distance: { type: validatePropNumber, default: 0 },
+    decay: { type: validatePropNumber, default: 1 },
+    angle: { type: validatePropNumber, default: Math.PI / 3 },
+    penumbra: { type: validatePropNumber, default: 0 },
+    target: validatePropVector3,
   },
   computed: {
     inst: () => new SpotLight(),
-  },
-  created() {
-    if (this.target) {
-      parseVector3(this.target, this.inst.target.position);
-      const $parent = findParent(this, 'isVglObject3d');
-      if ($parent) {
-        this.$watch(() => $parent.inst, (inst, old) => {
-          if (old) old.remove(this.inst.target);
-          inst.add(this.inst.target);
-          update(this);
-        }, { immediate: true });
-      }
-    }
   },
   beforeDestroy() {
     if (this.inst.target.parent) this.inst.target.parent.remove(this.inst.target);
   },
   watch: {
-    distance: {
-      handler(distance) {
-        this.inst.distance = parseFloatEx(distance);
-        update(this);
+    inst: {
+      handler(inst) {
+        if (this.target) {
+          inst.target.position.copy(parseVector3(this.target));
+          const $parent = this.vglObject3d.inst;
+          if ($parent) $parent.add(inst.target);
+        }
+        Object.assign(inst, {
+          distance: parseFloat(this.distance),
+          decay: parseFloat(this.decay),
+          angle: parseFloat(this.angle),
+          penumbra: parseFloat(this.penumbra),
+        });
       },
       immediate: true,
     },
-    decay: {
-      handler(decay) {
-        this.inst.decay = parseFloatEx(decay);
-        update(this);
-      },
-      immediate: true,
+    'vglObject3d.inst': function watcher(parent) {
+      if (parent) parent.add(this.inst.target);
     },
-    angle: {
-      handler(angle) {
-        this.inst.angle = parseFloatEx(angle);
-        update(this);
-      },
-      immediate: true,
+    distance(distance) {
+      this.inst.distance = parseFloat(distance);
+      update(this);
     },
-    penumbra: {
-      handler(penumbra) {
-        this.inst.penumbra = parseFloatEx(penumbra);
-        update(this);
-      },
-      immediate: true,
+    decay(decay) {
+      this.inst.decay = parseFloat(decay);
+      update(this);
+    },
+    angle(angle) {
+      this.inst.angle = parseFloat(angle);
+      update(this);
+    },
+    penumbra(penumbra) {
+      this.inst.penumbra = parseFloat(penumbra);
+      update(this);
     },
     target(target) {
-      parseVector3(target, this.inst.target.position);
+      this.inst.target.position.copy(parseVector3(target));
       update(this);
     },
   },
