@@ -1,4 +1,4 @@
-// const rollupPluginIstanbul = require('rollup-plugin-istanbul');
+const rollupPluginIstanbul = require('rollup-plugin-istanbul');
 const rollupPluginBabel = require('rollup-plugin-babel');
 const { execSync } = require('child_process');
 const { browserStack, saucelabs } = require('./karma.browsers');
@@ -35,7 +35,7 @@ module.exports = (config) => {
       },
       external: 'three',
       plugins: [
-        // rollupPluginIstanbul({ include: 'src/**' }),
+        rollupPluginIstanbul({ include: 'src/**' }),
         rollupPluginBabel(),
       ],
     },
