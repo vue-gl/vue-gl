@@ -1,34 +1,6 @@
 import VglGeometry from './vgl-geometry.js';
 import { validatePropString, validatePropNumber, update } from './utils.js';
 
-export function assetFactory(ThreeClass, namespace) {
-  const t = {
-    props: {
-      name: validatePropString,
-    },
-    inject: [namespace],
-    created() {
-      this.$set(this[namespace].forSet, this.name, this.inst);
-    },
-    watch: {
-      inst(inst) {
-        this[namespace].forSet[this.name] = inst;
-      },
-    },
-    beforeDestroy() {
-      if (this[namespace].forSet[this.name] === this.inst) {
-        this.$delete(this[namespace].forSet, this.name);
-      }
-    },
-    render(h) {
-      if (this.$slots.default) return h('div', this.$slots.default);
-      return undefined;
-    },
-  };
-  if (ThreeClass) t.computed = { inst: () => new ThreeClass() };
-  return t;
-}
-
 function hasAssetsMixinFactory(propname, namespace) {
   const computedPropname = `${propname}_`;
   return {

@@ -1,11 +1,11 @@
-import { assetFactory } from './mixins.js';
 import { FontLoader } from './three.js';
 import { validatePropString } from './utils.js';
 
 export default {
-  mixins: [assetFactory(null, 'vglFonts')],
+  inject: ['vglFonts'],
   props: {
     src: validatePropString,
+    name: validatePropString,
   },
   data() {
     return { inst: null };
@@ -31,5 +31,21 @@ export default {
       },
       immediate: true,
     },
+    inst: {
+      handler(inst) {
+        this.$set(this.vglFonts.forSet, this.name, inst);
+      },
+      immediate: true,
+    },
+    name(name, oldName) {
+      if (this.vglFonts.forGet[oldName] === this.inst) this.$delete(this.vglFonts.forSet, oldName);
+      this.$set(this.vglFonts.forSet, name, this.inst);
+    },
+  },
+  beforeDestroy() {
+    if (this.vglFonts.forGet[this.name] === this.inst) this.$delete(this.vglFonts.forSet, this.name);
+  },
+  render(h) {
+    return this.$slots.default ? h('div', this.$slots.default) : undefined;
   },
 };
