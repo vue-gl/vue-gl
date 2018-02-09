@@ -1,46 +1,66 @@
 import VglGeometry from './vgl-geometry.js';
+import VglObject3d from './vgl-object3d.js';
 import { validatePropString, validatePropNumber, update } from './utils.js';
 
-function hasAssetsMixinFactory(propname, namespace) {
-  const computedPropname = `${propname}_`;
-  return {
-    props: { [propname]: validatePropString },
-    inject: [namespace],
-    computed: {
-      [computedPropname]() {
-        return this[namespace].forGet[this[propname]];
-      },
-    },
-    mounted() {
-      const prop = this[computedPropname];
-      if (prop) {
-        this.inst[propname] = prop;
-        prop.addEventListener('update', this.ud);
+export const VglObject3dWithMatarial = {
+  mixins: [VglObject3d],
+  props: {
+    material: validatePropString,
+  },
+  inject: ['vglMaterials'],
+  computed: {
+    materialObject() { return this.vglMaterials.forGet[this.material]; },
+  },
+  mounted() {
+    if (this.materialObject) {
+      this.inst.material = this.materialObject;
+      this.materialObject.addEventListener('update', this.ud);
+    }
+  },
+  methods: {
+    ud() { update(this); },
+  },
+  watch: {
+    materialObject(material, oldMaterial) {
+      if (material !== oldMaterial) {
+        this.inst.material = material;
+        if (oldMaterial) oldMaterial.removeEventListener('update', this.ud);
+        if (material) material.addEventListener('update', this.ud);
+        this.ud();
       }
     },
-    methods: {
-      ud() {
-        update(this);
-      },
-    },
-    watch: {
-      [computedPropname](prop, old) {
-        if (prop !== old) {
-          this.inst[propname] = prop;
-          if (old) old.removeEventListener('update', this.ud);
-          if (prop) prop.addEventListener('update', this.ud);
-          update(this);
-        }
-      },
-    },
-  };
-}
+  },
+};
 
-export function objectMixinFactory(hasGeometry) {
-  const mixins = [hasAssetsMixinFactory('material', 'vglMaterials')];
-  if (hasGeometry) mixins.push(hasAssetsMixinFactory('geometry', 'vglGeometries'));
-  return { mixins };
-}
+export const VglObject3dWithMatarialAndGeometry = {
+  mixins: [VglObject3dWithMatarial],
+  props: {
+    geometry: validatePropString,
+  },
+  inject: ['vglGeometries'],
+  computed: {
+    geometryObject() { return this.vglGeometries.forGet[this.geometry]; },
+  },
+  mounted() {
+    if (this.geometryObject) {
+      this.inst.geometry = this.geometryObject;
+      this.geometryObject.addEventListener('update', this.ud);
+    }
+  },
+  methods: {
+    ud() { update(this); },
+  },
+  watch: {
+    geometryObject(geometry, oldGeometry) {
+      if (geometry !== oldGeometry) {
+        this.inst.geometry = geometry;
+        if (oldGeometry) oldGeometry.removeEventListener('update', this.ud);
+        if (geometry) geometry.addEventListener('update', this.ud);
+        this.ud();
+      }
+    },
+  },
+};
 
 export const VglHedronGeometry = {
   mixins: [VglGeometry],

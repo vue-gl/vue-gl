@@ -1,9 +1,8 @@
-import VglObject3d from './vgl-object3d.js';
-import { objectMixinFactory } from './mixins.js';
+import { VglObject3dWithMatarialAndGeometry } from './mixins.js';
 import { Points } from './three.js';
 
 export default {
-  mixins: [VglObject3d, objectMixinFactory(true)],
+  mixins: [VglObject3dWithMatarialAndGeometry],
   computed: {
     inst: () => new Points(),
   },
