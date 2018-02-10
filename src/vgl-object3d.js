@@ -1,14 +1,14 @@
-import { parseVector3, parseEuler, update, validatePropVector3, validatePropEuler, validatePropBoolean } from './utils.js';
+import { parseVector3, parseEuler, update, validatePropVector3, validatePropEuler, validatePropBoolean, validatePropString } from './utils.js';
 import { Object3D } from './three.js';
 
 export default {
-  isVglObject3d: true,
   props: {
     position: validatePropVector3,
     rotation: validatePropEuler,
     scale: validatePropVector3,
     castShadow: validatePropBoolean,
     receiveShadow: validatePropBoolean,
+    name: validatePropString,
   },
   computed: {
     inst: () => new Object3D(),

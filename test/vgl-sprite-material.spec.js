@@ -1,43 +1,70 @@
-describe('VglSpriteMaterial component', function component() {
+describe('VglSpriteMaterial:', function suite() {
   const { VglSpriteMaterial, VglNamespace } = VueGL;
-  const { assert } = chai;
-  describe('Creating a material', function when() {
-    describe('The color of the material should be same as the color property.', function suite() {
-      it('When the property is undefined.', function test(done) {
-        const vm = new Vue({
-          template: '<vgl-namespace><vgl-sprite-material ref="mat" /></vgl-namespace>',
-          components: { VglSpriteMaterial, VglNamespace },
-        }).$mount();
-        assert.strictEqual(vm.$refs.mat.inst.color.r, 255 / 255);
-        assert.strictEqual(vm.$refs.mat.inst.color.g, 255 / 255);
-        assert.strictEqual(vm.$refs.mat.inst.color.b, 255 / 255);
+  const { expect } = chai;
+  let history;
+  const MaterialWatcher = {
+    inject: ['vglMaterials'],
+    props: ['name'],
+    created() {
+      this.$watch(() => this.vglMaterials.forGet[this.name], (material) => {
+        history.push(material);
+      }, { immediate: true });
+    },
+    render() {},
+  };
+  beforeEach(function hook(done) {
+    history = [];
+    done();
+  });
+  it('without properties', function test(done) {
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-sprite-material name="m" /><material-watcher name="m" /></vgl-namespace>',
+      components: { VglSpriteMaterial, VglNamespace, MaterialWatcher },
+    }).$mount();
+    vm.$nextTick(() => {
+      try {
+        const actual = history.pop();
+        const expected = new THREE.SpriteMaterial();
+        expect(actual).to.deep.equal(Object.assign(expected, { uuid: actual.uuid }));
         done();
-      });
-      it('When the property is a color name.', function test(done) {
-        const vm = new Vue({
-          template: '<vgl-namespace><vgl-sprite-material color="orangered" ref="mat" /></vgl-namespace>',
-          components: { VglSpriteMaterial, VglNamespace },
-        }).$mount();
-        assert.strictEqual(vm.$refs.mat.inst.color.r, 255 / 255);
-        assert.strictEqual(vm.$refs.mat.inst.color.g, 69 / 255);
-        assert.strictEqual(vm.$refs.mat.inst.color.b, 0 / 255);
-        done();
-      });
+      } catch (e) {
+        done(e);
+      }
     });
   });
-  describe('Watching property', function suite() {
-    it('The color of the material should change when the color property changes.', function test(done) {
-      const vm = new Vue({
-        template: '<vgl-namespace><vgl-sprite-material :color="color" ref="mat" /></vgl-namespace>',
-        components: { VglSpriteMaterial, VglNamespace },
-        data: { color: 'orangered' },
-      }).$mount();
-      vm.color = '#fff5ee';
+  it('with properties', function test(done) {
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-sprite-material color="#8aeda3" name="m" /><material-watcher name="m" /></vgl-namespace>',
+      components: { VglSpriteMaterial, VglNamespace, MaterialWatcher },
+    }).$mount();
+    vm.$nextTick(() => {
+      try {
+        const actual = history.pop();
+        const expected = new THREE.SpriteMaterial({
+          color: 0x8aeda3,
+        });
+        expect(actual).to.deep.equal(Object.assign(expected, { uuid: actual.uuid }));
+        done();
+      } catch (e) {
+        done(e);
+      }
+    });
+  });
+  it('after properties are changed', function test(done) {
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-sprite-material :color="color" name="m" /><material-watcher name="m" /></vgl-namespace>',
+      components: { VglSpriteMaterial, VglNamespace, MaterialWatcher },
+      data: { color: '#dafbc4' },
+    }).$mount();
+    vm.$nextTick(() => {
+      vm.color = '#abbcaf';
       vm.$nextTick(() => {
         try {
-          assert.strictEqual(vm.$refs.mat.inst.color.r, 255 / 255);
-          assert.strictEqual(vm.$refs.mat.inst.color.g, 245 / 255);
-          assert.strictEqual(vm.$refs.mat.inst.color.b, 238 / 255);
+          const actual = history.pop();
+          const expected = new THREE.SpriteMaterial({
+            color: 0xabbcaf,
+          });
+          expect(actual).to.deep.equal(Object.assign(expected, { uuid: actual.uuid }));
           done();
         } catch (e) {
           done(e);
