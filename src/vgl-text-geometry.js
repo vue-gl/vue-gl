@@ -1,9 +1,9 @@
 import VglExtrudeGeometry from './vgl-extrude-geometry.js';
-import { TextGeometry } from './three.js';
+import { TextGeometry, Geometry } from './three.js';
 import { validatePropNumber, validatePropString, validatePropBoolean } from './utils.js';
 
 function getText(nodes) {
-  return nodes.map(node => (node.children ? getText(node.children) : node.text)).join('');
+  return nodes ? nodes.map(node => (node.children ? getText(node.children) : node.text)).join('') : '';
 }
 
 export default {
@@ -23,7 +23,7 @@ export default {
     inst() {
       const font = this.vglFonts.forGet[this.font];
       const nodes = this.$slots.default;
-      if (font && nodes) {
+      if (font) {
         return new TextGeometry(getText(nodes), {
           font,
           size: parseFloat(this.size),
@@ -35,7 +35,7 @@ export default {
           bevelSegments: parseInt(this.bevelSegments, 10),
         });
       }
-      return undefined;
+      return new Geometry();
     },
   },
 };

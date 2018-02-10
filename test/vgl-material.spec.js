@@ -14,7 +14,7 @@ describe('VglMaterial component', function component() {
           },
         },
       }).$mount();
-      assert.strictEqual(vm.$refs.other.vglMaterials.forGet["dm'&^>"], vm.$refs.me.inst);
+      assert.strictEqual(vm.$refs.other.vglMaterials.forGet["dm'&^>"], vm.$refs.me.inst.uuid);
       done();
     });
     it('Should be unregistered when destroyed.', function test(done) {
@@ -62,7 +62,7 @@ describe('VglMaterial component', function component() {
       vm.$refs.geo.i = new THREE.Material();
       vm.$nextTick(() => {
         try {
-          assert.strictEqual(vm.$refs.other.vglMaterials.forGet["'<!--"], vm.$refs.geo.inst);
+          assert.strictEqual(vm.$refs.other.vglMaterials.forGet["'<!--"], vm.$refs.geo.inst.uuid);
           done();
         } catch (e) {
           done(e);

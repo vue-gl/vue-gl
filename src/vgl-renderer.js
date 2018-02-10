@@ -1,6 +1,7 @@
 import VglNamespace from './vgl-namespace.js';
 import { WebGLRenderer } from './three.js';
 import { validatePropBoolean, validatePropString } from './utils.js';
+import { cameras, scenes } from './object-stores.js';
 
 function resizeCamera(camera, domElement) {
   const width = domElement.clientWidth;
@@ -67,10 +68,10 @@ export default {
       }, this.opt));
     },
     cmr() {
-      return (this.$data.vglCameras || this.vglCameras.forGet)[this.camera];
+      return cameras[this.vglCameras.forGet[this.camera]];
     },
     scn() {
-      return (this.$data.vglScenes || this.vglScenes.forGet)[this.scene];
+      return scenes[this.vglScenes.forGet[this.scene]];
     },
   },
   methods: {

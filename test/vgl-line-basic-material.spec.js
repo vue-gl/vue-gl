@@ -1,31 +1,16 @@
 describe('VglLineBasicMaterial:', function suite() {
   const { VglLineBasicMaterial, VglNamespace } = VueGL;
   const { expect } = chai;
-  let history;
-  const MaterialWatcher = {
-    inject: ['vglMaterials'],
-    props: ['name'],
-    created() {
-      this.$watch(() => this.vglMaterials.forGet[this.name], (material) => {
-        history.push(material);
-      }, { immediate: true });
-    },
-    render() {},
-  };
-  beforeEach(function hook(done) {
-    history = [];
-    done();
-  });
   it('without properties', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-line-basic-material name="m" /><material-watcher name="m" /></vgl-namespace>',
-      components: { VglLineBasicMaterial, VglNamespace, MaterialWatcher },
+      template: '<vgl-namespace><vgl-line-basic-material ref="m" /></vgl-namespace>',
+      components: { VglLineBasicMaterial, VglNamespace },
     }).$mount();
     vm.$nextTick(() => {
       try {
-        const actual = history.pop();
         const expected = new THREE.LineBasicMaterial();
-        expect(actual).to.deep.equal(Object.assign(expected, { uuid: actual.uuid }));
+        const { inst } = vm.$refs.m;
+        expect(inst).to.deep.equal(Object.assign(expected, { uuid: inst.uuid }));
         done();
       } catch (e) {
         done(e);
@@ -34,12 +19,11 @@ describe('VglLineBasicMaterial:', function suite() {
   });
   it('with properties', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-line-basic-material color="#8aeda3" lights linewidth="3.5" linecap="butt" linejoin="miter" name="m" /><material-watcher name="m" /></vgl-namespace>',
-      components: { VglLineBasicMaterial, VglNamespace, MaterialWatcher },
+      template: '<vgl-namespace><vgl-line-basic-material color="#8aeda3" lights linewidth="3.5" linecap="butt" linejoin="miter" ref="m" /></vgl-namespace>',
+      components: { VglLineBasicMaterial, VglNamespace },
     }).$mount();
     vm.$nextTick(() => {
       try {
-        const actual = history.pop();
         const expected = new THREE.LineBasicMaterial({
           color: 0x8aeda3,
           lights: true,
@@ -47,7 +31,8 @@ describe('VglLineBasicMaterial:', function suite() {
           linecap: 'butt',
           linejoin: 'miter',
         });
-        expect(actual).to.deep.equal(Object.assign(expected, { uuid: actual.uuid }));
+        const { inst } = vm.$refs.m;
+        expect(inst).to.deep.equal(Object.assign(expected, { uuid: inst.uuid }));
         done();
       } catch (e) {
         done(e);
@@ -56,8 +41,8 @@ describe('VglLineBasicMaterial:', function suite() {
   });
   it('after properties are changed', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-line-basic-material :color="color" :lights="lights" :linewidth="linewidth" :linecap="linecap" :linejoin="linejoin" name="m" /><material-watcher name="m" /></vgl-namespace>',
-      components: { VglLineBasicMaterial, VglNamespace, MaterialWatcher },
+      template: '<vgl-namespace><vgl-line-basic-material :color="color" :lights="lights" :linewidth="linewidth" :linecap="linecap" :linejoin="linejoin" ref="m" /></vgl-namespace>',
+      components: { VglLineBasicMaterial, VglNamespace },
       data: { color: '#dafbc4', lights: false, linewidth: 5, linecap: 'butt', linejoin: 'miter' },
     }).$mount();
     vm.$nextTick(() => {
@@ -68,7 +53,6 @@ describe('VglLineBasicMaterial:', function suite() {
       vm.linejoin = 'bevel';
       vm.$nextTick(() => {
         try {
-          const actual = history.pop();
           const expected = new THREE.LineBasicMaterial({
             color: 0xabbcaf,
             lights: true,
@@ -76,7 +60,8 @@ describe('VglLineBasicMaterial:', function suite() {
             linecap: 'square',
             linejoin: 'bevel',
           });
-          expect(actual).to.deep.equal(Object.assign(expected, { uuid: actual.uuid }));
+          const { inst } = vm.$refs.m;
+          expect(inst).to.deep.equal(Object.assign(expected, { uuid: inst.uuid }));
           done();
         } catch (e) {
           done(e);
