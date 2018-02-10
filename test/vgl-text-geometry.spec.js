@@ -1,7 +1,6 @@
 describe('VglTextGeometry component', function component() {
-  const { VglTextGeometry, VglNamespace, VglFont } = VueGL;
-  const { assert } = chai;
-  this.timeout(5000);
+  const { VglTextGeometry, VglNamespace } = VueGL;
+  const { expect, assert } = chai;
   before(function hook(done) {
     const xhr = new XMLHttpRequest();
     xhr.addEventListener('load', () => {
@@ -14,79 +13,91 @@ describe('VglTextGeometry component', function component() {
   describe('Parameters of a instance should be same as the component properties.', function suite() {
     it('When properties are number.', function test(done) {
       const vm = new Vue({
-        template: `<vgl-namespace><vgl-font ref="font" name="font" src="${this.typeface}" /><vgl-text-geometry ref="geo" font="font" :size="120" :height="6" :curve-segments="8" :bevel-enabled="true" :bevel-thickness="3" :bevel-size="6" :bevel-segments="2">a</vgl-text-geometry></vgl-namespace>`,
-        components: { VglTextGeometry, VglNamespace, VglFont },
+        template: `<vgl-namespace><vgl-text-geometry ref="geo" font="${this.typeface}" :size="120" :height="6" :curve-segments="8" :bevel-enabled="true" :bevel-thickness="3" :bevel-size="6" :bevel-segments="2" text="a" /></vgl-namespace>`,
+        components: { VglTextGeometry, VglNamespace },
       }).$mount();
-      vm.$refs.font.$watch('inst', () => {
-        vm.$nextTick(() => {
-          try {
-            assert.strictEqual(vm.$refs.geo.inst.parameters.parameters.size, 120);
-            assert.strictEqual(vm.$refs.geo.inst.parameters.parameters.height, 6);
-            assert.strictEqual(vm.$refs.geo.inst.parameters.parameters.curveSegments, 8);
-            assert.isTrue(vm.$refs.geo.inst.parameters.parameters.bevelEnabled);
-            assert.strictEqual(vm.$refs.geo.inst.parameters.parameters.bevelThickness, 3);
-            assert.strictEqual(vm.$refs.geo.inst.parameters.parameters.bevelSize, 6);
-            assert.strictEqual(vm.$refs.geo.inst.parameters.parameters.bevelSegments, 2);
-            done();
-          } catch (e) {
-            done(e);
-          }
-        });
+      vm.$refs.geo.$watch('inst', (inst) => {
+          vm.$nextTick(() => {
+            new THREE.FontLoader().load(this.typeface, (font) => {
+              try {
+                const mediator = new THREE.BufferGeometry();
+                const expected = new THREE.TextBufferGeometry('a', {
+                  font,
+                  size: 120,
+                  height: 6,
+                  curveSegments: 8,
+                  bevelEnabled: true,
+                  bevelThickness: 3,
+                  bevelSize: 6,
+                  bevelSegments: 2,
+                });
+                expect(mediator.copy(inst).toJSON()).to.deep.equal(mediator.copy(expected).toJSON());
+                done();
+              } catch (e) {
+                done(e);
+              }
+            });
+          });
       });
     });
     it('When properties are string.', function test(done) {
       const vm = new Vue({
-        template: `<vgl-namespace><vgl-font ref="font" name="font" src="${this.typeface}" /><vgl-text-geometry ref="geo" font="font" size="110" height="6" curve-segments="8" bevel-enabled bevel-thickness="3" bevel-size="6" bevel-segments="2">a</vgl-text-geometry></vgl-namespace>`,
-        components: { VglTextGeometry, VglNamespace, VglFont },
+        template: `<vgl-namespace><vgl-text-geometry ref="geo" font="${this.typeface}" size="110" height="6" curve-segments="8" bevel-enabled bevel-thickness="3" bevel-size="6" bevel-segments="2" text="a" /></vgl-namespace>`,
+        components: { VglTextGeometry, VglNamespace },
       }).$mount();
-      vm.$refs.font.$watch('inst', () => {
+      vm.$refs.geo.$watch('inst', (inst) => {
         vm.$nextTick(() => {
-          try {
-            assert.strictEqual(vm.$refs.geo.inst.parameters.parameters.size, 110);
-            assert.strictEqual(vm.$refs.geo.inst.parameters.parameters.height, 6);
-            assert.strictEqual(vm.$refs.geo.inst.parameters.parameters.curveSegments, 8);
-            assert.isTrue(vm.$refs.geo.inst.parameters.parameters.bevelEnabled);
-            assert.strictEqual(vm.$refs.geo.inst.parameters.parameters.bevelThickness, 3);
-            assert.strictEqual(vm.$refs.geo.inst.parameters.parameters.bevelSize, 6);
-            assert.strictEqual(vm.$refs.geo.inst.parameters.parameters.bevelSegments, 2);
-            done();
-          } catch (e) {
-            done(e);
-          }
+            new THREE.FontLoader().load(this.typeface, (font) => {
+              try {
+                const mediator = new THREE.BufferGeometry();
+                const expected = new THREE.TextBufferGeometry('a', {
+                  font,
+                  size: 110,
+                  height: 6,
+                  curveSegments: 8,
+                  bevelEnabled: true,
+                  bevelThickness: 3,
+                  bevelSize: 6,
+                  bevelSegments: 2,
+                });
+                expect(mediator.copy(inst).toJSON()).to.deep.equal(mediator.copy(expected).toJSON());
+                done();
+              } catch (e) {
+                done(e);
+              }
+            });
         });
-      });
+      }, { immediate: true });
     });
     it('When properties are undefined.', function test(done) {
       const vm = new Vue({
-        template: `<vgl-namespace><vgl-font ref="font" name="font" src="${this.typeface}" /><vgl-text-geometry ref="geo" font="font">a</vgl-text-geometry></vgl-namespace>`,
-        components: { VglTextGeometry, VglNamespace, VglFont },
+        template: `<vgl-namespace><vgl-text-geometry ref="geo" font="${this.typeface}" text="a" /></vgl-namespace>`,
+        components: { VglTextGeometry, VglNamespace },
       }).$mount();
-      vm.$refs.font.$watch('inst', () => {
+      vm.$refs.geo.$watch('inst', (inst) => {
         vm.$nextTick(() => {
-          try {
-            assert.strictEqual(vm.$refs.geo.inst.parameters.parameters.size, 100);
-            assert.strictEqual(vm.$refs.geo.inst.parameters.parameters.height, 50);
-            assert.strictEqual(vm.$refs.geo.inst.parameters.parameters.curveSegments, 12);
-            assert.isFalse(vm.$refs.geo.inst.parameters.parameters.bevelEnabled);
-            assert.strictEqual(vm.$refs.geo.inst.parameters.parameters.bevelThickness, 10);
-            assert.strictEqual(vm.$refs.geo.inst.parameters.parameters.bevelSize, 8);
-            assert.strictEqual(vm.$refs.geo.inst.parameters.parameters.bevelSegments, 3);
-            done();
-          } catch (e) {
-            done(e);
-          }
+            new THREE.FontLoader().load(this.typeface, (font) => {
+              try {
+                const mediator = new THREE.BufferGeometry();
+                const expected = new THREE.TextBufferGeometry('a', { font });
+                expect(mediator.copy(inst).toJSON()).to.deep.equal(mediator.copy(expected).toJSON());
+                done();
+              } catch (e) {
+                done(e);
+              }
+            });
         });
-      });
+      }, { immediate: true });
     });
   });
   describe('Instance should be recreated when a property changed.', function suite() {
     it('When the width property changes.', function test(done) {
       const vm = new Vue({
-        template: '<vgl-namespace><vgl-font ref="font" name="font" src="base/test/helvetiker_regular.typeface.json" /><vgl-text-geometry ref="geo" font="font" :size="size">a</vgl-text-geometry></vgl-namespace>',
-        components: { VglTextGeometry, VglNamespace, VglFont },
+        template: '<vgl-namespace><vgl-text-geometry ref="geo" font="base/test/helvetiker_regular.typeface.json" :size="size" text="a" /></vgl-namespace>',
+        components: { VglTextGeometry, VglNamespace },
         data: { size: 120 },
       }).$mount();
-      vm.$refs.font.$watch('inst', () => {
+      vm.$refs.geo.$watch('f', () => {
         vm.$nextTick(() => {
           const before = vm.$refs.geo.inst;
           vm.size = 110;

@@ -1,6 +1,7 @@
 import VglMaterial from './vgl-material.js';
 import { MeshStandardMaterial } from './three.js';
 import { validatePropString, dispatchUpdate } from './utils.js';
+import { textures } from './object-stores.js';
 
 export default {
   mixins: [VglMaterial],
@@ -11,7 +12,7 @@ export default {
   },
   computed: {
     inst: () => new MeshStandardMaterial(),
-    mapObject() { return this.vglTextures.forGet[this.map] || null; },
+    mapObject() { return textures[this.vglTextures.forGet[this.map]] || null; },
   },
   watch: {
     inst: {

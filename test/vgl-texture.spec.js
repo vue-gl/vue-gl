@@ -2,21 +2,6 @@ describe('VglTexture component', function component() {
   const { VglTexture, VglNamespace } = VueGL;
   const { assert } = chai;
   describe('The instance should be registered to the injected namespace.', function suite() {
-    it('Null should be registered when created.', function test(done) {
-      const vm = new Vue({
-        template: '<vgl-namespace><vgl-texture name="dm\'&^>" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" ref="me" /><other-component ref="other" /></vgl-namespace>',
-        components: {
-          VglTexture,
-          VglNamespace,
-          OtherComponent: {
-            inject: ['vglTextures'],
-            render() {},
-          },
-        },
-      }).$mount();
-      assert.isNull(vm.$refs.other.vglTextures.forGet["dm'&^>"]);
-      done();
-    });
     it('Should be replaced when the image is loaded.', function test(done) {
       const vm = new Vue({
         template: '<vgl-namespace><vgl-texture name="\'<!--" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" ref="tex" /><other-component ref="other" /></vgl-namespace>',
@@ -32,7 +17,7 @@ describe('VglTexture component', function component() {
       vm.$refs.tex.$watch('inst', (inst) => {
         vm.$nextTick(() => {
           try {
-            assert.strictEqual(vm.$refs.other.vglTextures.forGet["'<!--"], inst);
+            assert.strictEqual(vm.$refs.other.vglTextures.forGet["'<!--"], inst.uuid);
             done();
           } catch (e) {
             done(e);
@@ -87,7 +72,7 @@ describe('VglTexture component', function component() {
           assert.notEqual(before, after);
           vm.$nextTick(() => {
             try {
-              assert.strictEqual(vm.$refs.other.vglTextures.forGet["'<!--"], after);
+              assert.strictEqual(vm.$refs.other.vglTextures.forGet["'<!--"], after.uuid);
               done();
             } catch (e) {
               done(e);

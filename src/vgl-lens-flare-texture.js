@@ -1,5 +1,6 @@
 import { NormalBlending, Color } from './three.js';
 import { validatePropString, validatePropNumber, update } from './utils.js';
+import { textures } from './object-stores.js';
 
 function findParent(vm, key) {
   const { $parent } = vm;
@@ -26,7 +27,7 @@ export default {
   computed: {
     opts() {
       return [
-        this.vglTextures.forGet[this.texture],
+        textures[this.vglTextures.forGet[this.texture]],
         parseInt(this.size, 10),
         parseFloat(this.distance),
         parseInt(this.blending, 10),

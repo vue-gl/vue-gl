@@ -21,7 +21,6 @@ export default {
     vglGeometries: { default: null },
     vglMaterials: { default: null },
     vglTextures: { default: null },
-    vglFonts: { default: null },
   },
   data() {
     const data = {
@@ -39,11 +38,6 @@ export default {
         Object.create(null),
         this.vglTextures ? Object.getPrototypeOf(this.vglTextures.forGet) : {},
         this.vglTextures ? this.vglTextures.forGet : {},
-      )),
-      fonts: Object.create(Object.assign(
-        Object.create(null),
-        this.vglFonts ? Object.getPrototypeOf(this.vglFonts.forGet) : {},
-        this.vglFonts ? this.vglFonts.forGet : {},
       )),
     };
     if (!this.vglCameras.forGet) {
@@ -83,16 +77,6 @@ export default {
         this.textures,
       );
     },
-    'vglFonts.forGet': function watcher(fonts) {
-      this.fonts = Object.assign(
-        Object.create(Object.assign(
-          Object.create(null),
-          Object.getPrototypeOf(fonts),
-          fonts,
-        )),
-        this.fonts,
-      );
-    },
   },
   provide() {
     const vm = this;
@@ -107,10 +91,6 @@ export default {
       },
       vglTextures: {
         get forGet() { return vm.textures; },
-        get forSet() { return this.forGet; },
-      },
-      vglFonts: {
-        get forGet() { return vm.fonts; },
         get forSet() { return this.forGet; },
       },
     };

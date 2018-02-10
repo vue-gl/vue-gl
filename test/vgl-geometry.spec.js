@@ -14,7 +14,7 @@ describe('VglGeometry component', function component() {
           },
         },
       }).$mount();
-      assert.strictEqual(vm.$refs.other.vglGeometries.forGet["dm'&^>"], vm.$refs.me.inst);
+      assert.strictEqual(vm.$refs.other.vglGeometries.forGet["dm'&^>"], vm.$refs.me.inst.uuid);
       done();
     });
     it('Should be unregistered when destroyed.', function test(done) {
@@ -62,7 +62,7 @@ describe('VglGeometry component', function component() {
       vm.$refs.geo.i = new THREE.Geometry();
       vm.$nextTick(() => {
         try {
-          assert.strictEqual(vm.$refs.other.vglGeometries.forGet["'<!--"], vm.$refs.geo.inst);
+          assert.strictEqual(vm.$refs.other.vglGeometries.forGet["'<!--"], vm.$refs.geo.inst.uuid);
           done();
         } catch (e) {
           done(e);

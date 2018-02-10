@@ -1,5 +1,6 @@
 import VglObject3d from './vgl-object3d.js';
 import { parseVector3, parseSpherical, update, validatePropVector3, validatePropSpherical } from './utils.js';
+import { cameras } from './object-stores.js';
 import { Camera, Vector3 } from './three.js';
 
 function setPositionAndRotation(vm, orbitPosition, orbitTarget) {
@@ -26,15 +27,17 @@ export default {
   },
   watch: {
     inst: {
-      handler(inst) {
-        this.$set(this.vglCameras.forSet, this.name, inst);
+      handler(inst, oldInst) {
+        if (oldInst) delete cameras[oldInst.uuid];
+        cameras[inst.uuid] = inst;
+        this.$set(this.vglCameras.forSet, this.name, inst.uuid);
         setPositionAndRotation(this, this.orbitPosition, this.orbitTarget);
       },
       immediate: true,
     },
     name(name, oldName) {
-      if (this.vglCameras.forGet[oldName] === this.inst) this.$delete(this.vglCameras.forSet, oldName);
-      this.$set(this.vglCameras.forSet, name, this.inst);
+      if (this.vglCameras.forGet[oldName] === this.inst.uuid) this.$delete(this.vglCameras.forSet, oldName);
+      this.$set(this.vglCameras.forSet, name, this.inst.uuid);
     },
     orbitTarget(target) {
       setPositionAndRotation(this, this.orbitPosition, target);
@@ -44,6 +47,7 @@ export default {
     },
   },
   beforeDestroy() {
-    if (this.vglCameras.forGet[this.name] === this.inst) this.$delete(this.vglCameras.forSet, this.name);
+    delete cameras[this.inst.uuid];
+    if (this.vglCameras.forGet[this.name] === this.inst.uuid) this.$delete(this.vglCameras.forSet, this.name);
   },
 };

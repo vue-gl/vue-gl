@@ -26,7 +26,7 @@ describe('VglScene component', function component() {
           },
         },
       }).$mount();
-      assert.strictEqual(vm.$refs.other.vglScenes.forGet["dm'&^>"], vm.$refs.me.inst);
+      assert.strictEqual(vm.$refs.other.vglScenes.forGet["dm'&^>"], vm.$refs.me.inst.uuid);
       done();
     });
     it('Should be unregistered when destroyed.', function test(done) {
@@ -74,7 +74,7 @@ describe('VglScene component', function component() {
       vm.$refs.geo.i = new THREE.Scene();
       vm.$nextTick(() => {
         try {
-          assert.strictEqual(vm.$refs.other.vglScenes.forGet["'<!--"], vm.$refs.geo.inst);
+          assert.strictEqual(vm.$refs.other.vglScenes.forGet["'<!--"], vm.$refs.geo.inst.uuid);
           done();
         } catch (e) {
           done(e);
