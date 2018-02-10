@@ -1,61 +1,67 @@
-describe('VglPointLight component', function component() {
+describe('VglPointLight:', function suite() {
   const { VglPointLight } = VueGL;
-  const { assert } = chai;
-  describe('Creating a light', function when() {
-    describe('The distance of the light should be same as the distance property.', function suite() {
-      it('When the property is undefined.', function test(done) {
-        const vm = new Vue(VglPointLight);
-        assert.strictEqual(vm.inst.distance, 0);
+  const { expect } = chai;
+  it('without properties', function test(done) {
+    const vm = new Vue(VglPointLight);
+    vm.$nextTick(() => {
+      try {
+        const actual = vm.inst.clone();
+        actual.updateMatrixWorld();
+        const expected = new THREE.PointLight();
+        expected.updateMatrixWorld();
+        expected.uuid = actual.uuid;
+        expected.shadow.camera.uuid = actual.shadow.camera.uuid;
+        expect(actual.toJSON()).to.deep.equal(expected.toJSON());
         done();
-      });
-      it('When the property is a number.', function test(done) {
-        const vm = new (Vue.extend(VglPointLight))({ propsData: { distance: 2.1 } });
-        assert.strictEqual(vm.inst.distance, 2.1);
-        done();
-      });
-      it('When the property is a string.', function test(done) {
-        const vm = new (Vue.extend(VglPointLight))({ propsData: { distance: '2.5' } });
-        assert.strictEqual(vm.inst.distance, 2.5);
-        done();
-      });
-    });
-    describe('The decay of the light should be same as the decay property.', function suite() {
-      it('When the property is undefined.', function test(done) {
-        const vm = new Vue(VglPointLight);
-        assert.strictEqual(vm.inst.decay, 1);
-        done();
-      });
-      it('When the property is a number.', function test(done) {
-        const vm = new (Vue.extend(VglPointLight))({ propsData: { decay: 2 } });
-        assert.strictEqual(vm.inst.decay, 2);
-        done();
-      });
-      it('When the property is a string.', function test(done) {
-        const vm = new (Vue.extend(VglPointLight))({ propsData: { decay: '3' } });
-        assert.strictEqual(vm.inst.decay, 3);
-        done();
-      });
+      } catch (e) {
+        done(e);
+      }
     });
   });
-  describe('Watching properties', function suite() {
-    it('The distance of the light should change when the distance property changes.', function test(done) {
-      const vm = new (Vue.extend(VglPointLight))({ propsData: { distance: 3.5 } });
-      vm.distance = '1.8';
-      vm.$nextTick(() => {
-        try {
-          assert.strictEqual(vm.inst.distance, 1.8);
-          done();
-        } catch (e) {
-          done(e);
-        }
-      });
+  it('with properties', function test(done) {
+    const vm = new (Vue.extend(VglPointLight))({
+      propsData: { position: '1 1.5 -1.1', color: '#4fd58a', intensity: 0.88, distance: '80', decay: '3' },
     });
-    it('The decay of the light should change when the decay property changes.', function test(done) {
-      const vm = new (Vue.extend(VglPointLight))({ propsData: { decay: '1.5' } });
-      vm.decay = 2.5;
+    vm.$nextTick(() => {
+      try {
+        const actual = vm.inst.clone();
+        actual.updateMatrixWorld();
+        const expected = new THREE.PointLight(0x4fd58a, 0.88);
+        expected.position.set(1, 1.5, -1.1);
+        expected.distance = 80;
+        expected.decay = 3;
+        expected.updateMatrixWorld();
+        expected.uuid = actual.uuid;
+        expected.shadow.camera.uuid = actual.shadow.camera.uuid;
+        expect(actual.toJSON()).to.deep.equal(expected.toJSON());
+        done();
+      } catch (e) {
+        done(e);
+      }
+    });
+  });
+  it('after properties are changed', function test(done) {
+    const vm = new (Vue.extend(VglPointLight))({
+      propsData: { position: '1 1.5 -1.1', color: '#4fd58a', intensity: 0.88, distance: '80', decay: '3' },
+    });
+    vm.$nextTick(() => {
+      vm.position = '2 2 0';
+      vm.color = '#aaffb3';
+      vm.intensity = '0.76';
+      vm.distance = '67';
+      vm.decay = '2';
       vm.$nextTick(() => {
         try {
-          assert.strictEqual(vm.inst.decay, 2.5);
+          const actual = vm.inst.clone();
+          actual.updateMatrixWorld();
+          const expected = new THREE.PointLight(0xaaffb3, 0.76);
+          expected.position.set(2, 2, 0);
+          expected.distance = 67;
+          expected.decay = 2;
+          expected.updateMatrixWorld();
+          expected.uuid = actual.uuid;
+          expected.shadow.camera.uuid = actual.shadow.camera.uuid;
+          expect(actual.toJSON()).to.deep.equal(expected.toJSON());
           done();
         } catch (e) {
           done(e);
