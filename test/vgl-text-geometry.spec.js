@@ -1,7 +1,6 @@
 describe('VglTextGeometry component', function component() {
   const { VglTextGeometry, VglNamespace } = VueGL;
   const { expect, assert } = chai;
-  this.timeout(5000);
   before(function hook(done) {
     const xhr = new XMLHttpRequest();
     xhr.addEventListener('load', () => {
