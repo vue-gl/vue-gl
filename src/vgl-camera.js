@@ -36,7 +36,9 @@ export default {
       immediate: true,
     },
     name(name, oldName) {
-      if (this.vglCameras.forGet[oldName] === this.inst.uuid) this.$delete(this.vglCameras.forSet, oldName);
+      if (this.vglCameras.forGet[oldName] === this.inst.uuid) {
+        this.$delete(this.vglCameras.forSet, oldName);
+      }
       this.$set(this.vglCameras.forSet, name, this.inst.uuid);
     },
     orbitTarget(target) {
@@ -48,6 +50,8 @@ export default {
   },
   beforeDestroy() {
     delete cameras[this.inst.uuid];
-    if (this.vglCameras.forGet[this.name] === this.inst.uuid) this.$delete(this.vglCameras.forSet, this.name);
+    if (this.vglCameras.forGet[this.name] === this.inst.uuid) {
+      this.$delete(this.vglCameras.forSet, this.name);
+    }
   },
 };

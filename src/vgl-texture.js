@@ -23,19 +23,23 @@ export default {
       immediate: true,
     },
     uuid(uuid, oldUuid) {
-      if (oldUuid !== undefined) delete textures[oldUuid]; 
+      if (oldUuid !== undefined) delete textures[oldUuid];
       this.$set(this.vglTextures.forSet, this.name, uuid);
     },
     name(name, oldName) {
-      if (this.vglTextures.forGet[oldName] === this.uuid) this.$delete(this.vglTextures.forSet, oldName);
+      if (this.vglTextures.forGet[oldName] === this.uuid) {
+        this.$delete(this.vglTextures.forSet, oldName);
+      }
       this.$set(this.vglTextures.forSet, name, this.uuid);
     },
   },
   beforeDestroy() {
     delete textures[this.uuid];
-    if (this.vglTextures.forGet[this.name] === this.uuid) this.$delete(this.vglTextures.forSet, this.name);
+    if (this.vglTextures.forGet[this.name] === this.uuid) {
+      this.$delete(this.vglTextures.forSet, this.name);
+    }
   },
   render(h) {
     return this.$slots.default ? h('div', this.$slots.default) : undefined;
-  }
+  },
 };

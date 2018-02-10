@@ -20,14 +20,18 @@ export default {
       immediate: true,
     },
     name(name, oldName) {
-      if (this.vglMaterials.forGet[oldName] === this.inst.uuid) this.$delete(this.vglMaterials.forSet, oldName);
+      if (this.vglMaterials.forGet[oldName] === this.inst.uuid) {
+        this.$delete(this.vglMaterials.forSet, oldName);
+      }
       this.$set(this.vglMaterials.forSet, name, this.inst.uuid);
     },
   },
   beforeDestroy() {
-    if (this.vglMaterials.forGet[this.name] === this.inst.uuid) this.$delete(this.vglMaterials.forSet, this.name);
+    if (this.vglMaterials.forGet[this.name] === this.inst.uuid) {
+      this.$delete(this.vglMaterials.forSet, this.name);
+    }
   },
   render(h) {
     return this.$slots.default ? h('div', this.$slots.default) : undefined;
-  }
+  },
 };
