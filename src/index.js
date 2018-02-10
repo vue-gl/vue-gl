@@ -41,7 +41,6 @@ import VglSpotLight from './vgl-spot-light.js';
 import VglTexture from './vgl-texture.js';
 import VglLensFlare from './vgl-lens-flare.js';
 import VglLensFlareTexture from './vgl-lens-flare-texture.js';
-import VglFont from './vgl-font.js';
 import VglExtrudeGeometry from './vgl-extrude-geometry.js';
 import VglTextGeometry from './vgl-text-geometry.js';
 import VglSpriteMaterial from './vgl-sprite-material.js';
@@ -94,7 +93,6 @@ export {
   VglTexture,
   VglLensFlare,
   VglLensFlareTexture,
-  VglFont,
   VglExtrudeGeometry,
   VglTextGeometry,
   VglSpriteMaterial,

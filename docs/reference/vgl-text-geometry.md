@@ -9,7 +9,8 @@ See the mixin components below for common properties.
 * [VglExtrudeGeometry](vgl-extrude-geometry)
 
 ## Properties
-* {% include prop.md name="font" type="string" %} - A name of the VglFont component.
+* {% include prop.md name="text" type="string" %} - The text that needs to be shown.
+* {% include prop.md name="font" type="string" %} - The path or URL to the facetype json file. This can also be a Data URI.
 * {% include prop.md name="size" type="float" %} - Size of the text.
 * {% include prop.md name="height" type="float" %} - Thickness to extrude text.
 * {% include prop.md name="curveSegments" type="int" %} - Number of points on the curves.
@@ -17,13 +18,14 @@ See the mixin components below for common properties.
 * {% include prop.md name="bevelThickness" type="float" %} - How deep into text bevel goes.
 * {% include prop.md name="bevelSize" type="float" %} - How far from text outline is bevel.
 * {% include prop.md name="bevelSegments" type="int" %} - Number of bevel segments.
+* {% include prop.md name="bevelSegments" type="int" %} - Number of bevel segments.
 
 ## Example usage
 ```html
 <vgl-renderer antialias style="width: 300px; height: 150px;">
     <vgl-scene>
-        <vgl-font src="path/to/font.json" name="font"></vgl-font>
-        <vgl-text-geometry name="text" font="font">Text to be displayed.</vgl-text-geometry>
+        <vgl-font src="" name="font"></vgl-font>
+        <vgl-text-geometry name="text" font="path/to/font.json" text="Text to be displayed."></vgl-text-geometry>
         <vgl-mesh-standard-material name="std"></vgl-mesh-standard-material>
         <vgl-mesh geometry="text" material="std" position="-750 0 0"></vgl-mesh>
         <vgl-ambient-light color="#ffeecc"></vgl-ambient-light>
@@ -44,8 +46,7 @@ See the mixin components below for common properties.
     </style>
     <vgl-renderer antialias class='vgl-canvas'>
         <vgl-scene>
-            <vgl-font src='https://unpkg.com/three/examples/fonts/helvetiker_regular.typeface.json' name='font'></vgl-font>
-            <vgl-text-geometry name='text' font='font'>Text to be displayed.</vgl-text-geometry>
+            <vgl-text-geometry name='text' font='https://unpkg.com/three/examples/fonts/helvetiker_regular.typeface.json' text='Text to be displayed.'></vgl-text-geometry>
             <vgl-mesh-standard-material name='std'></vgl-mesh-standard-material>
             <vgl-mesh geometry='text' material='std' position='-750 0 0'></vgl-mesh>
             <vgl-ambient-light color='#ffeecc'></vgl-ambient-light>
