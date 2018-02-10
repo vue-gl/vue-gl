@@ -12,6 +12,7 @@ describe('VglDirectionalLight:', function suite() {
         expected.uuid = actual.uuid;
         expected.shadow.camera.uuid = actual.shadow.camera.uuid;
         expect(actual.toJSON()).to.deep.equal(expected.toJSON());
+        expect(actual).to.have.property('castShadow', expected.castShadow);
         done();
       } catch (e) {
         done(e);
@@ -33,6 +34,7 @@ describe('VglDirectionalLight:', function suite() {
         expected.uuid = actual.uuid;
         expected.shadow.camera.uuid = actual.shadow.camera.uuid;
         expect(actual.toJSON()).to.deep.equal(expected.toJSON());
+        expect(actual).to.have.property('castShadow', expected.castShadow);
         done();
       } catch (e) {
         done(e);
@@ -59,6 +61,7 @@ describe('VglDirectionalLight:', function suite() {
           expected.uuid = actual.uuid;
           expected.shadow.camera.uuid = actual.shadow.camera.uuid;
           expect(actual.toJSON()).to.deep.equal(expected.toJSON());
+          expect(actual).to.have.property('castShadow', expected.castShadow);
           done();
         } catch (e) {
           done(e);
