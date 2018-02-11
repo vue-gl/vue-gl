@@ -23,7 +23,7 @@ jobs:
                 command: sudo npm i -g codecov && codecov
             - run:
                 name: Report the coverage
-                command: npm i codacy-coverage && cat "coverage/$(ls -rt coverage | tail -n 1)/lcov.info" | codacy-coverage
+                command: npm i codacy-coverage && cat "coverage/$(ls -rt coverage | tail -n 1)/lcov.info" | ./node_modules/.bin/codacy-coverage
             - store_test_results:
                 path: junit
             - store_artifacts:
