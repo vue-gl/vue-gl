@@ -43,7 +43,13 @@ describe('VglLineBasicMaterial:', function suite() {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-line-basic-material :color="color" :lights="lights" :linewidth="linewidth" :linecap="linecap" :linejoin="linejoin" ref="m" /></vgl-namespace>',
       components: { VglLineBasicMaterial, VglNamespace },
-      data: { color: '#dafbc4', lights: false, linewidth: 5, linecap: 'butt', linejoin: 'miter' },
+      data: {
+        color: '#dafbc4',
+        lights: false,
+        linewidth: 5,
+        linecap: 'butt',
+        linejoin: 'miter',
+      },
     }).$mount();
     vm.$nextTick(() => {
       vm.color = '#abbcaf';

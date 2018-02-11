@@ -32,12 +32,16 @@ export default {
       immediate: true,
     },
     name(name, oldName) {
-      if (this.vglScenes.forGet[oldName] === this.inst.uuid) this.$delete(this.vglScenes.forSet, oldName);
+      if (this.vglScenes.forGet[oldName] === this.inst.uuid) {
+        this.$delete(this.vglScenes.forSet, oldName);
+      }
       this.$set(this.vglScenes.forSet, name, this.inst.uuid);
     },
   },
   beforeDestroy() {
     delete scenes[this.inst.uuid];
-    if (this.vglScenes.forGet[this.name] === this.inst.uuid) this.$delete(this.vglScenes.forSet, this.name);
+    if (this.vglScenes.forGet[this.name] === this.inst.uuid) {
+      this.$delete(this.vglScenes.forSet, this.name);
+    }
   },
 };

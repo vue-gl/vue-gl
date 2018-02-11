@@ -15,6 +15,7 @@ export default {
       handler(inst) {
         Object.assign(inst, { castShadow: this.castShadow });
       },
+      immediate: true,
     },
     castShadow(castShadow) {
       this.inst.castShadow = castShadow;
