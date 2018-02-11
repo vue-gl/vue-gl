@@ -21,6 +21,9 @@ jobs:
             - run:
                 name: Report the coverage
                 command: sudo npm i -g codecov && codecov
+            - run:
+                name: Report the coverage
+                command: sudo npm i -g codacy-coverage && cat coverage/`ls -rt coverage | tail -n 1`/lcov.info | codacy-coverage
             - store_test_results:
                 path: junit
             - store_artifacts:
