@@ -21,7 +21,12 @@ describe('VglDirectionalLight:', function suite() {
   });
   it('with properties', function test(done) {
     const vm = new (Vue.extend(VglDirectionalLight))({
-      propsData: { position: '1 2 -1', intensity: '0.792', color: '#081f0e', castShadow: true },
+      propsData: {
+        position: '1 2 -1',
+        intensity: '0.792',
+        color: '#081f0e',
+        castShadow: true,
+      },
     });
     vm.$nextTick(() => {
       try {
@@ -43,7 +48,12 @@ describe('VglDirectionalLight:', function suite() {
   });
   it('after properties are changed', function test(done) {
     const vm = new (Vue.extend(VglDirectionalLight))({
-      propsData: { position: '1 2 -1', intensity: '0.792', color: '#081f0e', castShadow: true },
+      propsData: {
+        position: '1 2 -1',
+        intensity: '0.792',
+        color: '#081f0e',
+        castShadow: true,
+      },
     });
     vm.$nextTick(() => {
       vm.position = '0 3 1';

@@ -20,7 +20,13 @@ describe('VglPointLight:', function suite() {
   });
   it('with properties', function test(done) {
     const vm = new (Vue.extend(VglPointLight))({
-      propsData: { position: '1 1.5 -1.1', color: '#4fd58a', intensity: 0.88, distance: '80', decay: '3' },
+      propsData: {
+        position: '1 1.5 -1.1',
+        color: '#4fd58a',
+        intensity: 0.88,
+        distance: '80',
+        decay: '3',
+      },
     });
     vm.$nextTick(() => {
       try {
@@ -42,7 +48,13 @@ describe('VglPointLight:', function suite() {
   });
   it('after properties are changed', function test(done) {
     const vm = new (Vue.extend(VglPointLight))({
-      propsData: { position: '1 1.5 -1.1', color: '#4fd58a', intensity: 0.88, distance: '80', decay: '3' },
+      propsData: {
+        position: '1 1.5 -1.1',
+        color: '#4fd58a',
+        intensity: 0.88,
+        distance: '80',
+        decay: '3',
+      },
     });
     vm.$nextTick(() => {
       vm.position = '2 2 0';
