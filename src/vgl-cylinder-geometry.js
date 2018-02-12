@@ -1,18 +1,18 @@
 import VglGeometry from './vgl-geometry.js';
 import { CylinderBufferGeometry } from './three.js';
-import { validatePropNumber } from './utils.js';
+import { number } from './validators.js';
 
 export default {
   mixins: [VglGeometry],
   props: {
-    radiusTop: { type: validatePropNumber, default: 1 },
-    radiusBottom: { type: validatePropNumber, default: 1 },
-    height: { type: validatePropNumber, default: 1 },
-    radialSegments: { type: validatePropNumber, default: 8 },
-    heightSegments: { type: validatePropNumber, default: 1 },
+    radiusTop: { type: number, default: 1 },
+    radiusBottom: { type: number, default: 1 },
+    height: { type: number, default: 1 },
+    radialSegments: { type: number, default: 8 },
+    heightSegments: { type: number, default: 1 },
     openEnded: Boolean,
-    thetaStart: { type: validatePropNumber, default: 0 },
-    thetaLength: { type: validatePropNumber, default: Math.PI * 2 },
+    thetaStart: { type: number, default: 0 },
+    thetaLength: { type: number, default: Math.PI * 2 },
   },
   computed: {
     inst() {

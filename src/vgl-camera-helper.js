@@ -1,12 +1,12 @@
 import VglLineSegments from './vgl-line-segments.js';
 import { CameraHelper, LineSegments } from './three.js';
-import { validatePropString } from './utils.js';
+import { string } from './validators.js';
 import { cameras } from './object-stores.js';
 
 export default {
   mixins: [VglLineSegments],
   props: {
-    camera: validatePropString,
+    camera: string,
   },
   inject: ['vglCameras'],
   computed: {

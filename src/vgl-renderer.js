@@ -1,6 +1,6 @@
 import VglNamespace from './vgl-namespace.js';
 import { WebGLRenderer } from './three.js';
-import { validatePropBoolean, validatePropString } from './utils.js';
+import { boolean, string } from './validators.js';
 import { cameras, scenes } from './object-stores.js';
 
 function resizeCamera(camera, domElement) {
@@ -26,17 +26,17 @@ function resizeRenderer(renderer, domElement) {
 export default {
   mixins: [VglNamespace],
   props: {
-    precision: validatePropString,
-    alpha: validatePropBoolean,
-    disablePremultipliedAlpha: validatePropBoolean,
-    antialias: validatePropBoolean,
-    disableStencil: validatePropBoolean,
-    preserveDrawingBuffer: validatePropBoolean,
-    disableDepth: validatePropBoolean,
-    logarithmicDepthBuffer: validatePropBoolean,
-    camera: validatePropString,
-    scene: validatePropString,
-    shadowMapEnabled: validatePropBoolean,
+    precision: string,
+    alpha: boolean,
+    disablePremultipliedAlpha: boolean,
+    antialias: boolean,
+    disableStencil: boolean,
+    preserveDrawingBuffer: boolean,
+    disableDepth: boolean,
+    logarithmicDepthBuffer: boolean,
+    camera: string,
+    scene: string,
+    shadowMapEnabled: boolean,
   },
   provide() {
     return {

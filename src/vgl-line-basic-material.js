@@ -1,15 +1,15 @@
 import VglMaterial from './vgl-material.js';
 import { LineBasicMaterial } from './three.js';
-import { validatePropString, validatePropNumber, validatePropBoolean } from './utils.js';
+import { string, number, boolean } from './validators.js';
 
 export default {
   mixins: [VglMaterial],
   props: {
-    color: { type: validatePropString, default: '#fff' },
-    lights: validatePropBoolean,
-    linewidth: { type: validatePropNumber, default: 1 },
-    linecap: { type: validatePropString, default: 'round' },
-    linejoin: { type: validatePropString, default: 'round' },
+    color: { type: string, default: '#fff' },
+    lights: boolean,
+    linewidth: { type: number, default: 1 },
+    linecap: { type: string, default: 'round' },
+    linejoin: { type: string, default: 'round' },
   },
   computed: {
     inst: () => new LineBasicMaterial(),

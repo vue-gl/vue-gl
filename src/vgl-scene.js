@@ -1,5 +1,5 @@
 import VglObject3d from './vgl-object3d.js';
-import { validatePropString } from './utils.js';
+import { string } from './validators.js';
 import { Scene } from './three.js';
 import { scenes } from './object-stores.js';
 
@@ -17,7 +17,7 @@ export default {
     return {};
   },
   props: {
-    name: validatePropString,
+    name: string,
   },
   computed: {
     inst: () => new Scene(),

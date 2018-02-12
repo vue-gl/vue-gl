@@ -1,15 +1,15 @@
 import VglGeometry from './vgl-geometry.js';
 import { TorusBufferGeometry } from './three.js';
-import { validatePropNumber } from './utils.js';
+import { number } from './validators.js';
 
 export default {
   mixins: [VglGeometry],
   props: {
-    radius: { type: validatePropNumber, default: 1 },
-    tube: { type: validatePropNumber, default: 0.4 },
-    radialSegments: { type: validatePropNumber, default: 8 },
-    tubularSegments: { type: validatePropNumber, default: 6 },
-    arc: { type: validatePropNumber, default: Math.PI * 2 },
+    radius: { type: number, default: 1 },
+    tube: { type: number, default: 0.4 },
+    radialSegments: { type: number, default: 8 },
+    tubularSegments: { type: number, default: 6 },
+    arc: { type: number, default: Math.PI * 2 },
   },
   computed: {
     inst() {

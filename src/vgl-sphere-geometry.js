@@ -1,17 +1,17 @@
 import VglGeometry from './vgl-geometry.js';
 import { SphereBufferGeometry } from './three.js';
-import { validatePropNumber } from './utils.js';
+import { number } from './validators.js';
 
 export default {
   mixins: [VglGeometry],
   props: {
-    radius: { type: validatePropNumber, default: 1 },
-    widthSegments: { type: validatePropNumber, default: 8 },
-    heightSegments: { type: validatePropNumber, default: 6 },
-    phiStart: { type: validatePropNumber, default: 0 },
-    phiLength: { type: validatePropNumber, default: Math.PI * 2 },
-    thetaStart: { type: validatePropNumber, default: 0 },
-    thetaLength: { type: validatePropNumber, default: Math.PI },
+    radius: { type: number, default: 1 },
+    widthSegments: { type: number, default: 8 },
+    heightSegments: { type: number, default: 6 },
+    phiStart: { type: number, default: 0 },
+    phiLength: { type: number, default: Math.PI * 2 },
+    thetaStart: { type: number, default: 0 },
+    thetaLength: { type: number, default: Math.PI },
   },
   computed: {
     inst() {

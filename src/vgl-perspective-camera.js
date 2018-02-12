@@ -1,14 +1,14 @@
 import VglCamera from './vgl-camera.js';
 import { PerspectiveCamera } from './three.js';
-import { update, validatePropNumber } from './utils.js';
+import { number } from './validators.js';
 
 export default {
   mixins: [VglCamera],
   props: {
-    zoom: { type: validatePropNumber, default: 1 },
-    near: { type: validatePropNumber, default: 0.1 },
-    far: { type: validatePropNumber, default: 2000 },
-    fov: { type: validatePropNumber, default: 50 },
+    zoom: { type: number, default: 1 },
+    near: { type: number, default: 0.1 },
+    far: { type: number, default: 2000 },
+    fov: { type: number, default: 50 },
   },
   computed: {
     inst: () => new PerspectiveCamera(),
@@ -27,19 +27,19 @@ export default {
     },
     zoom(zoom) {
       this.inst.zoom = parseFloat(zoom);
-      update(this);
+      this.vglUpdate && this.vglUpdate();
     },
     near(near) {
       this.inst.near = parseFloat(near);
-      update(this);
+      this.vglUpdate && this.vglUpdate();
     },
     far(far) {
       this.inst.far = parseFloat(far);
-      update(this);
+      this.vglUpdate && this.vglUpdate();
     },
     fov(fov) {
       this.inst.fov = parseFloat(fov);
-      update(this);
+      this.vglUpdate && this.vglUpdate();
     },
   },
 };
