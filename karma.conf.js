@@ -15,8 +15,6 @@ module.exports = (config) => {
       { pattern: require.resolve('three'), watched: false },
       { pattern: 'src/index.js', watched: false },
       { pattern: 'test/**/*.spec.js' },
-      { pattern: 'test/helvetiker_regular.typeface.json', included: false, watched: false },
-      { pattern: 'test/helvetiker_bold.typeface.json', included: false, watched: false },
       { pattern: 'test/sample_texture.png', included: false, watched: false },
     ],
     preprocessors: {
