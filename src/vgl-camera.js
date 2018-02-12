@@ -12,7 +12,7 @@ function setPositionAndRotation(vm, orbitPosition, orbitTarget) {
       if (target) position.add(target);
     }
     vm.inst.lookAt(target || new Vector3());
-    vm.vglUpdate && vm.vglUpdate();
+    if (vm.vglUpdate) vm.vglUpdate();
   }
 }
 

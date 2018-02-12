@@ -38,7 +38,7 @@ export default {
   beforeDestroy() {
     const parent = findLensFlareParent(this);
     this.remove(parent);
-    parent.vglUpdate && parent.vglUpdate();
+    if (parent.vglUpdate) parent.vglUpdate();
   },
   watch: {
     opts: {
@@ -52,10 +52,10 @@ export default {
               this.remove(parent);
               this.inst = null;
             }
-            parent.vglUpdate && parent.vglUpdate();
+            if (parent.vglUpdate) parent.vglUpdate();
           } else if (opts[0]) {
             this.add(parent);
-            parent.vglUpdate && parent.vglUpdate();
+            if (parent.vglUpdate) parent.vglUpdate();
           }
         }
       },

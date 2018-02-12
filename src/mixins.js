@@ -19,7 +19,7 @@ export const VglObject3dWithMatarial = {
     }
   },
   methods: {
-    ud() { this.vglUpdate && this.vglUpdate(); },
+    ud() { if (this.vglUpdate) this.vglUpdate(); },
   },
   watch: {
     materialObject(material, oldMaterial) {

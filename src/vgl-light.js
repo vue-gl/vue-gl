@@ -21,11 +21,11 @@ export default {
     },
     color(color) {
       this.inst.color.setStyle(color);
-      this.vglUpdate && this.vglUpdate();
+      if (this.vglUpdate) this.vglUpdate();
     },
     intensity(intensity) {
       this.inst.intensity = parseFloat(intensity);
-      this.vglUpdate && this.vglUpdate();
+      if (this.vglUpdate) this.vglUpdate();
     },
   },
 };

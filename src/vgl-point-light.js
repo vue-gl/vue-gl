@@ -23,11 +23,11 @@ export default {
     },
     distance(distance) {
       this.inst.distance = parseFloat(distance);
-      this.vglUpdate && this.vglUpdate();
+      if (this.vglUpdate) this.vglUpdate();
     },
     decay(decay) {
       this.inst.decay = parseFloat(decay);
-      this.vglUpdate && this.vglUpdate();
+      if (this.vglUpdate) this.vglUpdate();
     },
   },
 };

@@ -27,19 +27,19 @@ export default {
     },
     zoom(zoom) {
       this.inst.zoom = parseFloat(zoom);
-      this.vglUpdate && this.vglUpdate();
+      if (this.vglUpdate) this.vglUpdate();
     },
     near(near) {
       this.inst.near = parseFloat(near);
-      this.vglUpdate && this.vglUpdate();
+      if (this.vglUpdate) this.vglUpdate();
     },
     far(far) {
       this.inst.far = parseFloat(far);
-      this.vglUpdate && this.vglUpdate();
+      if (this.vglUpdate) this.vglUpdate();
     },
     fov(fov) {
       this.inst.fov = parseFloat(fov);
-      this.vglUpdate && this.vglUpdate();
+      if (this.vglUpdate) this.vglUpdate();
     },
   },
 };

@@ -34,33 +34,32 @@ export default {
         if (this.rotation) inst.rotation.copy(parseEuler(this.rotation));
         if (this.scale) inst.scale.copy(parseVector3(this.scale));
         Object.assign(inst, { castShadow: this.castShadow, receiveShadow: this.receiveShadow });
-        this.vglUpdate && this.vglUpdate();
+        if (this.vglUpdate) this.vglUpdate();
       },
       immediate: true,
     },
     'vglObject3d.inst': function watch(inst) {
       inst.add(this.inst);
-      this.vglUpdate && this.vglUpdate();
     },
     position(position) {
       this.inst.position.copy(parseVector3(position));
-      this.vglUpdate && this.vglUpdate();
+      if (this.vglUpdate) this.vglUpdate();
     },
     rotation(rotation) {
       this.inst.rotation.copy(parseEuler(rotation));
-      this.vglUpdate && this.vglUpdate();
+      if (this.vglUpdate) this.vglUpdate();
     },
     scale(scale) {
       this.inst.scale.copy(parseVector3(scale));
-      this.vglUpdate && this.vglUpdate();
+      if (this.vglUpdate) this.vglUpdate();
     },
     castShadow(castShadow) {
       this.inst.castShadow = castShadow;
-      this.vglUpdate && this.vglUpdate();
+      if (this.vglUpdate) this.vglUpdate();
     },
     receiveShadow(receiveShadow) {
       this.inst.receiveShadow = receiveShadow;
-      this.vglUpdate && this.vglUpdate();
+      if (this.vglUpdate) this.vglUpdate();
     },
   },
   render(h) {

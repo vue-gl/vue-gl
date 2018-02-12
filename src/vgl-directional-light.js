@@ -19,7 +19,7 @@ export default {
     },
     castShadow(castShadow) {
       this.inst.castShadow = castShadow;
-      this.vglUpdate && this.vglUpdate();
+      if (this.vglUpdate) this.vglUpdate();
     },
   },
 };

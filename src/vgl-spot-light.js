@@ -40,23 +40,23 @@ export default {
     },
     distance(distance) {
       this.inst.distance = parseFloat(distance);
-      this.vglUpdate && this.vglUpdate();
+      if (this.vglUpdate) this.vglUpdate();
     },
     decay(decay) {
       this.inst.decay = parseFloat(decay);
-      this.vglUpdate && this.vglUpdate();
+      if (this.vglUpdate) this.vglUpdate();
     },
     angle(angle) {
       this.inst.angle = parseFloat(angle);
-      this.vglUpdate && this.vglUpdate();
+      if (this.vglUpdate) this.vglUpdate();
     },
     penumbra(penumbra) {
       this.inst.penumbra = parseFloat(penumbra);
-      this.vglUpdate && this.vglUpdate();
+      if (this.vglUpdate) this.vglUpdate();
     },
     target(target) {
       this.inst.target.position.copy(parseVector3(target));
-      this.vglUpdate && this.vglUpdate();
+      if (this.vglUpdate) this.vglUpdate();
     },
   },
 };
