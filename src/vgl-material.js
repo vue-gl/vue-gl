@@ -1,11 +1,11 @@
 import { Material } from './three.js';
-import { validatePropString } from './utils.js';
+import { string } from './validators.js';
 import { materials } from './object-stores.js';
 
 export default {
   inject: ['vglMaterials'],
   props: {
-    name: validatePropString,
+    name: string,
   },
   computed: {
     inst: () => new Material(),

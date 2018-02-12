@@ -1,16 +1,16 @@
 import VglGeometry from './vgl-geometry.js';
 import { RingBufferGeometry } from './three.js';
-import { validatePropNumber } from './utils.js';
+import { number } from './validators.js';
 
 export default {
   mixins: [VglGeometry],
   props: {
-    innerRadius: { type: validatePropNumber, default: 0.5 },
-    outerRadius: { type: validatePropNumber, default: 1 },
-    thetaSegments: { type: validatePropNumber, default: 8 },
-    phiSegments: { type: validatePropNumber, default: 1 },
-    thetaStart: { type: validatePropNumber, default: 0 },
-    thetaLength: { type: validatePropNumber, default: Math.PI * 2 },
+    innerRadius: { type: number, default: 0.5 },
+    outerRadius: { type: number, default: 1 },
+    thetaSegments: { type: number, default: 8 },
+    phiSegments: { type: number, default: 1 },
+    thetaStart: { type: number, default: 0 },
+    thetaLength: { type: number, default: Math.PI * 2 },
   },
   computed: {
     inst() {

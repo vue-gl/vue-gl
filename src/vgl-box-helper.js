@@ -1,11 +1,11 @@
 import VglLineSegments from './vgl-line-segments.js';
 import { BoxHelper } from './three.js';
-import { validatePropString } from './utils.js';
+import { string } from './validators.js';
 
 export default {
   mixins: [VglLineSegments],
   props: {
-    color: { type: validatePropString, default: '#ff0' },
+    color: { type: string, default: '#ff0' },
   },
   computed: {
     inst: () => new BoxHelper(),

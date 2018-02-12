@@ -1,12 +1,12 @@
 import VglObject3d from './vgl-object3d.js';
 import { Light } from './three.js';
-import { update, validatePropString, validatePropNumber } from './utils.js';
+import { string, number } from './validators.js';
 
 export default {
   mixins: [VglObject3d],
   props: {
-    color: { type: validatePropString, default: '#fff' },
-    intensity: { type: validatePropNumber, default: 1 },
+    color: { type: string, default: '#fff' },
+    intensity: { type: number, default: 1 },
   },
   computed: {
     inst: () => new Light(),
@@ -21,11 +21,11 @@ export default {
     },
     color(color) {
       this.inst.color.setStyle(color);
-      update(this);
+      if (this.vglUpdate) this.vglUpdate();
     },
     intensity(intensity) {
       this.inst.intensity = parseFloat(intensity);
-      update(this);
+      if (this.vglUpdate) this.vglUpdate();
     },
   },
 };

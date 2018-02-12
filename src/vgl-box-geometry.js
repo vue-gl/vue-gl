@@ -1,16 +1,16 @@
 import VglGeometry from './vgl-geometry.js';
 import { BoxBufferGeometry } from './three.js';
-import { validatePropNumber } from './utils.js';
+import { number } from './validators.js';
 
 export default {
   mixins: [VglGeometry],
   props: {
-    width: { type: validatePropNumber, default: 1 },
-    height: { type: validatePropNumber, default: 1 },
-    depth: { type: validatePropNumber, default: 1 },
-    widthSegments: { type: validatePropNumber, default: 1 },
-    heightSegments: { type: validatePropNumber, default: 1 },
-    depthSegments: { type: validatePropNumber, default: 1 },
+    width: { type: number, default: 1 },
+    height: { type: number, default: 1 },
+    depth: { type: number, default: 1 },
+    widthSegments: { type: number, default: 1 },
+    heightSegments: { type: number, default: 1 },
+    depthSegments: { type: number, default: 1 },
   },
   computed: {
     inst() {

@@ -1,12 +1,12 @@
 import VglObject3d from './vgl-object3d.js';
 import { DirectionalLightHelper, Object3D } from './three.js';
-import { validatePropString, validatePropNumber } from './utils.js';
+import { string, number } from './validators.js';
 
 export default {
   mixins: [VglObject3d],
   props: {
-    color: { type: validatePropString },
-    size: { type: validatePropNumber, default: 1 },
+    color: { type: string },
+    size: { type: number, default: 1 },
   },
   computed: {
     inst() { return this.i; },

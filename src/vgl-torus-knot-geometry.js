@@ -1,16 +1,16 @@
 import VglGeometry from './vgl-geometry.js';
 import { TorusKnotBufferGeometry } from './three.js';
-import { validatePropNumber } from './utils.js';
+import { number } from './validators.js';
 
 export default {
   mixins: [VglGeometry],
   props: {
-    radius: { type: validatePropNumber, default: 1 },
-    tube: { type: validatePropNumber, default: 0.4 },
-    radialSegments: { type: validatePropNumber, default: 8 },
-    tubularSegments: { type: validatePropNumber, default: 64 },
-    p: { type: validatePropNumber, default: 2 },
-    q: { type: validatePropNumber, default: 3 },
+    radius: { type: number, default: 1 },
+    tube: { type: number, default: 0.4 },
+    radialSegments: { type: number, default: 8 },
+    tubularSegments: { type: number, default: 64 },
+    p: { type: number, default: 2 },
+    q: { type: number, default: 3 },
   },
   computed: {
     inst() {

@@ -1,12 +1,12 @@
 import VglGeometry from './vgl-geometry.js';
 import VglObject3d from './vgl-object3d.js';
-import { validatePropString, validatePropNumber, update } from './utils.js';
+import { string, number } from './validators.js';
 import { geometries, materials } from './object-stores.js';
 
 export const VglObject3dWithMatarial = {
   mixins: [VglObject3d],
   props: {
-    material: validatePropString,
+    material: string,
   },
   inject: ['vglMaterials'],
   computed: {
@@ -19,7 +19,7 @@ export const VglObject3dWithMatarial = {
     }
   },
   methods: {
-    ud() { update(this); },
+    ud() { if (this.vglUpdate) this.vglUpdate(); },
   },
   watch: {
     materialObject(material, oldMaterial) {
@@ -36,7 +36,7 @@ export const VglObject3dWithMatarial = {
 export const VglObject3dWithMatarialAndGeometry = {
   mixins: [VglObject3dWithMatarial],
   props: {
-    geometry: validatePropString,
+    geometry: string,
   },
   inject: ['vglGeometries'],
   computed: {
@@ -47,9 +47,6 @@ export const VglObject3dWithMatarialAndGeometry = {
       this.inst.geometry = this.geometryObject;
       this.geometryObject.addEventListener('update', this.ud);
     }
-  },
-  methods: {
-    ud() { update(this); },
   },
   watch: {
     geometryObject(geometry, oldGeometry) {
@@ -66,7 +63,7 @@ export const VglObject3dWithMatarialAndGeometry = {
 export const VglHedronGeometry = {
   mixins: [VglGeometry],
   props: {
-    radius: { type: validatePropNumber, default: 1 },
-    detail: { type: validatePropNumber, default: 0 },
+    radius: { type: number, default: 1 },
+    detail: { type: number, default: 0 },
   },
 };

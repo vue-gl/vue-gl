@@ -1,5 +1,6 @@
 import VglObject3d from './vgl-object3d.js';
-import { parseVector3, parseSpherical, update, validatePropVector3, validatePropSpherical } from './utils.js';
+import { parseVector3, parseSpherical } from './parsers.js';
+import { vector3, spherical } from './validators.js';
 import { cameras } from './object-stores.js';
 import { Camera, Vector3 } from './three.js';
 
@@ -11,7 +12,7 @@ function setPositionAndRotation(vm, orbitPosition, orbitTarget) {
       if (target) position.add(target);
     }
     vm.inst.lookAt(target || new Vector3());
-    update(vm);
+    if (vm.vglUpdate) vm.vglUpdate();
   }
 }
 
@@ -19,8 +20,8 @@ export default {
   mixins: [VglObject3d],
   inject: ['vglCameras'],
   props: {
-    orbitTarget: validatePropVector3,
-    orbitPosition: validatePropSpherical,
+    orbitTarget: vector3,
+    orbitPosition: spherical,
   },
   computed: {
     inst: () => new Camera(),

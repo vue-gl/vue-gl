@@ -1,12 +1,12 @@
 import { TextureLoader } from './three.js';
-import { validatePropString } from './utils.js';
+import { string } from './validators.js';
 import { textures } from './object-stores.js';
 
 export default {
   inject: ['vglTextures'],
   props: {
-    src: validatePropString,
-    name: validatePropString,
+    src: string,
+    name: string,
   },
   data() { return { uuid: undefined }; },
   computed: {

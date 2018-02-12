@@ -1,20 +1,20 @@
 import VglExtrudeGeometry from './vgl-extrude-geometry.js';
 import { TextBufferGeometry, BufferGeometry, FontLoader } from './three.js';
-import { validatePropNumber, validatePropString, validatePropBoolean } from './utils.js';
+import { number, string, boolean } from './validators.js';
 import { fonts } from './object-stores.js';
 
 export default {
   mixins: [VglExtrudeGeometry],
   props: {
-    font: validatePropString,
-    size: { type: validatePropNumber, default: 100 },
-    height: { type: validatePropNumber, default: 50 },
-    curveSegments: { type: validatePropNumber, default: 12 },
-    bevelEnabled: validatePropBoolean,
-    bevelThickness: { type: validatePropNumber, default: 10 },
-    bevelSize: { type: validatePropNumber, default: 8 },
-    bevelSegments: { type: validatePropNumber, default: 3 },
-    text: { type: validatePropString, default: '' },
+    font: string,
+    size: { type: number, default: 100 },
+    height: { type: number, default: 50 },
+    curveSegments: { type: number, default: 12 },
+    bevelEnabled: boolean,
+    bevelThickness: { type: number, default: 10 },
+    bevelSize: { type: number, default: 8 },
+    bevelSegments: { type: number, default: 3 },
+    text: { type: string, default: '' },
   },
   data() { return { f: undefined }; },
   computed: {

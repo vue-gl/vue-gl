@@ -1,11 +1,11 @@
 import { BufferGeometry } from './three.js';
-import { validatePropString } from './utils.js';
+import { string } from './validators.js';
 import { geometries } from './object-stores.js';
 
 export default {
   inject: ['vglGeometries'],
   props: {
-    name: validatePropString,
+    name: string,
   },
   computed: {
     inst: () => new BufferGeometry(),

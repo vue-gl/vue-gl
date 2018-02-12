@@ -1,15 +1,16 @@
 import VglLight from './vgl-light.js';
 import { SpotLight } from './three.js';
-import { parseVector3, validatePropNumber, validatePropVector3, update } from './utils.js';
+import { parseVector3 } from './parsers.js';
+import { number, vector3 } from './validators.js';
 
 export default {
   mixins: [VglLight],
   props: {
-    distance: { type: validatePropNumber, default: 0 },
-    decay: { type: validatePropNumber, default: 1 },
-    angle: { type: validatePropNumber, default: Math.PI / 3 },
-    penumbra: { type: validatePropNumber, default: 0 },
-    target: validatePropVector3,
+    distance: { type: number, default: 0 },
+    decay: { type: number, default: 1 },
+    angle: { type: number, default: Math.PI / 3 },
+    penumbra: { type: number, default: 0 },
+    target: vector3,
   },
   computed: {
     inst: () => new SpotLight(),
@@ -39,23 +40,23 @@ export default {
     },
     distance(distance) {
       this.inst.distance = parseFloat(distance);
-      update(this);
+      if (this.vglUpdate) this.vglUpdate();
     },
     decay(decay) {
       this.inst.decay = parseFloat(decay);
-      update(this);
+      if (this.vglUpdate) this.vglUpdate();
     },
     angle(angle) {
       this.inst.angle = parseFloat(angle);
-      update(this);
+      if (this.vglUpdate) this.vglUpdate();
     },
     penumbra(penumbra) {
       this.inst.penumbra = parseFloat(penumbra);
-      update(this);
+      if (this.vglUpdate) this.vglUpdate();
     },
     target(target) {
       this.inst.target.position.copy(parseVector3(target));
-      update(this);
+      if (this.vglUpdate) this.vglUpdate();
     },
   },
 };

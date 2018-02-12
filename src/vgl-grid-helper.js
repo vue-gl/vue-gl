@@ -1,14 +1,14 @@
 import VglLineSegments from './vgl-line-segments.js';
 import { GridHelper } from './three.js';
-import { validatePropNumber, validatePropString } from './utils.js';
+import { number, string } from './validators.js';
 
 export default {
   mixins: [VglLineSegments],
   props: {
-    size: { type: validatePropNumber, default: 10 },
-    divisions: { type: validatePropNumber, default: 10 },
-    colorCenterLine: { type: validatePropString, default: '#444444' },
-    colorGrid: { type: validatePropString, default: '#888888' },
+    size: { type: number, default: 10 },
+    divisions: { type: number, default: 10 },
+    colorCenterLine: { type: string, default: '#444444' },
+    colorGrid: { type: string, default: '#888888' },
   },
   computed: {
     inst() {

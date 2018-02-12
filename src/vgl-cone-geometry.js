@@ -1,11 +1,11 @@
 import VglCylinderGeometry from './vgl-cylinder-geometry.js';
 import { ConeBufferGeometry } from './three.js';
-import { validatePropNumber } from './utils.js';
+import { number } from './validators.js';
 
 export default {
   mixins: [VglCylinderGeometry],
   props: {
-    radius: { type: validatePropNumber, default: 1 },
+    radius: { type: number, default: 1 },
   },
   computed: {
     inst() {

@@ -1,14 +1,14 @@
 import VglGeometry from './vgl-geometry.js';
 import { CircleBufferGeometry } from './three.js';
-import { validatePropNumber } from './utils.js';
+import { number } from './validators.js';
 
 export default {
   mixins: [VglGeometry],
   props: {
-    radius: { type: validatePropNumber, default: 1 },
-    segments: { type: validatePropNumber, default: 8 },
-    thetaStart: { type: validatePropNumber, default: 0 },
-    thetaLength: { type: validatePropNumber, default: Math.PI * 2 },
+    radius: { type: number, default: 1 },
+    segments: { type: number, default: 8 },
+    thetaStart: { type: number, default: 0 },
+    thetaLength: { type: number, default: Math.PI * 2 },
   },
   computed: {
     inst() {

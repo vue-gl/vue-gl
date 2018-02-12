@@ -1,14 +1,14 @@
 import VglGeometry from './vgl-geometry.js';
 import { PlaneBufferGeometry } from './three.js';
-import { validatePropNumber } from './utils.js';
+import { number } from './validators.js';
 
 export default {
   mixins: [VglGeometry],
   props: {
-    width: { type: validatePropNumber, default: 1 },
-    height: { type: validatePropNumber, default: 1 },
-    widthSegments: { type: validatePropNumber, default: 1 },
-    heightSegments: { type: validatePropNumber, default: 1 },
+    width: { type: number, default: 1 },
+    height: { type: number, default: 1 },
+    widthSegments: { type: number, default: 1 },
+    heightSegments: { type: number, default: 1 },
   },
   computed: {
     inst() {

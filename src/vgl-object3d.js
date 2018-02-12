@@ -1,14 +1,15 @@
-import { parseVector3, parseEuler, update, validatePropVector3, validatePropEuler, validatePropBoolean, validatePropString } from './utils.js';
+import { parseVector3, parseEuler } from './parsers.js';
+import { vector3, euler, boolean, string } from './validators.js';
 import { Object3D } from './three.js';
 
 export default {
   props: {
-    position: validatePropVector3,
-    rotation: validatePropEuler,
-    scale: validatePropVector3,
-    castShadow: validatePropBoolean,
-    receiveShadow: validatePropBoolean,
-    name: validatePropString,
+    position: vector3,
+    rotation: euler,
+    scale: vector3,
+    castShadow: boolean,
+    receiveShadow: boolean,
+    name: string,
   },
   computed: {
     inst: () => new Object3D(),
@@ -33,33 +34,32 @@ export default {
         if (this.rotation) inst.rotation.copy(parseEuler(this.rotation));
         if (this.scale) inst.scale.copy(parseVector3(this.scale));
         Object.assign(inst, { castShadow: this.castShadow, receiveShadow: this.receiveShadow });
-        update(this);
+        if (this.vglUpdate) this.vglUpdate();
       },
       immediate: true,
     },
     'vglObject3d.inst': function watch(inst) {
       inst.add(this.inst);
-      update(this);
     },
     position(position) {
       this.inst.position.copy(parseVector3(position));
-      update(this);
+      if (this.vglUpdate) this.vglUpdate();
     },
     rotation(rotation) {
       this.inst.rotation.copy(parseEuler(rotation));
-      update(this);
+      if (this.vglUpdate) this.vglUpdate();
     },
     scale(scale) {
       this.inst.scale.copy(parseVector3(scale));
-      update(this);
+      if (this.vglUpdate) this.vglUpdate();
     },
     castShadow(castShadow) {
       this.inst.castShadow = castShadow;
-      update(this);
+      if (this.vglUpdate) this.vglUpdate();
     },
     receiveShadow(receiveShadow) {
       this.inst.receiveShadow = receiveShadow;
-      update(this);
+      if (this.vglUpdate) this.vglUpdate();
     },
   },
   render(h) {

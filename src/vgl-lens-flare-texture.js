@@ -1,5 +1,5 @@
 import { NormalBlending, Color } from './three.js';
-import { validatePropString, validatePropNumber, update } from './utils.js';
+import { string, number } from './validators.js';
 import { textures } from './object-stores.js';
 
 function findParent(vm, key) {
@@ -15,11 +15,11 @@ function findLensFlareParent(vm) {
 export default {
   inject: ['vglTextures'],
   props: {
-    texture: validatePropString,
-    size: { type: validatePropNumber, default: -1 },
-    distance: { type: validatePropNumber, default: 0 },
-    blending: { type: validatePropNumber, default: NormalBlending },
-    color: { type: validatePropString, default: '#fff' },
+    texture: string,
+    size: { type: number, default: -1 },
+    distance: { type: number, default: 0 },
+    blending: { type: number, default: NormalBlending },
+    color: { type: string, default: '#fff' },
   },
   data() {
     return { inst: null };
@@ -38,7 +38,7 @@ export default {
   beforeDestroy() {
     const parent = findLensFlareParent(this);
     this.remove(parent);
-    update(parent);
+    if (parent.vglUpdate) parent.vglUpdate();
   },
   watch: {
     opts: {
@@ -52,10 +52,10 @@ export default {
               this.remove(parent);
               this.inst = null;
             }
-            update(parent);
+            if (parent.vglUpdate) parent.vglUpdate();
           } else if (opts[0]) {
             this.add(parent);
-            update(parent);
+            if (parent.vglUpdate) parent.vglUpdate();
           }
         }
       },

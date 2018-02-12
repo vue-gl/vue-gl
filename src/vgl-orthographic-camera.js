@@ -1,13 +1,13 @@
 import VglCamera from './vgl-camera.js';
 import { OrthographicCamera } from './three.js';
-import { update, validatePropNumber } from './utils.js';
+import { number } from './validators.js';
 
 export default {
   mixins: [VglCamera],
   props: {
-    zoom: { type: validatePropNumber, default: 1 },
-    near: { type: validatePropNumber, default: 0.1 },
-    far: { type: validatePropNumber, default: 2000 },
+    zoom: { type: number, default: 1 },
+    near: { type: number, default: 0.1 },
+    far: { type: number, default: 2000 },
   },
   computed: {
     inst: () => new OrthographicCamera(),
@@ -25,15 +25,15 @@ export default {
     },
     zoom(zoom) {
       this.inst.zoom = parseFloat(zoom);
-      update(this);
+      if (this.vglUpdate) this.vglUpdate();
     },
     near(near) {
       this.inst.near = parseFloat(near);
-      update(this);
+      if (this.vglUpdate) this.vglUpdate();
     },
     far(far) {
       this.inst.far = parseFloat(far);
-      update(this);
+      if (this.vglUpdate) this.vglUpdate();
     },
   },
 };

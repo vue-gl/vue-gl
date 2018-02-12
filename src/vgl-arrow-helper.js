@@ -1,15 +1,16 @@
 import VglObject3d from './vgl-object3d.js';
 import { ArrowHelper, Color, Vector3 } from './three.js';
-import { parseVector3, validatePropNumber, validatePropString, validatePropVector3 } from './utils.js';
+import { parseVector3 } from './parsers.js';
+import { number, string, vector3 } from './validators.js';
 
 export default {
   mixins: [VglObject3d],
   props: {
-    dir: validatePropVector3,
-    length: { type: validatePropNumber, default: 1 },
-    color: { type: validatePropString, default: '#ff0' },
-    headLength: validatePropNumber,
-    headWidth: validatePropNumber,
+    dir: vector3,
+    length: { type: number, default: 1 },
+    color: { type: string, default: '#ff0' },
+    headLength: number,
+    headWidth: number,
   },
   computed: {
     inst: () => new ArrowHelper(new Vector3(0, 1, 0), new Vector3()),
