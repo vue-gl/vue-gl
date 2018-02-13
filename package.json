@@ -48,7 +48,7 @@
     "rollup": "^0.55.5",
     "rollup-plugin-babel": "^3.0.3",
     "rollup-plugin-babel-minify": "^4.0.0",
-    "rollup-plugin-istanbul": "^2.0.0",
+    "rollup-plugin-istanbul": "^2.0.1",
     "vue": "^2.5.13"
   },
   "peerDependencies": {
