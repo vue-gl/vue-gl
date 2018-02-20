@@ -44,7 +44,7 @@
     "karma-mocha": "^1.3.0",
     "karma-rollup-preprocessor": "^5.1.1",
     "karma-sauce-launcher": "^1.2.0",
-    "mocha": "^4.1.0",
+    "mocha": "^5.0.1",
     "rollup": "^0.56.2",
     "rollup-plugin-babel": "^3.0.3",
     "rollup-plugin-babel-minify": "^4.0.0",
