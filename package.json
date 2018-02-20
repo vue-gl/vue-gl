@@ -28,7 +28,7 @@
     "prepare": "rollup -c"
   },
   "dependencies": {
-    "three": "^0.89.0"
+    "three": "^0.90.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
