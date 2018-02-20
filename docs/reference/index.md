@@ -58,7 +58,6 @@ layout: reference
 
 ## Objects
 * [VglGroup](vgl-group)
-* [VglLensFlare](vgl-lens-flare)
 * [VglLine](vgl-line)
 * [VglLineLoop](vgl-line-loop)
 * [VglLineSegments](vgl-line-segments)
@@ -74,4 +73,3 @@ layout: reference
 
 ## Textures
 * [VglTexture](vgl-texture)
-* [VglLensFlareTexture](vgl-lens-flare-texture)

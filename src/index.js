@@ -39,8 +39,6 @@ import VglBoxHelper from './vgl-box-helper.js';
 import VglPointLight from './vgl-point-light.js';
 import VglSpotLight from './vgl-spot-light.js';
 import VglTexture from './vgl-texture.js';
-import VglLensFlare from './vgl-lens-flare.js';
-import VglLensFlareTexture from './vgl-lens-flare-texture.js';
 import VglExtrudeGeometry from './vgl-extrude-geometry.js';
 import VglTextGeometry from './vgl-text-geometry.js';
 import VglSpriteMaterial from './vgl-sprite-material.js';
@@ -91,8 +89,6 @@ export {
   VglPointLight,
   VglSpotLight,
   VglTexture,
-  VglLensFlare,
-  VglLensFlareTexture,
   VglExtrudeGeometry,
   VglTextGeometry,
   VglSpriteMaterial,
