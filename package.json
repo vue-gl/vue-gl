@@ -23,6 +23,7 @@
   "license": "MIT",
   "main": "docs/js/vue-gl.js",
   "scripts": {
+    "lint": "eslint src test",
     "test": "karma start",
     "start": "rollup -c && bundle exec jekyll serve --source docs",
     "prepare": "rollup -c"
@@ -35,6 +36,10 @@
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-preset-env": "^1.6.1",
     "chai": "^4.1.2",
+    "eslint": "^4.18.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-mocha": "^4.11.0",
     "js-polyfills": "^0.1.41",
     "karma": "^2.0.0",
     "karma-babel-preprocessor": "^7.0.0",
