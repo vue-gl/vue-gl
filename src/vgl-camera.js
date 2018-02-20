@@ -6,7 +6,7 @@ import { Camera, Vector3 } from './three.js';
 
 function setPositionAndRotation(vm, orbitPosition, orbitTarget) {
   if (orbitPosition || orbitTarget) {
-    const target = parseVector3(orbitTarget);
+    const target = orbitTarget ? parseVector3(orbitTarget) : orbitTarget;
     if (orbitPosition) {
       const position = vm.inst.position.setFromSpherical(parseSpherical(orbitPosition));
       if (target) position.add(target);
