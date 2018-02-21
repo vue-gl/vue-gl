@@ -43,11 +43,6 @@ export default {
       vglUpdate: this.render,
     };
   },
-  data() {
-    return {
-      req: true,
-    };
-  },
   computed: {
     inst() {
       const inst = new WebGLRenderer({
@@ -78,17 +73,20 @@ export default {
         if (this.scn) this.render();
       }
     },
-    render() {
-      if (this.req) {
-        this.$nextTick(() => {
-          if (this.scn && this.cmr) {
-            this.inst.render(this.scn, this.cmr);
-          }
-          this.req = true;
-        });
-        this.req = false;
-      }
-    },
+    render: (() => {
+      let req = true;
+      return function render() {
+        if (req) {
+          this.$nextTick(() => {
+            if (this.scn && this.cmr) {
+              this.inst.render(this.scn, this.cmr);
+            }
+            req = true;
+          });
+          req = false;
+        }
+      };
+    })(),
   },
   watch: {
     inst(inst, oldInst) {
