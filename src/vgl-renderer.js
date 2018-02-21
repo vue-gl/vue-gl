@@ -31,6 +31,7 @@ export default {
     disablePremultipliedAlpha: boolean,
     antialias: boolean,
     disableStencil: boolean,
+    powerPreference: string,
     preserveDrawingBuffer: boolean,
     disableDepth: boolean,
     logarithmicDepthBuffer: boolean,
@@ -54,6 +55,7 @@ export default {
         preserveDrawingBuffer: this.preserveDrawingBuffer,
         depth: !this.disableDepth,
         logarithmicDepthBuffer: this.logarithmicDepthBuffer,
+        powerPreference: this.powerPreference,
       });
       inst.shadowMap.enabled = this.shadowMapEnabled;
       return inst;
