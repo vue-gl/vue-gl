@@ -116,8 +116,6 @@ export default {
     if (this.cmr) this.cmr.addEventListener('update', this.render);
   },
   mounted() {
-    console.log(this.inst);
-    console.log(this.$el.firstChild);
     this.$el.insertBefore(this.inst.domElement, this.$el.firstChild);
     this.resize();
   },
