@@ -85,12 +85,10 @@ export default {
     render() {
       if (this.req) {
         this.$nextTick(() => {
-          requestAnimationFrame(() => {
-            if (this.scn && this.cmr) {
-              this.inst.render(this.scn, this.cmr);
-            }
-            this.req = true;
-          });
+          if (this.scn && this.cmr) {
+            this.inst.render(this.scn, this.cmr);
+          }
+          this.req = true;
         });
         this.req = false;
       }
