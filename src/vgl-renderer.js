@@ -45,13 +45,12 @@ export default {
   },
   data() {
     return {
-      key: 0,
       req: true,
     };
   },
   computed: {
-    opt() {
-      return {
+    inst() {
+      const inst = new WebGLRenderer({
         precision: this.precision,
         alpha: this.alpha,
         premultipliedAlpha: !this.disablePremultipliedAlpha,
@@ -60,12 +59,9 @@ export default {
         preserveDrawingBuffer: this.preserveDrawingBuffer,
         depth: !this.disableDepth,
         logarithmicDepthBuffer: this.logarithmicDepthBuffer,
-      };
-    },
-    inst() {
-      return new WebGLRenderer(Object.assign({
-        canvas: this.$refs.rdr,
-      }, this.opt));
+      });
+      inst.shadowMap.enabled = this.shadowMapEnabled;
+      return inst;
     },
     cmr() {
       return cameras[this.vglCameras.forGet[this.camera]];
@@ -93,15 +89,11 @@ export default {
         this.req = false;
       }
     },
-    init() {
-      this.resize();
-      this.inst.shadowMap.enabled = this.shadowMapEnabled;
-    },
   },
   watch: {
-    opt() {
-      this.key += 1;
-      this.$nextTick(this.init);
+    inst(inst, oldInst) {
+      if (this.$el) this.$el.replaceChild(inst.domElement, oldInst.domElement);
+      oldInst.dispose();
     },
     scn(scn, oldScn) {
       if (oldScn) oldScn.removeEventListener('update', this.render);
@@ -118,23 +110,19 @@ export default {
         this.render();
       }
     },
-    shadowMapEnabled(enabled) {
-      this.inst.shadowMap.enabled = enabled;
-    },
   },
   created() {
     if (this.scn) this.scn.addEventListener('update', this.render);
     if (this.cmr) this.cmr.addEventListener('update', this.render);
   },
   mounted() {
-    this.init();
+    console.log(this.inst);
+    console.log(this.$el.firstChild);
+    this.$el.insertBefore(this.inst.domElement, this.$el.firstChild);
+    this.resize();
   },
   render(h) {
     return h('div', [
-      h('canvas', {
-        ref: 'rdr',
-        key: this.key,
-      }, this.$slots.default),
       h('iframe', {
         ref: 'frm',
         style: {
@@ -147,7 +135,7 @@ export default {
             evt.target.contentWindow.addEventListener('resize', this.resize, false);
           },
         },
-      }),
+      }, this.$slots.default),
     ]);
   },
 };
