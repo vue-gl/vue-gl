@@ -1,43 +1,29 @@
 import { TextureLoader } from './three.js';
 import { string } from './validators.js';
-import { textures } from './object-stores.js';
 
 export default {
-  inject: ['vglTextures'],
+  inject: ['vglNamespace'],
   props: {
     src: string,
     name: string,
   },
-  data() { return { uuid: undefined }; },
   computed: {
-    inst() { return this.uuid !== undefined ? textures[this.uuid] : null; },
+    inst() { return new TextureLoader().load(this.src, () => { this.vglNamespace.update(); }); },
   },
   watch: {
-    src: {
-      handler(src) {
-        new TextureLoader().load(src, (texture) => {
-          textures[texture.uuid] = texture;
-          this.uuid = texture.uuid;
-        });
-      },
+    inst: {
+      handler(inst) { this.vglNamespace.textures[this.name] = inst; },
       immediate: true,
     },
-    uuid(uuid, oldUuid) {
-      if (oldUuid !== undefined) delete textures[oldUuid];
-      this.$set(this.vglTextures.forSet, this.name, uuid);
-    },
     name(name, oldName) {
-      if (this.vglTextures.forGet[oldName] === this.uuid) {
-        this.$delete(this.vglTextures.forSet, oldName);
-      }
-      this.$set(this.vglTextures.forSet, name, this.uuid);
+      const { vglNamespace: { textures }, inst } = this;
+      if (textures[oldName] === inst) delete textures[oldName];
+      textures[name] = inst;
     },
   },
   beforeDestroy() {
-    delete textures[this.uuid];
-    if (this.vglTextures.forGet[this.name] === this.uuid) {
-      this.$delete(this.vglTextures.forSet, this.name);
-    }
+    const  { vglNamespace: { textures }, inst, name } = this;
+    if (textures[name] === inst) delete textures[name];
   },
   render(h) {
     return this.$slots.default ? h('div', this.$slots.default) : undefined;
