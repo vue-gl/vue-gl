@@ -1,7 +1,6 @@
 import VglGeometry from './vgl-geometry.js';
 import VglObject3d from './vgl-object3d.js';
 import { string, number } from './validators.js';
-import { geometries } from './object-stores.js';
 
 export const VglObject3dWithMatarial = {
   mixins: [VglObject3d],
@@ -9,9 +8,7 @@ export const VglObject3dWithMatarial = {
     material: string,
   },
   methods: {
-    setMaterial() {
-      this.inst.material = this.vglNamespace.materials[this.material];
-    },
+    setMaterial() { this.inst.material = this.vglNamespace.materials[this.material]; },
   },
   created() { this.vglNamespace.beforeRender.push(this.setMaterial); },
   beforeDestroy() {
@@ -26,9 +23,7 @@ export const VglObject3dWithMatarialAndGeometry = {
     geometry: string,
   },
   methods: {
-    setGeometry() {
-      this.inst.geometry = this.vglNamespace.geometries[this.geometry];
-    },
+    setGeometry() { this.inst.geometry = this.vglNamespace.geometries[this.geometry]; },
   },
   created() { this.vglNamespace.beforeRender.push(this.setGeometry); },
   beforeDestroy() {
