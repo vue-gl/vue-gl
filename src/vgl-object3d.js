@@ -15,12 +15,15 @@ export default {
     inst: () => new Object3D(),
   },
   inject: {
-    vglUpdate: { default: undefined },
     vglObject3d: { default: {} },
+    vglNamespace: 'vglNamespace',
   },
   provide() {
     const vm = this;
     return { vglObject3d: { get inst() { return vm.inst; } } };
+  },
+  beforeUpdate() {
+    this.vglNamespace.update();
   },
   beforeDestroy() {
     if (this.inst.parent) this.inst.parent.remove(this.inst);

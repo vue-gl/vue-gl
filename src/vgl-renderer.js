@@ -1,27 +1,6 @@
 import VglNamespace from './vgl-namespace.js';
 import { WebGLRenderer } from './three.js';
 import { boolean, string } from './validators.js';
-import { cameras, scenes } from './object-stores.js';
-
-function resizeCamera(camera, domElement) {
-  const width = domElement.clientWidth;
-  const height = domElement.clientHeight;
-  if (camera.isPerspectiveCamera) {
-    Object.assign(camera, { aspect: width / height });
-  } else { // isOrthographicCamera
-    Object.assign(camera, {
-      left: width / -2,
-      right: width / 2,
-      top: height / 2,
-      bottom: height / -2,
-    });
-  }
-  camera.updateProjectionMatrix();
-}
-
-function resizeRenderer(renderer, domElement) {
-  renderer.setSize(domElement.clientWidth, domElement.clientHeight, false);
-}
 
 export default {
   mixins: [VglNamespace],
@@ -39,11 +18,6 @@ export default {
     scene: string,
     shadowMapEnabled: boolean,
   },
-  provide() {
-    return {
-      vglUpdate: this.render,
-    };
-  },
   computed: {
     inst() {
       const inst = new WebGLRenderer({
@@ -60,80 +34,64 @@ export default {
       inst.shadowMap.enabled = this.shadowMapEnabled;
       return inst;
     },
-    cmr() {
-      return cameras[this.vglCameras.forGet[this.camera]];
-    },
-    scn() {
-      return scenes[this.vglScenes.forGet[this.scene]];
-    },
   },
   methods: {
     resize() {
-      resizeRenderer(this.inst, this.$el);
-      if (this.cmr) {
-        resizeCamera(this.cmr, this.$el);
-        if (this.scn) this.render();
+      this.inst.setSize(this.$el.clientWidth, this.$el.clientHeight);
+      this.vglNamespace.update();
+    },
+    render() {
+      if (this.vglNamespace.scenes[this.scene] && this.vglNamespace.cameras[this.camera]) {
+        if (this.vglNamespace.cameras[this.camera].isPerspectiveCamera) {
+          const aspect = this.$el.clientWidth / this.$el.clientHeight;
+          if (this.vglNamespace.cameras[this.camera].aspect !== aspect) {
+            this.vglNamespace.cameras[this.camera].aspect = aspect;
+            this.vglNamespace.cameras[this.camera].updateProjectionMatrix();
+          }
+        } else if (this.vglNamespace.cameras[this.camera].isOrthographicCamera) {
+          const width = this.$el.clientWidth / 2;
+          const height = this.$el.clientHeight / 2;
+          if (this.vglNamespace.cameras[this.camera].left !== -width || this.vglNamespace.cameras[this.camera].top !== height) {
+            this.vglNamespace.cameras[this.camera].left = -width;
+            this.vglNamespace.cameras[this.camera].right = width;
+            this.vglNamespace.cameras[this.camera].top = height;
+            this.vglNamespace.cameras[this.camera].bottom = -height;
+            this.vglNamespace.cameras[this.camera].updateProjectionMatrix();
+          }
+        } else {
+          throw new TypeError('Unknown camera type.');
+        }
+        this.inst.render(
+          this.vglNamespace.scenes[this.scene],
+          this.vglNamespace.cameras[this.camera],
+        );
       }
     },
-    render: (() => {
-      let req = true;
-      return function render() {
-        if (req) {
-          this.$nextTick(() => {
-            if (this.scn && this.cmr) {
-              this.inst.render(this.scn, this.cmr);
-            }
-            req = true;
-          });
-          req = false;
-        }
-      };
-    })(),
   },
   watch: {
     inst(inst, oldInst) {
       if (this.$el) this.$el.replaceChild(inst.domElement, oldInst.domElement);
       oldInst.dispose();
     },
-    scn(scn, oldScn) {
-      if (oldScn) oldScn.removeEventListener('update', this.render);
-      if (scn) {
-        scn.addEventListener('update', this.render);
-        this.render();
-      }
-    },
-    cmr(cmr, oldCmr) {
-      if (oldCmr) oldCmr.removeEventListener('update', this.render);
-      if (cmr) {
-        cmr.addEventListener('update', this.render);
-        resizeCamera(cmr, this.$el);
-        this.render();
-      }
-    },
   },
   created() {
-    if (this.scn) this.scn.addEventListener('update', this.render);
-    if (this.cmr) this.cmr.addEventListener('update', this.render);
+    this.vglNamespace.renderers.push(this);
   },
   mounted() {
     this.$el.insertBefore(this.inst.domElement, this.$el.firstChild);
     this.resize();
   },
+  beforeDestroy() {
+    this.vglNamespace.renderers.splice(this.vglNamespace.renderers.indexOf(this), 1);
+  },
   render(h) {
-    return h('div', [
-      h('iframe', {
-        ref: 'frm',
-        style: {
-          visibility: 'hidden',
-          width: '100%',
-          height: '100%',
+    return h('div', [h('iframe', {
+      style: { visibility: 'hidden', width: '100%', height: '100%' },
+      on: {
+        load: (evt) => {
+          evt.target.contentWindow.addEventListener('resize', this.resize, false);
         },
-        on: {
-          load: (evt) => {
-            evt.target.contentWindow.addEventListener('resize', this.resize, false);
-          },
-        },
-      }, this.$slots.default),
-    ]);
+      },
+    }, this.$slots.default)]);
   },
 };
