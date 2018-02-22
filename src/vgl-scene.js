@@ -12,13 +12,13 @@ export default {
       immediate: true,
     },
     name(name, oldName) {
-      if (this.vglNamespace.scenes[oldName] === this.inst) delete this.vglNamespace.scenes[oldName];
-      this.vglNamespace.scenes[name] = this.inst;
+      const { vglNamespace: { scenes }, inst } = this;
+      if (scenes[oldName] === inst) delete scenes[oldName];
+      scenes[name] = inst;
     },
   },
   beforeDestroy() {
-    if (this.vglNamespace.scenes[this.name] === this.inst) {
-      delete this.vglNamespace.scenes[this.name];
-    }
+    const { vglNamespace: { scenes }, inst } = this;
+    if (scenes[this.name] === inst) delete scenes[this.name];
   },
 };

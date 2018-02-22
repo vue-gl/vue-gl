@@ -12,14 +12,9 @@ export default {
   },
   watch: {
     inst: {
-      handler(inst) {
-        Object.assign(inst, { castShadow: this.castShadow });
-      },
+      handler(inst) { Object.assign(inst, { castShadow: this.castShadow }); },
       immediate: true,
     },
-    castShadow(castShadow) {
-      this.inst.castShadow = castShadow;
-      if (this.vglUpdate) this.vglUpdate();
-    },
+    castShadow(castShadow) { this.inst.castShadow = castShadow; },
   },
 };

@@ -36,41 +36,40 @@ export default {
     },
   },
   methods: {
-    resize() {
-      this.inst.setSize(this.$el.clientWidth, this.$el.clientHeight);
-      this.vglNamespace.update();
-    },
     render() {
-      if (this.vglNamespace.scenes[this.scene] && this.vglNamespace.cameras[this.camera]) {
-        if (this.vglNamespace.cameras[this.camera].isPerspectiveCamera) {
+      const scene = this.vglNamespace.scenes[this.scene];
+      const camera = this.vglNamespace.cameras[this.camera];
+      if (scene && camera) {
+        if (camera.isPerspectiveCamera) {
           const aspect = this.$el.clientWidth / this.$el.clientHeight;
-          if (this.vglNamespace.cameras[this.camera].aspect !== aspect) {
-            this.vglNamespace.cameras[this.camera].aspect = aspect;
-            this.vglNamespace.cameras[this.camera].updateProjectionMatrix();
+          if (camera.aspect !== aspect) {
+            camera.aspect = aspect;
+            camera.updateProjectionMatrix();
           }
-        } else if (this.vglNamespace.cameras[this.camera].isOrthographicCamera) {
+        } else if (camera.isOrthographicCamera) {
           const width = this.$el.clientWidth / 2;
           const height = this.$el.clientHeight / 2;
-          if (this.vglNamespace.cameras[this.camera].left !== -width || this.vglNamespace.cameras[this.camera].top !== height) {
-            this.vglNamespace.cameras[this.camera].left = -width;
-            this.vglNamespace.cameras[this.camera].right = width;
-            this.vglNamespace.cameras[this.camera].top = height;
-            this.vglNamespace.cameras[this.camera].bottom = -height;
-            this.vglNamespace.cameras[this.camera].updateProjectionMatrix();
+          if (camera.right !== width || camera.top !== height) {
+            camera.left = -width;
+            camera.right = width;
+            camera.top = height;
+            camera.bottom = -height;
+            camera.updateProjectionMatrix();
           }
         } else {
           throw new TypeError('Unknown camera type.');
         }
-        this.inst.render(
-          this.vglNamespace.scenes[this.scene],
-          this.vglNamespace.cameras[this.camera],
-        );
+        this.inst.render(scene, camera);
       }
     },
   },
   watch: {
     inst(inst, oldInst) {
-      if (this.$el) this.$el.replaceChild(inst.domElement, oldInst.domElement);
+      if (this.$el) {
+        inst.setSize(this.$el.clientWidth, this.$el.clientHeight);
+        this.$el.replaceChild(inst.domElement, oldInst.domElement);
+        this.vglNamespace.update();
+      }
       oldInst.dispose();
     },
   },
@@ -78,8 +77,9 @@ export default {
     this.vglNamespace.renderers.push(this);
   },
   mounted() {
+    this.inst.setSize(this.$el.clientWidth, this.$el.clientHeight);
     this.$el.insertBefore(this.inst.domElement, this.$el.firstChild);
-    this.resize();
+    this.vglNamespace.update();
   },
   beforeDestroy() {
     this.vglNamespace.renderers.splice(this.vglNamespace.renderers.indexOf(this), 1);
@@ -88,8 +88,11 @@ export default {
     return h('div', [h('iframe', {
       style: { visibility: 'hidden', width: '100%', height: '100%' },
       on: {
-        load: (evt) => {
-          evt.target.contentWindow.addEventListener('resize', this.resize, false);
+        load: (event) => {
+          event.target.contentWindow.addEventListener('resize', () => {
+            this.inst.setSize(this.$el.clientWidth, this.$el.clientHeight);
+            this.vglNamespace.update();
+          }, false);
         },
       },
     }, this.$slots.default)]);

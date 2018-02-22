@@ -22,12 +22,8 @@ export default {
     const vm = this;
     return { vglObject3d: { get inst() { return vm.inst; } } };
   },
-  beforeUpdate() {
-    this.vglNamespace.update();
-  },
-  beforeDestroy() {
-    if (this.inst.parent) this.inst.parent.remove(this.inst);
-  },
+  beforeUpdate() { this.vglNamespace.update(); },
+  beforeDestroy() { if (this.inst.parent) this.inst.parent.remove(this.inst); },
   watch: {
     inst: {
       handler(inst, oldInst) {
@@ -37,36 +33,17 @@ export default {
         if (this.rotation) inst.rotation.copy(parseEuler(this.rotation));
         if (this.scale) inst.scale.copy(parseVector3(this.scale));
         Object.assign(inst, { castShadow: this.castShadow, receiveShadow: this.receiveShadow });
-        if (this.vglUpdate) this.vglUpdate();
       },
       immediate: true,
     },
-    'vglObject3d.inst': function watch(inst) {
-      inst.add(this.inst);
-    },
-    position(position) {
-      this.inst.position.copy(parseVector3(position));
-      if (this.vglUpdate) this.vglUpdate();
-    },
-    rotation(rotation) {
-      this.inst.rotation.copy(parseEuler(rotation));
-      if (this.vglUpdate) this.vglUpdate();
-    },
-    scale(scale) {
-      this.inst.scale.copy(parseVector3(scale));
-      if (this.vglUpdate) this.vglUpdate();
-    },
-    castShadow(castShadow) {
-      this.inst.castShadow = castShadow;
-      if (this.vglUpdate) this.vglUpdate();
-    },
-    receiveShadow(receiveShadow) {
-      this.inst.receiveShadow = receiveShadow;
-      if (this.vglUpdate) this.vglUpdate();
-    },
+    'vglObject3d.inst': function parentInst(inst) { inst.add(this.inst); },
+    position(position) { this.inst.position.copy(parseVector3(position)); },
+    rotation(rotation) { this.inst.rotation.copy(parseEuler(rotation)); },
+    scale(scale) { this.inst.scale.copy(parseVector3(scale)); },
+    castShadow(castShadow) { this.inst.castShadow = castShadow; },
+    receiveShadow(receiveShadow) { this.inst.receiveShadow = receiveShadow; },
   },
   render(h) {
-    if (this.$slots.default) return h('div', this.$slots.default);
-    return undefined;
+    return this.$slots.default ? h('div', this.$slots.default) : undefined;
   },
 };
