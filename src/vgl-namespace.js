@@ -1,20 +1,22 @@
 export default {
   inject: {
-    vglCameras: {
+    vglNamespace: {
       default() {
-        const vm = this;
+        const renderers = [];
+        let updated;
         return {
-          get forGet() { return vm.cameras; },
-          get forSet() { return this.forGet; },
-        };
-      },
-    },
-    vglScenes: {
-      default() {
-        const vm = this;
-        return {
-          get forGet() { return vm.scenes; },
-          get forSet() { return this.forGet; },
+          renderers,
+          cameras: Object.create(null),
+          scenes: Object.create(null),
+          update: () => {
+            if (!updated) {
+              this.$nextTick(() => {
+                renderers.forEach((vm) => { vm.render(); });
+                updated = false;
+              });
+              updated = true;
+            }
+          },
         };
       },
     },
@@ -40,10 +42,6 @@ export default {
         this.vglTextures ? this.vglTextures.forGet : {},
       )),
     };
-    if (!this.vglCameras.forGet) {
-      data.cameras = Object.create(null);
-      data.scenes = Object.create(null);
-    }
     return data;
   },
   watch: {
@@ -81,6 +79,7 @@ export default {
   provide() {
     const vm = this;
     const provide = {
+      vglNamespace: Object.create(this.vglNamespace, {}),
       vglGeometries: {
         get forGet() { return vm.geometries; },
         get forSet() { return this.forGet; },
@@ -94,14 +93,9 @@ export default {
         get forSet() { return this.forGet; },
       },
     };
-    if (this.cameras) {
-      provide.vglCameras = this.vglCameras;
-      provide.vglScenes = this.vglScenes;
-    }
     return provide;
   },
   render(h) {
-    if (this.$slots.default) return h('div', this.$slots.default);
-    return undefined;
+    return this.$slots.default ? h('div', this.$slots.default) : undefined;
   },
 };

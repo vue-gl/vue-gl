@@ -21,13 +21,7 @@ export default {
       },
       immediate: true,
     },
-    distance(distance) {
-      this.inst.distance = parseFloat(distance);
-      if (this.vglUpdate) this.vglUpdate();
-    },
-    decay(decay) {
-      this.inst.decay = parseFloat(decay);
-      if (this.vglUpdate) this.vglUpdate();
-    },
+    distance(distance) { this.inst.distance = parseFloat(distance); },
+    decay(decay) { this.inst.decay = parseFloat(decay); },
   },
 };

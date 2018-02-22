@@ -23,17 +23,8 @@ export default {
       },
       immediate: true,
     },
-    zoom(zoom) {
-      this.inst.zoom = parseFloat(zoom);
-      if (this.vglUpdate) this.vglUpdate();
-    },
-    near(near) {
-      this.inst.near = parseFloat(near);
-      if (this.vglUpdate) this.vglUpdate();
-    },
-    far(far) {
-      this.inst.far = parseFloat(far);
-      if (this.vglUpdate) this.vglUpdate();
-    },
+    zoom(zoom) { this.inst.zoom = parseFloat(zoom); },
+    near(near) { this.inst.near = parseFloat(near); },
+    far(far) { this.inst.far = parseFloat(far); },
   },
 };

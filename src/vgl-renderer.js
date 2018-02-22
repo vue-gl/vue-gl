@@ -1,27 +1,6 @@
 import VglNamespace from './vgl-namespace.js';
 import { WebGLRenderer } from './three.js';
 import { boolean, string } from './validators.js';
-import { cameras, scenes } from './object-stores.js';
-
-function resizeCamera(camera, domElement) {
-  const width = domElement.clientWidth;
-  const height = domElement.clientHeight;
-  if (camera.isPerspectiveCamera) {
-    Object.assign(camera, { aspect: width / height });
-  } else { // isOrthographicCamera
-    Object.assign(camera, {
-      left: width / -2,
-      right: width / 2,
-      top: height / 2,
-      bottom: height / -2,
-    });
-  }
-  camera.updateProjectionMatrix();
-}
-
-function resizeRenderer(renderer, domElement) {
-  renderer.setSize(domElement.clientWidth, domElement.clientHeight, false);
-}
 
 export default {
   mixins: [VglNamespace],
@@ -31,6 +10,7 @@ export default {
     disablePremultipliedAlpha: boolean,
     antialias: boolean,
     disableStencil: boolean,
+    powerPreference: string,
     preserveDrawingBuffer: boolean,
     disableDepth: boolean,
     logarithmicDepthBuffer: boolean,
@@ -38,20 +18,9 @@ export default {
     scene: string,
     shadowMapEnabled: boolean,
   },
-  provide() {
-    return {
-      vglUpdate: this.render,
-    };
-  },
-  data() {
-    return {
-      key: 0,
-      req: true,
-    };
-  },
   computed: {
-    opt() {
-      return {
+    inst() {
+      const inst = new WebGLRenderer({
         precision: this.precision,
         alpha: this.alpha,
         premultipliedAlpha: !this.disablePremultipliedAlpha,
@@ -60,96 +29,72 @@ export default {
         preserveDrawingBuffer: this.preserveDrawingBuffer,
         depth: !this.disableDepth,
         logarithmicDepthBuffer: this.logarithmicDepthBuffer,
-      };
-    },
-    inst() {
-      return new WebGLRenderer(Object.assign({
-        canvas: this.$refs.rdr,
-      }, this.opt));
-    },
-    cmr() {
-      return cameras[this.vglCameras.forGet[this.camera]];
-    },
-    scn() {
-      return scenes[this.vglScenes.forGet[this.scene]];
+        powerPreference: this.powerPreference,
+      });
+      inst.shadowMap.enabled = this.shadowMapEnabled;
+      return inst;
     },
   },
   methods: {
-    resize() {
-      resizeRenderer(this.inst, this.$el);
-      if (this.cmr) {
-        resizeCamera(this.cmr, this.$el);
-        if (this.scn) this.render();
-      }
-    },
     render() {
-      if (this.req) {
-        this.$nextTick(() => {
-          requestAnimationFrame(() => {
-            if (this.scn && this.cmr) {
-              this.inst.render(this.scn, this.cmr);
-            }
-            this.req = true;
-          });
-        });
-        this.req = false;
+      const scene = this.vglNamespace.scenes[this.scene];
+      const camera = this.vglNamespace.cameras[this.camera];
+      if (scene && camera) {
+        if (camera.isPerspectiveCamera) {
+          const aspect = this.$el.clientWidth / this.$el.clientHeight;
+          if (camera.aspect !== aspect) {
+            camera.aspect = aspect;
+            camera.updateProjectionMatrix();
+          }
+        } else if (camera.isOrthographicCamera) {
+          const width = this.$el.clientWidth / 2;
+          const height = this.$el.clientHeight / 2;
+          if (camera.right !== width || camera.top !== height) {
+            camera.left = -width;
+            camera.right = width;
+            camera.top = height;
+            camera.bottom = -height;
+            camera.updateProjectionMatrix();
+          }
+        } else {
+          throw new TypeError('Unknown camera type.');
+        }
+        this.inst.render(scene, camera);
       }
-    },
-    init() {
-      this.resize();
-      this.inst.shadowMap.enabled = this.shadowMapEnabled;
     },
   },
   watch: {
-    opt() {
-      this.key += 1;
-      this.$nextTick(this.init);
-    },
-    scn(scn, oldScn) {
-      if (oldScn) oldScn.removeEventListener('update', this.render);
-      if (scn) {
-        scn.addEventListener('update', this.render);
-        this.render();
+    inst(inst, oldInst) {
+      if (this.$el) {
+        inst.setSize(this.$el.clientWidth, this.$el.clientHeight);
+        this.$el.replaceChild(inst.domElement, oldInst.domElement);
+        this.vglNamespace.update();
       }
-    },
-    cmr(cmr, oldCmr) {
-      if (oldCmr) oldCmr.removeEventListener('update', this.render);
-      if (cmr) {
-        cmr.addEventListener('update', this.render);
-        resizeCamera(cmr, this.$el);
-        this.render();
-      }
-    },
-    shadowMapEnabled(enabled) {
-      this.inst.shadowMap.enabled = enabled;
+      oldInst.dispose();
     },
   },
   created() {
-    if (this.scn) this.scn.addEventListener('update', this.render);
-    if (this.cmr) this.cmr.addEventListener('update', this.render);
+    this.vglNamespace.renderers.push(this);
   },
   mounted() {
-    this.init();
+    this.inst.setSize(this.$el.clientWidth, this.$el.clientHeight);
+    this.$el.insertBefore(this.inst.domElement, this.$el.firstChild);
+    this.vglNamespace.update();
+  },
+  beforeDestroy() {
+    this.vglNamespace.renderers.splice(this.vglNamespace.renderers.indexOf(this), 1);
   },
   render(h) {
-    return h('div', [
-      h('canvas', {
-        ref: 'rdr',
-        key: this.key,
-      }, this.$slots.default),
-      h('iframe', {
-        ref: 'frm',
-        style: {
-          visibility: 'hidden',
-          width: '100%',
-          height: '100%',
+    return h('div', [h('iframe', {
+      style: { visibility: 'hidden', width: '100%', height: '100%' },
+      on: {
+        load: (event) => {
+          event.target.contentWindow.addEventListener('resize', () => {
+            this.inst.setSize(this.$el.clientWidth, this.$el.clientHeight);
+            this.vglNamespace.update();
+          }, false);
         },
-        on: {
-          load: (evt) => {
-            evt.target.contentWindow.addEventListener('resize', this.resize, false);
-          },
-        },
-      }),
-    ]);
+      },
+    }, this.$slots.default)]);
   },
 };

@@ -19,13 +19,7 @@ export default {
       },
       immediate: true,
     },
-    color(color) {
-      this.inst.color.setStyle(color);
-      if (this.vglUpdate) this.vglUpdate();
-    },
-    intensity(intensity) {
-      this.inst.intensity = parseFloat(intensity);
-      if (this.vglUpdate) this.vglUpdate();
-    },
+    color(color) { this.inst.color.setStyle(color); },
+    intensity(intensity) { this.inst.intensity = parseFloat(intensity); },
   },
 };
