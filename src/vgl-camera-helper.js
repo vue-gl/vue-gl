@@ -1,20 +1,24 @@
-import VglLineSegments from './vgl-line-segments.js';
+import VglObject3d from './vgl-object3d.js';
 import { CameraHelper, Camera } from './three.js';
 import { string } from './validators.js';
 
 export default {
-  mixins: [VglLineSegments],
+  mixins: [VglObject3d],
   props: {
     camera: string,
   },
   computed: {
-    inst() {
-      const helper = new CameraHelper(new Camera());
-      helper.onBeforeRender = () => {
-        helper.camera = this.vglNamespace.cameras[this.camera];
-        helper.update();
-      };
-      return helper;
+    inst: () => new CameraHelper(new Camera()),
+  },
+  methods: {
+    setCamera() {
+      this.inst.camera = this.vglNamespace.cameras[this.camera];
+      this.inst.update();
     },
+  },
+  created() { this.vglNamespace.beforeRender.push(this.setCamera); },
+  beforeDestroy() {
+    const { vglNamespace: { beforeRender }, setCamera } = this;
+    beforeRender.splice(beforeRender.indexOf(setCamera), 1);
   },
 };
