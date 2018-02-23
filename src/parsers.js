@@ -1,10 +1,17 @@
-import { Vector3, Euler, Spherical } from './three.js';
+import { Vector2, Vector3, Euler, Spherical } from './three.js';
 
 /**
  * Returns a parsed vector3 object.
  */
 export function parseVector3(str) {
   return str.isVector3 ? str : new Vector3(...str.trim().split(/\s+/).map(elm => parseFloat(elm)));
+}
+
+/**
+ * Returns a parsed vector2 object.
+ */
+export function parseVector2(str) {
+  return str.isVector2 ? str : new Vector2(...str.trim().split(/\s+/).map(elm => parseFloat(elm)));
 }
 
 /**
