@@ -10,12 +10,10 @@ module.exports = (config) => {
     files: [
       { pattern: require.resolve('chai/chai'), watched: false },
       { pattern: require.resolve('vue/dist/vue'), watched: false },
-      'https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame',
       { pattern: require.resolve('js-polyfills/typedarray.js'), watched: false },
       { pattern: require.resolve('three'), watched: false },
       { pattern: 'src/index.js', watched: false },
       { pattern: 'test/**/*.spec.js' },
-      { pattern: 'test/sample_texture.png', included: false, watched: false },
     ],
     preprocessors: {
       'src/index.js': ['rollup'],

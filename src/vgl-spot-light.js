@@ -21,42 +21,22 @@ export default {
   watch: {
     inst: {
       handler(inst) {
-        if (this.target) {
-          inst.target.position.copy(parseVector3(this.target));
-          const $parent = this.vglObject3d.inst;
-          if ($parent) $parent.add(inst.target);
-        }
         Object.assign(inst, {
           distance: parseFloat(this.distance),
           decay: parseFloat(this.decay),
           angle: parseFloat(this.angle),
           penumbra: parseFloat(this.penumbra),
         });
+        if (this.target) inst.target.position.copy(parseVector3(this.target));
+        if (this.vglObject3d.inst) this.vglObject3d.inst.add(inst.target);
       },
       immediate: true,
     },
-    'vglObject3d.inst': function watcher(parent) {
-      if (parent) parent.add(this.inst.target);
-    },
-    distance(distance) {
-      this.inst.distance = parseFloat(distance);
-      if (this.vglUpdate) this.vglUpdate();
-    },
-    decay(decay) {
-      this.inst.decay = parseFloat(decay);
-      if (this.vglUpdate) this.vglUpdate();
-    },
-    angle(angle) {
-      this.inst.angle = parseFloat(angle);
-      if (this.vglUpdate) this.vglUpdate();
-    },
-    penumbra(penumbra) {
-      this.inst.penumbra = parseFloat(penumbra);
-      if (this.vglUpdate) this.vglUpdate();
-    },
-    target(target) {
-      this.inst.target.position.copy(parseVector3(target));
-      if (this.vglUpdate) this.vglUpdate();
-    },
+    'vglObject3d.inst': function parentInst(inst) { inst.add(this.inst.target); },
+    distance(distance) { this.inst.distance = parseFloat(distance); },
+    decay(decay) { this.inst.decay = parseFloat(decay); },
+    angle(angle) { this.inst.angle = parseFloat(angle); },
+    penumbra(penumbra) { this.inst.penumbra = parseFloat(penumbra); },
+    target(target) { this.inst.target.position.copy(parseVector3(target)); },
   },
 };

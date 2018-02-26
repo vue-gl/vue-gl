@@ -1,9 +1,8 @@
 import { Material } from './three.js';
 import { string } from './validators.js';
-import { materials } from './object-stores.js';
 
 export default {
-  inject: ['vglMaterials'],
+  inject: ['vglNamespace'],
   props: {
     name: string,
   },
@@ -12,26 +11,20 @@ export default {
   },
   watch: {
     inst: {
-      handler(inst, oldInst) {
-        if (oldInst) delete materials[oldInst.uuid];
-        materials[inst.uuid] = inst;
-        this.$set(this.vglMaterials.forSet, this.name, inst.uuid);
-      },
+      handler(inst) { this.vglNamespace.materials[this.name] = inst; },
       immediate: true,
     },
     name(name, oldName) {
-      if (this.vglMaterials.forGet[oldName] === this.inst.uuid) {
-        this.$delete(this.vglMaterials.forSet, oldName);
-      }
-      this.$set(this.vglMaterials.forSet, name, this.inst.uuid);
+      const { vglNamespace: { materials }, inst } = this;
+      if (materials[oldName] === inst) delete materials[oldName];
+      materials[name] = inst;
     },
   },
   beforeDestroy() {
-    if (this.vglMaterials.forGet[this.name] === this.inst.uuid) {
-      this.$delete(this.vglMaterials.forSet, this.name);
-    }
+    const { vglNamespace: { materials }, inst } = this;
+    if (materials[this.name] === inst) delete materials[this.name];
   },
-  render(h) {
-    return this.$slots.default ? h('div', this.$slots.default) : undefined;
-  },
+  created() { this.vglNamespace.update(); },
+  beforeUpdate() { this.vglNamespace.update(); },
+  render(h) { return this.$slots.default ? h('div', this.$slots.default) : undefined; },
 };

@@ -1,7 +1,8 @@
 import VglExtrudeGeometry from './vgl-extrude-geometry.js';
 import { TextBufferGeometry, BufferGeometry, FontLoader } from './three.js';
 import { number, string, boolean } from './validators.js';
-import { fonts } from './object-stores.js';
+
+const fonts = Object.create(null);
 
 export default {
   mixins: [VglExtrudeGeometry],
@@ -36,25 +37,11 @@ export default {
       handler(src) {
         if (!fonts[src]) {
           fonts[src] = [() => { if (src === this.font) this.f = src; }];
-          if (!/^data:.*?(?:;base64)?,.*$/.test(src)) {
-            // GET src data manually and pass as a data URI.
-            const xhr = new XMLHttpRequest();
-            xhr.addEventListener('load', () => {
-              new FontLoader().load(`data:,${encodeURIComponent(xhr.responseText)}`, (font) => {
-                const queue = fonts[src];
-                fonts[src] = font;
-                queue.forEach((f) => { f(); });
-              });
-            }, false);
-            xhr.open('GET', src);
-            xhr.send();
-          } else {
-            new FontLoader().load(src, (font) => {
-              const queue = fonts[src];
-              fonts[src] = font;
-              queue.forEach((f) => { f(); });
-            });
-          }
+          new FontLoader().load(src, (font) => {
+            const queue = fonts[src];
+            fonts[src] = font;
+            queue.forEach((f) => { f(); });
+          });
         } else if (fonts[src].isFont) {
           this.f = src;
         } else {

@@ -1,136 +1,100 @@
-describe('VglDirectionalLightHelper component', function component() {
+describe('VglDirectionalLightHelper:', function suite() {
   const { VglDirectionalLightHelper, VglDirectionalLight, VglNamespace } = VueGL;
-  const { assert } = chai;
-  describe('Creating a helper', function when() {
-    describe('The color of the helper', function suite() {
-      it('should be same as the color property.', function test(done) {
-        const vm = new Vue({
-          template: '<vgl-namespace><vgl-directional-light posision="1 0 0"><vgl-directional-light-helper color="red" ref="helper" /></vgl-directional-light></vgl-namespace>',
-          components: { VglDirectionalLightHelper, VglDirectionalLight, VglNamespace },
-        }).$mount();
-        vm.$nextTick(() => {
-          try {
-            assert.strictEqual(vm.$refs.helper.inst.lightPlane.material.color.r, 255 / 255);
-            assert.strictEqual(vm.$refs.helper.inst.lightPlane.material.color.g, 0 / 255);
-            assert.strictEqual(vm.$refs.helper.inst.lightPlane.material.color.b, 0 / 255);
-            done();
-          } catch (e) {
-            done(e);
-          }
+  const { expect } = chai;
+  it('without properties', function test(done) {
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-directional-light position="3.8 2 0.5" color="#e2f3b4"><vgl-directional-light-helper ref="o" /></vgl-directional-light></vgl-namespace>',
+      components: { VglNamespace, VglDirectionalLight, VglDirectionalLightHelper },
+    }).$mount();
+    vm.$nextTick(() => {
+      try {
+        const actual = new THREE.Object3D().copy(vm.$refs.o.inst);
+        actual.updateMatrixWorld();
+        const light = new THREE.DirectionalLight(0xe2f3b4);
+        light.position.set(3.8, 2, 0.5);
+        const expected = new THREE.Object3D().copy(new THREE.DirectionalLightHelper(light));
+        expected.updateMatrixWorld();
+        actual.traverse((obj) => {
+          Object.assign(obj, { uuid: '' });
+          if (obj.geometry) Object.assign(obj.geometry, { uuid: '' });
+          if (obj.material) Object.assign(obj.material, { uuid: '' });
         });
-      });
-      it("should be same as the light's color.", function test(done) {
-        const vm = new Vue({
-          template: '<vgl-namespace><vgl-directional-light color="yellow"><vgl-directional-light-helper ref="helper" /></vgl-directional-light></vgl-namespace>',
-          components: { VglDirectionalLightHelper, VglDirectionalLight, VglNamespace },
-        }).$mount();
-        vm.$nextTick(() => {
-          try {
-            assert.strictEqual(vm.$refs.helper.inst.lightPlane.material.color.r, 255 / 255);
-            assert.strictEqual(vm.$refs.helper.inst.lightPlane.material.color.g, 255 / 255);
-            assert.strictEqual(vm.$refs.helper.inst.lightPlane.material.color.b, 0 / 255);
-            done();
-          } catch (e) {
-            done(e);
-          }
+        expected.traverse((obj) => {
+          Object.assign(obj, { uuid: '' });
+          if (obj.geometry) Object.assign(obj.geometry, { uuid: '' });
+          if (obj.material) Object.assign(obj.material, { uuid: '' });
         });
-      });
-    });
-    describe('The visualized light should be the parent object.', function suite() {
-      it('When the parent component is a VglDirectionalLight.', function test(done) {
-        const vm = new Vue({
-          template: '<vgl-namespace><vgl-directional-light ref="light"><vgl-directional-light-helper ref="helper" /></vgl-directional-light></vgl-namespace>',
-          components: { VglDirectionalLight, VglDirectionalLightHelper, VglNamespace },
-        }).$mount();
-        vm.$nextTick(() => {
-          try {
-            assert.strictEqual(vm.$refs.light.inst, vm.$refs.helper.inst.light);
-            done();
-          } catch (e) {
-            done(e);
-          }
-        });
-      });
-      it('When a parent component does not exit.', function test(done) {
-        const vm = new Vue({
-          template: '<vgl-namespace><vgl-directional-light-helper ref="helper" /></vgl-namespace>',
-          components: { VglDirectionalLightHelper, VglNamespace },
-        }).$mount();
-        vm.$nextTick(() => {
-          try {
-            assert.notInstanceOf(vm.$refs.helper.inst, THREE.DirectionalLightHelper);
-            done();
-          } catch (e) {
-            done(e);
-          }
-        });
-      });
+        expect(actual.toJSON()).to.deep.equal(expected.toJSON());
+        done();
+      } catch (e) {
+        done(e);
+      }
     });
   });
-  describe('Watching properties', function suite() {
-    it('The color of the helper should change when the color property changes.', function test(done) {
-      const vm = new Vue({
-        template: '<vgl-namespace><vgl-directional-light><vgl-directional-light-helper :color="color" ref="helper" /></vgl-directional-light></vgl-namespace>',
-        components: { VglDirectionalLightHelper, VglDirectionalLight, VglNamespace },
-        data: { color: 'red' },
-      }).$mount();
-      vm.$nextTick(() => {
-        vm.color = '#aa87C5';
-        vm.$nextTick(() => {
-          try {
-            assert.strictEqual(vm.$refs.helper.inst.lightPlane.material.color.r, 170 / 255);
-            assert.strictEqual(vm.$refs.helper.inst.lightPlane.material.color.g, 135 / 255);
-            assert.strictEqual(vm.$refs.helper.inst.lightPlane.material.color.b, 197 / 255);
-            done();
-          } catch (e) {
-            done(e);
-          }
+  it('with properties', function test(done) {
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-directional-light position="3.8 2 0.5" color="#e2f3b4"><vgl-directional-light-helper color="#ddf2ee" size="8.8" ref="o" /></vgl-directional-light></vgl-namespace>',
+      components: { VglNamespace, VglDirectionalLight, VglDirectionalLightHelper },
+    }).$mount();
+    vm.$nextTick(() => {
+      try {
+        const actual = new THREE.Object3D().copy(vm.$refs.o.inst);
+        actual.updateMatrixWorld();
+        const light = new THREE.DirectionalLight(0xe2f3b4);
+        light.position.set(3.8, 2, 0.5);
+        const helper = new THREE.DirectionalLightHelper(light, 8.8, 0xddf2ee);
+        const expected = new THREE.Object3D().copy(helper);
+        expected.updateMatrixWorld();
+        actual.traverse((obj) => {
+          Object.assign(obj, { uuid: '' });
+          if (obj.geometry) Object.assign(obj.geometry, { uuid: '' });
+          if (obj.material) Object.assign(obj.material, { uuid: '' });
         });
-      });
-    });
-    it('The color of the helper should change when the parent light color changes.', function test(done) {
-      const vm = new Vue({
-        template: '<vgl-namespace><vgl-directional-light :color="color"><vgl-directional-light-helper ref="helper" /></vgl-directional-light></vgl-namespace>',
-        components: { VglDirectionalLightHelper, VglDirectionalLight, VglNamespace },
-        data: { color: 'red' },
-      }).$mount();
-      vm.$nextTick(() => {
-        vm.color = '#aa87C5';
-        vm.$nextTick(() => {
-          try {
-            assert.strictEqual(vm.$refs.helper.inst.lightPlane.material.color.r, 170 / 255);
-            assert.strictEqual(vm.$refs.helper.inst.lightPlane.material.color.g, 135 / 255);
-            assert.strictEqual(vm.$refs.helper.inst.lightPlane.material.color.b, 197 / 255);
-            done();
-          } catch (e) {
-            done(e);
-          }
+        expected.traverse((obj) => {
+          Object.assign(obj, { uuid: '' });
+          if (obj.geometry) Object.assign(obj.geometry, { uuid: '' });
+          if (obj.material) Object.assign(obj.material, { uuid: '' });
         });
-      });
+        expect(actual.toJSON().materials).to.deep.equal(expected.toJSON().materials);
+        done();
+      } catch (e) {
+        done(e);
+      }
     });
-    it('The instance should be replaced when the size property changes.', function test(done) {
-      const vm = new Vue({
-        template: '<vgl-namespace><vgl-directional-light><vgl-directional-light-helper ref="helper" :size="size" /></vgl-directional-light></vgl-namespace>',
-        components: { VglDirectionalLightHelper, VglDirectionalLight, VglNamespace },
-        data: { size: 2 },
-      }).$mount();
+  });
+  it('after properties are changed', function test(done) {
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-directional-light position="3.8 2 0.5" color="#e2f3b4"><vgl-directional-light-helper :color="c" :size="s" ref="o" /></vgl-directional-light></vgl-namespace>',
+      components: { VglNamespace, VglDirectionalLight, VglDirectionalLightHelper },
+      data: { c: '#dd678e', s: 7.6 },
+    }).$mount();
+    vm.$nextTick(() => {
+      vm.c = '#8e8e25';
+      vm.s = 8.7;
       vm.$nextTick(() => {
         try {
-          assert.strictEqual(vm.$refs.helper.inst.lightPlane.geometry.getAttribute('position').array[1], 2);
+          const actual = new THREE.Object3D().copy(vm.$refs.o.inst);
+          actual.updateMatrixWorld();
+          const light = new THREE.DirectionalLight(0xe2f3b4);
+          light.position.set(3.8, 2, 0.5);
+          const helper = new THREE.DirectionalLightHelper(light, 8.7, 0x8e8e25);
+          const expected = new THREE.Object3D().copy(helper);
+          expected.updateMatrixWorld();
+          actual.traverse((obj) => {
+            Object.assign(obj, { uuid: '' });
+            if (obj.geometry) Object.assign(obj.geometry, { uuid: '' });
+            if (obj.material) Object.assign(obj.material, { uuid: '' });
+          });
+          expected.traverse((obj) => {
+            Object.assign(obj, { uuid: '' });
+            if (obj.geometry) Object.assign(obj.geometry, { uuid: '' });
+            if (obj.material) Object.assign(obj.material, { uuid: '' });
+          });
+          expect(actual.toJSON().materials).to.deep.equal(expected.toJSON().materials);
+          done();
         } catch (e) {
           done(e);
         }
-        const before = vm.$refs.helper.inst;
-        vm.size = 3;
-        vm.$nextTick(() => {
-          try {
-            assert.notEqual(before, vm.$refs.helper.inst);
-            assert.strictEqual(vm.$refs.helper.inst.lightPlane.geometry.getAttribute('position').array[1], 3);
-            done();
-          } catch (e) {
-            done(e);
-          }
-        });
       });
     });
   });

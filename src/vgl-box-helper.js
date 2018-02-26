@@ -1,28 +1,21 @@
-import VglLineSegments from './vgl-line-segments.js';
+import VglObject3d from './vgl-object3d.js';
 import { BoxHelper } from './three.js';
 import { string } from './validators.js';
 
 export default {
-  mixins: [VglLineSegments],
+  mixins: [VglObject3d],
   props: {
     color: { type: string, default: '#ff0' },
   },
   computed: {
-    inst: () => new BoxHelper(),
+    inst() { return new BoxHelper(undefined, this.color); },
   },
-  watch: {
-    inst: {
-      handler(inst) {
-        this.$nextTick(() => { inst.setFromObject(this.vglObject3d.inst); });
-        inst.material.color.setStyle(this.color);
-      },
-      immediate: true,
-    },
-    'vglObject3d.inst': function watcher(parent) {
-      this.inst.setFromObject(parent);
-    },
-    color(color) {
-      this.inst.material.color.setStyle(color);
-    },
+  methods: {
+    setFromObject() { this.inst.setFromObject(this.vglObject3d.inst); },
+  },
+  created() { this.vglNamespace.beforeRender.push(this.setFromObject); },
+  beforeDestroy() {
+    const { vglNamespace: { beforeRender }, setFromObject } = this;
+    beforeRender.splice(beforeRender.indexOf(setFromObject), 1);
   },
 };

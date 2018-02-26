@@ -23,17 +23,8 @@ export default {
       },
       immediate: true,
     },
-    color(color) {
-      this.inst.color.setStyle(color);
-      this.inst.dispatchEvent({ type: 'update' });
-    },
-    size(size) {
-      this.inst.size = parseFloat(size);
-      this.inst.dispatchEvent({ type: 'update' });
-    },
-    disableSizeAttenuation(disabled) {
-      this.inst.sizeAttenuation = !disabled;
-      this.inst.dispatchEvent({ type: 'update' });
-    },
+    color(color) { this.inst.color.setStyle(color); },
+    size(size) { this.inst.size = parseFloat(size); },
+    disableSizeAttenuation(disabled) { this.inst.sizeAttenuation = !disabled; },
   },
 };

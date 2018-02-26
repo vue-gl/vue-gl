@@ -3,17 +3,6 @@ import { parseVector3, parseSpherical } from './parsers.js';
 import { vector3, spherical } from './validators.js';
 import { Camera, Vector3 } from './three.js';
 
-function setPositionAndRotation(vm, orbitPosition, orbitTarget) {
-  if (orbitPosition || orbitTarget) {
-    const target = orbitTarget ? parseVector3(orbitTarget) : orbitTarget;
-    if (orbitPosition) {
-      const position = vm.inst.position.setFromSpherical(parseSpherical(orbitPosition));
-      if (target) position.add(target);
-    }
-    vm.inst.lookAt(target || new Vector3());
-  }
-}
-
 export default {
   mixins: [VglObject3d],
   props: {
@@ -26,8 +15,16 @@ export default {
   watch: {
     inst: {
       handler(inst) {
-        setPositionAndRotation(this, this.orbitPosition, this.orbitTarget);
         this.vglNamespace.cameras[this.name] = inst;
+        if (this.orbitPosition || this.orbitTarget) {
+          let target;
+          if (this.orbitTarget) target = parseVector3(this.orbitTarget);
+          if (this.orbitPosition) {
+            inst.position.setFromSpherical(parseSpherical(this.orbitPosition));
+            if (target) inst.position.add(target);
+          }
+          inst.lookAt(target || new Vector3());
+        }
       },
       immediate: true,
     },
@@ -36,11 +33,22 @@ export default {
       if (cameras[oldName] === inst) delete cameras[oldName];
       cameras[name] = inst;
     },
-    orbitTarget(target) {
-      setPositionAndRotation(this, this.orbitPosition, target);
+    orbitTarget(orbitTarget) {
+      const target = parseVector3(orbitTarget);
+      if (this.orbitPosition) {
+        this.inst.position.setFromSpherical(parseSpherical(this.orbitPosition)).add(target);
+      }
+      this.inst.lookAt(target);
     },
-    orbitPosition(position) {
-      setPositionAndRotation(this, position, this.orbitTarget);
+    orbitPosition(orbitPosition) {
+      this.inst.position.setFromSpherical(parseSpherical(orbitPosition));
+      if (this.orbitTarget) {
+        const target = parseVector3(this.orbitTarget);
+        this.inst.position.add(target);
+        this.inst.lookAt(target);
+      } else {
+        this.inst.lookAt(new Vector3());
+      }
     },
   },
   beforeDestroy() {
