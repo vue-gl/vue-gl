@@ -21,12 +21,13 @@
     "url": "https://github.com/vue-gl/vue-gl/issues"
   },
   "license": "MIT",
-  "main": "docs/js/vue-gl.js",
+  "main": "dist/vue-gl.js",
   "scripts": {
     "lint": "eslint src test",
     "test": "karma start",
-    "start": "rollup -c && bundle exec jekyll serve --source docs",
-    "prepare": "rollup -c"
+    "start": "rollup -c && cp -r dist -T docs/js && bundle exec jekyll serve --source docs",
+    "prepare": "rollup -c && cp -r dist -T docs/js",
+    "publish": "mv .gitignore .gitignore.disabled && (gh-pages --dist docs; mv .gitignore.disabled .gitignore)"
   },
   "dependencies": {
     "three": "^0.90.0"
@@ -40,6 +41,7 @@
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-mocha": "^4.11.0",
+    "gh-pages": "^1.1.0",
     "js-polyfills": "^0.1.41",
     "karma": "^2.0.0",
     "karma-babel-preprocessor": "^7.0.0",
