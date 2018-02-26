@@ -1,120 +1,110 @@
-describe('VglBoxHelper component', function component() {
-  const { VglBoxHelper, VglNamespace } = VueGL;
-  const { assert } = chai;
-  describe('Creating a helper', function when() {
-    describe('The color of the box should be same as the color property.', function suite() {
-      it('When the property is a color name.', function test(done) {
-        const vm = new Vue({
-          template: '<vgl-namespace><vgl-box-helper color="red" ref="helper" /></vgl-namespace>',
-          components: { VglBoxHelper, VglNamespace },
-        }).$mount();
-        assert.strictEqual(vm.$refs.helper.inst.material.color.r, 255 / 255);
-        assert.strictEqual(vm.$refs.helper.inst.material.color.g, 0 / 255);
-        assert.strictEqual(vm.$refs.helper.inst.material.color.b, 0 / 255);
+describe('VglBoxHelper:', function suite() {
+  const {
+    VglBoxHelper,
+    VglSphereGeometry,
+    VglMesh,
+    VglNamespace,
+  } = VueGL;
+  const { expect } = chai;
+  it('without properties', function test(done) {
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-sphere-geometry radius="5" width-segments="32" height-segments="30" name="g" /><vgl-mesh geometry="g"><vgl-box-helper ref="o" /></vgl-mesh></test-object></vgl-namespace>',
+      components: {
+        VglNamespace,
+        VglBoxHelper,
+        VglMesh,
+        VglSphereGeometry,
+      },
+    }).$mount();
+    vm.$nextTick(() => {
+      try {
+        const mediator = new THREE.LineSegments();
+        mediator.copy(vm.$refs.o.inst);
+        mediator.geometry = vm.$refs.o.inst.geometry;
+        mediator.material = vm.$refs.o.inst.material;
+        mediator.updateMatrixWorld();
+        const uuids = { geometry: mediator.geometry.uuid, material: mediator.material.uuid };
+        const actual = mediator.toJSON();
+        const mesh = new THREE.Mesh(new THREE.SphereBufferGeometry(5, 32, 30));
+        const expectedHelper = new THREE.BoxHelper(mesh);
+        mediator.copy(expectedHelper);
+        mediator.geometry = expectedHelper.geometry;
+        mediator.material = expectedHelper.material;
+        mediator.updateMatrixWorld();
+        mediator.geometry.uuid = uuids.geometry;
+        mediator.material.uuid = uuids.material;
+        expect(actual).to.deep.equal(mediator.toJSON());
         done();
-      });
-      it('When the property is undefined.', function test(done) {
-        const vm = new Vue({
-          template: '<vgl-namespace><vgl-box-helper ref="helper" /></vgl-namespace>',
-          components: { VglBoxHelper, VglNamespace },
-        }).$mount();
-        assert.strictEqual(vm.$refs.helper.inst.material.color.r, 255 / 255);
-        assert.strictEqual(vm.$refs.helper.inst.material.color.g, 255 / 255);
-        assert.strictEqual(vm.$refs.helper.inst.material.color.b, 0 / 255);
-        done();
-      });
-    });
-    describe('The object to show the bounding box should be the parent object.', function suite() {
-      const { VglObject3d } = VueGL;
-      it('When the parent component is a VglObject3d.', function test(done) {
-        const vm = new Vue({
-          template: '<vgl-namespace><vgl-object3d ref="target"><vgl-box-helper ref="helper" /></vgl-object3d></vgl-namespace>',
-          components: { VglObject3d, VglBoxHelper, VglNamespace },
-        }).$mount();
-        vm.$nextTick(() => {
-          try {
-            assert.strictEqual(vm.$refs.target.inst, vm.$refs.helper.inst.object);
-            done();
-          } catch (e) {
-            done(e);
-          }
-        });
-      });
-      it('When the parent of the parent component is a VglObject3d.', function test(done) {
-        const vm = new Vue({
-          template: '<vgl-object3d ref="target"><vgl-namespace><vgl-box-helper ref="helper" /></vgl-namespace></vgl-object3d>',
-          components: { VglObject3d, VglBoxHelper, VglNamespace },
-        }).$mount();
-        vm.$nextTick(() => {
-          try {
-            assert.strictEqual(vm.$refs.target.inst, vm.$refs.helper.inst.object);
-            done();
-          } catch (e) {
-            done(e);
-          }
-        });
-      });
-      it('When a parent component does not exit.', function test(done) {
-        const vm = new Vue({
-          template: '<vgl-namespace><vgl-box-helper ref="helper" /></vgl-namespace>',
-          components: { VglBoxHelper, VglNamespace },
-        }).$mount();
-        vm.$nextTick(() => {
-          try {
-            assert.isUndefined(vm.$refs.helper.inst.object);
-            done();
-          } catch (e) {
-            done(e);
-          }
-        });
-      });
+      } catch (e) {
+        done(e);
+      }
     });
   });
-  describe('Watching properties', function when() {
-    describe('The color of the box should change when the color property changes.', function suite() {
-      it('From a color name to a hex code', function test(done) {
-        const vm = new Vue({
-          template: '<vgl-namespace><vgl-box-helper :color="color" ref="helper" /></vgl-namespace>',
-          components: { VglBoxHelper, VglNamespace },
-          data: { color: 'red' },
-        }).$mount();
-        vm.color = '#aa87C5';
-        vm.$nextTick(() => {
-          try {
-            assert.strictEqual(vm.$refs.helper.inst.material.color.r, 170 / 255);
-            assert.strictEqual(vm.$refs.helper.inst.material.color.g, 135 / 255);
-            assert.strictEqual(vm.$refs.helper.inst.material.color.b, 197 / 255);
-            done();
-          } catch (e) {
-            done(e);
-          }
-        });
-      });
+  it('with properties', function test(done) {
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-sphere-geometry radius="5" width-segments="32" height-segments="30" name="g" /><vgl-mesh geometry="g"><vgl-box-helper ref="o" color="#842f71" /></vgl-mesh></test-object></vgl-namespace>',
+      components: {
+        VglNamespace,
+        VglBoxHelper,
+        VglMesh,
+        VglSphereGeometry,
+      },
+    }).$mount();
+    vm.$nextTick(() => {
+      try {
+        const mediator = new THREE.LineSegments();
+        mediator.copy(vm.$refs.o.inst);
+        mediator.geometry = vm.$refs.o.inst.geometry;
+        mediator.material = vm.$refs.o.inst.material;
+        mediator.updateMatrixWorld();
+        const uuids = { geometry: mediator.geometry.uuid, material: mediator.material.uuid };
+        const actual = mediator.toJSON();
+        const mesh = new THREE.Mesh(new THREE.SphereBufferGeometry(5, 32, 30));
+        const expectedHelper = new THREE.BoxHelper(mesh, 0x842f71);
+        mediator.copy(expectedHelper);
+        mediator.geometry = expectedHelper.geometry;
+        mediator.material = expectedHelper.material;
+        mediator.updateMatrixWorld();
+        mediator.geometry.uuid = uuids.geometry;
+        mediator.material.uuid = uuids.material;
+        expect(actual).to.deep.equal(mediator.toJSON());
+        done();
+      } catch (e) {
+        done(e);
+      }
     });
   });
-  describe('Watching the parent instance', function suite() {
-    const { VglObject3d } = VueGL;
-    it('The object to show the bounding box should change when the parent instance changes.', function test(done) {
-      const vm = new Vue({
-        template: '<parent-component ref="target"><vgl-box-helper ref="helper" /></parent-component>',
-        components: {
-          VglBoxHelper,
-          ParentComponent: {
-            mixins: [VglObject3d, VglNamespace],
-            computed: {
-              inst() { return this.i; },
-            },
-            data() {
-              return { i: new THREE.Object3D() };
-            },
-          },
-        },
-      }).$mount();
-      const before = vm.$refs.target.i;
-      vm.$refs.target.i = new THREE.Object3D();
+  it('after properties are changed', function test(done) {
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-sphere-geometry radius="5" width-segments="32" height-segments="30" name="g" /><vgl-mesh geometry="g"><vgl-box-helper ref="o" :color="c" /></vgl-mesh></test-object></vgl-namespace>',
+      components: {
+        VglNamespace,
+        VglBoxHelper,
+        VglMesh,
+        VglSphereGeometry,
+      },
+      data: { c: '#44da2f' },
+    }).$mount();
+    vm.$nextTick(() => {
+      vm.c = '#2222ed';
       vm.$nextTick(() => {
         try {
-          assert.notEqual(before, vm.$refs.helper.inst.object);
+          const mediator = new THREE.LineSegments();
+          mediator.copy(vm.$refs.o.inst);
+          mediator.geometry = vm.$refs.o.inst.geometry;
+          mediator.material = vm.$refs.o.inst.material;
+          mediator.updateMatrixWorld();
+          const uuids = { geometry: mediator.geometry.uuid, material: mediator.material.uuid };
+          const actual = mediator.toJSON();
+          const mesh = new THREE.Mesh(new THREE.SphereBufferGeometry(5, 32, 30));
+          const expectedHelper = new THREE.BoxHelper(mesh, 0x2222ed);
+          mediator.copy(expectedHelper);
+          mediator.geometry = expectedHelper.geometry;
+          mediator.material = expectedHelper.material;
+          mediator.updateMatrixWorld();
+          mediator.geometry.uuid = uuids.geometry;
+          mediator.material.uuid = uuids.material;
+          expect(actual).to.deep.equal(mediator.toJSON());
           done();
         } catch (e) {
           done(e);

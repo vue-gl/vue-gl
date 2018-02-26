@@ -1,149 +1,165 @@
-describe('VglTexture component', function component() {
+describe('VglTexture:', function suite() {
   const { VglTexture, VglNamespace } = VueGL;
-  const { assert } = chai;
-  describe('The instance should be registered to the injected namespace.', function suite() {
-    it('Should be replaced when the image is loaded.', function test(done) {
-      const vm = new Vue({
-        template: '<vgl-namespace><vgl-texture name="\'<!--" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" ref="tex" /><other-component ref="other" /></vgl-namespace>',
-        components: {
-          VglNamespace,
-          VglTexture,
-          OtherComponent: {
-            inject: ['vglTextures'],
-            render() {},
-          },
-        },
-      }).$mount();
-      vm.$refs.tex.$watch('inst', (inst) => {
+  const { expect } = chai;
+  let load;
+  let onload;
+  before(function hook(done) {
+    ({ load } = THREE.TextureLoader.prototype);
+    THREE.TextureLoader.prototype.load = function replacedLoad(src, onLoad, ...remains) {
+      return load.call(this, src, (...args) => {
+        const result = onLoad(...args);
+        onload();
+        return result;
+      }, ...remains);
+    };
+    done();
+  });
+  after(function hook(done) {
+    THREE.TextureLoader.prototype.load = load;
+    done();
+  });
+  beforeEach(function hook(done) {
+    onload = () => {};
+    done();
+  });
+  it('without properties', function test(done) {
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-texture src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" ref="t" /></vgl-namespace>',
+      components: { VglNamespace, VglTexture },
+    }).$mount();
+    onload = () => {
+      load.call(new THREE.TextureLoader(), 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7', (expected) => {
+        Object.assign(expected, { uuid: vm.$refs.t.inst.uuid });
+        try {
+          expect(vm.$refs.t.inst).to.deep.equal(expected);
+          done();
+        } catch (e) {
+          done(e);
+        }
+      });
+    };
+  });
+  it('with properties', function test(done) {
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-texture src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" mapping="cube-reflection" wrap-s="repeat" wrap-t="mirrored-repeat" mag-filter="nearest" min-filter="nearest" anisotropy="2" format="depth" type="unsigned-int" offset="2 3" repeat="2 2" rotation="32" center="3 -3" premultiply-alpha unpack-alignment="2" encoding="log-luv" ref="t" /></vgl-namespace>',
+      components: { VglNamespace, VglTexture },
+    }).$mount();
+    onload = () => {
+      load.call(new THREE.TextureLoader(), 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7', (expected) => {
+        Object.assign(expected, {
+          mapping: THREE.CubeReflectionMapping,
+          wrapS: THREE.RepeatWrapping,
+          wrapT: THREE.MirroredRepeatWrapping,
+          magFilter: THREE.NearestFilter,
+          minFilter: THREE.NearestFilter,
+          anisotropy: 2,
+          format: THREE.DepthFormat,
+          type: THREE.UnsignedIntType,
+          rotation: 32,
+          premultiplyAlpha: true,
+          unpackAlignment: 2,
+          encoding: THREE.LogLuvEncoding,
+          uuid: vm.$refs.t.inst.uuid,
+        });
+        expected.offset.set(2, 3);
+        expected.repeat.set(2, 2);
+        expected.center.set(3, -3);
+        try {
+          expect(vm.$refs.t.inst).to.deep.equal(expected);
+          done();
+        } catch (e) {
+          done(e);
+        }
+      });
+    };
+  });
+  it('after properties are changed', function test(done) {
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-texture src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" :mapping="mapping" :wrap-s="wrapS" :wrap-t="wrapT" :mag-filter="magFilter" :min-filter="minFilter" :anisotropy="anisotropy" :format="format" :type="type" :offset="offset" :repeat="repeat" :rotation="rotation" :center="center" :premultiply-alpha="premultiplyAlpha" :unpack-alignment="unpackAlignment" :encoding="encoding" ref="t" /></vgl-namespace>',
+      components: { VglNamespace, VglTexture },
+      data: {
+        mapping: 'cube-reflection',
+        wrapS: 'repeat',
+        wrapT: 'mirrored-repeat',
+        magFilter: 'nearest',
+        minFilter: 'linear',
+        anisotropy: 2,
+        format: 'depth',
+        type: 'unsigned-int',
+        rotation: 42,
+        premultiplyAlpha: false,
+        unpackAlignment: 2,
+        encoding: 'log-luv',
+        offset: '1 1',
+        repeat: '2 2',
+        center: '3 -3',
+      },
+    }).$mount();
+    onload = () => {
+      load.call(new THREE.TextureLoader(), 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7', (expected) => {
+        vm.mapping = 'cube-refraction';
+        vm.wrapS = 'mirrored-repeat';
+        vm.wrapT = 'clamp-to-edge';
+        vm.magFilter = 'linear';
+        vm.minFilter = 'nearest-mip-map-linear';
+        vm.anisotropy = 4;
+        vm.format = 'alpha';
+        vm.type = 'unsigned-byte';
+        vm.rotation = 52;
+        vm.premultiplyAlpha = true;
+        vm.unpackAlignment = 8;
+        vm.encoding = 'linear';
+        vm.offset = '2 1';
+        vm.repeat = '1 1';
+        vm.center = '-2 2';
         vm.$nextTick(() => {
+          Object.assign(expected, {
+            mapping: THREE.CubeRefractionMapping,
+            wrapS: THREE.MirroredRepeatWrapping,
+            wrapT: THREE.ClampToEdgeWrapping,
+            magFilter: THREE.LinearFilter,
+            minFilter: THREE.NearestMipMapLinearFilter,
+            anisotropy: 4,
+            format: THREE.AlphaFormat,
+            type: THREE.UnsignedByteType,
+            rotation: 52,
+            premultiplyAlpha: true,
+            unpackAlignment: 8,
+            encoding: THREE.LinearEncoding,
+            uuid: vm.$refs.t.inst.uuid,
+          });
+          expected.offset.set(2, 1);
+          expected.repeat.set(1, 1);
+          expected.center.set(-2, 2);
           try {
-            assert.strictEqual(vm.$refs.other.vglTextures.forGet["'<!--"], inst.uuid);
+            expect(vm.$refs.t.inst).to.deep.equal(expected);
             done();
           } catch (e) {
             done(e);
           }
         });
       });
-    });
-    it('Should be unregistered when destroyed.', function test(done) {
-      const vm = new Vue({
-        template: '<vgl-namespace><vgl-texture name="n<!--" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" v-if="!destroyed" ref="tex" /><other-component ref="other" /></vgl-namespace>',
-        components: {
-          VglTexture,
-          VglNamespace,
-          OtherComponent: {
-            inject: ['vglTextures'],
-            render() {},
-          },
-        },
-        data: { destroyed: false },
-      }).$mount();
-      vm.$refs.tex.$watch('inst', () => {
-        vm.$nextTick(() => {
-          vm.destroyed = true;
-          vm.$nextTick(() => {
-            try {
-              assert.isEmpty(vm.$refs.other.vglTextures.forGet);
-              done();
-            } catch (e) {
-              done(e);
-            }
-          });
-        });
-      });
-    });
-    it('Should be replaced when the instance is replaced.', function test(done) {
-      const vm = new Vue({
-        template: '<vgl-namespace><vgl-texture name="\'<!--" :src="src" ref="tex" /><other-component ref="other" /></vgl-namespace>',
-        components: {
-          VglNamespace,
-          VglTexture,
-          OtherComponent: {
-            inject: ['vglTextures'],
-            render() {},
-          },
-        },
-        data: { src: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7' },
-      }).$mount();
-      const unwatch = vm.$refs.tex.$watch('inst', (before) => {
-        unwatch();
-        vm.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=';
-        vm.$refs.tex.$watch('inst', (after) => {
-          assert.notEqual(before, after);
-          vm.$nextTick(() => {
-            try {
-              assert.strictEqual(vm.$refs.other.vglTextures.forGet["'<!--"], after.uuid);
-              done();
-            } catch (e) {
-              done(e);
-            }
-          });
-        });
-      });
-    });
+    };
   });
-  describe('Creating the instance', function suite() {
-    it('The initial instance should be null.', function test(done) {
-      const vm = new Vue({
-        template: '<vgl-namespace><vgl-texture ref="tex" /></vgl-namespace>',
-        components: { VglNamespace, VglTexture },
-      }).$mount();
-      assert.isNull(vm.$refs.tex.inst);
-      done();
-    });
-    it('The instance should be loaded from the src property when the src is a data uri.', function test(done) {
-      const vm = new Vue({
-        template: '<vgl-namespace><vgl-texture src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" ref="tex" /></vgl-namespace>',
-        components: { VglNamespace, VglTexture },
-      }).$mount();
-      vm.$refs.tex.$watch('inst', (inst) => {
-        try {
-          assert.strictEqual(inst.image.src, 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7');
-          done();
-        } catch (e) {
-          done(e);
-        }
-      });
-    });
-    it('The instance should be loaded from the src property when the src is a normal url.', function test(done) {
-      const vm = new Vue({
-        template: '<vgl-namespace><vgl-texture src="base/test/sample_texture.png" ref="tex" /></vgl-namespace>',
-        components: { VglNamespace, VglTexture },
-      }).$mount();
-      vm.$refs.tex.$watch('inst', (inst) => {
-        try {
-          const a = document.createElement('a');
-          a.href = inst.image.src;
-          const actual = a.href;
-          a.href = 'base/test/sample_texture.png';
-          const expected = a.href;
-          assert.strictEqual(actual, expected);
-          done();
-        } catch (e) {
-          done(e);
-        }
-      });
-    });
-  });
-  describe('Watching properties', function suite() {
-    it('The instance should be replaced when the src property changes.', function test(done) {
-      const vm = new Vue({
-        components: { VglTexture, VglNamespace },
-        template: '<vgl-namespace><vgl-texture :src="src" ref="tex" /></vgl-namespace>',
-        data: { src: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7' },
-      }).$mount();
-      const unwatch = vm.$refs.tex.$watch('inst', (before) => {
-        unwatch();
-        vm.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=';
-        vm.$refs.tex.$watch('inst', (after) => {
+  it('after src is changed', function test(done) {
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-texture :src="src" ref="t" /></vgl-namespace>',
+      components: { VglNamespace, VglTexture },
+      data: { src: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7' },
+    }).$mount();
+    onload = () => {
+      vm.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=';
+      onload = () => {
+        load.call(new THREE.TextureLoader(), 'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=', (expected) => {
+          Object.assign(expected, { uuid: vm.$refs.t.inst.uuid });
           try {
-            assert.notEqual(before, after);
+            expect(vm.$refs.t.inst).to.deep.equal(expected);
             done();
           } catch (e) {
             done(e);
           }
         });
-      });
-    });
+      };
+    };
   });
 });

@@ -1,306 +1,107 @@
-describe('VglSpotLight component', function component() {
+describe('VglSpotLight:', function suite() {
   const { VglSpotLight, VglNamespace } = VueGL;
-  const { assert } = chai;
-  const MockedRenderer = {
-    mixins: [VglNamespace],
-    provide: { vglUpdate: () => {} },
-  };
-  describe('Creating a light', function when() {
-    describe('The distance of the light should be same as the distance property.', function suite() {
-      it('When the property is undefined.', function test(done) {
-        const vm = new Vue({
-          template: '<mocked-renderer><vgl-spot-light ref="light" /></mocked-renderer>',
-          components: { VglSpotLight, MockedRenderer },
-        }).$mount();
-        assert.strictEqual(vm.$refs.light.inst.distance, 0);
+  const { expect } = chai;
+  it('without properties', function test(done) {
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-spot-light ref="o" /></vgl-namespace>',
+      components: { VglSpotLight, VglNamespace },
+    }).$mount();
+    vm.$nextTick(() => {
+      try {
+        const actual = vm.$refs.o.inst.clone();
+        actual.updateMatrixWorld();
+        const expected = new THREE.SpotLight();
+        expected.updateMatrixWorld();
+        expected.uuid = actual.uuid;
+        expected.shadow.camera.uuid = actual.shadow.camera.uuid;
+        expect(actual.toJSON()).to.deep.equal(expected.toJSON());
+        const actualTarget = actual.target;
+        actualTarget.updateMatrixWorld();
+        const expectedTarget = expected.target;
+        expectedTarget.updateMatrixWorld();
+        expectedTarget.uuid = actualTarget.uuid;
+        expect(actualTarget.toJSON()).to.deep.equal(expectedTarget.toJSON());
         done();
-      });
-      it('When the property is a number.', function test(done) {
-        const vm = new Vue({
-          template: '<mocked-renderer><vgl-spot-light :distance="2.1" ref="lit" /></mocked-renderer>',
-          components: { VglSpotLight, MockedRenderer },
-        }).$mount();
-        assert.strictEqual(vm.$refs.lit.inst.distance, 2.1);
-        done();
-      });
-      it('When the property is a string.', function test(done) {
-        const vm = new Vue({
-          template: '<mocked-renderer><vgl-spot-light distance="2.5" ref="lit" /></mocked-renderer>',
-          components: { VglSpotLight, MockedRenderer },
-        }).$mount();
-        assert.strictEqual(vm.$refs.lit.inst.distance, 2.5);
-        done();
-      });
-    });
-    describe('The decay of the light should be same as the decay property.', function suite() {
-      it('When the property is undefined.', function test(done) {
-        const vm = new Vue({
-          template: '<mocked-renderer><vgl-spot-light ref="lit" /></mocked-renderer>',
-          components: { VglSpotLight, MockedRenderer },
-        }).$mount();
-        assert.strictEqual(vm.$refs.lit.inst.decay, 1);
-        done();
-      });
-      it('When the property is a number.', function test(done) {
-        const vm = new Vue({
-          template: '<mocked-renderer><vgl-spot-light :decay="2" ref="lit" /></mocked-renderer>',
-          components: { VglSpotLight, MockedRenderer },
-        }).$mount();
-        assert.strictEqual(vm.$refs.lit.inst.decay, 2);
-        done();
-      });
-      it('When the property is a string.', function test(done) {
-        const vm = new Vue({
-          template: '<mocked-renderer><vgl-spot-light decay="3" ref="lit" /></mocked-renderer>',
-          components: { VglSpotLight, MockedRenderer },
-        }).$mount();
-        assert.strictEqual(vm.$refs.lit.inst.decay, 3);
-        done();
-      });
-    });
-    describe('The angle of the light should be same as the angle property.', function suite() {
-      it('When the property is undefined.', function test(done) {
-        const vm = new Vue({
-          template: '<mocked-renderer><vgl-spot-light ref="lit" /></mocked-renderer>',
-          components: { VglSpotLight, MockedRenderer },
-        }).$mount();
-        assert.strictEqual(vm.$refs.lit.inst.angle, Math.PI / 3);
-        done();
-      });
-      it('When the property is a number.', function test(done) {
-        const vm = new Vue({
-          template: '<mocked-renderer><vgl-spot-light :angle="0.44" ref="lit" /></mocked-renderer>',
-          components: { VglSpotLight, MockedRenderer },
-        }).$mount();
-        assert.strictEqual(vm.$refs.lit.inst.angle, 0.44);
-        done();
-      });
-      it('When the property is a string.', function test(done) {
-        const vm = new Vue({
-          template: '<mocked-renderer><vgl-spot-light angle="0.22" ref="lit" /></mocked-renderer>',
-          components: { VglSpotLight, MockedRenderer },
-        }).$mount();
-        assert.strictEqual(vm.$refs.lit.inst.angle, 0.22);
-        done();
-      });
-    });
-    describe('The penumbra of the light should be same as the penumbra property.', function suite() {
-      it('When the property is undefined.', function test(done) {
-        const vm = new Vue({
-          template: '<mocked-renderer><vgl-spot-light ref="lit" /></mocked-renderer>',
-          components: { VglSpotLight, MockedRenderer },
-        }).$mount();
-        assert.strictEqual(vm.$refs.lit.inst.penumbra, 0);
-        done();
-      });
-      it('When the property is a number.', function test(done) {
-        const vm = new Vue({
-          template: '<mocked-renderer><vgl-spot-light :penumbra="0.34" ref="lit" /></mocked-renderer>',
-          components: { VglSpotLight, MockedRenderer },
-        }).$mount();
-        assert.strictEqual(vm.$refs.lit.inst.penumbra, 0.34);
-        done();
-      });
-      it('When the property is a string.', function test(done) {
-        const vm = new Vue({
-          template: '<mocked-renderer><vgl-spot-light penumbra="0.21" ref="lit" /></mocked-renderer>',
-          components: { VglSpotLight, MockedRenderer },
-        }).$mount();
-        assert.strictEqual(vm.$refs.lit.inst.penumbra, 0.21);
-        done();
-      });
-    });
-    describe('The target of the light should be same as the target property.', function suite() {
-      it('When the property is undefined.', function test(done) {
-        const vm = new Vue({
-          template: '<mocked-renderer><vgl-spot-light ref="lit" /></mocked-renderer>',
-          components: { VglSpotLight, MockedRenderer },
-        }).$mount();
-        assert.strictEqual(vm.$refs.lit.inst.target.position.x, 0);
-        assert.strictEqual(vm.$refs.lit.inst.target.position.y, 0);
-        assert.strictEqual(vm.$refs.lit.inst.target.position.z, 0);
-        done();
-      });
-      it('When the property is a Vector3 object.', function test(done) {
-        const vm = new Vue({
-          template: '<mocked-renderer><vgl-spot-light :target="target" ref="lit" /></mocked-renderer>',
-          components: { VglSpotLight, MockedRenderer },
-          data: { target: new THREE.Vector3(1.2, 3, 2) },
-        }).$mount();
-        assert.strictEqual(vm.$refs.lit.inst.target.position.x, 1.2);
-        assert.strictEqual(vm.$refs.lit.inst.target.position.y, 3);
-        assert.strictEqual(vm.$refs.lit.inst.target.position.z, 2);
-        done();
-      });
-      it('When the property is a string.', function test(done) {
-        const vm = new Vue({
-          template: '<mocked-renderer><vgl-spot-light target="0.29 1e2 -25" ref="lit" /></mocked-renderer>',
-          components: { VglSpotLight, MockedRenderer },
-        }).$mount();
-        assert.strictEqual(vm.$refs.lit.inst.target.position.x, 0.29);
-        assert.strictEqual(vm.$refs.lit.inst.target.position.y, 1e2);
-        assert.strictEqual(vm.$refs.lit.inst.target.position.z, -25);
-        done();
-      });
-    });
-    describe('The target object of the light should be added to the parent object.', function suite() {
-      const { VglObject3d } = VueGL;
-      it('When the target property is undefined and a parent does not exist.', function test(done) {
-        const vm = new Vue({
-          template: '<mocked-renderer><vgl-spot-light ref="lit" /></mocked-renderer>',
-          components: { VglSpotLight, MockedRenderer },
-        }).$mount();
-        assert.isNull(vm.$refs.lit.inst.target.parent);
-        done();
-      });
-      it('When the target property is undefined and a parent exists.', function test(done) {
-        const vm = new Vue({
-          template: '<mocked-renderer><vgl-object3d><vgl-spot-light ref="spot" /></vgl-object3d></mocked-renderer>',
-          components: { VglSpotLight, VglObject3d, MockedRenderer },
-        }).$mount();
-        assert.isNull(vm.$refs.spot.inst.target.parent);
-        done();
-      });
-      it('When the target property is a Vector3 object and a parent does not exist.', function test(done) {
-        const vm = new Vue({
-          template: '<mocked-renderer><vgl-spot-light :target="target" ref="lit" /></mocked-renderer>',
-          components: { VglSpotLight, MockedRenderer },
-          data: { target: new THREE.Vector3() },
-        }).$mount();
-        assert.isNull(vm.$refs.lit.inst.target.parent);
-        done();
-      });
-      it('When the target property is a Vector3 object and a parent exists.', function test(done) {
-        const vm = new Vue({
-          template: '<mocked-renderer><vgl-object3d ref="parent"><vgl-spot-light ref="spot" :target="target" /></vgl-object3d></mocked-renderer>',
-          components: { VglSpotLight, VglObject3d, MockedRenderer },
-          data: { target: new THREE.Vector3() },
-        }).$mount();
-        assert.strictEqual(vm.$refs.spot.inst.target.parent, vm.$refs.parent.inst);
-        done();
-      });
-      it('When the target property is a string and a parent does not exist.', function test(done) {
-        const vm = new Vue({
-          template: '<mocked-renderer><vgl-spot-light target="0 1.1 -2" ref="lit" /></mocked-renderer>',
-          components: { VglSpotLight, MockedRenderer },
-        }).$mount();
-        assert.isNull(vm.$refs.lit.inst.target.parent);
-        done();
-      });
-      it('When the target property is a string and a parent exists.', function test(done) {
-        const vm = new Vue({
-          template: '<mocked-renderer><vgl-object3d ref="parent"><vgl-spot-light ref="spot" target="-1 5 2.8" /></vgl-object3d></mocked-renderer>',
-          components: { VglSpotLight, VglObject3d, MockedRenderer },
-        }).$mount();
-        assert.strictEqual(vm.$refs.spot.inst.target.parent, vm.$refs.parent.inst);
-        done();
-      });
+      } catch (e) {
+        done(e);
+      }
     });
   });
-  describe('Watching properties', function suite() {
-    it('The distance of the light should change when the distance property changes.', function test(done) {
-      const vm = new Vue({
-        template: '<mocked-renderer><vgl-spot-light :distance="distance" ref="lit" /></mocked-renderer>',
-        components: { VglSpotLight, MockedRenderer },
-        data: { distance: 3.5 },
-      }).$mount();
-      vm.distance = '1.8';
-      vm.$nextTick(() => {
-        try {
-          assert.strictEqual(vm.$refs.lit.inst.distance, 1.8);
-          done();
-        } catch (e) {
-          done(e);
-        }
-      });
+  it('with properties', function test(done) {
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-spot-light ref="o" position="1 2 -1" intensity="0.792" color="#081f0e" cast-shadow angle="1" decay="2" distance="200" penumbra="0.776" target="-3 -8 -22" /></vgl-namespace>',
+      components: { VglSpotLight, VglNamespace },
+    }).$mount();
+    vm.$nextTick(() => {
+      try {
+        const actual = vm.$refs.o.inst.clone();
+        actual.updateMatrixWorld();
+        const expected = Object.assign(new THREE.SpotLight(0x081f0e, 0.792, 200, 1, 0.776, 2), {
+          castShadow: true,
+        });
+        expected.position.set(1, 2, -1);
+        expected.target.position.set(-3, -8, -22);
+        expected.updateMatrixWorld();
+        expected.uuid = actual.uuid;
+        expected.shadow.camera.uuid = actual.shadow.camera.uuid;
+        expect(actual.toJSON()).to.deep.equal(expected.toJSON());
+        const actualTarget = actual.target;
+        actualTarget.updateMatrixWorld();
+        const expectedTarget = expected.target;
+        expectedTarget.updateMatrixWorld();
+        expectedTarget.uuid = actualTarget.uuid;
+        expect(actualTarget.toJSON()).to.deep.equal(expectedTarget.toJSON());
+        done();
+      } catch (e) {
+        done(e);
+      }
     });
-    it('The decay of the light should change when the decay property changes.', function test(done) {
-      const vm = new Vue({
-        template: '<mocked-renderer><vgl-spot-light :decay="decay" ref="lit" /></mocked-renderer>',
-        components: { VglSpotLight, MockedRenderer },
-        data: { decay: '1.5' },
-      }).$mount();
-      vm.decay = 2.5;
+  });
+  it('after properties are changed', function test(done) {
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-spot-light ref="o" :position="p" :intensity="i" :color="c" :cast-shadow="cs" :angle="a" :decay="dc" :distance="dt" :penumbra="n" :target="t" /></vgl-namespace>',
+      components: { VglNamespace, VglSpotLight },
+      data: {
+        p: '1 2 -1',
+        i: 0.792,
+        c: '#081f0e',
+        cs: true,
+        a: 1.1,
+        dc: 3,
+        dt: 224,
+        n: 0.66,
+        t: '-8 -7 -43',
+      },
+    }).$mount();
+    vm.$nextTick(() => {
+      vm.p = '0 3 1';
+      vm.i = 0.898;
+      vm.c = '#8899fd';
+      vm.cs = false;
+      vm.a = 1.2;
+      vm.dc = 2;
+      vm.dt = 193;
+      vm.n = 0.85;
+      vm.t = '10 22 35';
       vm.$nextTick(() => {
         try {
-          assert.strictEqual(vm.$refs.lit.inst.decay, 2.5);
-          done();
-        } catch (e) {
-          done(e);
-        }
-      });
-    });
-    it('The angle of the light should change when the angle property changes.', function test(done) {
-      const vm = new Vue({
-        template: '<mocked-renderer><vgl-spot-light :angle="angle" ref="lit" /></mocked-renderer>',
-        components: { VglSpotLight, MockedRenderer },
-        data: { angle: 1.12 },
-      }).$mount();
-      vm.angle = '0.51';
-      vm.$nextTick(() => {
-        try {
-          assert.strictEqual(vm.$refs.lit.inst.angle, 0.51);
-          done();
-        } catch (e) {
-          done(e);
-        }
-      });
-    });
-    it('The penumbra of the light should change when the penumbra property changes.', function test(done) {
-      const vm = new Vue({
-        template: '<mocked-renderer><vgl-spot-light :penumbra="penumbra" ref="lit" /></mocked-renderer>',
-        components: { VglSpotLight, MockedRenderer },
-        data: { penumbra: 0.8 },
-      }).$mount();
-      vm.penumbra = '0.61';
-      vm.$nextTick(() => {
-        try {
-          assert.strictEqual(vm.$refs.lit.inst.penumbra, 0.61);
-          done();
-        } catch (e) {
-          done(e);
-        }
-      });
-    });
-    it('The target of the light should change when the target property changes.', function test(done) {
-      const vm = new Vue({
-        template: '<mocked-renderer><vgl-spot-light :target="target" ref="lit" /></mocked-renderer>',
-        components: { VglSpotLight, MockedRenderer },
-        data: { target: '-1 2 1.1' },
-      }).$mount();
-      vm.target = new THREE.Vector3(1, 1.1, -1);
-      vm.$nextTick(() => {
-        try {
-          assert.strictEqual(vm.$refs.lit.inst.target.position.x, 1);
-          assert.strictEqual(vm.$refs.lit.inst.target.position.y, 1.1);
-          assert.strictEqual(vm.$refs.lit.inst.target.position.z, -1);
-          done();
-        } catch (e) {
-          done(e);
-        }
-      });
-    });
-    it('The target object should be added to the parent object when the parent changes.', function test(done) {
-      const { VglObject3d } = VueGL;
-      const vm = new Vue({
-        template: '<mocked-renderer><parent-component :i="i"><vgl-spot-light ref="spot" target="0 -9 2e-3" /></parent-component></mocked-renderer>',
-        components: {
-          VglSpotLight,
-          ParentComponent: {
-            mixins: [VglObject3d],
-            props: ['i'],
-            computed: {
-              inst() { return this.i; },
-            },
-          },
-          MockedRenderer,
-        },
-        data: { i: new THREE.Object3D() },
-      }).$mount();
-      vm.i = new THREE.Object3D();
-      vm.$nextTick(() => {
-        try {
-          assert.strictEqual(vm.i, vm.$refs.spot.inst.target.parent);
+          const actual = vm.$refs.o.inst.clone();
+          actual.updateMatrixWorld();
+          const expected = Object.assign(new THREE.SpotLight(0x8899fd, 0.898, 193, 1.2, 0.85, 2), {
+            castShadow: false,
+          });
+          expected.position.set(0, 3, 1);
+          expected.target.position.set(10, 22, 35);
+          expected.updateMatrixWorld();
+          expected.uuid = actual.uuid;
+          expected.shadow.camera.uuid = actual.shadow.camera.uuid;
+          expect(actual.toJSON()).to.deep.equal(expected.toJSON());
+          const actualTarget = actual.target;
+          actualTarget.updateMatrixWorld();
+          const expectedTarget = expected.target;
+          expectedTarget.updateMatrixWorld();
+          expectedTarget.uuid = actualTarget.uuid;
+          expect(actualTarget.toJSON()).to.deep.equal(expectedTarget.toJSON());
           done();
         } catch (e) {
           done(e);

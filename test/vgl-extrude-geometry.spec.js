@@ -1,15 +1,20 @@
-describe('VglExtrudeGeometry component', function component() {
+describe('VglExtrudeGeometry:', function suite() {
   const { VglExtrudeGeometry, VglNamespace } = VueGL;
-  const { assert } = chai;
-  it('The instance should be an ExtrudeGeometry object.', function test(done) {
+  const { expect } = chai;
+  it('without properties', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-extrude-geometry ref="ext" /></vgl-namespace>',
-      components: {
-        VglExtrudeGeometry,
-        VglNamespace,
-      },
+      template: '<vgl-namespace><vgl-extrude-geometry ref="g" /></vgl-namespace>',
+      components: { VglExtrudeGeometry, VglNamespace },
     }).$mount();
-    assert.strictEqual(vm.$refs.ext.inst.type, 'ExtrudeGeometry');
-    done();
+    vm.$nextTick(() => {
+      try {
+        const mediator = new THREE.BufferGeometry();
+        const expected = mediator.copy(new THREE.ExtrudeBufferGeometry([], {})).toJSON();
+        expect(mediator.copy(vm.$refs.g.inst).toJSON()).to.deep.equal(expected);
+        done();
+      } catch (e) {
+        done(e);
+      }
+    });
   });
 });

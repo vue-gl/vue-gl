@@ -1,11 +1,14 @@
 describe('VglArrowHelper:', function suite() {
-  const { VglArrowHelper } = VueGL;
+  const { VglArrowHelper, VglNamespace } = VueGL;
   const { expect } = chai;
   it('without properties', function test(done) {
-    const vm = new Vue(VglArrowHelper);
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-arrow-helper ref="o" /></vgl-namespace>',
+      components: { VglArrowHelper, VglNamespace },
+    }).$mount();
     vm.$nextTick(() => {
       try {
-        const actual = new THREE.Object3D().copy(vm.inst);
+        const actual = new THREE.Object3D().copy(vm.$refs.o.inst);
         actual.updateMatrixWorld();
         const expected = new THREE.Object3D().copy(new THREE.ArrowHelper(
           new THREE.Vector3(0, 1, 0).normalize(),
@@ -30,19 +33,13 @@ describe('VglArrowHelper:', function suite() {
     });
   });
   it('with properties', function test(done) {
-    const vm = new (Vue.extend(VglArrowHelper))({
-      propsData: {
-        dir: '1.1 2.3 -5.9',
-        length: '8.8',
-        color: '#9992fc',
-        headLength: '2.1',
-        headWidth: '1.31',
-        position: '3 3.5 0.2',
-      },
-    });
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-arrow-helper ref="o" dir="1.1 2.3 -5.9" length="8.8" color="#9992fc" head-length="2.1" head-width="1.31" position="3 3.5 0.2" /></vgl-namespace>',
+      components: { VglNamespace, VglArrowHelper },
+    }).$mount();
     vm.$nextTick(() => {
       try {
-        const actual = new THREE.Object3D().copy(vm.inst);
+        const actual = new THREE.Object3D().copy(vm.$refs.o.inst);
         actual.updateMatrixWorld();
         const expected = new THREE.Object3D().copy(new THREE.ArrowHelper(
           new THREE.Vector3(1.1, 2.3, -5.9).normalize(),
@@ -71,8 +68,10 @@ describe('VglArrowHelper:', function suite() {
     });
   });
   it('after properties are changed', function test(done) {
-    const vm = new (Vue.extend(VglArrowHelper))({
-      propsData: {
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-arrow-helper ref="o" :dir="dir" :length="length" :color="color" :head-length="headLength" :head-width="headWidth" :position="position" /></vgl-namespace>',
+      components: { VglArrowHelper, VglNamespace },
+      data: {
         dir: '1.1 2.3 -5.9',
         length: '8.8',
         color: '#9992fc',
@@ -80,7 +79,7 @@ describe('VglArrowHelper:', function suite() {
         headWidth: '1.31',
         position: '8 9 3.7',
       },
-    });
+    }).$mount();
     vm.$nextTick(() => {
       vm.dir = '12 23 -30';
       vm.length = '6.7';
@@ -90,7 +89,7 @@ describe('VglArrowHelper:', function suite() {
       vm.position = '8 8 3.6';
       vm.$nextTick(() => {
         try {
-          const actual = new THREE.Object3D().copy(vm.inst);
+          const actual = new THREE.Object3D().copy(vm.$refs.o.inst);
           actual.updateMatrixWorld();
           const expected = new THREE.Object3D().copy(new THREE.ArrowHelper(
             new THREE.Vector3(12, 23, -30).normalize(),

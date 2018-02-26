@@ -1,15 +1,15 @@
 describe('VglRenderer:', function suite() {
-  const { VglRenderer, VglPerspectiveCamera, VglScene } = VueGL;
+  const { VglRenderer } = VueGL;
   const { expect } = chai;
   before(function hook(done) {
     this.WebGLRenderer = THREE.WebGLRenderer;
     THREE.WebGLRenderer = function WebGLRenderer(parameters = {}) {
       this.domElement = parameters.canvas || document.createElement('canvas');
       this.shadowMap = {};
-      this.setSize = (width, height, updateStyle) => {};
+      this.setSize = () => {};
       this.dispose = () => {};
       this.parameters = parameters;
-      this.render = (scene, camera, renderTarget, forceClear) => {};
+      this.render = () => {};
     };
     done();
   });
