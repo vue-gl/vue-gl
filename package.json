@@ -25,8 +25,8 @@
   "scripts": {
     "lint": "eslint src test",
     "test": "karma start",
-    "start": "rollup -c && cp -r dist -T docs/js && bundle exec jekyll serve --source docs",
-    "prepare": "rollup -c && cp -r dist -T docs/js",
+    "start": "rollup -c && cp -r dist -T docs/js && cp node_modules/three/build/three.min.js node_modules/vue/dist/vue.min.js docs/js && bundle exec jekyll serve --source docs",
+    "prepare": "rollup -c && cp -r dist -T docs/js && cp node_modules/three/build/three.min.js node_modules/vue/dist/vue.min.js docs/js",
     "publish": "mv .gitignore .gitignore.disabled && (gh-pages --dist docs; mv .gitignore.disabled .gitignore)"
   },
   "dependencies": {
