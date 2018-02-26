@@ -38,8 +38,8 @@ See the mixin components below for common properties.
         <vgl-perspective-camera name='viewing' orbit-position='0.8 1 1' orbit-target='0 0 -0.3'></vgl-perspective-camera>
         <vgl-perspective-camera name='viewed' far='0.5'></vgl-perspective-camera>
     </vgl-renderer>
-    <script src='https://unpkg.com/vue/dist/vue.min.js'></script>
-    <script src='https://unpkg.com/three/build/three.min.js'></script>
+    <script src='../js/vue.min.js'></script>
+    <script src='../js/three.min.js'></script>
     <script src='../js/vue-gl.js'></script>
     <script>
         Object.keys(VueGL).forEach(function(name) {

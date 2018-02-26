@@ -1,0 +1,85 @@
+<base href="../">
+<style>
+  .renderer {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+  .buttons {
+    position: fixed;
+    z-index: 1;
+    background: white;
+    opacity: 0.9;
+    top: 1rem;
+    left: 1rem;
+    list-style: none;
+    margin: 0;
+    padding: 1rem;
+  }
+  .buttons dd {
+    margin: 0;
+  }
+</style>
+
+<div id="app">
+  <vgl-renderer antialias shadow-map-enabled class="renderer">
+    <vgl-scene>
+      <vgl-arrow-helper :color="color" :dir="dir" :length="length" :head-length="headLength" :head-width="headWidth"></vgl-arrow-helper>
+      <vgl-axes-helper size="10"></vgl-axes-helper>
+    </vgl-scene>
+    <vgl-perspective-camera orbit-position="5 1 -0.5"></vgl-perspective-camera>
+  </vgl-renderer>
+  <dl class="buttons">
+    <dt>Direction:
+    <dd><label>x<input type="number" v-model="x"></label>
+    <dd><label>y<input type="number" v-model="y"></label>
+    <dd><label>z<input type="number" v-model="z"></label>
+    <dt>Size:
+    <dd><label>Length<input type="number" v-model="length"></label>
+    <dd><label>Head length<input type="number" v-model="headLength" step="0.1"></label>
+    <dd><label>Head width<input type="number" v-model="headWidth" step="0.01"></label>
+    <dt>Color:
+    <dd><label>R<input v-model="red" type="range" max="255"></label>
+    <dd><label>G<input v-model="green" type="range" max="255"></label>
+    <dd><label>B<input v-model="blue" type="range" max="255"></label>
+  </dl>
+</div>
+
+<script src="js/vue.min.js"></script>
+<script src="js/three.min.js"></script>
+<script src="js/vue-gl.js"></script>
+<script>
+  Object.keys(VueGL).forEach((key) => {
+    Vue.component(key, VueGL[key]);
+  });
+  new Vue({
+    el: '#app',
+    data: {
+      x: 1,
+      y: 1,
+      z: 1,
+      red: 255,
+      blue: 255,
+      green: 255,
+      length: 1,
+      headLength: 0.2,
+      headWidth: 0.04,
+    },
+    computed: {
+      color() {
+        return `#${this.to16(this.red)}${this.to16(this.green)}${this.to16(this.blue)}`;
+      },
+      dir() {
+        return `${this.x} ${this.y} ${this.z}`;
+      }
+    },
+    methods: {
+      to16(num) {
+        const res = parseInt(num, 10).toString(16);
+        return res.length < 2 ? `0${res}` : res;
+      },
+    },
+  });
+</script>

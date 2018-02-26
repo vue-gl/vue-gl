@@ -12,7 +12,7 @@ const baseOpts = {
 
 export default [Object.assign({
   output: {
-    file: path.resolve('docs/js/vue-gl.module.js'),
+    file: path.resolve('dist/vue-gl.module.js'),
     format: 'es',
     paths: {
       three: `https://unpkg.com/three@${version}/build/three.module.js`,
@@ -21,7 +21,7 @@ export default [Object.assign({
   },
 }, baseOpts), Object.assign({
   output: {
-    file: path.resolve('docs/js/vue-gl.js'),
+    file: path.resolve('dist/vue-gl.js'),
     format: 'umd',
     name: 'VueGL',
     globals: {

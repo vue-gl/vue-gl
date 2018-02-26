@@ -71,8 +71,8 @@ Then, the following code will render a sphere on the canvas.
         </vgl-scene>
         <vgl-perspective-camera orbit-position='5 1 1'></vgl-perspective-camera>
     </vgl-renderer>
-    <script src='https://unpkg.com/vue/dist/vue.min.js'></script>
-    <script src='https://unpkg.com/three/build/three.js'></script>
+    <script src='js/vue.min.js'></script>
+    <script src='js/three.min.js'></script>
     <script src='js/vue-gl.js'></script>
     <script>
         Object.keys(VueGL).forEach(function(name) {
@@ -149,8 +149,8 @@ It works with the reactive data bindings of Vue.js. Follwing code uses [form inp
             z: <input size=3 v-model='z'>
         </div>
     </div>
-    <script src='https://unpkg.com/vue/dist/vue.min.js'></script>
-    <script src='https://unpkg.com/three/build/three.js'></script>
+    <script src='js/vue.min.js'></script>
+    <script src='js/three.min.js'></script>
     <script src='js/vue-gl.js'></script>
     <script>
         Object.keys(VueGL).forEach(function(name) {
@@ -219,8 +219,8 @@ Multiple renderers can share the same datas. It might be helpful if you want to 
             </vgl-renderer>
         </vgl-namespace>
     </div>
-    <script src='https://unpkg.com/vue/dist/vue.min.js'></script>
-    <script src='https://unpkg.com/three/build/three.js'></script>
+    <script src='js/vue.min.js'></script>
+    <script src='js/three.min.js'></script>
     <script src='js/vue-gl.js'></script>
     <script>
         Object.keys(VueGL).forEach(function(name) {

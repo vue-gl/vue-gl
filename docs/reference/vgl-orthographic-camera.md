@@ -46,8 +46,8 @@ See the mixin components below for common properties.
         </vgl-scene>
         <vgl-orthographic-camera orbit-position='20 1 1' zoom=7.5></vgl-orthographic-camera>
     </vgl-renderer>
-    <script src='https://unpkg.com/vue/dist/vue.min.js'></script>
-    <script src='https://unpkg.com/three/build/three.min.js'></script>
+    <script src='../js/vue.min.js'></script>
+    <script src='../js/three.min.js'></script>
     <script src='../js/vue-gl.js'></script>
     <script>
         Object.keys(VueGL).forEach(function(name) {
