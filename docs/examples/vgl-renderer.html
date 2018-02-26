@@ -1,0 +1,86 @@
+<base href="../">
+<style>
+  .renderer {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+  .buttons {
+    position: fixed;
+    z-index: 1;
+    background: white;
+    opacity: 0.9;
+    top: 1rem;
+    left: 1rem;
+    margin: 0;
+    padding: 1rem;
+    list-style: none;
+  }
+</style>
+
+<div id="app">
+  <vgl-renderer class="renderer"
+    :antialias="antialias"
+    :alpha="alpha"
+    :disable-premultiplied-alpha="!premultipliedAlpha"
+    :disable-depth="!depth"
+    :precision="precision"
+    :disable-stencil="!stencil"
+    :preserve-drawing-buffer="preserveDrawingBuffer"
+    :shadow-map-enabled="shadowMapEnabled"
+    :logarithmic-depth-buffer="logarithmicDepthBuffer"
+  >
+    <vgl-scene>
+      <vgl-sphere-geometry name="sphere"></vgl-sphere-geometry>
+      <vgl-box-geometry name="box"></vgl-box-geometry>
+      <vgl-mesh-standard-material name="std" ></vgl-mesh-standard-material>
+      <vgl-mesh geometry="box" material="std" position="0 -1.5 0" receive-shadow></vgl-mesh>
+      <vgl-mesh geometry="sphere" material="std" cast-shadow receive-shadow></vgl-mesh>
+      <vgl-ambient-light color="#ffeecc"></vgl-ambient-light>
+      <vgl-directional-light position="0 1 1" cast-shadow></vgl-directional-light>
+    </vgl-scene>
+    <vgl-perspective-camera orbit-position="5 1 1"></vgl-perspective-camera>
+  </vgl-renderer>
+  <ul class="buttons">
+    <li><label><input type="checkbox" v-model="antialias">Antialias</label>
+    <li><label><input type="checkbox" v-model="alpha">Alpha</label>
+    <li><label><input type="checkbox" v-model="premultipliedAlpha">Premultiplied alpha</label>
+    <li><label><input type="checkbox" v-model="depth">Depth buffer</label>
+    <li><label><input type="checkbox" v-model="stencil">Stencil buffer</label>
+    <li><label><input type="checkbox" v-model="preserveDrawingBuffer">Preserve drawing buffer</label>
+    <li><label><input type="checkbox" v-model="logarithmicDepthBuffer">Logarithmic depth buffer</label>
+    <li><label><input type="checkbox" v-model="shadowMapEnabled">Shadow map</label>
+    <li><label>Precision
+      <select v-model="precision">
+        <option value="highp">High
+        <option value="mediump">Medium
+        <option value="lowp">Low
+      </select>
+    </label>
+  </ul>
+</div>
+
+<script src="js/vue.min.js"></script>
+<script src="js/three.min.js"></script>
+<script src="js/vue-gl.js"></script>
+<script>
+  Object.keys(VueGL).forEach((key) => {
+    Vue.component(key, VueGL[key]);
+  });
+  new Vue({
+    el: '#app',
+    data: {
+      antialias: false,
+      alpha: false,
+      premultipliedAlpha: true,
+      depth: true,
+      precision: 'highp',
+      stencil: true,
+      preserveDrawingBuffer: false,
+      shadowMapEnabled: false,
+      logarithmicDepthBuffer: false,
+    },
+  });
+</script>
