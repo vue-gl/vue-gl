@@ -29,8 +29,13 @@ describe('VglTexture:', function suite() {
     }).$mount();
     onload = () => {
       load.call(new THREE.TextureLoader(), 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7', (expected) => {
-        Object.assign(expected, { uuid: vm.$refs.t.inst.uuid });
         try {
+          expect(vm.$refs.t.inst.image.src).to.equal(expected.image.src);
+          vm.$refs.t.inst.image = THREE.Texture.DEFAULT_IMAGE;
+          Object.assign(expected, {
+            uuid: vm.$refs.t.inst.uuid,
+            image: THREE.Texture.DEFAULT_IMAGE,
+          });
           expect(vm.$refs.t.inst).to.deep.equal(expected);
           done();
         } catch (e) {
@@ -46,25 +51,28 @@ describe('VglTexture:', function suite() {
     }).$mount();
     onload = () => {
       load.call(new THREE.TextureLoader(), 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7', (expected) => {
-        Object.assign(expected, {
-          mapping: THREE.CubeReflectionMapping,
-          wrapS: THREE.RepeatWrapping,
-          wrapT: THREE.MirroredRepeatWrapping,
-          magFilter: THREE.NearestFilter,
-          minFilter: THREE.NearestFilter,
-          anisotropy: 2,
-          format: THREE.DepthFormat,
-          type: THREE.UnsignedIntType,
-          rotation: 32,
-          premultiplyAlpha: true,
-          unpackAlignment: 2,
-          encoding: THREE.LogLuvEncoding,
-          uuid: vm.$refs.t.inst.uuid,
-        });
-        expected.offset.set(2, 3);
-        expected.repeat.set(2, 2);
-        expected.center.set(3, -3);
         try {
+          expect(vm.$refs.t.inst.image.src).to.equal(expected.image.src);
+          vm.$refs.t.inst.image = THREE.Texture.DEFAULT_IMAGE;
+          Object.assign(expected, {
+            mapping: THREE.CubeReflectionMapping,
+            wrapS: THREE.RepeatWrapping,
+            wrapT: THREE.MirroredRepeatWrapping,
+            magFilter: THREE.NearestFilter,
+            minFilter: THREE.NearestFilter,
+            anisotropy: 2,
+            format: THREE.DepthFormat,
+            type: THREE.UnsignedIntType,
+            rotation: 32,
+            premultiplyAlpha: true,
+            unpackAlignment: 2,
+            encoding: THREE.LogLuvEncoding,
+            uuid: vm.$refs.t.inst.uuid,
+            image: THREE.Texture.DEFAULT_IMAGE,
+          });
+          expected.offset.set(2, 3);
+          expected.repeat.set(2, 2);
+          expected.center.set(3, -3);
           expect(vm.$refs.t.inst).to.deep.equal(expected);
           done();
         } catch (e) {
@@ -113,25 +121,28 @@ describe('VglTexture:', function suite() {
         vm.repeat = '1 1';
         vm.center = '-2 2';
         vm.$nextTick(() => {
-          Object.assign(expected, {
-            mapping: THREE.CubeRefractionMapping,
-            wrapS: THREE.MirroredRepeatWrapping,
-            wrapT: THREE.ClampToEdgeWrapping,
-            magFilter: THREE.LinearFilter,
-            minFilter: THREE.NearestMipMapLinearFilter,
-            anisotropy: 4,
-            format: THREE.AlphaFormat,
-            type: THREE.UnsignedByteType,
-            rotation: 52,
-            premultiplyAlpha: true,
-            unpackAlignment: 8,
-            encoding: THREE.LinearEncoding,
-            uuid: vm.$refs.t.inst.uuid,
-          });
-          expected.offset.set(2, 1);
-          expected.repeat.set(1, 1);
-          expected.center.set(-2, 2);
           try {
+            expect(vm.$refs.t.inst.image.src).to.equal(expected.image.src);
+            vm.$refs.t.inst.image = THREE.Texture.DEFAULT_IMAGE;
+            Object.assign(expected, {
+              mapping: THREE.CubeRefractionMapping,
+              wrapS: THREE.MirroredRepeatWrapping,
+              wrapT: THREE.ClampToEdgeWrapping,
+              magFilter: THREE.LinearFilter,
+              minFilter: THREE.NearestMipMapLinearFilter,
+              anisotropy: 4,
+              format: THREE.AlphaFormat,
+              type: THREE.UnsignedByteType,
+              rotation: 52,
+              premultiplyAlpha: true,
+              unpackAlignment: 8,
+              encoding: THREE.LinearEncoding,
+              uuid: vm.$refs.t.inst.uuid,
+              image: THREE.Texture.DEFAULT_IMAGE,
+            });
+            expected.offset.set(2, 1);
+            expected.repeat.set(1, 1);
+            expected.center.set(-2, 2);
             expect(vm.$refs.t.inst).to.deep.equal(expected);
             done();
           } catch (e) {
@@ -151,8 +162,13 @@ describe('VglTexture:', function suite() {
       vm.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=';
       onload = () => {
         load.call(new THREE.TextureLoader(), 'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=', (expected) => {
-          Object.assign(expected, { uuid: vm.$refs.t.inst.uuid });
           try {
+            expect(vm.$refs.t.inst.image.src).to.equal(expected.image.src);
+            vm.$refs.t.inst.image = THREE.Texture.DEFAULT_IMAGE;
+            Object.assign(expected, {
+              uuid: vm.$refs.t.inst.uuid,
+              image: THREE.Texture.DEFAULT_IMAGE,
+            });
             expect(vm.$refs.t.inst).to.deep.equal(expected);
             done();
           } catch (e) {
