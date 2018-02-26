@@ -22,8 +22,12 @@ export default {
     const vm = this;
     return { vglObject3d: { get inst() { return vm.inst; } } };
   },
+  created() { this.vglNamespace.update(); },
   beforeUpdate() { this.vglNamespace.update(); },
-  beforeDestroy() { if (this.inst.parent) this.inst.parent.remove(this.inst); },
+  beforeDestroy() {
+    if (this.inst.parent) this.inst.parent.remove(this.inst);
+    this.vglNamespace.update();
+  },
   watch: {
     inst: {
       handler(inst, oldInst) {
@@ -43,7 +47,5 @@ export default {
     castShadow(castShadow) { this.inst.castShadow = castShadow; },
     receiveShadow(receiveShadow) { this.inst.receiveShadow = receiveShadow; },
   },
-  render(h) {
-    return this.$slots.default ? h('div', this.$slots.default) : undefined;
-  },
+  render(h) { return this.$slots.default ? h('div', this.$slots.default) : undefined; },
 };

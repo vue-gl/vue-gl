@@ -190,8 +190,11 @@ export default {
     encoding(mode) { this.inst.encoding = encoding[mode]; },
   },
   beforeDestroy() {
-    const  { vglNamespace: { textures }, inst, name } = this;
+    const { vglNamespace: { textures }, inst, name } = this;
     if (textures[name] === inst) delete textures[name];
+  },
+  beforeUpdate() {
+    this.vglNamespace.update();
   },
   render(h) {
     return this.$slots.default ? h('div', this.$slots.default) : undefined;

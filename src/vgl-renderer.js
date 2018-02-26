@@ -83,6 +83,7 @@ export default {
   },
   beforeDestroy() {
     this.vglNamespace.renderers.splice(this.vglNamespace.renderers.indexOf(this), 1);
+    this.inst.dispose();
   },
   render(h) {
     return h('div', [h('iframe', {

@@ -1,11 +1,9 @@
 import VglGeometry from './vgl-geometry.js';
-import { ExtrudeGeometry } from './three.js';
+import { ExtrudeBufferGeometry } from './three.js';
 
 export default {
   mixins: [VglGeometry],
   computed: {
-    inst() {
-      return new ExtrudeGeometry([], {});
-    },
+    inst() { return new ExtrudeBufferGeometry([], {}); },
   },
 };

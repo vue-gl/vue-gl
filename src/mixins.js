@@ -7,9 +7,12 @@ export const VglObject3dWithMatarial = {
   mixins: [VglObject3d],
   props: { material: string },
   methods: {
-    setMaterial() { this.inst.material = this.vglNamespace.materials[this.material]; },
+    setMaterial() {
+      const { vglNamespace: { materials }, material, inst } = this;
+      if (materials[material]) inst.material = materials[material];
+    },
   },
-  created() { this.vglNamespace.beforeRender.push(this.setMaterial); },
+  created() { this.vglNamespace.beforeRender.unshift(this.setMaterial); },
   beforeDestroy() {
     const { vglNamespace: { beforeRender }, setMaterial } = this;
     beforeRender.splice(beforeRender.indexOf(setMaterial), 1);
@@ -20,22 +23,28 @@ export const VglObject3dWithMatarialAndGeometry = {
   mixins: [VglObject3dWithMatarial],
   props: { geometry: string },
   methods: {
-    setGeometry() { this.inst.geometry = this.vglNamespace.geometries[this.geometry]; },
+    setGeometry() {
+      const { vglNamespace: { geometries }, geometry, inst } = this;
+      if (geometries[geometry]) inst.geometry = geometries[geometry];
+    },
   },
-  created() { this.vglNamespace.beforeRender.push(this.setGeometry); },
+  created() { this.vglNamespace.beforeRender.unshift(this.setGeometry); },
   beforeDestroy() {
     const { vglNamespace: { beforeRender }, setGeometry } = this;
     beforeRender.splice(beforeRender.indexOf(setGeometry), 1);
-  }
+  },
 };
 
 export const VglMaterialWithMap = {
   mixins: [VglMaterial],
   props: { map: string },
   methods: {
-    setMap() { this.inst.map = this.vglNamespace.textures[this.map]; },
+    setMap() {
+      const { vglNamespace: { textures }, inst, map } = this;
+      if (map in textures) inst.map = textures[map];
+    },
   },
-  created() { this.vglNamespace.beforeRender.push(this.setMap); },
+  created() { this.vglNamespace.beforeRender.unshift(this.setMap); },
   beforeDestroy() {
     const { vglNamespace: { beforeRender }, setMap } = this;
     beforeRender.splice(beforeRender.indexOf(setMap), 1);

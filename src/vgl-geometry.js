@@ -24,7 +24,7 @@ export default {
     const { vglNamespace: { geometries }, inst } = this;
     if (geometries[this.name] === inst) delete geometries[this.name];
   },
-  render(h) {
-    return this.$slots.default ? h('div', this.$slots.default) : undefined;
-  },
+  created() { this.vglNamespace.update(); },
+  beforeUpdate() { this.vglNamespace.update(); },
+  render(h) { return this.$slots.default ? h('div', this.$slots.default) : undefined; },
 };

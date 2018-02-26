@@ -36,7 +36,5 @@ export default {
       }),
     };
   },
-  render(h) {
-    return this.$slots.default ? h('div', this.$slots.default) : undefined;
-  },
+  render(h) { return this.$slots.default ? h('div', this.$slots.default) : undefined; },
 };

@@ -13,6 +13,7 @@ export default {
   methods: {
     setCamera() {
       this.inst.camera = this.vglNamespace.cameras[this.camera];
+      this.inst.camera.updateProjectionMatrix();
       this.inst.update();
     },
   },
