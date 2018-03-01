@@ -1,0 +1,13 @@
+{%- assign url = include.url | remove: '/components' | prepend: '/examples' -%}
+{%- for p in site.pages -%}
+  {%- if p.url == url -%}
+    {%- assign code = p.content -%}
+  {%- endif -%}
+{%- endfor -%}
+```html
+{{ code }}
+```
+<div class="example">
+  <iframe src="{{ url }}"></iframe>
+  <a href="{{ url }}">View on single page >></a>
+</div>

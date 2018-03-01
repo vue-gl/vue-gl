@@ -1,0 +1,34 @@
+---
+---
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.control-panel {
+  position: fixed;
+  top: 1ex;
+  left: 1ex;
+  padding: 1ex;
+  margin: 0;
+  background: white;
+  opacity: 0.85;
+  max-height: calc(100vh - 4ex);
+  overflow: auto;
+  font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
+}
+
+.control-panel h3 {
+  font-size: 1rem;
+  margin: 0;
+}
+
+.control-panel label {
+  display: block;
+  text-align: center;
+}
+
+.control-panel input:not([type=checkbox]) {
+  display: block;
+}
