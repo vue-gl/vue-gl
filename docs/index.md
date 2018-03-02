@@ -1,16 +1,16 @@
-* Contents
-    * [Overview](#overview)
-    * [Getting started](#getting-started)
-    * [Reactive rendering](#reactive-rendering)
-    * [Supported browsers](#supported-browsers)
-* Other resources
-    * [Component references](reference)
-
-# Overview
+---
+toc:
+  - Overview
+  - Getting started
+  - Reactive rendering
+  - Supported browsers
+---
+# Introduction
+## Overview
 [Vue.js](https://vuejs.org) components for reactive 3D rendering. Depends on [three.js](https://threejs.org/).
 
 You can render 3D components on canvas by coding custom html tags. It's not only for integration with other Vue.js applications, but also for drawing 3D graphics more easier!
-# Getting started
+## Getting started
 You need to load the vue.js and the three.js scripts with the vue-gl script.
 ```html
 <script src="https://unpkg.com/vue"></script>
@@ -83,7 +83,7 @@ Then, the following code will render a sphere on the canvas.
         });
     </script>
 "></iframe></div>
-# Reactive rendering
+## Reactive rendering
 It works with the reactive data bindings of Vue.js. Follwing code uses [form input bindings](https://vuejs.org/v2/guide/forms.html) and pass datas to the position property of a mesh object. VueGL renders a sphere at your requested position at once.
 ```html
 <div id="vgl-app" style="position: relative; width: 300px; height: 150px;">
@@ -166,7 +166,7 @@ It works with the reactive data bindings of Vue.js. Follwing code uses [form inp
         });
     </script>
 "></iframe></div>
-# Multiple renderers
+## Multiple renderers
 Multiple renderers can share the same datas. It might be helpful if you want to reduce using resouces.
 ```html
 <div id="vgl-app" style="position: relative; width: 300px; height: 150px;">
@@ -231,7 +231,7 @@ Multiple renderers can share the same datas. It might be helpful if you want to 
         });
     </script>
 "></iframe></div>
-# Supported browsers
+## Supported browsers
 All modern browsers except IE < 8 are supported, depends on Vue.js and three.js. Note that IE9 needs a polyfill for TypedArray class ([js-polyfills/typedarray.js](https://github.com/inexorabletash/polyfill/blob/master/typedarray.js) is a one of the options).
 
 Components are tested on following browsers.

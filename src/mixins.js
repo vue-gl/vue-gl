@@ -1,11 +1,8 @@
-import VglGeometry from './vgl-geometry.js';
-import VglMaterial from './vgl-material.js';
-import VglObject3d from './vgl-object3d.js';
-import { string, number } from './validators.js';
+import VglMaterial from './materials/vgl-material.js';
+import VglObject3d from './core/vgl-object3d.js';
 
 export const VglObject3dWithMatarial = {
   mixins: [VglObject3d],
-  props: { material: string },
   methods: {
     setMaterial() {
       const { vglNamespace: { materials }, material, inst } = this;
@@ -21,7 +18,6 @@ export const VglObject3dWithMatarial = {
 
 export const VglObject3dWithMatarialAndGeometry = {
   mixins: [VglObject3dWithMatarial],
-  props: { geometry: string },
   methods: {
     setGeometry() {
       const { vglNamespace: { geometries }, geometry, inst } = this;
@@ -37,7 +33,6 @@ export const VglObject3dWithMatarialAndGeometry = {
 
 export const VglMaterialWithMap = {
   mixins: [VglMaterial],
-  props: { map: string },
   methods: {
     setMap() {
       const { vglNamespace: { textures }, inst, map } = this;
@@ -48,13 +43,5 @@ export const VglMaterialWithMap = {
   beforeDestroy() {
     const { vglNamespace: { beforeRender }, setMap } = this;
     beforeRender.splice(beforeRender.indexOf(setMap), 1);
-  },
-};
-
-export const VglHedronGeometry = {
-  mixins: [VglGeometry],
-  props: {
-    radius: { type: number, default: 1 },
-    detail: { type: number, default: 0 },
   },
 };
