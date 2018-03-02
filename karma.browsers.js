@@ -291,12 +291,6 @@ browserStack['Safari 8 on Mac OS X Yosemite'] = {
   browser_version: '8',
 };
 
-saucelabs['Safari 7 on Mac OS X Mavericks'] = {
-  base: 'SauceLabs',
-  platform: 'OS X 10.9',
-  browserName: 'safari',
-  version: '7',
-};
 browserStack['Safari 7 on Mac OS X Mavericks'] = {
   base: 'BrowserStack',
   os: 'OS X',
