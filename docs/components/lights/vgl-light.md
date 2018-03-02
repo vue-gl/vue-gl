@@ -1,9 +1,0 @@
-Abstract mixin component for lights, corresponding [THREE.Light](https://threejs.org/docs/index.html#api/lights/Light).
-
-## Mixins
-See the mixin components below for common properties.
-* [VglObject3d](vgl-object3d)
-
-## Properties
-* `color: string` - CSS style color of the light.
-* `intensity: float` - Numeric value of the light's strength/intensity.

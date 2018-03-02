@@ -12,6 +12,14 @@
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
+    {% assign page_name = page.name | split: '' | reverse | join: '' | remove_first: 'dm.' | split: '' | reverse | join: '' | split: '-' %}
+    {% capture capitalized_page_name %}
+      {%- for word in page_name -%}
+        {{ word | capitalize }}
+      {%- endfor -%}
+    {% endcapture %}
+    <title>{{ capitalized_page_name | join: '' }} | {{ site.title | default: site.github.repository_name }}</title>
+
 {% seo %}
   </head>
 
@@ -34,7 +42,33 @@
     <div id="content-wrapper">
       <div class="inner clearfix">
         <section id="main-content">
+          {% assign dir_array = page.dir | split: '/' %}
+          {% if dir_array[1] == 'components' %}
+            <a href="/{{ dir_array[1] }}">{{ dir_array[1] | capitalize }}</a> &gt; <a href="/{{ dir_array[1] }}#{{ dir_array[2] }}">{{ dir_array[2] | capitalize }}</a> &gt;
+            {% assign component_name = page.name | split: '' | reverse | join: '' | remove_first: 'dm.' | split: '' | reverse | join: '' | split: '-' %}
+            {% capture capitalized_name %}
+              {%- for word in component_name -%}
+                {{ word | capitalize }}
+              {%- endfor -%}
+            {% endcapture %}
+            {{ component_name | join: '-' | prepend: ' `<' | append: '>`' | prepend: capitalized_name | prepend: '# ' | markdownify }}
+          {% endif %}
           {{ content }}
+          {% assign example_url = page.url | replace_first: '/components/', '/examples/' %}
+          {% assign example_pages = site.pages | where: 'url', example_url %}
+          {% for example_page in example_pages %}
+            {% capture example_code %}
+## Example
+```html
+{{ example_page.content }}
+```
+            {% endcapture %}
+            {{ example_code | markdownify }}
+            <div class="example">
+              <iframe src="{{ example_url }}"></iframe>
+              <a href="{{ example_url }}">View on single page >></a>
+            </div>
+          {% endfor %}
         </section>
 
         <aside id="sidebar">

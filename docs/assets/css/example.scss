@@ -7,16 +7,16 @@ body {
 }
 
 .control-panel {
+  background: #fff;
+  font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
+  left: 1ex;
+  margin: 0;
+  max-height: calc(100vh - 4ex);
+  opacity: 0.85;
+  overflow: auto;
+  padding: 1ex;
   position: fixed;
   top: 1ex;
-  left: 1ex;
-  padding: 1ex;
-  margin: 0;
-  background: white;
-  opacity: 0.85;
-  max-height: calc(100vh - 4ex);
-  overflow: auto;
-  font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
 }
 
 .control-panel h3 {

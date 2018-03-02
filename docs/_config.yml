@@ -8,3 +8,7 @@ defaults:
       path: examples
     values:
       layout: example
+  - scope:
+      path: components
+    values:
+      layout: component
