@@ -1,3 +1,14 @@
-theme: jekyll-theme-cayman
+theme: jekyll-theme-architect
 google_analytics: UA-23493957-4
 title: VueGL
+plugins:
+  - jekyll-sitemap
+defaults:
+  - scope:
+      path: examples
+    values:
+      layout: example
+  - scope:
+      path: components
+    values:
+      layout: component
