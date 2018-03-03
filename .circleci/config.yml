@@ -17,7 +17,17 @@ jobs:
                     - ~/.cache/yarn
             - run:
                 name: Install launchers
-                command: 'if [ -z $BROWSER_STACK_USERNAME ] || [ -z $BROWSER_STACK_ACCESS_KEY ] ; then sudo npm -g i karma-chrome-launcher karma-firefox-launcher ; fi'
+                command: |
+                    if [ -z $BROWSER_STACK_USERNAME ] || [ -z $BROWSER_STACK_ACCESS_KEY ] ; then
+                        yarn add karma-chrome-launcher karma-firefox-launcher
+                    elif [ $CIRCLE_BRANCH = master ] ; then
+                        yarn add karma-sauce-launcher
+                    else
+                        yarn add karma-browserstack-launcher
+                    fi
+            - run:
+                name: Install the reporter
+                command: yarn add karma-junit-reporter
             - run:
                 name: Run unit tests
                 command: yarn test
