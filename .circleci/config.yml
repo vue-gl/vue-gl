@@ -17,7 +17,7 @@ jobs:
                     - ~/.cache/yarn
             - run:
                 name: Install launchers
-                command: 'if [ -z $BROWSER_STACK_USERNAME ] || [ -z $BROWSER_STACK_ACCESS_KEY ] ; then npm i karma-chrome-launcher karma-firefox-launcher ; fi'
+                command: 'if [ -z $BROWSER_STACK_USERNAME ] || [ -z $BROWSER_STACK_ACCESS_KEY ] ; then sudo npm -g i karma-chrome-launcher karma-firefox-launcher ; fi'
             - run:
                 name: Run unit tests
                 command: yarn test
