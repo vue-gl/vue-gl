@@ -67,7 +67,7 @@ module.exports = (config) => {
     } else {
       options.browsers.push('Chrome', 'Firefox');
     }
-    options.browsers.push(...Object.keys(options.customLaunchers));
+    if (options.customLaunchers) options.browsers.push(...Object.keys(options.customLaunchers));
     options.singleRun = true;
   }
 
