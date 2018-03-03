@@ -16,6 +16,9 @@ jobs:
                 paths:
                     - ~/.cache/yarn
             - run:
+                name: Install launchers
+                command: 'if [ -z $BROWSER_STACK_USERNAME ] || [ -z $BROWSER_STACK_ACCESS_KEY ] ; then npm i karma-chrome-launcher karma-firefox-launcher ; fi'
+            - run:
                 name: Run unit tests
                 command: yarn test
             - run:

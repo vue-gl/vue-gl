@@ -46,6 +46,7 @@ module.exports = (config) => {
     options.reporters = ['coverage', 'junit', 'dots'];
     options.browserNoActivityTimeout = 60000;
     options.client = { mocha: { timeout: 10000 } };
+    options.browsers = [];
     if (process.env.CIRCLE_BRANCH === 'master') {
       options.concurrency = 4;
       options.reporters.push('saucelabs');
@@ -55,7 +56,7 @@ module.exports = (config) => {
         public: 'public restricted',
       };
       options.customLaunchers = saucelabs;
-    } else {
+    } else if (process.env.BROWSER_STACK_USERNAME && process.env.BROWSER_STACK_ACCESS_KEY) {
       options.concurrency = 2;
       options.reporters.push('BrowserStack');
       options.browserStack = {
@@ -63,8 +64,10 @@ module.exports = (config) => {
         video: false,
       };
       options.customLaunchers = browserStack;
+    } else {
+      options.browsers.push('Chrome', 'Firefox');
     }
-    options.browsers = Object.keys(options.customLaunchers);
+    options.browsers.push(...Object.keys(options.customLaunchers));
     options.singleRun = true;
   }
 
