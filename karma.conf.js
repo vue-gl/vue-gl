@@ -1,5 +1,5 @@
-const rollupPluginIstanbul = require('rollup-plugin-istanbul');
-const rollupPluginBabel = require('rollup-plugin-babel');
+const rollupPluginIstanbul = require('rollup-plugin-istanbul'); // eslint-disable-line import/no-extraneous-dependencies
+const rollupPluginBabel = require('rollup-plugin-babel'); // eslint-disable-line import/no-extraneous-dependencies
 const { execSync } = require('child_process');
 const { browserStack, saucelabs } = require('./karma.browsers');
 
