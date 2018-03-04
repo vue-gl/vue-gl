@@ -1,0 +1,16 @@
+{% for page_data in site.pages %}
+  {% if page_data.url == include.url %}
+    {% capture content %}
+```html
+{{ page_data.content }}
+```
+    {% endcapture %}
+  {% endif %}
+{% endfor %}
+
+{{ content | markdownify }}
+
+<div class="example">
+  <iframe src="{{ include.url }}"></iframe>
+  <a href="{{ include.url }}">View on single page >></a>
+</div>
