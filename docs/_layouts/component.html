@@ -44,7 +44,7 @@
         <section id="main-content">
           {% assign dir_array = page.dir | split: '/' %}
           {% if dir_array[1] == 'components' %}
-            <a href="/{{ dir_array[1] }}">{{ dir_array[1] | capitalize }}</a> &gt; <a href="/{{ dir_array[1] }}#{{ dir_array[2] }}">{{ dir_array[2] | capitalize }}</a> &gt;
+            <a href="{{ dir_array[1] | prepend: '/' | relative_url }}">{{ dir_array[1] | capitalize }}</a> &gt; <a href="{{ dir_array[1] | prepend: '/' | relative_url }}#{{ dir_array[2] }}">{{ dir_array[2] | capitalize }}</a> &gt;
             {% assign component_name = page.name | split: '' | reverse | join: '' | remove_first: 'dm.' | split: '' | reverse | join: '' | split: '-' %}
             {% capture capitalized_name %}
               {%- for word in component_name -%}
@@ -65,8 +65,8 @@
             {% endcapture %}
             {{ example_code | markdownify }}
             <div class="example">
-              <iframe src="{{ example_url }}"></iframe>
-              <a href="{{ example_url }}">View on single page >></a>
+              <iframe src="{{ example_url | relative_url }}"></iframe>
+              <a href="{{ example_url | relative_url }}">View on single page >></a>
             </div>
           {% endfor %}
         </section>
@@ -91,10 +91,10 @@
           {% endfor %}
           {% for p in page_list %}
             {% if p.title %}
-              <h1{% if p.url == page.url %} class="cur"{% endif %}><a href="{{ p.url }}">{{ p.title }}</a></h1>
+              <h1{% if p.url == page.url %} class="cur"{% endif %}><a href="{{ p.url | relative_url }}">{{ p.title }}</a></h1>
               {% if p.toc %}
                 {% for topic in p.toc %}
-                  <h2><a href="{{ p.url }}#{{ topic | slugify }}">{{ topic }}</a></h2>
+                  <h2><a href="{{ p.url | relative_url }}#{{ topic | slugify }}">{{ topic }}</a></h2>
                 {% endfor %}
               {% endif %}
             {% endif %}
@@ -102,12 +102,12 @@
           
           {% assign api_category = 'components' %}
           {% assign cur_dir = page.dir | split: '/' %}
-          <h1{% if cur_dir[1] == api_category %} class="cur"{% endif %}><a href="/{{ api_category }}">{{ api_category | capitalize }} (API Reference)</a></h1>
+          <h1{% if cur_dir[1] == api_category %} class="cur"{% endif %}><a href="{{ api_category | prepend: '/' | relative_url }}">{{ api_category | capitalize }} (API Reference)</a></h1>
           {% assign groups = site.pages | group_by: 'dir' | sort: 'name' %}
           {% for group in groups %}
             {% assign dir = group.name | split: '/' %}
             {% if dir[1] == api_category %}
-              <h2{% if cur_dir[2] == dir[2] %} class="cur"{% endif %}><a href="/{{ api_category }}#{{ dir[2] }}">{{ dir[2] | capitalize }}</a></h2>
+              <h2{% if cur_dir[2] == dir[2] %} class="cur"{% endif %}><a href="{{ api_category | prepend: '/' | relative_url }}#{{ dir[2] }}">{{ dir[2] | capitalize }}</a></h2>
               {% assign components = group.items | sort: 'name' %}
               {% for component in components %}
                 {% assign array = component.name | split: '' | reverse | join: '' | remove_first: 'dm.' | split: '' | reverse | join: '' | split: '-' %}
@@ -116,7 +116,7 @@
                     {{ word | capitalize }}
                   {%- endfor -%}
                 {%- endcapture -%}
-                <h3{% if component.url == page.url %} class="cur"{% endif %}><a href="{{ component.url }}#content-wrapper">{{ disp }}</a></h3>
+                <h3{% if component.url == page.url %} class="cur"{% endif %}><a href="{{ component.url | relative_url }}#content-wrapper">{{ disp }}</a></h3>
               {% endfor %}
             {% endif %}
           {% endfor %}
