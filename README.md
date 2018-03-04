@@ -64,8 +64,6 @@ When you open the html above in the browser, you'll see below.
   - [x] **[VglPerspectiveCamera](src/vgl-perspective-camera.js)** -
         Corresponding to [THREE.PerspectiveCamera](https://threejs.org/docs/index.html#api/cameras/PerspectiveCamera)
 - Core
-  - [x] **[VglFont](src/vgl-font.js)** -
-        Corresponding to [THREE.Font](https://threejs.org/docs/index.html#api/extras/core/Font)
   - [x] **[VglGeometry](src/vgl-geometry.js)** -
         Corresponding to [THREE.Geometry](https://threejs.org/docs/index.html#api/core/Geometry)
   - [x] **[VglObject3d](src/vgl-object3d.js)** -
@@ -130,7 +128,7 @@ When you open the html above in the browser, you'll see below.
         Corresponding to [THREE.FaceNormalsHelper](https://threejs.org/docs/index.html#api/helpers/FaceNormalsHelper)
   - [x] **[VglGridHelper](src/vgl-grid-helper.js)** -
         Corresponding to [THREE.GridHelper](https://threejs.org/docs/index.html#api/helpers/GridHelper)
-  - [ ] **[VglPolarGridHelper](src/vgl-polar-grid-helper.js)** -
+  - [x] **[VglPolarGridHelper](src/vgl-polar-grid-helper.js)** -
         Corresponding to [THREE.PolarGridHelper](https://threejs.org/docs/index.html#api/helpers/PolarGridHelper)
   - [ ] **[VglHemisphereLightHelper](src/vgl-hemisphere-light-helper.js)** -
         Corresponding to [THREE.HemisphereLightHelper](https://threejs.org/docs/index.html#api/helpers/HemisphereLightHelper)
@@ -197,8 +195,6 @@ When you open the html above in the browser, you'll see below.
         Corresponding to [THREE.Bone](https://threejs.org/docs/index.html#api/objects/Bone)
   - [x] **[VglGroup](src/vgl-group.js)** -
         Corresponding to [THREE.Group](https://threejs.org/docs/index.html#api/objects/Group)
-  - [x] **[VglLensFlare](src/vgl-lens-flare.js)** -
-        Corresponding to [THREE.LensFlare](https://threejs.org/docs/index.html#api/objects/LensFlare)
   - [x] **[VglLine](src/vgl-line.js)** -
         Corresponding to [THREE.Line](https://threejs.org/docs/index.html#api/objects/Line)
   - [x] **[VglLineLoop](src/vgl-line-loop.js)** -
