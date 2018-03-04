@@ -11,6 +11,6 @@
 {{ content | markdownify }}
 
 <div class="example">
-  <iframe src="{{ include.url }}"></iframe>
-  <a href="{{ include.url }}">View on single page >></a>
+  <iframe src="{{ include.url | relative_url }}"></iframe>
+  <a href="{{ include.url | relative_url }}">View on single page >></a>
 </div>
