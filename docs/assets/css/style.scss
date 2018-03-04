@@ -3,29 +3,73 @@
 
 @import "{{ site.theme }}";
 
-.vgl-example {
-    width: 50%;
-    margin-right: 25%;
-    margin-left: 25%;
-    position: relative;
+pre code {
+  background-color: transparent;
 }
 
-.vgl-example::before {
-    content: "";
-    padding-top: 56.25%;
-    display: block;
+.highlight {
+  background-color: #eeeeee;
 }
 
-.vgl-example__content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
+aside#sidebar h1, aside#sidebar h2, aside#sidebar h3 {
+  font-weight: normal;
+  font-size: 0.9rem;
+  margin-top: 28px;
+  margin-bottom: 15px;
 }
 
-.page-header--subpage {
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+aside#sidebar h2 {
+  padding-left: 10px;
+  margin-top: 12px;
+  margin-bottom: 9px;
+}
+
+aside#sidebar h3 {
+  padding-left: 20px;
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+
+aside#sidebar h1:before, aside#sidebar h2:before, aside#sidebar h3:before {
+  padding-right: 0.3em;
+  color: #bddd80;
+  font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
+  content: "/";
+}
+
+aside#sidebar h2:before {
+  content: "//";
+}
+
+aside#sidebar h3:before {
+  content: "///";
+}
+
+aside#sidebar h1.cur:before, aside#sidebar h2.cur:before, aside#sidebar h3.cur:before {
+  color: #ff0000;
+}
+
+div.example {
+  position: relative;
+  width: 100%;
+}
+
+div.example:before {
+  padding-top: 61.8034%;
+  content:"";
+  display: block;
+}
+
+div.example iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+div.example a {
+  position: absolute;
+  top: 1ex;
+  right: 1ex;
 }

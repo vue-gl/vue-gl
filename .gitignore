@@ -60,3 +60,7 @@ typings/
 _site/
 
 junit/
+
+dist/
+docs/js/
+docs/components/

@@ -2,6 +2,7 @@
 [Vue.js](https://vuejs.org/) components rendering 3D graphics reactively via [three.js](https://threejs.org/). See the [documents](https://vue-gl.github.io/vue-gl/) for more details.
 
 [![NPM](https://nodei.co/npm/vue-gl.png?compact=true)](https://nodei.co/npm/vue-gl/)  
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fvue-gl%2Fvue-gl.svg?type=small)](https://app.fossa.io/projects/git%2Bgithub.com%2Fvue-gl%2Fvue-gl?ref=badge_small)  
 [![CircleCI](https://circleci.com/gh/vue-gl/vue-gl.svg?style=svg)](https://circleci.com/gh/vue-gl/vue-gl)  
 [![codecov](https://codecov.io/gh/vue-gl/vue-gl/branch/master/graph/badge.svg)](https://codecov.io/gh/vue-gl/vue-gl)  
 [![Build Status](https://saucelabs.com/browser-matrix/vuegl.svg)](https://saucelabs.com/beta/builds/8a544a31f8174ff28d19b5ad3f70c18c)
@@ -138,3 +139,7 @@ When you open the html above in the browser, you'll see below.
 Are you interested in enhance this product ?  
 We're really glad and thanks a lot !  
 To start development, see [CONTRIBUTING.md](CONTRIBUTING.md).
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fvue-gl%2Fvue-gl.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fvue-gl%2Fvue-gl?ref=badge_large)

@@ -1,0 +1,11 @@
+<link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" type="text/css" href="{{ '/assets/css/example.css?v=' | append: site.github.build_revision | relative_url }}">
+<script src="/js/vue.min.js"></script>
+<script src="/js/three.min.js"></script>
+<script src="/js/vue-gl.js"></script>
+<script type="text/javascript">
+  Object.keys(VueGL).forEach((key) => {
+    Vue.component(key, VueGL[key]);
+  });
+</script>
+{{ content }}

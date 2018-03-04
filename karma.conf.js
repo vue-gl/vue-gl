@@ -10,12 +10,10 @@ module.exports = (config) => {
     files: [
       { pattern: require.resolve('chai/chai'), watched: false },
       { pattern: require.resolve('vue/dist/vue'), watched: false },
-      'https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame',
       { pattern: require.resolve('js-polyfills/typedarray.js'), watched: false },
       { pattern: require.resolve('three'), watched: false },
       { pattern: 'src/index.js', watched: false },
       { pattern: 'test/**/*.spec.js' },
-      { pattern: 'test/sample_texture.png', included: false, watched: false },
     ],
     preprocessors: {
       'src/index.js': ['rollup'],
@@ -48,6 +46,7 @@ module.exports = (config) => {
     options.reporters = ['coverage', 'junit', 'dots'];
     options.browserNoActivityTimeout = 60000;
     options.client = { mocha: { timeout: 10000 } };
+    options.browsers = [];
     if (process.env.CIRCLE_BRANCH === 'master') {
       options.concurrency = 4;
       options.reporters.push('saucelabs');
@@ -57,7 +56,7 @@ module.exports = (config) => {
         public: 'public restricted',
       };
       options.customLaunchers = saucelabs;
-    } else {
+    } else if (process.env.BROWSER_STACK_USERNAME && process.env.BROWSER_STACK_ACCESS_KEY) {
       options.concurrency = 2;
       options.reporters.push('BrowserStack');
       options.browserStack = {
@@ -65,8 +64,10 @@ module.exports = (config) => {
         video: false,
       };
       options.customLaunchers = browserStack;
+    } else {
+      options.browsers.push('Chrome', 'Firefox');
     }
-    options.browsers = Object.keys(options.customLaunchers);
+    if (options.customLaunchers) options.browsers.push(...Object.keys(options.customLaunchers));
     options.singleRun = true;
   }
 

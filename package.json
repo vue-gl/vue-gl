@@ -1,6 +1,6 @@
 {
   "name": "vue-gl",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Vue.js components rendering 3D graphics reactively via three.js",
   "keywords": [
     "Vue",
@@ -21,29 +21,34 @@
     "url": "https://github.com/vue-gl/vue-gl/issues"
   },
   "license": "MIT",
-  "main": "docs/js/vue-gl.js",
+  "main": "dist/vue-gl.js",
   "scripts": {
+    "lint": "eslint src test",
     "test": "karma start",
-    "start": "rollup -c && bundle exec jekyll serve --source docs",
-    "prepare": "rollup -c"
+    "start": "rollup -c && cp -r dist -T docs/js && cp node_modules/three/build/three.min.js node_modules/three/examples/fonts/helvetiker_regular.typeface.json node_modules/vue/dist/vue.min.js docs/js && for d in src/*/ ; do mkdir -p docs/components/`basename $d` && vuedoc.md ${d}vgl-*.js --output docs/components/`basename $d` --level 2 --ignore-name --ignore-computed --ignore-data ; done && bundle exec jekyll serve --source docs",
+    "prepare": "rollup -c && cp -r dist -T docs/js && cp node_modules/three/build/three.min.js node_modules/three/examples/fonts/helvetiker_regular.typeface.json node_modules/vue/dist/vue.min.js docs/js && for d in src/*/ ; do mkdir -p docs/components/`basename $d` && vuedoc.md ${d}vgl-*.js --output docs/components/`basename $d` --level 2 --ignore-name --ignore-computed --ignore-data ; done",
+    "publish": "mv .gitignore .gitignore.disabled && (gh-pages --dist docs; mv .gitignore.disabled .gitignore)"
   },
   "dependencies": {
     "three": "^0.90.0"
   },
   "devDependencies": {
+    "@vuedoc/md": "^1.1.1",
     "babel-cli": "^6.26.0",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-preset-env": "^1.6.1",
     "chai": "^4.1.2",
+    "eslint": "^4.18.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-mocha": "^4.11.0",
+    "gh-pages": "^1.1.0",
     "js-polyfills": "^0.1.41",
     "karma": "^2.0.0",
     "karma-babel-preprocessor": "^7.0.0",
-    "karma-browserstack-launcher": "^1.3.0",
     "karma-coverage": "^1.1.1",
-    "karma-junit-reporter": "^1.2.0",
     "karma-mocha": "^1.3.0",
     "karma-rollup-preprocessor": "^5.1.1",
-    "karma-sauce-launcher": "^1.2.0",
     "mocha": "^5.0.1",
     "rollup": "^0.56.2",
     "rollup-plugin-babel": "^3.0.3",

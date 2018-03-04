@@ -1,69 +1,47 @@
-import VglGeometry from './vgl-geometry.js';
-import VglObject3d from './vgl-object3d.js';
-import { string, number } from './validators.js';
-import { geometries, materials } from './object-stores.js';
+import VglMaterial from './materials/vgl-material.js';
+import VglObject3d from './core/vgl-object3d.js';
 
 export const VglObject3dWithMatarial = {
   mixins: [VglObject3d],
-  props: {
-    material: string,
-  },
-  inject: ['vglMaterials'],
-  computed: {
-    materialObject() { return materials[this.vglMaterials.forGet[this.material]]; },
-  },
-  mounted() {
-    if (this.materialObject) {
-      this.inst.material = this.materialObject;
-      this.materialObject.addEventListener('update', this.ud);
-    }
-  },
   methods: {
-    ud() { if (this.vglUpdate) this.vglUpdate(); },
-  },
-  watch: {
-    materialObject(material, oldMaterial) {
-      if (material !== oldMaterial) {
-        this.inst.material = material;
-        if (oldMaterial) oldMaterial.removeEventListener('update', this.ud);
-        if (material) material.addEventListener('update', this.ud);
-        this.ud();
-      }
+    setMaterial() {
+      const { vglNamespace: { materials }, material, inst } = this;
+      if (materials[material]) inst.material = materials[material];
     },
+  },
+  created() { this.vglNamespace.beforeRender.unshift(this.setMaterial); },
+  beforeDestroy() {
+    const { vglNamespace: { beforeRender }, setMaterial } = this;
+    beforeRender.splice(beforeRender.indexOf(setMaterial), 1);
   },
 };
 
 export const VglObject3dWithMatarialAndGeometry = {
   mixins: [VglObject3dWithMatarial],
-  props: {
-    geometry: string,
-  },
-  inject: ['vglGeometries'],
-  computed: {
-    geometryObject() { return geometries[this.vglGeometries.forGet[this.geometry]]; },
-  },
-  mounted() {
-    if (this.geometryObject) {
-      this.inst.geometry = this.geometryObject;
-      this.geometryObject.addEventListener('update', this.ud);
-    }
-  },
-  watch: {
-    geometryObject(geometry, oldGeometry) {
-      if (geometry !== oldGeometry) {
-        this.inst.geometry = geometry;
-        if (oldGeometry) oldGeometry.removeEventListener('update', this.ud);
-        if (geometry) geometry.addEventListener('update', this.ud);
-        this.ud();
-      }
+  methods: {
+    setGeometry() {
+      const { vglNamespace: { geometries }, geometry, inst } = this;
+      if (geometries[geometry]) inst.geometry = geometries[geometry];
     },
+  },
+  created() { this.vglNamespace.beforeRender.unshift(this.setGeometry); },
+  beforeDestroy() {
+    const { vglNamespace: { beforeRender }, setGeometry } = this;
+    beforeRender.splice(beforeRender.indexOf(setGeometry), 1);
   },
 };
 
-export const VglHedronGeometry = {
-  mixins: [VglGeometry],
-  props: {
-    radius: { type: number, default: 1 },
-    detail: { type: number, default: 0 },
+export const VglMaterialWithMap = {
+  mixins: [VglMaterial],
+  methods: {
+    setMap() {
+      const { vglNamespace: { textures }, inst, map } = this;
+      if (map in textures) inst.map = textures[map];
+    },
+  },
+  created() { this.vglNamespace.beforeRender.unshift(this.setMap); },
+  beforeDestroy() {
+    const { vglNamespace: { beforeRender }, setMap } = this;
+    beforeRender.splice(beforeRender.indexOf(setMap), 1);
   },
 };
