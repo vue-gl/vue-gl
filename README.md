@@ -164,7 +164,7 @@ When you open the html above in the browser, you'll see below.
         Corresponding to [THREE.LineDashedMaterial](https://threejs.org/docs/index.html#api/materials/LineDashedMaterial)
   - [x] **[VglMaterial](src/vgl-material.js)** -
         Corresponding to [THREE.Material](https://threejs.org/docs/index.html#api/materials/Material)
-  - [ ] **[VglMeshBasicMaterial](src/vgl-mesh-basic-material.js)** -
+  - [x] **[VglMeshBasicMaterial](src/vgl-mesh-basic-material.js)** -
         Corresponding to [THREE.MeshBasicMaterial](https://threejs.org/docs/index.html#api/materials/MeshBasicMaterial)
   - [ ] **[VglMeshDepthMaterial](src/vgl-mesh-depth-material.js)** -
         Corresponding to [THREE.MeshDepthMaterial](https://threejs.org/docs/index.html#api/materials/MeshDepthMaterial)
