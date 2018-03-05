@@ -48,6 +48,7 @@ import VglCameraHelper from './helpers/vgl-camera-helper.js';
 import VglDirectionalLightHelper from './helpers/vgl-directional-light-helper.js';
 import VglPolarGridHelper from './helpers/vgl-polar-grid-helper.js';
 import VglMeshBasicMaterial from './materials/vgl-mesh-basic-material.js';
+import VglMeshDepthMaterial from './materials/vgl-mesh-depth-material.js';
 
 export {
   VglNamespace,
@@ -100,4 +101,5 @@ export {
   VglDirectionalLightHelper,
   VglPolarGridHelper,
   VglMeshBasicMaterial,
+  VglMeshDepthMaterial,
 };

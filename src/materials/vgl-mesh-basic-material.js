@@ -4,7 +4,7 @@ import { string } from '../validators.js';
 
 /**
  * A material for drawing geometries in a simple shaded (flat or wireframe) way,
- * corresponding [THREE.MeshStandardMaterial](https://threejs.org/docs/index.html#api/materials/MeshStandardMaterial).
+ * corresponding [THREE.MeshBasicMaterial](https://threejs.org/docs/index.html#api/materials/MeshBasicMaterial).
  * This material is not affected by lights.
  *
  * Properties of [VglMaterial](vgl-material) are also available as mixin.
