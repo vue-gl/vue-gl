@@ -166,9 +166,9 @@ When you open the html above in the browser, you'll see below.
         Corresponding to [THREE.Material](https://threejs.org/docs/index.html#api/materials/Material)
   - [x] **[VglMeshBasicMaterial](src/vgl-mesh-basic-material.js)** -
         Corresponding to [THREE.MeshBasicMaterial](https://threejs.org/docs/index.html#api/materials/MeshBasicMaterial)
-  - [ ] **[VglMeshDepthMaterial](src/vgl-mesh-depth-material.js)** -
+  - [x] **[VglMeshDepthMaterial](src/vgl-mesh-depth-material.js)** -
         Corresponding to [THREE.MeshDepthMaterial](https://threejs.org/docs/index.html#api/materials/MeshDepthMaterial)
-  - [ ] **[VglMeshLambertMaterial](src/vgl-mesh-lambert-material.js)** -
+  - [x] **[VglMeshLambertMaterial](src/vgl-mesh-lambert-material.js)** -
         Corresponding to [THREE.MeshLambertMaterial](https://threejs.org/docs/index.html#api/materials/MeshLambertMaterial)
   - [ ] **[VglMeshNormalMaterial](src/vgl-mesh-normal-material.js)** -
         Corresponding to [THREE.MeshNormalMaterial](https://threejs.org/docs/index.html#api/materials/MeshNormalMaterial)
