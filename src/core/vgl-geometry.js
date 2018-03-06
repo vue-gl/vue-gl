@@ -30,6 +30,7 @@ export default {
   beforeDestroy() {
     const { vglNamespace: { geometries }, inst } = this;
     if (geometries[this.name] === inst) delete geometries[this.name];
+    inst.dispose();
   },
   created() { this.vglNamespace.update(); },
   beforeUpdate() { this.vglNamespace.update(); },
