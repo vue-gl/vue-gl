@@ -18,7 +18,10 @@ export default {
   },
   watch: {
     inst: {
-      handler(inst) { this.vglNamespace.geometries[this.name] = inst; },
+      handler(inst, oldInst) {
+        if (oldInst) oldInst.dispose();
+        this.vglNamespace.geometries[this.name] = inst;
+      },
       immediate: true,
     },
     name(name, oldName) {
