@@ -27,3 +27,10 @@ export function parseEuler(str) {
 export function parseSpherical(str) {
   return str.isSpherical ? str : new Spherical(...str.trim().split(/\s+/).map(elm => parseFloat(elm))).makeSafe();
 }
+
+/**
+ * Returns a parsed float array.
+ */
+export function parseArray(str) {
+  return Array.isArray(str) ? str : str.split(',');
+}

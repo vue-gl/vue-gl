@@ -1,5 +1,6 @@
-import { BufferGeometry } from '../three.js';
-import { string } from '../validators.js';
+import { BufferGeometry, BufferAttribute } from '../three.js';
+import { string, floatArray } from '../validators.js';
+import { parseArray } from '../parsers.js';
 
 /**
  * This is the base mixin component for all geometry components,
@@ -12,6 +13,8 @@ export default {
   props: {
     /** Name of the component. */
     name: string,
+    /** The x, y, and z coordinates of each vertex in this geometry. */
+    positionAttribute: floatArray,
   },
   computed: {
     inst: () => new BufferGeometry(),
@@ -19,6 +22,12 @@ export default {
   watch: {
     inst: {
       handler(inst, oldInst) {
+        if (this.positionAttribute) {
+          const positionAttribute = oldInst ?
+            oldInst.getAttribute('position') :
+            new BufferAttribute(new Float32Array(parseArray(this.positionAttribute)), 3);
+          inst.addAttribute('position', positionAttribute);
+        }
         if (oldInst) oldInst.dispose();
         this.vglNamespace.geometries[this.name] = inst;
       },
@@ -28,6 +37,16 @@ export default {
       const { vglNamespace: { geometries }, inst } = this;
       if (geometries[oldName] === inst) delete geometries[oldName];
       geometries[name] = inst;
+    },
+    positionAttribute(positionAttribute) {
+      const positionArray = parseArray(positionAttribute);
+      const attributeObject = this.inst.getAttribute('position');
+      if (attributeObject.array.length === positionArray.length) {
+        attributeObject.copyArray(positionArray);
+      } else {
+        attributeObject.setArray(new Float32Array(positionArray));
+      }
+      attributeObject.needsUpdate = true;
     },
   },
   beforeDestroy() {
