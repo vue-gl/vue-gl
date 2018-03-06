@@ -29,7 +29,7 @@ export function parseSpherical(str) {
 }
 
 /**
- * Returns a parsed float array.
+ * Returns a parsed array.
  */
 export function parseArray(str) {
   return Array.isArray(str) ? str : str.split(',');
