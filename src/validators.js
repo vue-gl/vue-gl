@@ -7,3 +7,4 @@ export const spherical = [String, Spherical];
 export const boolean = Boolean;
 export const euler = [String, Euler];
 export const vector2 = [String, Vector2];
+export const floatArray = [String, Array];
