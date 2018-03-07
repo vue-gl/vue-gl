@@ -1,6 +1,5 @@
 describe('VglLine:', function suite() {
   const { VglLine, VglNamespace } = VueGL;
-  const { expect } = chai;
   it('without properties', function test(done) {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-line ref="o" /></vgl-namespace>',

@@ -1,6 +1,5 @@
 describe('VglSpriteMaterial:', function suite() {
   const { VglSpriteMaterial, VglNamespace } = VueGL;
-  const { expect } = chai;
   it('without properties', function test(done) {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-sprite-material ref="m" /></vgl-namespace>',

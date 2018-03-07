@@ -1,6 +1,5 @@
 describe('VglAxesHelper:', function suite() {
   const { VglAxesHelper, VglNamespace } = VueGL;
-  const { expect } = chai;
   it('without properties', function test(done) {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-axes-helper ref="h" /></vgl-namespace>',

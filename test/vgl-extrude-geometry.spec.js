@@ -1,6 +1,5 @@
 describe('VglExtrudeGeometry:', function suite() {
   const { VglExtrudeGeometry, VglNamespace } = VueGL;
-  const { expect } = chai;
   it('without properties', function test(done) {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-extrude-geometry ref="g" /></vgl-namespace>',

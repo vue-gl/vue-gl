@@ -1,6 +1,5 @@
 describe('VglPerspectiveCamera:', function suite() {
   const { VglPerspectiveCamera, VglNamespace } = VueGL;
-  const { expect } = chai;
   it('without properties', function test(done) {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-perspective-camera ref="c" /></vgl-namespace>',

@@ -1,6 +1,5 @@
 describe('VglMeshLambertMaterial:', function suite() {
   const { VglMeshLambertMaterial, VglNamespace } = VueGL;
-  const { expect } = chai;
   it('without properties', function test(done) {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-mesh-lambert-material ref="m" /></vgl-namespace>',

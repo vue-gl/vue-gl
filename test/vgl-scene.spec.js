@@ -1,6 +1,5 @@
 describe('VglScene:', function suite() {
   const { VglScene, VglNamespace } = VueGL;
-  const { expect } = chai;
   it('without properties', function test(done) {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-scene ref="s" /></vgl-namespace>',

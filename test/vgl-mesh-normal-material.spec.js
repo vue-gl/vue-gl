@@ -1,6 +1,5 @@
 describe('VglMeshNormalMaterial:', function suite() {
   const { VglMeshNormalMaterial, VglNamespace } = VueGL;
-  const { expect } = chai;
   it('without properties', function test(done) {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-mesh-normal-material ref="m" /></vgl-namespace>',

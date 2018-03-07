@@ -1,6 +1,5 @@
 describe('VglObject3d:', function suite() {
   const { VglObject3d, VglNamespace } = VueGL;
-  const { expect } = chai;
   it('without properties', function test(done) {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-object3d ref="o" /></vgl-namespace>',

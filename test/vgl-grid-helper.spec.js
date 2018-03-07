@@ -1,6 +1,5 @@
 describe('VglGridHelper:', function suite() {
   const { VglGridHelper, VglNamespace } = VueGL;
-  const { expect } = chai;
   it('without properties', function test(done) {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-grid-helper ref="h" /></vgl-namespace>',

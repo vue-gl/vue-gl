@@ -1,6 +1,5 @@
 describe('VglDirectionalLight:', function suite() {
   const { VglDirectionalLight, VglNamespace } = VueGL;
-  const { expect } = chai;
   it('without properties', function test(done) {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-directional-light ref="o" /></vgl-namespace>',

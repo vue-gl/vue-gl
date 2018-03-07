@@ -1,6 +1,5 @@
 describe('VglPoints:', function suite() {
   const { VglPoints, VglNamespace } = VueGL;
-  const { expect } = chai;
   it('without properties', function test(done) {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-points ref="o" /></vgl-namespace>',

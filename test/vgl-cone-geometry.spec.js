@@ -1,6 +1,5 @@
 describe('VglConeGeometry:', function suite() {
   const { VglConeGeometry, VglNamespace } = VueGL;
-  const { expect } = chai;
   it('without properties', function test(done) {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-cone-geometry ref="g" /></vgl-namespace>',

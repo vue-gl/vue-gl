@@ -1,6 +1,5 @@
 describe('VglCameraHelper component', function component() {
   const { VglCameraHelper, VglNamespace, VglPerspectiveCamera } = VueGL;
-  const { expect } = chai;
   it('without properties', function test(done) {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-perspective-camera near="0.11" far="2100" fov="52" name="c" /><vgl-camera-helper camera="c" ref="o" /></vgl-namespace>',
