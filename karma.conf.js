@@ -6,7 +6,7 @@ const { browserStack, saucelabs } = require('./karma.browsers');
 module.exports = (config) => {
   const options = {
     reporters: ['progress', 'coverage'],
-    frameworks: ['js-polyfills', 'mocha'],
+    frameworks: ['mocha', 'js-polyfills'],
     files: [
       { pattern: require.resolve('chai/chai'), watched: false },
       { pattern: require.resolve('vue/dist/vue'), watched: false },
