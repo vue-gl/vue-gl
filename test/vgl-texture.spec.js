@@ -1,6 +1,5 @@
 describe('VglTexture:', function suite() {
   const { VglTexture, VglNamespace } = VueGL;
-  const { expect } = chai;
   let load;
   let onload;
   before(function hook(done) {

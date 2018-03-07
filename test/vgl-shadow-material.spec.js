@@ -1,6 +1,5 @@
 describe('VglShadowMaterial:', function suite() {
   const { VglShadowMaterial, VglNamespace } = VueGL;
-  const { expect } = chai;
   it('without properties', function test(done) {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-shadow-material ref="m" /></vgl-namespace>',

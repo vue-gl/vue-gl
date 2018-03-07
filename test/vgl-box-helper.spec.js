@@ -5,7 +5,6 @@ describe('VglBoxHelper:', function suite() {
     VglMesh,
     VglNamespace,
   } = VueGL;
-  const { expect } = chai;
   it('without properties', function test(done) {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-sphere-geometry radius="5" width-segments="32" height-segments="30" name="g" /><vgl-mesh geometry="g"><vgl-box-helper ref="o" /></vgl-mesh></test-object></vgl-namespace>',

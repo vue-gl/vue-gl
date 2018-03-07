@@ -1,6 +1,5 @@
 describe('VglAmbientLight:', function suite() {
   const { VglAmbientLight, VglNamespace } = VueGL;
-  const { expect } = chai;
   it('without properties', function test(done) {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-ambient-light ref="o" /></vgl-namespace>',

@@ -1,6 +1,5 @@
 describe('VglIcosahedronGeometry:', function suite() {
   const { VglIcosahedronGeometry, VglNamespace } = VueGL;
-  const { expect } = chai;
   it('without properties', function test(done) {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-icosahedron-geometry ref="g" /></vgl-namespace>',

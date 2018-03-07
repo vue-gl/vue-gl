@@ -1,6 +1,5 @@
 describe('VglRenderer:', function suite() {
   const { VglRenderer } = VueGL;
-  const { expect } = chai;
   before(function hook(done) {
     this.WebGLRenderer = THREE.WebGLRenderer;
     THREE.WebGLRenderer = function WebGLRenderer(parameters = {}) {

@@ -3520,6 +3520,10 @@ karma-babel-preprocessor@^7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/karma-babel-preprocessor/-/karma-babel-preprocessor-7.0.0.tgz#18756d818f97a5e88f91902674cd9130177a8dce"
 
+karma-chai@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/karma-chai/-/karma-chai-0.1.0.tgz#bee5ad40400517811ae34bb945f762909108b79a"
+
 karma-coverage@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/karma-coverage/-/karma-coverage-1.1.1.tgz#5aff8b39cf6994dc22de4c84362c76001b637cf6"

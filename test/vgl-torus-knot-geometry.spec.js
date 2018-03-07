@@ -1,6 +1,5 @@
 describe('VglTorusKnotGeometry:', function suite() {
   const { VglTorusKnotGeometry, VglNamespace } = VueGL;
-  const { expect } = chai;
   it('without properties', function test(done) {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-torus-knot-geometry ref="g" /></vgl-namespace>',

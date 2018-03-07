@@ -1,6 +1,5 @@
 describe('VglTorusGeometry:', function suite() {
   const { VglTorusGeometry, VglNamespace } = VueGL;
-  const { expect } = chai;
   it('without properties', function test(done) {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-torus-geometry ref="g" /></vgl-namespace>',

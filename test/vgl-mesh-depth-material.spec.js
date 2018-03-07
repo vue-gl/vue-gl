@@ -1,6 +1,5 @@
 describe('VglMeshDepthMaterial:', function suite() {
   const { VglMeshDepthMaterial, VglNamespace } = VueGL;
-  const { expect } = chai;
   it('without properties', function test(done) {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-mesh-depth-material ref="m" /></vgl-namespace>',

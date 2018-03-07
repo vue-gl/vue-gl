@@ -1,6 +1,5 @@
 describe('VglTetrahedronGeometry:', function suite() {
   const { VglTetrahedronGeometry, VglNamespace } = VueGL;
-  const { expect } = chai;
   it('without properties', function test(done) {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-tetrahedron-geometry ref="g" /></vgl-namespace>',

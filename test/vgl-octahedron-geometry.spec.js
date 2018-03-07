@@ -1,6 +1,5 @@
 describe('VglOctahedronGeometry:', function suite() {
   const { VglOctahedronGeometry, VglNamespace } = VueGL;
-  const { expect } = chai;
   it('without properties', function test(done) {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-octahedron-geometry ref="g" /></vgl-namespace>',
