@@ -3,9 +3,15 @@
 <div id="app">
   <vgl-renderer antialias style="height: 100vh;">
     <vgl-scene>
-      <vgl-box-geometry name="box" width=7.5 height=7.5 depth=7.5></vgl-box-geometry>
-      <vgl-line-dashed-material name="line" :dash-size="dashSize" :gapSize="gapSize" :linewidth="linewidth" :color="`#${[r, g, b].map(v => parseInt(v).toString(16)).map(v => v.length < 2 ? '0' + v : v).join('')}`"></vgl-line-dashed-material>
-      <vgl-line geometry="box" material="line"></vgl-line>
+      <vgl-geometry name="line" position-attribute="-5, 0, 0, 5, 0, 0, 5, 5, 0, 5, 5, 3, 5, 0, 3, -5, 0, 3"></vgl-geometry>
+      <vgl-line-dashed-material
+        name="line"
+        :dash-size="dashSize"
+        :gap-size="gapSize"
+        :linewidth="linewidth"
+        :color="`#${[r, g, b].map(v => parseInt(v).toString(16)).map(v => v.length < 2 ? '0' + v : v).join('')}`"
+      ></vgl-line-dashed-material>
+      <vgl-line geometry="line" material="line"></vgl-line>
     </vgl-scene>
     <vgl-perspective-camera orbit-position="20 1 1"></vgl-perspective-camera>
   </vgl-renderer>
@@ -20,8 +26,8 @@
     <section>
       <h3>Line</h3>
       <label>Width<input type="range" max="10" step="0.1" v-model="linewidth"></label>
-      <label>Dash size<input type="range" max="10" step="0.1" v-model="dashSize"></label>
-      <label>Gap size<input type="range" max="10" step="0.1" v-model="gapSize"></label>
+      <label>Dash size<input type="range" max="3" step="0.03" v-model="dashSize"></label>
+      <label>Gap size<input type="range" max="3" step="0.03" v-model="gapSize"></label>
     </section>
   </aside>
 </div>
@@ -34,7 +40,7 @@
       g: 255,
       b: 255,
       linewidth: 2,
-      dashSize: 3,
+      dashSize: 1,
       gapSize: 1,
     },
   });
