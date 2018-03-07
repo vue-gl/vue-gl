@@ -170,7 +170,7 @@ When you open the html above in the browser, you'll see below.
         Corresponding to [THREE.MeshDepthMaterial](https://threejs.org/docs/index.html#api/materials/MeshDepthMaterial)
   - [x] **[VglMeshLambertMaterial](src/vgl-mesh-lambert-material.js)** -
         Corresponding to [THREE.MeshLambertMaterial](https://threejs.org/docs/index.html#api/materials/MeshLambertMaterial)
-  - [ ] **[VglMeshNormalMaterial](src/vgl-mesh-normal-material.js)** -
+  - [x] **[VglMeshNormalMaterial](src/vgl-mesh-normal-material.js)** -
         Corresponding to [THREE.MeshNormalMaterial](https://threejs.org/docs/index.html#api/materials/MeshNormalMaterial)
   - [ ] **[VglMeshPhongMaterial](src/vgl-mesh-phong-material.js)** -
         Corresponding to [THREE.MeshPhongMaterial](https://threejs.org/docs/index.html#api/materials/MeshPhongMaterial)

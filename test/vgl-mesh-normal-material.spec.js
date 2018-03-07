@@ -1,14 +1,14 @@
-describe('VglMaterial:', function suite() {
-  const { VglMaterial, VglNamespace } = VueGL;
+describe('VglMeshNormalMaterial:', function suite() {
+  const { VglMeshNormalMaterial, VglNamespace } = VueGL;
   const { expect } = chai;
   it('without properties', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-material ref="m" /></vgl-namespace>',
-      components: { VglMaterial, VglNamespace },
+      template: '<vgl-namespace><vgl-mesh-normal-material ref="m" /></vgl-namespace>',
+      components: { VglMeshNormalMaterial, VglNamespace },
     }).$mount();
     vm.$nextTick(() => {
       try {
-        const expected = new THREE.Material();
+        const expected = new THREE.MeshNormalMaterial();
         const { inst } = vm.$refs.m;
         expect(inst).to.deep.equal(Object.assign(expected, { uuid: inst.uuid }));
         done();
@@ -19,14 +19,13 @@ describe('VglMaterial:', function suite() {
   });
   it('with properties', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-material vertex-colors="vertex" ref="m" /></vgl-namespace>',
-      components: { VglMaterial, VglNamespace },
+      template: '<vgl-namespace><vgl-mesh-normal-material fog ref="m" /></vgl-namespace>',
+      components: { VglMeshNormalMaterial, VglNamespace },
     }).$mount();
     vm.$nextTick(() => {
       try {
-        const expected = new THREE.Material();
-        expected.setValues({
-          vertexColors: THREE.VertexColors,
+        const expected = new THREE.MeshNormalMaterial({
+          fog: true,
         });
         const { inst } = vm.$refs.m;
         expect(inst).to.deep.equal(Object.assign(expected, { uuid: inst.uuid }));
@@ -38,19 +37,16 @@ describe('VglMaterial:', function suite() {
   });
   it('after properties are changed', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-material :vertex-colors="vertexColors" ref="m" /></vgl-namespace>',
-      components: { VglMaterial, VglNamespace },
-      data: {
-        vertexColors: 'vertex',
-      },
+      template: '<vgl-namespace><vgl-mesh-normal-material :fog="fog" ref="m" /></vgl-namespace>',
+      components: { VglMeshNormalMaterial, VglNamespace },
+      data: { fog: true },
     }).$mount();
     vm.$nextTick(() => {
-      vm.vertexColors = 'face';
+      vm.fog = false;
       vm.$nextTick(() => {
         try {
-          const expected = new THREE.Material();
-          expected.setValues({
-            vertexColors: THREE.FaceColors,
+          const expected = new THREE.MeshNormalMaterial({
+            fog: false,
           });
           const { inst } = vm.$refs.m;
           expect(inst).to.deep.equal(Object.assign(expected, { uuid: inst.uuid }));

@@ -3,11 +3,12 @@
 <div id="app">
   <vgl-renderer antialias style="height: 100vh;">
     <vgl-scene>
-      <vgl-box-geometry name="box" width=7.5 height=7.5 depth=7.5></vgl-box-geometry>
+      <vgl-geometry name="vertices" position-attribute="-5, 0, 0, 5, 0, 0, 5, 5, 0, -5, 5, 0, -5, 4, 0, 4, 4, 0, 4, 1, 0, -5, 1, 0"></vgl-geometry>
       <vgl-line-basic-material name="line" :linewidth="linewidth" :color="`#${[r, g, b].map(v => parseInt(v).toString(16)).map(v => v.length < 2 ? '0' + v : v).join('')}`"></vgl-line-basic-material>
-      <vgl-line geometry="box" material="line"></vgl-line>
+      <vgl-line-loop geometry="vertices" material="line"></vgl-line-loop>
+      <vgl-line-loop geometry="vertices" material="line" rotation="0 -1.5708 0 XYZ"></vgl-line-loop>
     </vgl-scene>
-    <vgl-perspective-camera orbit-position="20 1 1"></vgl-perspective-camera>
+    <vgl-perspective-camera orbit-position="20 0.8 0.7"></vgl-perspective-camera>
   </vgl-renderer>
 
   <aside class="control-panel">
