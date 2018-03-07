@@ -20,4 +20,14 @@ export default {
   computed: {
     inst: () => new Line(),
   },
+  methods: {
+    computeLineDistances() {
+      if (this.inst.material.isLineDashedMaterial) this.inst.computeLineDistances();
+    },
+  },
+  created() { this.vglNamespace.beforeRender.push(this.computeLineDistances); },
+  beforeDestroy() {
+    const { vglNamespace: { beforeRender }, computeLineDistances } = this;
+    beforeRender.splice(beforeRender.indexOf(computeLineDistances), 1);
+  },
 };

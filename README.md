@@ -160,7 +160,7 @@ When you open the html above in the browser, you'll see below.
 - Materials
   - [x] **[VglLineBasicMaterial](src/vgl-line-basic-material.js)** -
         Corresponding to [THREE.LineBasicMaterial](https://threejs.org/docs/index.html#api/materials/LineBasicMaterial)
-  - [ ] **[VglLineDashedMaterial](src/vgl-line-dashed-material.js)** -
+  - [x] **[VglLineDashedMaterial](src/vgl-line-dashed-material.js)** -
         Corresponding to [THREE.LineDashedMaterial](https://threejs.org/docs/index.html#api/materials/LineDashedMaterial)
   - [x] **[VglMaterial](src/vgl-material.js)** -
         Corresponding to [THREE.Material](https://threejs.org/docs/index.html#api/materials/Material)

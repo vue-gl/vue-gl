@@ -50,6 +50,7 @@ import VglPolarGridHelper from './helpers/vgl-polar-grid-helper.js';
 import VglMeshBasicMaterial from './materials/vgl-mesh-basic-material.js';
 import VglMeshDepthMaterial from './materials/vgl-mesh-depth-material.js';
 import VglMeshLambertMaterial from './materials/vgl-mesh-lambert-material.js';
+import VglLineDashedMaterial from './materials/vgl-line-dashed-material.js';
 import VglMeshNormalMaterial from './materials/vgl-mesh-normal-material.js';
 
 export {
@@ -105,5 +106,6 @@ export {
   VglMeshBasicMaterial,
   VglMeshDepthMaterial,
   VglMeshLambertMaterial,
+  VglLineDashedMaterial,
   VglMeshNormalMaterial,
 };
