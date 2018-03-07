@@ -3530,9 +3530,9 @@ karma-coverage@^1.1.1:
     minimatch "^3.0.0"
     source-map "^0.5.1"
 
-karma-js-polyfills@^0.0.0:
-  version "0.0.0"
-  resolved "https://registry.yarnpkg.com/karma-js-polyfills/-/karma-js-polyfills-0.0.0.tgz#2e980478424585674080c24797c09e94253ef016"
+karma-js-polyfills@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/karma-js-polyfills/-/karma-js-polyfills-0.0.1.tgz#0f1269b0323753abf7479d49a43a45962ddce2d6"
   dependencies:
     js-polyfills "^0.1.42"
 
