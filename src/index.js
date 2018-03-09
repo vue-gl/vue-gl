@@ -53,6 +53,7 @@ import VglMeshLambertMaterial from './materials/vgl-mesh-lambert-material.js';
 import VglLineDashedMaterial from './materials/vgl-line-dashed-material.js';
 import VglMeshNormalMaterial from './materials/vgl-mesh-normal-material.js';
 import VglMeshPhongMaterial from './materials/vgl-mesh-phong-material.js';
+import VglMeshToonMaterial from './materials/vgl-mesh-toon-material.js';
 
 export {
   VglNamespace,
@@ -110,4 +111,5 @@ export {
   VglLineDashedMaterial,
   VglMeshNormalMaterial,
   VglMeshPhongMaterial,
+  VglMeshToonMaterial,
 };
