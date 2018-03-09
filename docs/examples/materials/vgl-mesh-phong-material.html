@@ -4,7 +4,11 @@
   <vgl-renderer antialias style="height: 100vh;">
     <vgl-scene>
       <vgl-torus-knot-geometry name="geo"></vgl-torus-knot-geometry>
-      <vgl-mesh-standard-material name="mat" :color="`#${[r, g, b].map(v => parseInt(v).toString(16)).map(v => v.length < 2 ? '0' + v : v).join('')}`"></vgl-mesh-standard-material>
+      <vgl-mesh-phong-material name="mat"
+        :color="`#${[r, g, b].map(v => parseInt(v).toString(16)).map(v => v.length < 2 ? '0' + v : v).join('')}`"
+        :specular="`#${[sr, sg, sb].map(v => parseInt(v).toString(16)).map(v => v.length < 2 ? '0' + v : v).join('')}`"
+        :shininess="shininess"
+      ></vgl-mesh-phong-material>
       <vgl-mesh geometry="geo" material="mat"></vgl-mesh>
       <vgl-ambient-light intensity="0.5"></vgl-ambient-light>
       <vgl-directional-light position='0 2 1' intensity="0.5"></vgl-directional-light>
@@ -19,6 +23,16 @@
       <label>G<input type="range" max="255" v-model="g"></label>
       <label>B<input type="range" max="255" v-model="b"></label>
     </section>
+    <section>
+      <h3>Specular color</h3>
+      <label>R<input type="range" max="255" v-model="sr"></label>
+      <label>G<input type="range" max="255" v-model="sg"></label>
+      <label>B<input type="range" max="255" v-model="sb"></label>
+    </section>
+    <section>
+      <h3>Properties</h3>
+      <label>Shininess<input type="range" v-model="shininess"></label>
+    </section>
   </aside>
 </div>
 
@@ -29,6 +43,10 @@
       r: 255,
       g: 255,
       b: 255,
+      sr: 17,
+      sg: 17,
+      sb: 17,
+      shininess: 30,
     },
   });
 </script>
