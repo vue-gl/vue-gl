@@ -34,3 +34,10 @@ export function parseSpherical(str) {
 export function parseArray(str) {
   return Array.isArray(str) ? str : str.split(',');
 }
+
+/**
+ * Returns a parsed array of vector2.
+ */
+export function parseVector2Array(str) {
+  return parseArray(str).map(elm => parseVector2(elm));
+}

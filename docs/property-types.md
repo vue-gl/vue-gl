@@ -63,3 +63,7 @@ Following list shows all property types and parsing schemas.
   Space-separated 2 numbers are parsed as x, y, corresponding [THREE.Vector2](https://threejs.org/docs/index.html#api/math/Vector2).
 - ***vector3***  
   Space-separated 3 numbers are parsed as x, y, z, corresponding [THREE.Vector3](https://threejs.org/docs/index.html#api/math/Vector3).
+- ***floatArray***
+  Parsed as an array of float numbers.
+- ***vector2Array***
+  Parsed as an array of vector2s.

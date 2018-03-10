@@ -18,7 +18,7 @@ describe('VglMaterial:', function suite() {
   });
   it('with properties', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-material vertex-colors="vertex" ref="m" /></vgl-namespace>',
+      template: '<vgl-namespace><vgl-material vertex-colors="vertex" side="back" ref="m" /></vgl-namespace>',
       components: { VglMaterial, VglNamespace },
     }).$mount();
     vm.$nextTick(() => {
@@ -26,6 +26,7 @@ describe('VglMaterial:', function suite() {
         const expected = new THREE.Material();
         expected.setValues({
           vertexColors: THREE.VertexColors,
+          side: THREE.BackSide,
         });
         const { inst } = vm.$refs.m;
         expect(inst).to.deep.equal(Object.assign(expected, { uuid: inst.uuid }));
@@ -37,19 +38,22 @@ describe('VglMaterial:', function suite() {
   });
   it('after properties are changed', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-material :vertex-colors="vertexColors" ref="m" /></vgl-namespace>',
+      template: '<vgl-namespace><vgl-material :vertex-colors="vertexColors" :side="side" ref="m" /></vgl-namespace>',
       components: { VglMaterial, VglNamespace },
       data: {
         vertexColors: 'vertex',
+        side: 'back',
       },
     }).$mount();
     vm.$nextTick(() => {
       vm.vertexColors = 'face';
+      vm.side = 'double';
       vm.$nextTick(() => {
         try {
           const expected = new THREE.Material();
           expected.setValues({
             vertexColors: THREE.FaceColors,
+            side: THREE.DoubleSide,
           });
           const { inst } = vm.$refs.m;
           expect(inst).to.deep.equal(Object.assign(expected, { uuid: inst.uuid }));

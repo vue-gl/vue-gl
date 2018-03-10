@@ -85,7 +85,7 @@ When you open the html above in the browser, you'll see below.
         Corresponding to [THREE.ExtrudeGeometry](https://threejs.org/docs/index.html#api/geometries/ExtrudeGeometry)
   - [x] **[VglIcosahedronGeometry](src/vgl-icosahedron-geometry.js)** -
         Corresponding to [THREE.IcosahedronGeometry](https://threejs.org/docs/index.html#api/geometries/IcosahedronGeometry)
-  - [ ] **[VglLatheGeometry](src/vgl-lathe-geometry.js)** -
+  - [x] **[VglLatheGeometry](src/vgl-lathe-geometry.js)** -
         Corresponding to [THREE.LatheGeometry](https://threejs.org/docs/index.html#api/geometries/LatheGeometry)
   - [x] **[VglOctahedronGeometry](src/vgl-octahedron-geometry.js)** -
         Corresponding to [THREE.OctahedronGeometry](https://threejs.org/docs/index.html#api/geometries/OctahedronGeometry)
@@ -172,13 +172,13 @@ When you open the html above in the browser, you'll see below.
         Corresponding to [THREE.MeshLambertMaterial](https://threejs.org/docs/index.html#api/materials/MeshLambertMaterial)
   - [x] **[VglMeshNormalMaterial](src/vgl-mesh-normal-material.js)** -
         Corresponding to [THREE.MeshNormalMaterial](https://threejs.org/docs/index.html#api/materials/MeshNormalMaterial)
-  - [ ] **[VglMeshPhongMaterial](src/vgl-mesh-phong-material.js)** -
+  - [x] **[VglMeshPhongMaterial](src/vgl-mesh-phong-material.js)** -
         Corresponding to [THREE.MeshPhongMaterial](https://threejs.org/docs/index.html#api/materials/MeshPhongMaterial)
-  - [ ] **[VglMeshPhysicalMaterial](src/vgl-mesh-physical-material.js)** -
+  - [x] **[VglMeshPhysicalMaterial](src/vgl-mesh-physical-material.js)** -
         Corresponding to [THREE.MeshPhysicalMaterial](https://threejs.org/docs/index.html#api/materials/MeshPhysicalMaterial)
   - [x] **[VglMeshStandardMaterial](src/vgl-mesh-standard-material.js)** -
         Corresponding to [THREE.MeshStandardMaterial](https://threejs.org/docs/index.html#api/materials/MeshStandardMaterial)
-  - [ ] **[VglMeshToonMaterial](src/vgl-mesh-toon-material.js)** -
+  - [x] **[VglMeshToonMaterial](src/vgl-mesh-toon-material.js)** -
         Corresponding to [THREE.MeshToonMaterial](https://threejs.org/docs/index.html#api/materials/MeshToonMaterial)
   - [x] **[VglPointsMaterial](src/vgl-points-material.js)** -
         Corresponding to [THREE.PointsMaterial](https://threejs.org/docs/index.html#api/materials/PointsMaterial)
