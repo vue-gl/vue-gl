@@ -30,7 +30,7 @@
     "publish": "mv .gitignore .gitignore.disabled && (gh-pages --dist docs; mv .gitignore.disabled .gitignore)"
   },
   "dependencies": {
-    "three": "^0.90.0"
+    "three": "^0.91.0"
   },
   "devDependencies": {
     "@vuedoc/md": "^1.1.1",
