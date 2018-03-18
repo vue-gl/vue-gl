@@ -23,6 +23,7 @@ export default {
           geometries: Object.create(null),
           materials: Object.create(null),
           textures: Object.create(null),
+          object3ds: Object.create(null),
         };
       },
     },
@@ -33,6 +34,7 @@ export default {
         geometries: { value: Object.create(this.vglNamespace.geometries) },
         materials: { value: Object.create(this.vglNamespace.materials) },
         textures: { value: Object.create(this.vglNamespace.textures) },
+        object3ds: { value: Object.create(this.vglNamespace.object3ds) },
       }),
     };
   },

@@ -3,11 +3,13 @@
 <div id="app">
   <vgl-renderer antialias style="height: 100vh;">
     <vgl-scene>
-      <vgl-sphere-geometry name="sph" :radius="radius"></vgl-sphere-geometry>
+      <vgl-sphere-geometry name="geo" :radius="radius"></vgl-sphere-geometry>
       <vgl-mesh-standard-material name="mtl"></vgl-mesh-standard-material>
-      <vgl-mesh geometry="sph" material="mtl">
-        <vgl-box-helper :color="`#${[r, g, b].map(v => parseInt(v).toString(16)).map(v => v.length < 2 ? '0' + v : v).join('')}`"></vgl-box-helper>
-      </vgl-mesh>
+      <vgl-mesh geometry="geo" material="mtl" name="obj"></vgl-mesh>
+      <vgl-box-helper
+        object="obj"
+        :color="`#${[r, g, b].map(v => parseInt(v).toString(16)).map(v => v.length < 2 ? '0' + v : v).join('')}`"
+      ></vgl-box-helper>
       <vgl-ambient-light></vgl-ambient-light>
       <vgl-directional-light position="0 1 1"></vgl-directional-light>
     </vgl-scene>

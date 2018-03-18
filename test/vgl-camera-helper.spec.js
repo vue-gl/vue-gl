@@ -8,9 +8,9 @@ describe('VglCameraHelper component', function component() {
     vm.$nextTick(() => {
       try {
         const mediator = new THREE.LineSegments();
-        mediator.copy(vm.$refs.o.inst);
-        mediator.geometry = vm.$refs.o.inst.geometry;
-        mediator.material = vm.$refs.o.inst.material;
+        mediator.copy(vm.$refs.o.inst.children[0]);
+        mediator.geometry = vm.$refs.o.inst.children[0].geometry;
+        mediator.material = vm.$refs.o.inst.children[0].material;
         mediator.updateMatrixWorld();
         const uuids = { geometry: mediator.geometry.uuid, material: mediator.material.uuid };
         const actual = mediator.toJSON();

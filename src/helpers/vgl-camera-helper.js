@@ -16,19 +16,21 @@ export default {
     /** Name of the camera to visualize. */
     camera: string,
   },
-  computed: {
-    inst: () => new CameraHelper(new Camera()),
-  },
   methods: {
-    setCamera() {
-      this.inst.camera = this.vglNamespace.cameras[this.camera];
-      this.inst.camera.updateProjectionMatrix();
-      this.inst.update();
+    setHelper() {
+      if (!this.inst.children.length) {
+        this.inst.add(new CameraHelper(this.vglNamespace.cameras[this.camera]));
+      } else {
+        const [helper] = this.inst.children;
+        helper.camera = this.vglNamespace.cameras[this.camera];
+        helper.camera.updateProjectionMatrix();
+        helper.update();
+      }
     },
   },
-  created() { this.vglNamespace.beforeRender.push(this.setCamera); },
+  created() { this.vglNamespace.beforeRender.push(this.setHelper); },
   beforeDestroy() {
-    const { vglNamespace: { beforeRender }, setCamera } = this;
-    beforeRender.splice(beforeRender.indexOf(setCamera), 1);
+    const { vglNamespace: { beforeRender }, setHelper } = this;
+    beforeRender.splice(beforeRender.indexOf(setHelper), 1);
   },
 };

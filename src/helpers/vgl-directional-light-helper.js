@@ -16,23 +16,37 @@ export default {
     color: { type: string },
     /** Dimensions of the plane. */
     size: { type: number, default: 1 },
+    /** Name of the directional light being visualized. */
+    light: string,
   },
-  computed: {
-    inst() { return new DirectionalLightHelper(this.vglObject3d.inst, parseFloat(this.size)); },
-  },
+  data() { return { needsUpdate: false, needsRecreate: true }; },
   watch: {
-    inst: {
-      handler(inst) {
-        if (this.color) {
-          Object.assign(inst, { color: this.color });
-          inst.update();
-        }
-      },
-      immediate: true,
+    color() { this.needsUpdate = true },
+    size() { this.needsRecreate = true; },
+    light() { this.needsRecreate = true; },
+  },
+  beforeUpdate() { this.vglNamespace.update(); },
+  methods: {
+    setHelper() {
+      if (this.needsRecreate) {
+        if (this.inst.children.length) this.inst.remove(this.inst.children[0]);
+        this.inst.add(new DirectionalLightHelper(
+          this.vglNamespace.object3ds[this.light],
+          parseFloat(this.size),
+          this.color,
+        ));
+        this.needsRecreate = false;
+        this.needsUpdate = false;
+      } else if (this.needsUpdate) {
+        this.inst.children[0].color = this.color;
+        this.inst.children[0].update();
+        this.needsUpdate = false;
+      }
     },
-    color(color) {
-      this.inst.color = color;
-      this.inst.update();
-    },
+  },
+  created() { this.vglNamespace.beforeRender.push(this.setHelper); },
+  beforeDestroy() {
+    const { vglNamespace: { beforeRender }, setHelper } = this;
+    beforeRender.splice(beforeRender.indexOf(setHelper), 1);
   },
 };

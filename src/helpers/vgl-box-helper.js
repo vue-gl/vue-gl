@@ -14,12 +14,14 @@ export default {
   props: {
     /** Size of the lines representing the axes. */
     color: { type: string, default: '#ff0' },
+    /** Name of the object to show the world-axis-aligned boundingbox. */
+    object: string,
   },
   computed: {
     inst() { return new BoxHelper(undefined, this.color); },
   },
   methods: {
-    setFromObject() { this.inst.setFromObject(this.vglObject3d.inst); },
+    setFromObject() { this.inst.setFromObject(this.vglNamespace.object3ds[this.object]); },
   },
   created() { this.vglNamespace.beforeRender.push(this.setFromObject); },
   beforeDestroy() {
