@@ -19,29 +19,24 @@ export default {
     /** Name of the directional light being visualized. */
     light: string,
   },
-  data() { return { needsUpdate: false, needsRecreate: true }; },
-  watch: {
-    color() { this.needsUpdate = true; },
-    size() { this.needsRecreate = true; },
-    light() { this.needsRecreate = true; },
-  },
-  beforeUpdate() { this.vglNamespace.update(); },
+  data() { return { s: undefined }; },
   methods: {
     setHelper() {
-      if (this.needsRecreate) {
-        if (this.inst.children.length) this.inst.remove(this.inst.children[0]);
-        this.inst.add(new DirectionalLightHelper(
-          this.vglNamespace.object3ds[this.light],
-          parseFloat(this.size),
-          this.color,
-        ));
-        this.needsRecreate = false;
-        this.needsUpdate = false;
-      } else if (this.needsUpdate) {
-        this.inst.children[0].color = this.color;
-        this.inst.children[0].update();
-        this.needsUpdate = false;
+      const light = this.vglNamespace.object3ds[this.light];
+      if (this.inst.children.length) {
+        const [helper] = this.inst.children;
+        if (helper.light === light && this.s === this.size) {
+          helper.color = this.color;
+          helper.update();
+          return;
+        }
+        this.inst.remove(helper);
       }
+      this.inst.add(new DirectionalLightHelper(
+        light,
+        parseFloat(this.size),
+        this.color,
+      ));
     },
   },
   created() { this.vglNamespace.beforeRender.push(this.setHelper); },
