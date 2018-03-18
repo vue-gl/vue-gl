@@ -21,7 +21,7 @@ export default {
   },
   data() { return { needsUpdate: false, needsRecreate: true }; },
   watch: {
-    color() { this.needsUpdate = true },
+    color() { this.needsUpdate = true; },
     size() { this.needsRecreate = true; },
     light() { this.needsRecreate = true; },
   },

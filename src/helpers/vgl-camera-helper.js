@@ -1,5 +1,5 @@
 import VglObject3d from '../core/vgl-object3d.js';
-import { CameraHelper, Camera } from '../three.js';
+import { CameraHelper } from '../three.js';
 import { string } from '../validators.js';
 
 /**
