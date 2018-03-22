@@ -88,4 +88,38 @@ describe('VglObject3d:', function suite() {
       });
     });
   });
+  it('after creation and destruction', function test(done) {
+    const vm = new Vue({
+      template: '<vgl-namespace><vgl-object3d ref="v" /><vgl-object3d ref="p"><vgl-object3d v-if="exists" name="&%93\'0" ref="o" /></vgl-object3d></vgl-namespace>',
+      components: { VglNamespace, VglObject3d },
+      data: { exists: false },
+    }).$mount();
+    vm.$nextTick(() => {
+      try {
+        expect(vm.$refs.v.vglNamespace.object3ds).not.to.have.property('&%93\'0');
+        expect(vm.$refs.p.inst.children).to.have.lengthOf(0);
+        vm.exists = true;
+      } catch (e) {
+        done(e);
+      }
+      vm.$nextTick(() => {
+        try {
+          expect(vm.$refs.v.vglNamespace.object3ds).to.have.property('&%93\'0', vm.$refs.o.inst);
+          expect(vm.$refs.p.inst.children).to.include(vm.$refs.o.inst);
+          vm.exists = false;
+        } catch (e) {
+          done(e);
+        }
+        vm.$nextTick(() => {
+          try {
+            expect(vm.$refs.v.vglNamespace.object3ds).not.to.have.property('&%93\'0');
+            expect(vm.$refs.p.inst.children).to.have.lengthOf(0);
+            done();
+          } catch (e) {
+            done(e);
+          }
+        });
+      });
+    });
+  });
 });
