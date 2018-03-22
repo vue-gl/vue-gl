@@ -55,7 +55,7 @@ describe('VglObject3d:', function suite() {
         s: '1.1 0.9 0.8',
         cs: false,
         rs: true,
-        n: '&%93\'0'
+        n: '&%93\'0',
       },
     }).$mount();
     vm.$nextTick(() => {
