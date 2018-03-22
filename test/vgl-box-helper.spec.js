@@ -7,7 +7,7 @@ describe('VglBoxHelper:', function suite() {
   } = VueGL;
   it('without properties', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-sphere-geometry radius="5" width-segments="32" height-segments="30" name="g" /><vgl-mesh geometry="g"><vgl-box-helper ref="o" /></vgl-mesh></test-object></vgl-namespace>',
+      template: '<vgl-namespace><vgl-sphere-geometry radius="5" width-segments="32" height-segments="30" name="g" /><vgl-mesh geometry="g" name="o" /><vgl-box-helper object="o" ref="o" /></test-object></vgl-namespace>',
       components: {
         VglNamespace,
         VglBoxHelper,
@@ -41,7 +41,7 @@ describe('VglBoxHelper:', function suite() {
   });
   it('with properties', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-sphere-geometry radius="5" width-segments="32" height-segments="30" name="g" /><vgl-mesh geometry="g"><vgl-box-helper ref="o" color="#842f71" /></vgl-mesh></test-object></vgl-namespace>',
+      template: '<vgl-namespace><vgl-sphere-geometry radius="5" width-segments="32" height-segments="30" name="g" /><vgl-mesh geometry="g" name="o" /><vgl-box-helper object="o" ref="o" color="#842f71" /></vgl-namespace>',
       components: {
         VglNamespace,
         VglBoxHelper,
@@ -75,7 +75,7 @@ describe('VglBoxHelper:', function suite() {
   });
   it('after properties are changed', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-sphere-geometry radius="5" width-segments="32" height-segments="30" name="g" /><vgl-mesh geometry="g"><vgl-box-helper ref="o" :color="c" /></vgl-mesh></test-object></vgl-namespace>',
+      template: '<vgl-namespace><vgl-sphere-geometry radius="5" width-segments="32" height-segments="30" name="g" /><vgl-mesh geometry="g" name="o" /><vgl-box-helper object="o" ref="o" :color="c" /></test-object></vgl-namespace>',
       components: {
         VglNamespace,
         VglBoxHelper,

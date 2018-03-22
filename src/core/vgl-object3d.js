@@ -40,8 +40,10 @@ export default {
   created() { this.vglNamespace.update(); },
   beforeUpdate() { this.vglNamespace.update(); },
   beforeDestroy() {
-    if (this.inst.parent) this.inst.parent.remove(this.inst);
-    this.vglNamespace.update();
+    const { vglNamespace, inst, name } = this;
+    if (inst.parent) inst.parent.remove(inst);
+    if (vglNamespace.object3ds[name] === inst) delete vglNamespace.object3ds[name];
+    vglNamespace.update();
   },
   watch: {
     inst: {
@@ -51,7 +53,11 @@ export default {
         if (this.position) inst.position.copy(parseVector3(this.position));
         if (this.rotation) inst.rotation.copy(parseEuler(this.rotation));
         if (this.scale) inst.scale.copy(parseVector3(this.scale));
-        Object.assign(inst, { castShadow: this.castShadow, receiveShadow: this.receiveShadow });
+        Object.assign(inst, {
+          castShadow: this.castShadow,
+          receiveShadow: this.receiveShadow,
+        });
+        if (this.name !== undefined) this.vglNamespace.object3ds[this.name] = inst;
       },
       immediate: true,
     },
@@ -61,6 +67,11 @@ export default {
     scale(scale) { this.inst.scale.copy(parseVector3(scale)); },
     castShadow(castShadow) { this.inst.castShadow = castShadow; },
     receiveShadow(receiveShadow) { this.inst.receiveShadow = receiveShadow; },
+    name(name, oldName) {
+      const { vglNamespace: { object3ds }, inst } = this;
+      if (object3ds[oldName] === inst) delete object3ds[oldName];
+      object3ds[name] = inst;
+    },
   },
   render(h) { return this.$slots.default ? h('div', this.$slots.default) : undefined; },
 };

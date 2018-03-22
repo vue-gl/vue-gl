@@ -1,17 +1,17 @@
-describe('VglDirectionalLightHelper:', function suite() {
-  const { VglDirectionalLightHelper, VglDirectionalLight, VglNamespace } = VueGL;
+describe('VglSpotLightHelper:', function suite() {
+  const { VglSpotLightHelper, VglSpotLight, VglNamespace } = VueGL;
   it('without properties', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-directional-light position="3.8 2 0.5" color="#e2f3b4" name="l" /><vgl-directional-light-helper light="l" ref="o" /></vgl-namespace>',
-      components: { VglNamespace, VglDirectionalLight, VglDirectionalLightHelper },
+      template: '<vgl-namespace><vgl-spot-light position="3.8 2 0.5" color="#e2f3b4" angle="1.1" distance="22.3" target="-21 -5.8 -3" name="l" /><vgl-spot-light-helper light="l" ref="o" /></vgl-namespace>',
+      components: { VglNamespace, VglSpotLight, VglSpotLightHelper },
     }).$mount();
     vm.$nextTick(() => {
       try {
         const actual = new THREE.Object3D().copy(vm.$refs.o.inst.children[0]);
         actual.updateMatrixWorld();
-        const light = new THREE.DirectionalLight(0xe2f3b4);
+        const light = new THREE.SpotLight(0xe2f3b4, undefined, 22.3, 1.1);
         light.position.set(3.8, 2, 0.5);
-        const expected = new THREE.Object3D().copy(new THREE.DirectionalLightHelper(light));
+        const expected = new THREE.Object3D().copy(new THREE.SpotLightHelper(light));
         expected.updateMatrixWorld();
         actual.traverse((obj) => {
           Object.assign(obj, { uuid: '' });
@@ -32,16 +32,16 @@ describe('VglDirectionalLightHelper:', function suite() {
   });
   it('with properties', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-directional-light position="3.8 2 0.5" color="#e2f3b4" name="l" /><vgl-directional-light-helper light="l" color="#ddf2ee" size="8.8" ref="o" /></vgl-namespace>',
-      components: { VglNamespace, VglDirectionalLight, VglDirectionalLightHelper },
+      template: '<vgl-namespace><vgl-spot-light position="3.8 2 0.5" color="#e2f3b4" angle="1.1" distance="22.3" target="-21 -5.8 -3" name="l" /><vgl-spot-light-helper light="l" color="#ddf2ee" ref="o" /></vgl-namespace>',
+      components: { VglNamespace, VglSpotLight, VglSpotLightHelper },
     }).$mount();
     vm.$nextTick(() => {
       try {
         const actual = new THREE.Object3D().copy(vm.$refs.o.inst.children[0]);
         actual.updateMatrixWorld();
-        const light = new THREE.DirectionalLight(0xe2f3b4);
+        const light = new THREE.SpotLight(0xe2f3b4, undefined, 22.3, 1.1);
         light.position.set(3.8, 2, 0.5);
-        const helper = new THREE.DirectionalLightHelper(light, 8.8, 0xddf2ee);
+        const helper = new THREE.SpotLightHelper(light, 0xddf2ee);
         const expected = new THREE.Object3D().copy(helper);
         expected.updateMatrixWorld();
         actual.traverse((obj) => {
@@ -61,15 +61,14 @@ describe('VglDirectionalLightHelper:', function suite() {
       }
     });
   });
-  it('after properties (including the size property) are changed', function test(done) {
+  it('after properties are changed', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-directional-light position="3.8 2 0.5" color="#e2f3b4" name="l" /><vgl-directional-light-helper light="l" :color="c" :size="s" ref="o" /></vgl-namespace>',
-      components: { VglNamespace, VglDirectionalLight, VglDirectionalLightHelper },
-      data: { c: '#dd678e', s: 7.6 },
+      template: '<vgl-namespace><vgl-spot-light position="3.8 2 0.5" color="#e2f3b4" angle="1.1" distance="22.3" target="-21 -5.8 -3" name="l" /><vgl-spot-light-helper light="l" :color="c" ref="o" /></vgl-namespace>',
+      components: { VglNamespace, VglSpotLight, VglSpotLightHelper },
+      data: { c: '#dd678e' },
     }).$mount();
     vm.$nextTick(() => {
       vm.c = '#8e8e25';
-      vm.s = 8.7;
       vm.$nextTick(() => {
         // watchers called.
         vm.$refs.o.vglNamespace.update();
@@ -77,9 +76,9 @@ describe('VglDirectionalLightHelper:', function suite() {
           try {
             const actual = new THREE.Object3D().copy(vm.$refs.o.inst.children[0]);
             actual.updateMatrixWorld();
-            const light = new THREE.DirectionalLight(0xe2f3b4);
+            const light = new THREE.SpotLight(0xe2f3b4, undefined, 22.3, 1.1);
             light.position.set(3.8, 2, 0.5);
-            const helper = new THREE.DirectionalLightHelper(light, 8.7, 0x8e8e25);
+            const helper = new THREE.SpotLightHelper(light, 0x8e8e25);
             const expected = new THREE.Object3D().copy(helper);
             expected.updateMatrixWorld();
             actual.traverse((obj) => {
@@ -101,27 +100,24 @@ describe('VglDirectionalLightHelper:', function suite() {
       });
     });
   });
-  it('after properties (except the size property) are changed', function test(done) {
+  it('after the light property is changed', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-directional-light position="3.8 2 0.5" color="#e2f3b4" name="l" /><vgl-directional-light-helper light="l" :color="c" size="8.7" ref="o" /></vgl-namespace>',
-      components: { VglNamespace, VglDirectionalLight, VglDirectionalLightHelper },
-      data: { c: '#dd678e' },
+      template: '<vgl-namespace><vgl-spot-light position="3.5 1 0.25" color="#f2e3a2" angle="1.11" distance="22.32" target="-210 -58 -30" name="l1" /><vgl-spot-light position="3.8 2 0.5" color="#e2f3b4" angle="1.1" distance="22.3" target="-21 -5.8 -3" name="l2" /><vgl-spot-light-helper :light="l" ref="o" /></vgl-namespace>',
+      components: { VglNamespace, VglSpotLight, VglSpotLightHelper },
+      data: { l: 'l1' },
     }).$mount();
     vm.$nextTick(() => {
-      const previousHelper = vm.$refs.o.inst.children[0];
-      vm.c = '#8e8e25';
+      vm.l = 'l2';
       vm.$nextTick(() => {
         // watchers called.
         vm.$refs.o.vglNamespace.update();
         vm.$nextTick(() => {
           try {
-            const currentHelper = vm.$refs.o.inst.children[0];
-            expect(currentHelper).to.equal(previousHelper);
-            const actual = new THREE.Object3D().copy(currentHelper);
+            const actual = new THREE.Object3D().copy(vm.$refs.o.inst.children[0]);
             actual.updateMatrixWorld();
-            const light = new THREE.DirectionalLight(0xe2f3b4);
+            const light = new THREE.SpotLight(0xe2f3b4, undefined, 22.3, 1.1);
             light.position.set(3.8, 2, 0.5);
-            const helper = new THREE.DirectionalLightHelper(light, 8.7, 0x8e8e25);
+            const helper = new THREE.SpotLightHelper(light);
             const expected = new THREE.Object3D().copy(helper);
             expected.updateMatrixWorld();
             actual.traverse((obj) => {
