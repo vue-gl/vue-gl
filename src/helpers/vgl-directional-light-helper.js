@@ -32,6 +32,7 @@ export default {
         }
         this.inst.remove(helper);
       }
+      this.s = this.size;
       this.inst.add(new DirectionalLightHelper(
         light,
         parseFloat(this.size),

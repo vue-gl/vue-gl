@@ -108,13 +108,16 @@ describe('VglDirectionalLightHelper:', function suite() {
       data: { c: '#dd678e' },
     }).$mount();
     vm.$nextTick(() => {
+      const previousHelper = vm.$refs.o.inst.children[0];
       vm.c = '#8e8e25';
       vm.$nextTick(() => {
         // watchers called.
         vm.$refs.o.vglNamespace.update();
         vm.$nextTick(() => {
           try {
-            const actual = new THREE.Object3D().copy(vm.$refs.o.inst.children[0]);
+            const currentHelper = vm.$refs.o.inst.children[0];
+            expect(currentHelper).to.equal(previousHelper);
+            const actual = new THREE.Object3D().copy(currentHelper);
             actual.updateMatrixWorld();
             const light = new THREE.DirectionalLight(0xe2f3b4);
             light.position.set(3.8, 2, 0.5);
