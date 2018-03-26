@@ -41,7 +41,7 @@
     "eslint": "^4.18.1",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-mocha": "^4.11.0",
+    "eslint-plugin-mocha": "^5.0.0",
     "gh-pages": "^1.1.0",
     "karma": "^2.0.0",
     "karma-babel-preprocessor": "^7.0.0",
