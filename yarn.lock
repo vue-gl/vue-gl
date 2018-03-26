@@ -3897,8 +3897,8 @@ markdown-to-ast@^6.0.3:
     traverse "^0.6.6"
 
 markdownlint-cli@^0.8.0:
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/markdownlint-cli/-/markdownlint-cli-0.8.0.tgz#9104fa7b91c9b6c04516e1d3dc890244ffd42917"
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/markdownlint-cli/-/markdownlint-cli-0.8.1.tgz#b5644bdc52635827097ac1829b4be54d9c94637c"
   dependencies:
     commander "~2.9.0"
     deep-extend "~0.4.1"
