@@ -147,7 +147,7 @@ When you open the html above in the browser, you'll see below.
         Corresponding to [THREE.AmbientLight](https://threejs.org/docs/index.html#api/lights/AmbientLight)
   - [x] **[VglDirectionalLight](src/vgl-directional-light.js)** -
         Corresponding to [THREE.DirectionalLight](https://threejs.org/docs/index.html#api/lights/DirectionalLight)
-  - [ ] **[VglHemisphereLight](src/vgl-hemisphere-light.js)** -
+  - [x] **[VglHemisphereLight](src/vgl-hemisphere-light.js)** -
         Corresponding to [THREE.HemisphereLight](https://threejs.org/docs/index.html#api/lights/HemisphereLight)
   - [x] **[VglLight](src/vgl-light.js)** -
         Corresponding to [THREE.Light](https://threejs.org/docs/index.html#api/lights/Light)
