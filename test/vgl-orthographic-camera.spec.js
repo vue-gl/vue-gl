@@ -8,9 +8,7 @@ describe('VglOrthographicCamera:', function suite() {
     vm.$nextTick(() => {
       try {
         const actual = vm.$refs.c.inst.clone();
-        actual.updateMatrixWorld();
         const expected = new THREE.OrthographicCamera();
-        expected.updateMatrixWorld();
         expected.uuid = actual.uuid;
         expect(actual.toJSON()).to.deep.equal(expected.toJSON());
         done();
