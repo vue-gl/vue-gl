@@ -34,12 +34,13 @@ export default {
           far: parseFloat(this.far),
           fov: parseFloat(this.fov),
         });
+        inst.updateProjectionMatrix();
       },
       immediate: true,
     },
-    zoom(zoom) { this.inst.zoom = parseFloat(zoom); },
-    near(near) { this.inst.near = parseFloat(near); },
-    far(far) { this.inst.far = parseFloat(far); },
-    fov(fov) { this.inst.fov = parseFloat(fov); },
+    zoom(zoom) { this.inst.zoom = parseFloat(zoom); this.inst.updateProjectionMatrix(); },
+    near(near) { this.inst.near = parseFloat(near); this.inst.updateProjectionMatrix(); },
+    far(far) { this.inst.far = parseFloat(far); this.inst.updateProjectionMatrix(); },
+    fov(fov) { this.inst.fov = parseFloat(fov); this.inst.updateProjectionMatrix(); },
   },
 };
