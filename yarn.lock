@@ -3063,6 +3063,13 @@ js-yaml@3.x, js-yaml@^3.9.1:
     argparse "^1.0.7"
     esprima "^4.0.0"
 
+js-yaml@~3.11.0:
+  version "3.11.0"
+  resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.11.0.tgz#597c1a8bd57152f26d622ce4117851a51f5ebaef"
+  dependencies:
+    argparse "^1.0.7"
+    esprima "^4.0.0"
+
 jsbn@~0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/jsbn/-/jsbn-0.1.1.tgz#a5e654c2e5a2deb5f201d96cefbca80c0ef2f513"
@@ -3422,22 +3429,23 @@ markdown-to-ast@^6.0.3:
     structured-source "^3.0.2"
     traverse "^0.6.6"
 
-markdownlint-cli@^0.9.0:
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/markdownlint-cli/-/markdownlint-cli-0.9.0.tgz#241a62e98ba5fd1594f57adb5823bc6bf83e95e2"
+markdownlint-cli@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/markdownlint-cli/-/markdownlint-cli-0.10.0.tgz#c64c57f188167b9f3f5e08476715d20d0514436e"
   dependencies:
     commander "~2.9.0"
     deep-extend "~0.5.1"
     get-stdin "~5.0.1"
     glob "~7.0.3"
+    js-yaml "~3.11.0"
     lodash.differencewith "~4.5.0"
     lodash.flatten "~4.4.0"
-    markdownlint "~0.9.0"
+    markdownlint "~0.10.0"
     rc "~1.2.7"
 
-markdownlint@~0.9.0:
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/markdownlint/-/markdownlint-0.9.0.tgz#f2500856b6c2a1450b919dcb4671d4116fb1f0bf"
+markdownlint@~0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/markdownlint/-/markdownlint-0.10.0.tgz#ee941ee943f78ff6adbc1ff0fad49365e600b664"
   dependencies:
     markdown-it "8.4.1"
 
