@@ -26,7 +26,7 @@ module.exports = (config) => {
           three: 'THREE',
         },
         sourcemap: 'inline',
-        intro: execSync('babel-external-helpers -t var'),
+        intro: () => execSync('babel-external-helpers -t var'),
       },
       external: 'three',
       plugins: [
