@@ -10,6 +10,8 @@ const baseOpts = {
   plugins: [babel(), minify()],
 };
 
+const intro = () => execSync('babel-external-helpers -t var');
+
 export default [Object.assign({
   output: {
     file: path.resolve('dist/vue-gl.module.js'),
@@ -17,7 +19,7 @@ export default [Object.assign({
     paths: {
       three: `https://unpkg.com/three@${version}/build/three.module.js`,
     },
-    intro: execSync('babel-external-helpers -t var'),
+    intro,
   },
 }, baseOpts), Object.assign({
   output: {
@@ -27,6 +29,6 @@ export default [Object.assign({
     globals: {
       three: 'THREE',
     },
-    intro: execSync('babel-external-helpers -t var'),
+    intro,
   },
 }, baseOpts)];
