@@ -19,22 +19,22 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-9.4.6.tgz#d8176d864ee48753d053783e4e463aec86b8d82e"
 
 "@vuedoc/md@^1.1.1":
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/@vuedoc/md/-/md-1.2.2.tgz#4534314eedaad06a810f94f64dbc052fdc2f49eb"
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@vuedoc/md/-/md-1.3.1.tgz#7933e38e117ff07deb0b9e7d4d2e97987871571a"
   dependencies:
-    "@vuedoc/parser" "^1.1.0"
+    "@vuedoc/parser" "^1.3.1"
     ast-to-markdown "^0.2.0"
-    deepmerge "^2.1.0"
+    deepmerge "^2.1.1"
     markdown-to-ast "^6.0.3"
-    md-node-inject "^0.1.0"
+    md-node-inject "^0.1.1"
     mdast-util-to-string "^1.0.4"
 
-"@vuedoc/parser@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@vuedoc/parser/-/parser-1.1.0.tgz#592d9de085ae4a9dc99a157519ae4f1d14ec6a6e"
+"@vuedoc/parser@^1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@vuedoc/parser/-/parser-1.3.1.tgz#15fea39a37d32910123625c54acfbe1bc6af65e8"
   dependencies:
     cheerio "^1.0.0-rc.2"
-    espree "^3.5.3"
+    espree "^3.5.4"
     htmlparser2 "^3.9.2"
 
 abbrev@1, abbrev@1.0.x:
@@ -57,10 +57,6 @@ acorn-jsx@^3.0.0:
 acorn@^3.0.4:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-3.3.0.tgz#45e37fb39e8da3f25baee3ff5369e2bb5f22017a"
-
-acorn@^5.4.0:
-  version "5.4.1"
-  resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.4.1.tgz#fdc58d9d17f4a4e98d102ded826a9b9759125102"
 
 acorn@^5.5.0:
   version "5.5.3"
@@ -1570,9 +1566,9 @@ deep-is@~0.1.3:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/deep-is/-/deep-is-0.1.3.tgz#b369d6fb5dbc13eecf524f91b070feedc357cf34"
 
-deepmerge@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-2.1.0.tgz#511a54fff405fc346f0240bb270a3e9533a31102"
+deepmerge@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-2.1.1.tgz#e862b4e45ea0555072bf51e7fd0d9845170ae768"
 
 define-properties@^1.1.2:
   version "1.1.2"
@@ -1907,13 +1903,6 @@ eslint@^4.18.1:
     strip-json-comments "~2.0.1"
     table "4.0.2"
     text-table "~0.2.0"
-
-espree@^3.5.3:
-  version "3.5.3"
-  resolved "https://registry.yarnpkg.com/espree/-/espree-3.5.3.tgz#931e0af64e7fbbed26b050a29daad1fc64799fa6"
-  dependencies:
-    acorn "^5.4.0"
-    acorn-jsx "^3.0.0"
 
 espree@^3.5.4:
   version "3.5.4"
@@ -3471,9 +3460,9 @@ markdownlint@~0.10.0:
   dependencies:
     markdown-it "8.4.1"
 
-md-node-inject@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/md-node-inject/-/md-node-inject-0.1.0.tgz#3ce68b9bb6b52f103ba5a721f45c59132d0107a3"
+md-node-inject@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/md-node-inject/-/md-node-inject-0.1.1.tgz#4d31fa5307e101dd923beeb65b0fac809a1745fd"
 
 mdast-util-compact@^1.0.0:
   version "1.0.1"
@@ -4558,9 +4547,9 @@ rollup-pluginutils@^2.0.1:
     estree-walker "^0.3.0"
     micromatch "^2.3.11"
 
-rollup@^0.59.1:
-  version "0.59.3"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-0.59.3.tgz#15dae74cb1b6a6b39a63c7096c1d6f47d8f2a5bd"
+rollup@^0.60.7:
+  version "0.60.7"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-0.60.7.tgz#2b62ef9306f719b1ab85a7814b3e6596ac51fae8"
   dependencies:
     "@types/estree" "0.0.39"
     "@types/node" "*"
