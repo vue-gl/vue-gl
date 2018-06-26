@@ -43,7 +43,7 @@ module.exports = (config) => {
     options.junitReporter = { outputDir: 'junit' };
     options.coverageReporter = { type: 'lcovonly', dir: 'coverage' };
     options.reporters = ['coverage', 'junit', 'dots'];
-    options.browserNoActivityTimeout = 60000;
+    options.browserNoActivityTimeout = 90000;
     options.client = { mocha: { timeout: 10000 } };
     options.browsers = [];
     if (process.env.CIRCLE_BRANCH === 'master') {
