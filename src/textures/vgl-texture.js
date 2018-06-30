@@ -48,7 +48,9 @@ import {
   BasicDepthPacking,
   RGBADepthPacking,
 } from '../three.js';
-import { string, number, vector2, boolean } from '../validators.js';
+import {
+  string, number, vector2, boolean,
+} from '../validators.js';
 import { parseVector2 } from '../parsers.js';
 
 const mapping = {

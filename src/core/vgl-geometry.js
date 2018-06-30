@@ -27,21 +27,21 @@ export default {
     inst: {
       handler(inst, oldInst) {
         if (this.positionAttribute) {
-          const positionAttribute = oldInst ?
-            oldInst.getAttribute('position') :
-            new BufferAttribute(new Float32Array(parseArray(this.positionAttribute)), 3);
+          const positionAttribute = oldInst
+            ? oldInst.getAttribute('position')
+            : new BufferAttribute(new Float32Array(parseArray(this.positionAttribute)), 3);
           inst.addAttribute('position', positionAttribute);
         }
         if (this.colorAttribute) {
-          const colorAttribute = oldInst ?
-            oldInst.getAttribute('color') :
-            new BufferAttribute(new Float32Array(parseArray(this.colorAttribute)), 3);
+          const colorAttribute = oldInst
+            ? oldInst.getAttribute('color')
+            : new BufferAttribute(new Float32Array(parseArray(this.colorAttribute)), 3);
           inst.addAttribute('color', colorAttribute);
         }
         if (this.normalAttribute) {
-          const normalAttribute = oldInst ?
-            oldInst.getAttribute('normal') :
-            new BufferAttribute(new Float32Array(parseArray(this.normalAttribute)), 3);
+          const normalAttribute = oldInst
+            ? oldInst.getAttribute('normal')
+            : new BufferAttribute(new Float32Array(parseArray(this.normalAttribute)), 3);
           inst.addAttribute('normal', normalAttribute);
         }
         if (oldInst) oldInst.dispose();

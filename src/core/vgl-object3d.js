@@ -1,5 +1,7 @@
 import { parseVector3, parseEuler } from '../parsers.js';
-import { vector3, euler, boolean, string } from '../validators.js';
+import {
+  vector3, euler, boolean, string,
+} from '../validators.js';
 import { Object3D } from '../three.js';
 
 /**
