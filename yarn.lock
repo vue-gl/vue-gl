@@ -19,11 +19,11 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-9.4.6.tgz#d8176d864ee48753d053783e4e463aec86b8d82e"
 
 "@vuedoc/md@^1.1.1":
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/@vuedoc/md/-/md-1.3.1.tgz#7933e38e117ff07deb0b9e7d4d2e97987871571a"
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/@vuedoc/md/-/md-1.3.2.tgz#e99de042ad0cf6e538bdd01c51c636ad5f1ed1be"
   dependencies:
     "@vuedoc/parser" "^1.3.1"
-    ast-to-markdown "^0.2.0"
+    ast-to-markdown "^0.2.2"
     deepmerge "^2.1.1"
     markdown-to-ast "^6.0.3"
     md-node-inject "^0.1.1"
@@ -259,9 +259,9 @@ assign-symbols@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/assign-symbols/-/assign-symbols-1.0.0.tgz#59667f41fadd4f20ccbc2bb96b8d4f7f78ec0367"
 
-ast-to-markdown@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/ast-to-markdown/-/ast-to-markdown-0.2.0.tgz#732a49fe9e91cfaf1072cbcad209788a31e2d01a"
+ast-to-markdown@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/ast-to-markdown/-/ast-to-markdown-0.2.2.tgz#37dbae5911402c6f2ea6e4246466780f344b352f"
 
 ast-types@0.x.x:
   version "0.10.1"
@@ -1833,16 +1833,6 @@ es-abstract@^1.10.0, es-abstract@^1.6.1:
 es-abstract@^1.5.0:
   version "1.8.2"
   resolved "https://registry.yarnpkg.com/es-abstract/-/es-abstract-1.8.2.tgz#25103263dc4decbda60e0c737ca32313518027ee"
-  dependencies:
-    es-to-primitive "^1.1.1"
-    function-bind "^1.1.1"
-    has "^1.0.1"
-    is-callable "^1.1.3"
-    is-regex "^1.0.4"
-
-es-abstract@^1.6.1:
-  version "1.12.0"
-  resolved "https://registry.yarnpkg.com/es-abstract/-/es-abstract-1.12.0.tgz#9dbbdd27c6856f0001421ca18782d786bf8a6165"
   dependencies:
     es-to-primitive "^1.1.1"
     function-bind "^1.1.1"
