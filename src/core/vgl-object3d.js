@@ -27,6 +27,8 @@ export default {
     receiveShadow: boolean,
     /** Optional name of the object. */
     name: string,
+    /** Whether the object gets renderered every frame even if it isn't visible. */
+    disableFrustumCulled: boolean,
   },
   computed: {
     inst: () => new Object3D(),
@@ -58,6 +60,7 @@ export default {
         Object.assign(inst, {
           castShadow: this.castShadow,
           receiveShadow: this.receiveShadow,
+          frustumCulled: !this.disableFrustumCulled,
         });
         if (this.name !== undefined) this.vglNamespace.object3ds[this.name] = inst;
       },
@@ -69,6 +72,7 @@ export default {
     scale(scale) { this.inst.scale.copy(parseVector3(scale)); },
     castShadow(castShadow) { this.inst.castShadow = castShadow; },
     receiveShadow(receiveShadow) { this.inst.receiveShadow = receiveShadow; },
+    disableFrustumCulled(disabled) { this.inst.frustumCulled = !disabled; },
     name(name, oldName) {
       const { vglNamespace: { object3ds }, inst } = this;
       if (object3ds[oldName] === inst) delete object3ds[oldName];
