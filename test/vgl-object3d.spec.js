@@ -21,7 +21,7 @@ describe('VglObject3d:', function suite() {
   });
   it('with properties', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-object3d position="8 3 -3.5" rotation="0.8 0.8 0.5 XZY" scale="1.3 1.4 1.1" cast-shadow receive-shadow disable-frustum-culled name="a\'&><o<" ref="o" /></vgl-namespace>',
+      template: '<vgl-namespace><vgl-object3d position="8 3 -3.5" rotation="0.8 0.8 0.5 XZY" scale="1.3 1.4 1.1" cast-shadow receive-shadow disable-frustum-culled render-order="2" name="a\'&><o<" ref="o" /></vgl-namespace>',
       components: { VglNamespace, VglObject3d },
     }).$mount();
     vm.$nextTick(() => {
@@ -32,6 +32,7 @@ describe('VglObject3d:', function suite() {
           castShadow: true,
           receiveShadow: true,
           frustumCulled: false,
+          renderOrder: 2,
         });
         expected.position.set(8, 3, -3.5);
         expected.rotation.set(0.8, 0.8, 0.5, 'XZY');
@@ -48,7 +49,7 @@ describe('VglObject3d:', function suite() {
   });
   it('after properties are changed', function test(done) {
     const vm = new Vue({
-      template: '<vgl-namespace><vgl-object3d :position="p" :rotation="r" :scale="s" :cast-shadow="cs" :receive-shadow="rs" :disable-frustum-culled="df" :name="n" ref="o" /></vgl-namespace>',
+      template: '<vgl-namespace><vgl-object3d :position="p" :rotation="r" :scale="s" :cast-shadow="cs" :receive-shadow="rs" :disable-frustum-culled="df" :render-order="ro" :name="n" ref="o" /></vgl-namespace>',
       components: { VglNamespace, VglObject3d },
       data: {
         p: '0 1 0',
@@ -58,6 +59,7 @@ describe('VglObject3d:', function suite() {
         rs: true,
         n: '&%93\'0',
         df: false,
+        ro: 1,
       },
     }).$mount();
     vm.$nextTick(() => {
@@ -68,6 +70,7 @@ describe('VglObject3d:', function suite() {
       vm.rs = false;
       vm.n = '<&~|-';
       vm.df = true;
+      vm.ro = 3;
       vm.$nextTick(() => {
         try {
           const actual = vm.$refs.o.inst.clone();
@@ -76,6 +79,7 @@ describe('VglObject3d:', function suite() {
             castShadow: true,
             receiveShadow: false,
             frustumCulled: false,
+            renderOrder: 3,
           });
           expected.position.set(1.1, 2, 0.8);
           expected.rotation.set(0.23, 0.4, 1.1, 'YZX');

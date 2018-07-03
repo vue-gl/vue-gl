@@ -1,6 +1,6 @@
 import { parseVector3, parseEuler } from '../parsers.js';
 import {
-  vector3, euler, boolean, string,
+  vector3, euler, boolean, string, number,
 } from '../validators.js';
 import { Object3D } from '../three.js';
 
@@ -29,6 +29,12 @@ export default {
     name: string,
     /** Whether the object gets renderered every frame even if it isn't visible. */
     disableFrustumCulled: boolean,
+    /**
+     * This value allows the default rendering order of scene graph objects to be overridden
+     * although opaque and transparent objects remain sorted independently.
+     * Sorting is from lowest to highest renderOrder.
+     */
+    renderOrder: { type: number, default: 0 },
   },
   computed: {
     inst: () => new Object3D(),
@@ -61,6 +67,7 @@ export default {
           castShadow: this.castShadow,
           receiveShadow: this.receiveShadow,
           frustumCulled: !this.disableFrustumCulled,
+          renderOrder: parseFloat(this.renderOrder),
         });
         if (this.name !== undefined) this.vglNamespace.object3ds[this.name] = inst;
       },
@@ -73,6 +80,7 @@ export default {
     castShadow(castShadow) { this.inst.castShadow = castShadow; },
     receiveShadow(receiveShadow) { this.inst.receiveShadow = receiveShadow; },
     disableFrustumCulled(disabled) { this.inst.frustumCulled = !disabled; },
+    renderOrder(renderOrder) { this.inst.renderOrder = parseFloat(renderOrder); },
     name(name, oldName) {
       const { vglNamespace: { object3ds }, inst } = this;
       if (object3ds[oldName] === inst) delete object3ds[oldName];
