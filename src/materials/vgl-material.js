@@ -61,6 +61,7 @@ export default {
   beforeDestroy() {
     const { vglNamespace: { materials }, inst } = this;
     if (materials[this.name] === inst) delete materials[this.name];
+    inst.dispose();
   },
   created() { this.vglNamespace.update(); },
   beforeUpdate() { this.vglNamespace.update(); },
