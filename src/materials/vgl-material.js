@@ -7,7 +7,7 @@ import {
   BackSide,
   DoubleSide,
 } from '../three.js';
-import { string } from '../validators.js';
+import { string, number } from '../validators.js';
 
 const vertexColors = {
   no: NoColors,
@@ -35,6 +35,8 @@ export default {
     side: { type: string, default: 'front' },
     /** Defines whether vertex coloring is used. Other options are 'vertex' and 'face'. */
     vertexColors: { type: string, default: 'no' },
+    /** The material will not be renderered if the opacity is lower than this value. */
+    alphaTest: { type: number, default: 0 },
   },
   computed: {
     inst: () => new Material(),
@@ -45,6 +47,7 @@ export default {
         inst.setValues({
           side: sides[this.side],
           vertexColors: vertexColors[this.vertexColors],
+          alphaTest: parseFloat(this.alphaTest),
         });
         this.vglNamespace.materials[this.name] = inst;
       },
@@ -57,6 +60,7 @@ export default {
     },
     side(side) { this.inst.side = sides[side]; },
     vertexColors(colors) { this.inst.vertexColors = vertexColors[colors]; },
+    alphaTest(alpha) { this.inst.alphaTest = parseFloat(alpha); },
   },
   beforeDestroy() {
     const { vglNamespace: { materials }, inst } = this;
