@@ -70,6 +70,11 @@ export default {
      * The blending property must be set to 'custom' for this to have any effect.
      */
     blendDst: { type: string, default: 'oneMinusSrcAlpha' },
+    /**
+     * Blending source.
+     * The blending property must be set to 'custom' for this to have any effect.
+     */
+    blendSrc: { type: string, default: 'srcAlpha' },
   },
   computed: {
     inst: () => new Material(),
@@ -82,6 +87,7 @@ export default {
           vertexColors: vertexColors[this.vertexColors],
           alphaTest: parseFloat(this.alphaTest),
           blendDst: destinationFactors[this.blendDst],
+          blendSrc: sourceFactors[this.blendSrc],
         });
         this.vglNamespace.materials[this.name] = inst;
       },
@@ -96,6 +102,7 @@ export default {
     vertexColors(colors) { this.inst.vertexColors = vertexColors[colors]; },
     alphaTest(alpha) { this.inst.alphaTest = parseFloat(alpha); },
     blendDst(dst) { this.inst.blendDst = destinationFactors[dst]; },
+    blendSrc(src) { this.inst.blendSrc = sourceFactors[src]; },
   },
   beforeDestroy() {
     const { vglNamespace: { materials }, inst } = this;
