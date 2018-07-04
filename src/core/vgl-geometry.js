@@ -1,5 +1,5 @@
 import { BufferGeometry, BufferAttribute } from '../three.js';
-import { string, floatArray } from '../validators.js';
+import { string, floatArray, number } from '../validators.js';
 import { parseArray } from '../parsers.js';
 
 /**
@@ -19,6 +19,10 @@ export default {
     colorAttribute: floatArray,
     /** The x, y, and z components of the vertex normal vector of each vertex in this geometry. */
     normalAttribute: floatArray,
+    /** Used to determine what part of the geometry should be rendered. */
+    drawRangeStart: { type: number, default: 0 },
+    /** Used to determine what part of the geometry should be rendered. */
+    drawRangeCount: { type: number, default: Infinity },
   },
   computed: {
     inst: () => new BufferGeometry(),
@@ -44,6 +48,7 @@ export default {
             : new BufferAttribute(new Float32Array(parseArray(this.normalAttribute)), 3);
           inst.addAttribute('normal', normalAttribute);
         }
+        inst.setDrawRange(parseInt(this.drawRangeStart, 10), parseInt(this.drawRangeCount, 10));
         if (oldInst) oldInst.dispose();
         this.vglNamespace.geometries[this.name] = inst;
       },
@@ -83,6 +88,12 @@ export default {
         attributeObject.setArray(new Float32Array(normalArray));
       }
       attributeObject.needsUpdate = true;
+    },
+    drawRangeStart(start) {
+      this.inst.setDrawRange(parseInt(start, 10), this.inst.drawRange.count);
+    },
+    drawRangeCount(count) {
+      this.inst.setDrawRange(this.inst.drawRange.start, parseInt(count, 10));
     },
   },
   beforeDestroy() {
