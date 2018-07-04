@@ -6,6 +6,17 @@ import {
   FrontSide,
   BackSide,
   DoubleSide,
+  ZeroFactor,
+  OneFactor,
+  SrcColorFactor,
+  OneMinusSrcColorFactor,
+  SrcAlphaFactor,
+  OneMinusSrcAlphaFactor,
+  DstAlphaFactor,
+  OneMinusDstAlphaFactor,
+  DstColorFactor,
+  OneMinusDstColorFactor,
+  SrcAlphaSaturateFactor,
 } from '../three.js';
 import { string, number } from '../validators.js';
 
@@ -20,6 +31,23 @@ const sides = {
   back: BackSide,
   double: DoubleSide,
 };
+
+const destinationFactors = {
+  zero: ZeroFactor,
+  one: OneFactor,
+  srcColor: SrcColorFactor,
+  oneMinusSrcColor: OneMinusSrcColorFactor,
+  srcAlpha: SrcAlphaFactor,
+  oneMinusSrcAlpha: OneMinusSrcAlphaFactor,
+  dstAlpha: DstAlphaFactor,
+  oneMinusDstAlpha: OneMinusDstAlphaFactor,
+  dstColor: DstColorFactor,
+  oneMinusDstColor: OneMinusDstColorFactor,
+};
+
+const sourceFactors = Object.assign({
+  srcAlphaSaturate: SrcAlphaSaturateFactor,
+}, destinationFactors);
 
 /**
  * Abstract mixin component for materials,
@@ -37,6 +65,11 @@ export default {
     vertexColors: { type: string, default: 'no' },
     /** The material will not be renderered if the opacity is lower than this value. */
     alphaTest: { type: number, default: 0 },
+    /**
+     * Blending destination.
+     * The blending property must be set to 'custom' for this to have any effect.
+     */
+    blendDst: { type: string, default: 'oneMinusSrcAlpha' },
   },
   computed: {
     inst: () => new Material(),
@@ -48,6 +81,7 @@ export default {
           side: sides[this.side],
           vertexColors: vertexColors[this.vertexColors],
           alphaTest: parseFloat(this.alphaTest),
+          blendDst: destinationFactors[this.blendDst],
         });
         this.vglNamespace.materials[this.name] = inst;
       },
@@ -61,6 +95,7 @@ export default {
     side(side) { this.inst.side = sides[side]; },
     vertexColors(colors) { this.inst.vertexColors = vertexColors[colors]; },
     alphaTest(alpha) { this.inst.alphaTest = parseFloat(alpha); },
+    blendDst(dst) { this.inst.blendDst = destinationFactors[dst]; },
   },
   beforeDestroy() {
     const { vglNamespace: { materials }, inst } = this;
