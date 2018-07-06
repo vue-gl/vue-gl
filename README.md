@@ -11,7 +11,7 @@ See the [documents](https://vue-gl.github.io/vue-gl/) for more details.
 )  
 [![codecov](https://codecov.io/gh/vue-gl/vue-gl/branch/master/graph/badge.svg)](https://codecov.io/gh/vue-gl/vue-gl
 )  
-[![Build Status](https://saucelabs.com/browser-matrix/vuegl.svg)](https://saucelabs.com/beta/builds/8a544a31f8174ff28d19b5ad3f70c18c)
+[![Build Status](https://saucelabs.com/browser-matrix/vuegl.svg)](https://saucelabs.com/beta/builds/dfeb82a5b22b47919cf8daabbc1a1593)
 
 ## Usage
 
