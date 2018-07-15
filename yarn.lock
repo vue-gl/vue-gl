@@ -19,19 +19,19 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-9.4.6.tgz#d8176d864ee48753d053783e4e463aec86b8d82e"
 
 "@vuedoc/md@^1.1.1":
-  version "1.3.2"
-  resolved "https://registry.yarnpkg.com/@vuedoc/md/-/md-1.3.2.tgz#e99de042ad0cf6e538bdd01c51c636ad5f1ed1be"
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/@vuedoc/md/-/md-1.3.3.tgz#5a786e7ff554629e66277c234a998c295a5603f5"
   dependencies:
-    "@vuedoc/parser" "^1.3.1"
+    "@vuedoc/parser" "^1.3.2"
     ast-to-markdown "^0.2.2"
     deepmerge "^2.1.1"
     markdown-to-ast "^6.0.3"
     md-node-inject "^0.1.1"
     mdast-util-to-string "^1.0.4"
 
-"@vuedoc/parser@^1.3.1":
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/@vuedoc/parser/-/parser-1.3.1.tgz#15fea39a37d32910123625c54acfbe1bc6af65e8"
+"@vuedoc/parser@^1.3.2":
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/@vuedoc/parser/-/parser-1.3.2.tgz#d7348e89ca64394bbca9076bf1972b81cd5425ab"
   dependencies:
     cheerio "^1.0.0-rc.2"
     espree "^3.5.4"
