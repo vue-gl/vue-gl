@@ -124,15 +124,15 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-9.4.6.tgz#d8176d864ee48753d053783e4e463aec86b8d82e"
 
 "@vuedoc/md@^1.1.1":
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/@vuedoc/md/-/md-1.4.1.tgz#8cb208fcc5cadfc35a78115aab894bde365360fa"
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@vuedoc/md/-/md-1.5.0.tgz#840d8d774b69661a658ee1b506699164505c6c24"
   dependencies:
     "@vuedoc/parser" "^1.4.0"
     ast-to-markdown "^0.2.2"
     deepmerge "^2.1.1"
     markdown-to-ast "^6.0.3"
     md-node-inject "^0.1.1"
-    mdast-util-to-string "^1.0.4"
+    mdast-util-to-string "^1.0.5"
 
 "@vuedoc/parser@^1.4.0":
   version "1.4.0"
@@ -3369,9 +3369,9 @@ mdast-util-compact@^1.0.0:
     unist-util-modify-children "^1.0.0"
     unist-util-visit "^1.1.0"
 
-mdast-util-to-string@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/mdast-util-to-string/-/mdast-util-to-string-1.0.4.tgz#5c455c878c9355f0c1e7f3e8b719cf583691acfb"
+mdast-util-to-string@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/mdast-util-to-string/-/mdast-util-to-string-1.0.5.tgz#3552b05428af22ceda34f156afe62ec8e6d731ca"
 
 mdurl@^1.0.1:
   version "1.0.1"
