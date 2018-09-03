@@ -3047,9 +3047,9 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
-karma-babel-preprocessor@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/karma-babel-preprocessor/-/karma-babel-preprocessor-7.0.0.tgz#18756d818f97a5e88f91902674cd9130177a8dce"
+karma-babel-preprocessor@^8.0.0:
+  version "8.0.0-beta.0"
+  resolved "https://registry.yarnpkg.com/karma-babel-preprocessor/-/karma-babel-preprocessor-8.0.0-beta.0.tgz#47f5c032583785198170e2bd7e7a06d8608ba843"
 
 karma-chai@^0.1.0:
   version "0.1.0"
