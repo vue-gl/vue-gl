@@ -1,6 +1,5 @@
 const rollupPluginIstanbul = require('rollup-plugin-istanbul'); // eslint-disable-line import/no-extraneous-dependencies
 const rollupPluginBabel = require('rollup-plugin-babel'); // eslint-disable-line import/no-extraneous-dependencies
-const { execSync } = require('child_process');
 const { browserStack, saucelabs } = require('./karma.browsers');
 
 module.exports = (config) => {
@@ -26,7 +25,6 @@ module.exports = (config) => {
           three: 'THREE',
         },
         sourcemap: 'inline',
-        intro: () => execSync('babel-external-helpers -t var'),
       },
       external: 'three',
       plugins: [
