@@ -58,6 +58,7 @@ import VglMeshPhysicalMaterial from './materials/vgl-mesh-physical-material.js';
 import VglLatheGeometry from './geometries/vgl-lathe-geometry.js';
 import VglSpotLightHelper from './helpers/vgl-spot-light-helper.js';
 import VglHemisphereLight from './lights/vgl-hemisphere-light.js';
+import VglRectAreaLight from './lights/vgl-rect-area-light.js';
 
 export {
   VglNamespace,
@@ -120,4 +121,5 @@ export {
   VglLatheGeometry,
   VglSpotLightHelper,
   VglHemisphereLight,
+  VglRectAreaLight,
 };

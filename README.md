@@ -153,7 +153,7 @@ When you open the html above in the browser, you'll see below.
         Corresponding to [THREE.Light](https://threejs.org/docs/index.html#api/lights/Light)
   - [x] **[VglPointLight](src/vgl-point-light.js)** -
         Corresponding to [THREE.PointLight](https://threejs.org/docs/index.html#api/lights/PointLight)
-  - [ ] **[VglRectAreaLight](src/vgl-rect-area-light.js)** -
+  - [x] **[VglRectAreaLight](src/vgl-rect-area-light.js)** -
         Corresponding to [THREE.RectAreaLight](https://threejs.org/docs/index.html#api/lights/RectAreaLight)
   - [x] **[VglSpotLight](src/vgl-spot-light.js)** -
         Corresponding to [THREE.SpotLight](https://threejs.org/docs/index.html#api/lights/SpotLight)

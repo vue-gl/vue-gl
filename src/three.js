@@ -79,6 +79,7 @@ export {
   HemisphereLight,
   Light,
   PointLight,
+  RectAreaLight,
   SpotLight,
   ArrowHelper,
   AxesHelper,
