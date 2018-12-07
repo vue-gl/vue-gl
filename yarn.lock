@@ -5935,9 +5935,9 @@ void-elements@^2.0.0:
   integrity sha1-wGavtYK7HLQSjWDqkjkulNXp2+w=
 
 vue@^2.5.13:
-  version "2.5.17"
-  resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.17.tgz#0f8789ad718be68ca1872629832ed533589c6ada"
-  integrity sha512-mFbcWoDIJi0w0Za4emyLiW72Jae0yjANHbCVquMKijcavBGypqlF7zHRgMa5k4sesdv7hv2rB4JPdZfR+TPfhQ==
+  version "2.5.18"
+  resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.18.tgz#885586eda5c8efc77140a497500b73620e53c1dd"
+  integrity sha512-j4oT4jQdhBf3dUxzu1ogjkhzMU44AtwqtLz7oq/u7340/lmUUogTG6/D6P4/J2cCosoM21MqMIUsQchPKS4elg==
 
 which@^1.1.1, which@^1.2.9:
   version "1.3.0"
