@@ -134,7 +134,7 @@ When you open the html above in the browser, you'll see below.
         Corresponding to [THREE.HemisphereLightHelper](https://threejs.org/docs/index.html#api/helpers/HemisphereLightHelper)
   - [ ] **[VglPointLightHelper](src/vgl-point-light-helper.js)** -
         Corresponding to [THREE.PointLightHelper](https://threejs.org/docs/index.html#api/helpers/PointLightHelper)
-  - [ ] **[VglRectAreaLightHelper](src/vgl-rect-area-light-helper.js)** -
+  - [x] **[VglRectAreaLightHelper](src/vgl-rect-area-light-helper.js)** -
         Corresponding to [THREE.RectAreaLightHelper](https://threejs.org/docs/index.html#api/helpers/RectAreaLightHelper)
   - [ ] **[VglSkeletonHelper](src/vgl-skeleton-helper.js)** -
         Corresponding to [THREE.SkeletonHelper](https://threejs.org/docs/index.html#api/helpers/SkeletonHelper)
