@@ -47,6 +47,7 @@ import VglShadowMaterial from './materials/vgl-shadow-material.js';
 import VglCameraHelper from './helpers/vgl-camera-helper.js';
 import VglDirectionalLightHelper from './helpers/vgl-directional-light-helper.js';
 import VglPolarGridHelper from './helpers/vgl-polar-grid-helper.js';
+import VglRectAreaLightHelper from './helpers/vgl-rect-area-light-helper.js';
 import VglMeshBasicMaterial from './materials/vgl-mesh-basic-material.js';
 import VglMeshDepthMaterial from './materials/vgl-mesh-depth-material.js';
 import VglMeshLambertMaterial from './materials/vgl-mesh-lambert-material.js';
@@ -110,6 +111,7 @@ export {
   VglCameraHelper,
   VglDirectionalLightHelper,
   VglPolarGridHelper,
+  VglRectAreaLightHelper,
   VglMeshBasicMaterial,
   VglMeshDepthMaterial,
   VglMeshLambertMaterial,

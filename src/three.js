@@ -88,6 +88,7 @@ export {
   DirectionalLightHelper,
   GridHelper,
   PolarGridHelper,
+  RectAreaLightHelper,
   SpotLightHelper,
   BoxBufferGeometry,
   CircleBufferGeometry,
