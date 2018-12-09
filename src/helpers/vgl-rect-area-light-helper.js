@@ -1,6 +1,6 @@
 import VglObject3d from '../core/vgl-object3d.js';
 import { RectAreaLightHelper } from '../three.js';
-import { string, number } from '../validators.js';
+import { string } from '../validators.js';
 
 /**
  * Creates a visual aid for a RectAreaLight, corresponding [THREE.RectAreaLightHelper](https://threejs.org/docs/#api/en/helpers/RectAreaLightHelper).
