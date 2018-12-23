@@ -47,6 +47,7 @@ import VglShadowMaterial from './materials/vgl-shadow-material.js';
 import VglCameraHelper from './helpers/vgl-camera-helper.js';
 import VglDirectionalLightHelper from './helpers/vgl-directional-light-helper.js';
 import VglPolarGridHelper from './helpers/vgl-polar-grid-helper.js';
+import VglRectAreaLightHelper from './helpers/vgl-rect-area-light-helper.js';
 import VglMeshBasicMaterial from './materials/vgl-mesh-basic-material.js';
 import VglMeshDepthMaterial from './materials/vgl-mesh-depth-material.js';
 import VglMeshLambertMaterial from './materials/vgl-mesh-lambert-material.js';
@@ -58,6 +59,7 @@ import VglMeshPhysicalMaterial from './materials/vgl-mesh-physical-material.js';
 import VglLatheGeometry from './geometries/vgl-lathe-geometry.js';
 import VglSpotLightHelper from './helpers/vgl-spot-light-helper.js';
 import VglHemisphereLight from './lights/vgl-hemisphere-light.js';
+import VglRectAreaLight from './lights/vgl-rect-area-light.js';
 
 export {
   VglNamespace,
@@ -109,6 +111,7 @@ export {
   VglCameraHelper,
   VglDirectionalLightHelper,
   VglPolarGridHelper,
+  VglRectAreaLightHelper,
   VglMeshBasicMaterial,
   VglMeshDepthMaterial,
   VglMeshLambertMaterial,
@@ -120,4 +123,5 @@ export {
   VglLatheGeometry,
   VglSpotLightHelper,
   VglHemisphereLight,
+  VglRectAreaLight,
 };
