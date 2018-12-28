@@ -77,14 +77,14 @@ When you open the html above in the browser, you'll see below.
         Corresponding to [THREE.ConeGeometry](https://threejs.org/docs/index.html#api/geometries/ConeGeometry)
   - [x] **[VglCylinderGeometry](src/geometries/vgl-cylinder-geometry.js)** -
         Corresponding to [THREE.CylinderGeometry](https://threejs.org/docs/index.html#api/geometries/CylinderGeometry)
-  - [x] **[VglDodecahedronGeometry](src/geometries/vgl-dodecahedron-geometry.js)** -
-        Corresponding to [THREE.DodecahedronGeometry](https://threejs.org/docs/index.html#api/geometries/DodecahedronGeometry)
+  - [x] **[VglDodecahedronGeometry](src/geometries/vgl-dodecahedron-geometry.js
+        )** - Corresponding to [THREE.DodecahedronGeometry](https://threejs.org/docs/index.html#api/geometries/DodecahedronGeometry)
   - [ ] **[VglEdgesGeometry](src/geometries/vgl-edges-geometry.js)** -
         Corresponding to [THREE.EdgesGeometry](https://threejs.org/docs/index.html#api/geometries/EdgesGeometry)
   - [ ] **[VglExtrudeGeometry](src/geometries/vgl-extrude-geometry.js)** -
         Corresponding to [THREE.ExtrudeGeometry](https://threejs.org/docs/index.html#api/geometries/ExtrudeGeometry)
-  - [x] **[VglIcosahedronGeometry](src/geometries/vgl-icosahedron-geometry.js)** -
-        Corresponding to [THREE.IcosahedronGeometry](https://threejs.org/docs/index.html#api/geometries/IcosahedronGeometry)
+  - [x] **[VglIcosahedronGeometry](src/geometries/vgl-icosahedron-geometry.js
+        )** - Corresponding to [THREE.IcosahedronGeometry](https://threejs.org/docs/index.html#api/geometries/IcosahedronGeometry)
   - [x] **[VglLatheGeometry](src/geometries/vgl-lathe-geometry.js)** -
         Corresponding to [THREE.LatheGeometry](https://threejs.org/docs/index.html#api/geometries/LatheGeometry)
   - [x] **[VglOctahedronGeometry](src/geometries/vgl-octahedron-geometry.js)** -
@@ -101,8 +101,8 @@ When you open the html above in the browser, you'll see below.
         Corresponding to [THREE.ShapeGeometry](https://threejs.org/docs/index.html#api/geometries/ShapeGeometry)
   - [x] **[VglSphereGeometry](src/geometries/vgl-sphere-geometry.js)** -
         Corresponding to [THREE.SphereGeometry](https://threejs.org/docs/index.html#api/geometries/SphereGeometry)
-  - [x] **[VglTetrahedronGeometry](src/geometries/vgl-tetrahedron-geometry.js)** -
-        Corresponding to [THREE.TetrahedronGeometry](https://threejs.org/docs/index.html#api/geometries/TetrahedronGeometry)
+  - [x] **[VglTetrahedronGeometry](src/geometries/vgl-tetrahedron-geometry.js
+        )** - Corresponding to [THREE.TetrahedronGeometry](https://threejs.org/docs/index.html#api/geometries/TetrahedronGeometry)
   - [x] **[VglTextGeometry](src/geometries/vgl-text-geometry.js)** -
         Corresponding to [THREE.TextGeometry](https://threejs.org/docs/index.html#api/geometries/TextGeometry)
   - [x] **[VglTorusGeometry](src/geometries/vgl-torus-geometry.js)** -
@@ -122,16 +122,16 @@ When you open the html above in the browser, you'll see below.
         Corresponding to [THREE.BoxHelper](https://threejs.org/docs/index.html#api/helpers/BoxHelper)
   - [x] **[VglCameraHelper](src/helpers/vgl-camera-helper.js)** -
         Corresponding to [THREE.CameraHelper](https://threejs.org/docs/index.html#api/helpers/CameraHelper)
-  - [x] **[VglDirectionalLightHelper](src/helpers/vgl-directional-light-helper.js)** -
-        Corresponding to [THREE.DirectionalLightHelper](https://threejs.org/docs/index.html#api/helpers/DirectionalLightHelper)
+  - [x] **[VglDirectionalLightHelper](src/helpers/vgl-directional-light-helper.js
+        )** - Corresponding to [THREE.DirectionalLightHelper](https://threejs.org/docs/index.html#api/helpers/DirectionalLightHelper)
   - [ ] **[VglFaceNormalsHelper](src/helpers/vgl-face-normals-helper.js)** -
         Corresponding to [THREE.FaceNormalsHelper](https://threejs.org/docs/index.html#api/helpers/FaceNormalsHelper)
   - [x] **[VglGridHelper](src/helpers/vgl-grid-helper.js)** -
         Corresponding to [THREE.GridHelper](https://threejs.org/docs/index.html#api/helpers/GridHelper)
   - [x] **[VglPolarGridHelper](src/helpers/vgl-polar-grid-helper.js)** -
         Corresponding to [THREE.PolarGridHelper](https://threejs.org/docs/index.html#api/helpers/PolarGridHelper)
-  - [ ] **[VglHemisphereLightHelper](src/helpers/vgl-hemisphere-light-helper.js)** -
-        Corresponding to [THREE.HemisphereLightHelper](https://threejs.org/docs/index.html#api/helpers/HemisphereLightHelper)
+  - [ ] **[VglHemisphereLightHelper](src/helpers/vgl-hemisphere-light-helper.js
+        )** - Corresponding to [THREE.HemisphereLightHelper](https://threejs.org/docs/index.html#api/helpers/HemisphereLightHelper)
   - [ ] **[VglPointLightHelper](src/helpers/vgl-point-light-helper.js)** -
         Corresponding to [THREE.PointLightHelper](https://threejs.org/docs/index.html#api/helpers/PointLightHelper)
   - [x] **[VglRectAreaLightHelper](src/helpers/vgl-rect-area-light-helper.js)** -
@@ -168,16 +168,16 @@ When you open the html above in the browser, you'll see below.
         Corresponding to [THREE.MeshBasicMaterial](https://threejs.org/docs/index.html#api/materials/MeshBasicMaterial)
   - [x] **[VglMeshDepthMaterial](src/materials/vgl-mesh-depth-material.js)** -
         Corresponding to [THREE.MeshDepthMaterial](https://threejs.org/docs/index.html#api/materials/MeshDepthMaterial)
-  - [x] **[VglMeshLambertMaterial](src/materials/vgl-mesh-lambert-material.js)** -
-        Corresponding to [THREE.MeshLambertMaterial](https://threejs.org/docs/index.html#api/materials/MeshLambertMaterial)
+  - [x] **[VglMeshLambertMaterial](src/materials/vgl-mesh-lambert-material.js
+        )** - Corresponding to [THREE.MeshLambertMaterial](https://threejs.org/docs/index.html#api/materials/MeshLambertMaterial)
   - [x] **[VglMeshNormalMaterial](src/materials/vgl-mesh-normal-material.js)** -
         Corresponding to [THREE.MeshNormalMaterial](https://threejs.org/docs/index.html#api/materials/MeshNormalMaterial)
   - [x] **[VglMeshPhongMaterial](src/materials/vgl-mesh-phong-material.js)** -
         Corresponding to [THREE.MeshPhongMaterial](https://threejs.org/docs/index.html#api/materials/MeshPhongMaterial)
-  - [x] **[VglMeshPhysicalMaterial](src/materials/vgl-mesh-physical-material.js)** -
-        Corresponding to [THREE.MeshPhysicalMaterial](https://threejs.org/docs/index.html#api/materials/MeshPhysicalMaterial)
-  - [x] **[VglMeshStandardMaterial](src/materials/vgl-mesh-standard-material.js)** -
-        Corresponding to [THREE.MeshStandardMaterial](https://threejs.org/docs/index.html#api/materials/MeshStandardMaterial)
+  - [x] **[VglMeshPhysicalMaterial](src/materials/vgl-mesh-physical-material.js
+        )** - Corresponding to [THREE.MeshPhysicalMaterial](https://threejs.org/docs/index.html#api/materials/MeshPhysicalMaterial)
+  - [x] **[VglMeshStandardMaterial](src/materials/vgl-mesh-standard-material.js
+        )** - Corresponding to [THREE.MeshStandardMaterial](https://threejs.org/docs/index.html#api/materials/MeshStandardMaterial)
   - [x] **[VglMeshToonMaterial](src/materials/vgl-mesh-toon-material.js)** -
         Corresponding to [THREE.MeshToonMaterial](https://threejs.org/docs/index.html#api/materials/MeshToonMaterial)
   - [x] **[VglPointsMaterial](src/materials/vgl-points-material.js)** -
