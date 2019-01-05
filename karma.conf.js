@@ -50,6 +50,7 @@ module.exports = (config) => {
       options.sauceLabs = {
         testName: 'VueGL unit test',
         recordScreenshots: false,
+        build: process.env.CIRCLE_BUILD_NUM,
       };
       options.customLaunchers = saucelabs;
     } else if (process.env.BROWSER_STACK_USERNAME && process.env.BROWSER_STACK_ACCESS_KEY) {
