@@ -1,5 +1,5 @@
 describe('VglRenderer:', function suite() {
-  const { VglRenderer } = VueGL;
+  const { VglRenderer, VglScene, VglPerspectiveCamera } = VueGL;
   before(function hook(done) {
     this.WebGLRenderer = THREE.WebGLRenderer;
     THREE.WebGLRenderer = function WebGLRenderer(parameters = {}) {
@@ -112,5 +112,79 @@ describe('VglRenderer:', function suite() {
         done(e);
       }
     });
+  });
+  it('should throw an error when multiple scenes are defined and the scene prop is undefined', function test(done) {
+    const vm = new Vue({
+      template: '<vgl-renderer><vgl-scene name="s1" /><vgl-scene name="s2" /><vgl-perspective-camera /></vgl-renderer>',
+      components: { VglRenderer, VglScene, VglPerspectiveCamera },
+    }).$mount();
+    const { errorHandler } = Vue.config;
+    Vue.config.errorHandler = (e) => {
+      Vue.config.errorHandler = errorHandler;
+      if (e instanceof ReferenceError) done();
+      done(e);
+    };
+    vm.$nextTick(() => { done(Error('Expected an error to be thrown, but not to be.')); });
+  });
+  it('should not throw errors when multiple scenes are defined and the scene prop is defined', function test(done) {
+    const vm = new Vue({
+      template: '<vgl-renderer scene="s2"><vgl-scene name="s1" /><vgl-scene name="s2" /><vgl-perspective-camera /></vgl-renderer>',
+      components: { VglRenderer, VglScene, VglPerspectiveCamera },
+    }).$mount();
+    const { errorHandler } = Vue.config;
+    Vue.config.errorHandler = (e) => {
+      Vue.config.errorHandler = errorHandler;
+      done(e);
+    };
+    vm.$nextTick(() => { done(); });
+  });
+  it('should not throw errors when only one scene is defined and the scene prop is undefined', function test(done) {
+    const vm = new Vue({
+      template: '<vgl-renderer><vgl-scene name="s2" /><vgl-perspective-camera /></vgl-renderer>',
+      components: { VglRenderer, VglScene, VglPerspectiveCamera },
+    }).$mount();
+    const { errorHandler } = Vue.config;
+    Vue.config.errorHandler = (e) => {
+      Vue.config.errorHandler = errorHandler;
+      done(e);
+    };
+    vm.$nextTick(() => { done(); });
+  });
+  it('should throw an error when multiple cameras are defined and the camera prop is undefined', function test(done) {
+    const vm = new Vue({
+      template: '<vgl-renderer><vgl-scene /><vgl-perspective-camera name="c1" /><vgl-perspective-camera name="c2" /></vgl-renderer>',
+      components: { VglRenderer, VglScene, VglPerspectiveCamera },
+    }).$mount();
+    const { errorHandler } = Vue.config;
+    Vue.config.errorHandler = (e) => {
+      Vue.config.errorHandler = errorHandler;
+      if (e instanceof ReferenceError) done();
+      done(e);
+    };
+    vm.$nextTick(() => { done(Error('Expected an error to be thrown, but not to be.')); });
+  });
+  it('should not throw errors when multiple cameras are defined and the camera prop is defined', function test(done) {
+    const vm = new Vue({
+      template: '<vgl-renderer camera="c2"><vgl-scene /><vgl-perspective-camera name="c1" /><vgl-perspective-camera name="c2" /></vgl-renderer>',
+      components: { VglRenderer, VglScene, VglPerspectiveCamera },
+    }).$mount();
+    const { errorHandler } = Vue.config;
+    Vue.config.errorHandler = (e) => {
+      Vue.config.errorHandler = errorHandler;
+      done(e);
+    };
+    vm.$nextTick(() => { done(); });
+  });
+  it('should not throw errors when only one camera is defined and the camera prop is undefined', function test(done) {
+    const vm = new Vue({
+      template: '<vgl-renderer><vgl-scene /><vgl-perspective-camera name="c1" /></vgl-renderer>',
+      components: { VglRenderer, VglScene, VglPerspectiveCamera },
+    }).$mount();
+    const { errorHandler } = Vue.config;
+    Vue.config.errorHandler = (e) => {
+      Vue.config.errorHandler = errorHandler;
+      done(e);
+    };
+    vm.$nextTick(() => { done(); });
   });
 });
