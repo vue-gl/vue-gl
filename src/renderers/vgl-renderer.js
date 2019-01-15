@@ -56,32 +56,51 @@ export default {
       inst.shadowMap.enabled = this.shadowMapEnabled;
       return inst;
     },
+    cameraInst() {
+      if (this.camera !== undefined) return this.vglNamespace.cameras[this.camera];
+      let camera;
+      // eslint-disable-next-line guard-for-in, no-restricted-syntax
+      for (const key in this.vglNamespace.cameras) {
+        if (camera) throw new ReferenceError('Cannot identify the camera. camera prop must be set when multiple cameras are defined.');
+        camera = this.vglNamespace.cameras[key];
+      }
+      return camera;
+    },
+    sceneInst() {
+      if (this.scene !== undefined) return this.vglNamespace.scenes[this.scene];
+      let scene;
+      // eslint-disable-next-line guard-for-in, no-restricted-syntax
+      for (const key in this.vglNamespace.scenes) {
+        if (scene) throw new ReferenceError('Cannot identify the camera. camera prop must be set when multiple cameras are defined.');
+        scene = this.vglNamespace.scenes[key];
+      }
+      return scene;
+    },
   },
   methods: {
     render() {
-      const scene = this.vglNamespace.scenes[this.scene];
-      const camera = this.vglNamespace.cameras[this.camera];
-      if (scene && camera) {
-        if (camera.isPerspectiveCamera) {
+      const { inst, cameraInst, sceneInst } = this;
+      if (cameraInst && sceneInst) {
+        if (cameraInst.isPerspectiveCamera) {
           const aspect = this.$el.clientWidth / this.$el.clientHeight;
-          if (camera.aspect !== aspect) {
-            camera.aspect = aspect;
-            camera.updateProjectionMatrix();
+          if (cameraInst.aspect !== aspect) {
+            cameraInst.aspect = aspect;
+            cameraInst.updateProjectionMatrix();
           }
-        } else if (camera.isOrthographicCamera) {
+        } else if (cameraInst.isOrthographicCamera) {
           const width = this.$el.clientWidth / 2;
           const height = this.$el.clientHeight / 2;
-          if (camera.right !== width || camera.top !== height) {
-            camera.left = -width;
-            camera.right = width;
-            camera.top = height;
-            camera.bottom = -height;
-            camera.updateProjectionMatrix();
+          if (cameraInst.right !== width || cameraInst.top !== height) {
+            cameraInst.left = -width;
+            cameraInst.right = width;
+            cameraInst.top = height;
+            cameraInst.bottom = -height;
+            cameraInst.updateProjectionMatrix();
           }
         } else {
           throw new TypeError('Unknown camera type.');
         }
-        this.inst.render(scene, camera);
+        inst.render(sceneInst, cameraInst);
       }
     },
   },
@@ -100,7 +119,7 @@ export default {
   },
   mounted() {
     this.inst.setSize(this.$el.clientWidth, this.$el.clientHeight);
-    this.$el.insertBefore(this.inst.domElement, this.$el.firstChild);
+    this.$el.appendChild(this.inst.domElement);
     this.vglNamespace.update();
   },
   beforeDestroy() {
@@ -109,7 +128,13 @@ export default {
   },
   render(h) {
     return h('div', [h('iframe', {
-      style: { visibility: 'hidden', width: '100%', height: '100%' },
+      style: {
+        visibility: 'hidden',
+        width: '100%',
+        height: '100%',
+        marginRight: '-100%',
+        border: 'none',
+      },
       on: {
         load: (event) => {
           event.target.contentWindow.addEventListener('resize', () => {
