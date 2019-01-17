@@ -3566,9 +3566,9 @@ jsprim@^1.2.2:
     verror "1.10.0"
 
 karma-babel-preprocessor@^8.0.0-beta.0:
-  version "8.0.0-beta.0"
-  resolved "https://registry.yarnpkg.com/karma-babel-preprocessor/-/karma-babel-preprocessor-8.0.0-beta.0.tgz#47f5c032583785198170e2bd7e7a06d8608ba843"
-  integrity sha512-nv3GbDAKdonWuTJc+Kg4jEdRXzoP7uKKQ6HfTJb5PNTY+OJYKzrtUBUSez/wrutUFtztVT+MQxJHamd7MNCmBQ==
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/karma-babel-preprocessor/-/karma-babel-preprocessor-8.0.0.tgz#40639fa968bb14da65c2ccd507a68a5b398068cd"
+  integrity sha512-eeSSJgEtIVV7qKg/e+BG4RDTo+yglrGgBtuX+IHHGyhXEs4Vaqz8wSePXTiHyERvfxPfHRpxnKb5movoh62ekw==
 
 karma-chai@^0.1.0:
   version "0.1.0"
