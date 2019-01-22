@@ -1,6 +1,9 @@
-describe('VglLine:', function suite() {
-  const { VglLine, VglNamespace } = VueGL;
-  it('without properties', function test(done) {
+import Vue from 'vue/dist/vue';
+import { Line } from 'three';
+import { VglLine, VglNamespace } from '../src';
+
+describe('VglLine:', () => {
+  test('without properties', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-line ref="o" /></vgl-namespace>',
       components: { VglNamespace, VglLine },
@@ -9,19 +12,19 @@ describe('VglLine:', function suite() {
       try {
         const actual = vm.$refs.o.inst.clone();
         actual.updateMatrixWorld();
-        const expected = new THREE.Line();
+        const expected = new Line();
         expected.updateMatrixWorld();
         expected.uuid = actual.uuid;
         expected.geometry = actual.geometry;
         expected.material = actual.material;
-        expect(actual.toJSON()).to.deep.equal(expected.toJSON());
+        expect(actual.toJSON()).toEqual(expected.toJSON());
         done();
       } catch (e) {
         done(e);
       }
     });
   });
-  it('with properties', function test(done) {
+  test('with properties', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-line position="8 3 -3.5" rotation="0.8 0.8 0.5 XZY" scale="1.3 1.4 1.1" ref="o" /></vgl-namespace>',
       components: { VglNamespace, VglLine },
@@ -30,7 +33,7 @@ describe('VglLine:', function suite() {
       try {
         const actual = vm.$refs.o.inst.clone();
         actual.updateMatrixWorld();
-        const expected = new THREE.Line();
+        const expected = new Line();
         expected.position.set(8, 3, -3.5);
         expected.rotation.set(0.8, 0.8, 0.5, 'XZY');
         expected.scale.set(1.3, 1.4, 1.1);
@@ -38,14 +41,14 @@ describe('VglLine:', function suite() {
         expected.uuid = actual.uuid;
         expected.geometry = actual.geometry;
         expected.material = actual.material;
-        expect(actual.toJSON()).to.deep.equal(expected.toJSON());
+        expect(actual.toJSON()).toEqual(expected.toJSON());
         done();
       } catch (e) {
         done(e);
       }
     });
   });
-  it('after properties are changed', function test(done) {
+  test('after properties are changed', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-line :position="p" :rotation="r" :scale="s" ref="o" /></vgl-namespace>',
       components: { VglNamespace, VglLine },
@@ -63,7 +66,7 @@ describe('VglLine:', function suite() {
         try {
           const actual = vm.$refs.o.inst.clone();
           actual.updateMatrixWorld();
-          const expected = new THREE.Line();
+          const expected = new Line();
           expected.position.set(1.1, 2, 0.8);
           expected.rotation.set(0.23, 0.4, 1.1, 'YZX');
           expected.scale.set(0.8, 0.7, 0.9);
@@ -71,7 +74,7 @@ describe('VglLine:', function suite() {
           expected.uuid = actual.uuid;
           expected.geometry = actual.geometry;
           expected.material = actual.material;
-          expect(actual.toJSON()).to.deep.equal(expected.toJSON());
+          expect(actual.toJSON()).toEqual(expected.toJSON());
           done();
         } catch (e) {
           done(e);

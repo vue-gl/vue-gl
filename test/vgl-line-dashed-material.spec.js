@@ -1,29 +1,32 @@
-describe('VglLineDashedMaterial:', function suite() {
-  const { VglLineDashedMaterial, VglNamespace } = VueGL;
-  it('without properties', function test(done) {
+import Vue from 'vue/dist/vue';
+import { LineDashedMaterial } from 'three';
+import { VglLineDashedMaterial, VglNamespace } from '../src';
+
+describe('VglLineDashedMaterial:', () => {
+  test('without properties', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-line-dashed-material ref="m" /></vgl-namespace>',
       components: { VglLineDashedMaterial, VglNamespace },
     }).$mount();
     vm.$nextTick(() => {
       try {
-        const expected = new THREE.LineDashedMaterial();
+        const expected = new LineDashedMaterial();
         const { inst } = vm.$refs.m;
-        expect(inst).to.deep.equal(Object.assign(expected, { uuid: inst.uuid }));
+        expect(inst).toEqual(Object.assign(expected, { uuid: inst.uuid }));
         done();
       } catch (e) {
         done(e);
       }
     });
   });
-  it('with properties', function test(done) {
+  test('with properties', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-line-dashed-material color="#8aeda3" lights linewidth="3.5" dash-size="2" gap-size="0.8" ref="m" /></vgl-namespace>',
       components: { VglLineDashedMaterial, VglNamespace },
     }).$mount();
     vm.$nextTick(() => {
       try {
-        const expected = new THREE.LineDashedMaterial({
+        const expected = new LineDashedMaterial({
           color: 0x8aeda3,
           lights: true,
           linewidth: 3.5,
@@ -31,14 +34,14 @@ describe('VglLineDashedMaterial:', function suite() {
           gapSize: 0.8,
         });
         const { inst } = vm.$refs.m;
-        expect(inst).to.deep.equal(Object.assign(expected, { uuid: inst.uuid }));
+        expect(inst).toEqual(Object.assign(expected, { uuid: inst.uuid }));
         done();
       } catch (e) {
         done(e);
       }
     });
   });
-  it('after properties are changed', function test(done) {
+  test('after properties are changed', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-line-dashed-material :color="color" :lights="lights" :linewidth="linewidth" :dash-size="dashSize" :gap-size="gapSize" ref="m" /></vgl-namespace>',
       components: { VglLineDashedMaterial, VglNamespace },
@@ -58,7 +61,7 @@ describe('VglLineDashedMaterial:', function suite() {
       vm.gapSize = 1.2;
       vm.$nextTick(() => {
         try {
-          const expected = new THREE.LineDashedMaterial({
+          const expected = new LineDashedMaterial({
             color: 0xabbcaf,
             lights: true,
             linewidth: 4.88,
@@ -66,7 +69,7 @@ describe('VglLineDashedMaterial:', function suite() {
             gapSize: 1.2,
           });
           const { inst } = vm.$refs.m;
-          expect(inst).to.deep.equal(Object.assign(expected, { uuid: inst.uuid }));
+          expect(inst).toEqual(Object.assign(expected, { uuid: inst.uuid }));
           done();
         } catch (e) {
           done(e);

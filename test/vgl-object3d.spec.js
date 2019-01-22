@@ -1,6 +1,9 @@
-describe('VglObject3d:', function suite() {
-  const { VglObject3d, VglNamespace } = VueGL;
-  it('without properties', function test(done) {
+import Vue from 'vue/dist/vue';
+import { Object3D } from 'three';
+import { VglObject3d, VglNamespace } from '../src';
+
+describe('VglObject3d:', () => {
+  test('without properties', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-object3d ref="o" /></vgl-namespace>',
       components: { VglNamespace, VglObject3d },
@@ -9,17 +12,17 @@ describe('VglObject3d:', function suite() {
       try {
         const actual = vm.$refs.o.inst.clone();
         actual.updateMatrixWorld();
-        const expected = new THREE.Object3D();
+        const expected = new Object3D();
         expected.updateMatrixWorld();
         expected.uuid = actual.uuid;
-        expect(actual.toJSON()).to.deep.equal(expected.toJSON());
+        expect(actual.toJSON()).toEqual(expected.toJSON());
         done();
       } catch (e) {
         done(e);
       }
     });
   });
-  it('with properties', function test(done) {
+  test('with properties', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-object3d position="8 3 -3.5" rotation="0.8 0.8 0.5 XZY" scale="1.3 1.4 1.1" cast-shadow receive-shadow name="a\'&><o<" ref="o" /></vgl-namespace>',
       components: { VglNamespace, VglObject3d },
@@ -28,7 +31,7 @@ describe('VglObject3d:', function suite() {
       try {
         const actual = vm.$refs.o.inst.clone();
         actual.updateMatrixWorld();
-        const expected = Object.assign(new THREE.Object3D(), {
+        const expected = Object.assign(new Object3D(), {
           castShadow: true,
           receiveShadow: true,
         });
@@ -37,15 +40,15 @@ describe('VglObject3d:', function suite() {
         expected.scale.set(1.3, 1.4, 1.1);
         expected.updateMatrixWorld();
         expected.uuid = actual.uuid;
-        expect(actual.toJSON()).to.deep.equal(expected.toJSON());
-        expect(vm.$refs.o.vglNamespace.object3ds).to.have.property('a\'&><o<', vm.$refs.o.inst);
+        expect(actual.toJSON()).toEqual(expected.toJSON());
+        expect(vm.$refs.o.vglNamespace.object3ds).toHaveProperty('a\'&><o<', vm.$refs.o.inst);
         done();
       } catch (e) {
         done(e);
       }
     });
   });
-  it('after properties are changed', function test(done) {
+  test('after properties are changed', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-object3d :position="p" :rotation="r" :scale="s" :cast-shadow="cs" :receive-shadow="rs" :name="n" ref="o" /></vgl-namespace>',
       components: { VglNamespace, VglObject3d },
@@ -69,7 +72,7 @@ describe('VglObject3d:', function suite() {
         try {
           const actual = vm.$refs.o.inst.clone();
           actual.updateMatrixWorld();
-          const expected = Object.assign(new THREE.Object3D(), {
+          const expected = Object.assign(new Object3D(), {
             castShadow: true,
             receiveShadow: false,
           });
@@ -78,9 +81,9 @@ describe('VglObject3d:', function suite() {
           expected.scale.set(0.8, 0.7, 0.9);
           expected.updateMatrixWorld();
           expected.uuid = actual.uuid;
-          expect(actual.toJSON()).to.deep.equal(expected.toJSON());
-          expect(vm.$refs.o.vglNamespace.object3ds).to.have.property('<&~|-', vm.$refs.o.inst);
-          expect(vm.$refs.o.vglNamespace.object3ds).not.to.have.property('&%93\'0');
+          expect(actual.toJSON()).toEqual(expected.toJSON());
+          expect(vm.$refs.o.vglNamespace.object3ds).toHaveProperty('<&~|-', vm.$refs.o.inst);
+          expect('&%93\'0' in vm.$refs.o.vglNamespace.object3ds).toBe(false);
           done();
         } catch (e) {
           done(e);
@@ -88,7 +91,7 @@ describe('VglObject3d:', function suite() {
       });
     });
   });
-  it('after creation and destruction', function test(done) {
+  test('after creation and destruction', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-object3d ref="v" /><vgl-object3d ref="p"><vgl-object3d v-if="exists" name="&%93\'0" ref="o" /></vgl-object3d></vgl-namespace>',
       components: { VglNamespace, VglObject3d },
@@ -96,24 +99,24 @@ describe('VglObject3d:', function suite() {
     }).$mount();
     vm.$nextTick(() => {
       try {
-        expect(vm.$refs.v.vglNamespace.object3ds).not.to.have.property('&%93\'0');
-        expect(vm.$refs.p.inst.children).to.have.lengthOf(0);
+        expect('&%93\'0' in vm.$refs.v.vglNamespace.object3ds).toBe(false);
+        expect(vm.$refs.p.inst.children).toHaveLength(0);
         vm.exists = true;
       } catch (e) {
         done(e);
       }
       vm.$nextTick(() => {
         try {
-          expect(vm.$refs.v.vglNamespace.object3ds).to.have.property('&%93\'0', vm.$refs.o.inst);
-          expect(vm.$refs.p.inst.children).to.include(vm.$refs.o.inst);
+          expect(vm.$refs.v.vglNamespace.object3ds).toHaveProperty('&%93\'0', vm.$refs.o.inst);
+          expect(vm.$refs.p.inst.children).toEqual(expect.arrayContaining([vm.$refs.o.inst]));
           vm.exists = false;
         } catch (e) {
           done(e);
         }
         vm.$nextTick(() => {
           try {
-            expect(vm.$refs.v.vglNamespace.object3ds).not.to.have.property('&%93\'0');
-            expect(vm.$refs.p.inst.children).to.have.lengthOf(0);
+            expect('&%93\'0' in vm.$refs.v.vglNamespace.object3ds).toBe(false);
+            expect(vm.$refs.p.inst.children).toHaveLength(0);
             done();
           } catch (e) {
             done(e);

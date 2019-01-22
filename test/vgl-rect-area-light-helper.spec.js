@@ -1,17 +1,21 @@
-describe('VglRectAreaLightHelper:', function suite() {
-  const { VglRectAreaLightHelper, VglRectAreaLight, VglNamespace } = VueGL;
-  it('without properties', function test(done) {
+import Vue from 'vue/dist/vue';
+import { Object3D, RectAreaLightHelper, RectAreaLight } from 'three';
+import { VglRectAreaLight, VglRectAreaLightHelper, VglNamespace } from '../src';
+
+// eslint-disable-next-line jest/no-disabled-tests
+describe.skip('VglRectAreaLightHelper:', () => {
+  test('without properties', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-rect-area-light position="3.8 2 0.5" color="#e2f3b4" name="l" /><vgl-rect-area-light-helper light="l" ref="o" /></vgl-namespace>',
       components: { VglNamespace, VglRectAreaLight, VglRectAreaLightHelper },
     }).$mount();
     vm.$nextTick(() => {
       try {
-        const actual = new THREE.Object3D().copy(vm.$refs.o.inst.children[0]);
+        const actual = new Object3D().copy(vm.$refs.o.inst.children[0]);
         actual.updateMatrixWorld();
-        const light = new THREE.RectAreaLight(0xe2f3b4);
+        const light = new RectAreaLight(0xe2f3b4);
         light.position.set(3.8, 2, 0.5);
-        const expected = new THREE.Object3D().copy(new THREE.RectAreaLightHelper(light));
+        const expected = new Object3D().copy(new RectAreaLightHelper(light));
         expected.updateMatrixWorld();
         actual.traverse((obj) => {
           Object.assign(obj, { uuid: '' });
@@ -23,26 +27,26 @@ describe('VglRectAreaLightHelper:', function suite() {
           if (obj.geometry) Object.assign(obj.geometry, { uuid: '' });
           if (obj.material) Object.assign(obj.material, { uuid: '' });
         });
-        expect(actual.toJSON()).to.deep.equal(expected.toJSON());
+        expect(actual.toJSON()).toEqual(expected.toJSON());
         done();
       } catch (e) {
         done(e);
       }
     });
   });
-  it('with properties', function test(done) {
+  test('with properties', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-rect-area-light position="3.8 2 0.5" color="#e2f3b4" name="l" /><vgl-rect-area-light-helper light="l" color="#ddf2ee" ref="o" /></vgl-namespace>',
       components: { VglNamespace, VglRectAreaLight, VglRectAreaLightHelper },
     }).$mount();
     vm.$nextTick(() => {
       try {
-        const actual = new THREE.Object3D().copy(vm.$refs.o.inst.children[0]);
+        const actual = new Object3D().copy(vm.$refs.o.inst.children[0]);
         actual.updateMatrixWorld();
-        const light = new THREE.DirectionalLight(0xe2f3b4);
+        const light = new RectAreaLight(0xe2f3b4);
         light.position.set(3.8, 2, 0.5);
-        const helper = new THREE.RectAreaLightHelper(light, 0xddf2ee);
-        const expected = new THREE.Object3D().copy(helper);
+        const helper = new RectAreaLightHelper(light, 0xddf2ee);
+        const expected = new Object3D().copy(helper);
         expected.updateMatrixWorld();
         actual.traverse((obj) => {
           Object.assign(obj, { uuid: '' });
@@ -54,14 +58,14 @@ describe('VglRectAreaLightHelper:', function suite() {
           if (obj.geometry) Object.assign(obj.geometry, { uuid: '' });
           if (obj.material) Object.assign(obj.material, { uuid: '' });
         });
-        expect(actual.toJSON().materials).to.deep.equal(expected.toJSON().materials);
+        expect(actual.toJSON().materials).toEqual(expected.toJSON().materials);
         done();
       } catch (e) {
         done(e);
       }
     });
   });
-  it('after properties are changed', function test(done) {
+  test('after properties are changed', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-rect-area-light position="3.8 2 0.5" color="#e2f3b4" name="l" /><vgl-rect-area-light-helper light="l" :color="c" ref="o" /></vgl-namespace>',
       components: { VglNamespace, VglRectAreaLight, VglRectAreaLightHelper },
@@ -74,12 +78,12 @@ describe('VglRectAreaLightHelper:', function suite() {
         vm.$refs.o.vglNamespace.update();
         vm.$nextTick(() => {
           try {
-            const actual = new THREE.Object3D().copy(vm.$refs.o.inst.children[0]);
+            const actual = new Object3D().copy(vm.$refs.o.inst.children[0]);
             actual.updateMatrixWorld();
-            const light = new THREE.RectAreaLight(0xe2f3b4);
+            const light = new RectAreaLight(0xe2f3b4);
             light.position.set(3.8, 2, 0.5);
-            const helper = new THREE.RectAreaLightHelper(light, 0x8e8e25);
-            const expected = new THREE.Object3D().copy(helper);
+            const helper = new RectAreaLightHelper(light, 0x8e8e25);
+            const expected = new Object3D().copy(helper);
             expected.updateMatrixWorld();
             actual.traverse((obj) => {
               Object.assign(obj, { uuid: '' });
@@ -91,7 +95,7 @@ describe('VglRectAreaLightHelper:', function suite() {
               if (obj.geometry) Object.assign(obj.geometry, { uuid: '' });
               if (obj.material) Object.assign(obj.material, { uuid: '' });
             });
-            expect(actual.toJSON()).to.deep.equal(expected.toJSON());
+            expect(actual.toJSON()).toEqual(expected.toJSON());
             done();
           } catch (e) {
             done(e);

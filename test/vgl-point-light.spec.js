@@ -1,6 +1,9 @@
-describe('VglPointLight:', function suite() {
-  const { VglPointLight, VglNamespace } = VueGL;
-  it('without properties', function test(done) {
+import Vue from 'vue/dist/vue';
+import { PointLight } from 'three';
+import { VglPointLight, VglNamespace } from '../src';
+
+describe('VglPointLight:', () => {
+  test('without properties', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-point-light ref="o" /></vgl-namespace>',
       components: { VglPointLight, VglNamespace },
@@ -9,18 +12,18 @@ describe('VglPointLight:', function suite() {
       try {
         const actual = vm.$refs.o.inst.clone();
         actual.updateMatrixWorld();
-        const expected = new THREE.PointLight();
+        const expected = new PointLight();
         expected.updateMatrixWorld();
         expected.uuid = actual.uuid;
         expected.shadow.camera.uuid = actual.shadow.camera.uuid;
-        expect(actual.toJSON()).to.deep.equal(expected.toJSON());
+        expect(actual.toJSON()).toEqual(expected.toJSON());
         done();
       } catch (e) {
         done(e);
       }
     });
   });
-  it('with properties', function test(done) {
+  test('with properties', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-point-light position="1 1.5 -1.1" color="#4fd58a" intensity="0.88" distance="80" decay="3" ref="o" /></vgl-namespace>',
       components: { VglNamespace, VglPointLight },
@@ -29,21 +32,21 @@ describe('VglPointLight:', function suite() {
       try {
         const actual = vm.$refs.o.inst.clone();
         actual.updateMatrixWorld();
-        const expected = new THREE.PointLight(0x4fd58a, 0.88);
+        const expected = new PointLight(0x4fd58a, 0.88);
         expected.position.set(1, 1.5, -1.1);
         expected.distance = 80;
         expected.decay = 3;
         expected.updateMatrixWorld();
         expected.uuid = actual.uuid;
         expected.shadow.camera.uuid = actual.shadow.camera.uuid;
-        expect(actual.toJSON()).to.deep.equal(expected.toJSON());
+        expect(actual.toJSON()).toEqual(expected.toJSON());
         done();
       } catch (e) {
         done(e);
       }
     });
   });
-  it('after properties are changed', function test(done) {
+  test('after properties are changed', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-point-light :position="p" :color="c" :intensity="i" :distance="d" :decay="r" ref="o" /></vgl-namespace>',
       components: { VglPointLight, VglNamespace },
@@ -65,14 +68,14 @@ describe('VglPointLight:', function suite() {
         try {
           const actual = vm.$refs.o.inst.clone();
           actual.updateMatrixWorld();
-          const expected = new THREE.PointLight(0xaaffb3, 0.76);
+          const expected = new PointLight(0xaaffb3, 0.76);
           expected.position.set(2, 2, 0);
           expected.distance = 67;
           expected.decay = 2;
           expected.updateMatrixWorld();
           expected.uuid = actual.uuid;
           expected.shadow.camera.uuid = actual.shadow.camera.uuid;
-          expect(actual.toJSON()).to.deep.equal(expected.toJSON());
+          expect(actual.toJSON()).toEqual(expected.toJSON());
           done();
         } catch (e) {
           done(e);

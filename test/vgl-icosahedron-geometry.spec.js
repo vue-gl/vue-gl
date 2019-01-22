@@ -1,38 +1,41 @@
-describe('VglIcosahedronGeometry:', function suite() {
-  const { VglIcosahedronGeometry, VglNamespace } = VueGL;
-  it('without properties', function test(done) {
+import Vue from 'vue/dist/vue';
+import { IcosahedronBufferGeometry, BufferGeometry } from 'three';
+import { VglIcosahedronGeometry, VglNamespace } from '../src';
+
+describe('VglIcosahedronGeometry:', () => {
+  test('without properties', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-icosahedron-geometry ref="g" /></vgl-namespace>',
       components: { VglIcosahedronGeometry, VglNamespace },
     }).$mount();
     vm.$nextTick(() => {
       try {
-        const mediator = new THREE.BufferGeometry();
-        const expected = mediator.copy(new THREE.IcosahedronBufferGeometry()).toJSON();
-        expect(mediator.copy(vm.$refs.g.inst).toJSON()).to.deep.equal(expected);
+        const mediator = new BufferGeometry();
+        const expected = mediator.copy(new IcosahedronBufferGeometry()).toJSON();
+        expect(mediator.copy(vm.$refs.g.inst).toJSON()).toEqual(expected);
         done();
       } catch (e) {
         done(e);
       }
     });
   });
-  it('with properties', function test(done) {
+  test('with properties', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-icosahedron-geometry ref="g" radius="72.3" detail="2" /></vgl-namespace>',
       components: { VglIcosahedronGeometry, VglNamespace },
     }).$mount();
     vm.$nextTick(() => {
       try {
-        const mediator = new THREE.BufferGeometry();
-        const expected = mediator.copy(new THREE.IcosahedronBufferGeometry(72.3, 2)).toJSON();
-        expect(mediator.copy(vm.$refs.g.inst).toJSON()).to.deep.equal(expected);
+        const mediator = new BufferGeometry();
+        const expected = mediator.copy(new IcosahedronBufferGeometry(72.3, 2)).toJSON();
+        expect(mediator.copy(vm.$refs.g.inst).toJSON()).toEqual(expected);
         done();
       } catch (e) {
         done(e);
       }
     });
   });
-  it('after properties are changed', function test(done) {
+  test('after properties are changed', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-icosahedron-geometry ref="g" :radius="r" :detail="d" /></vgl-namespace>',
       components: { VglIcosahedronGeometry, VglNamespace },
@@ -43,9 +46,9 @@ describe('VglIcosahedronGeometry:', function suite() {
       vm.d = 1;
       vm.$nextTick(() => {
         try {
-          const mediator = new THREE.BufferGeometry();
-          const expected = mediator.copy(new THREE.IcosahedronBufferGeometry(12.5, 1)).toJSON();
-          expect(mediator.copy(vm.$refs.g.inst).toJSON()).to.deep.equal(expected);
+          const mediator = new BufferGeometry();
+          const expected = mediator.copy(new IcosahedronBufferGeometry(12.5, 1)).toJSON();
+          expect(mediator.copy(vm.$refs.g.inst).toJSON()).toEqual(expected);
           done();
         } catch (e) {
           done(e);

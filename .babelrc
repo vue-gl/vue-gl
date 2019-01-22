@@ -1,0 +1,20 @@
+{
+  "env": {
+    "development": {
+      "presets": [
+        [
+          "@babel/env", 
+          {
+            "modules": false,
+            "targets": {
+              "browsers": ["Explorer >= 9"]
+            }
+          }
+        ]
+      ]
+    },
+    "test": {
+      "presets": ["env"]
+    }
+  }
+}

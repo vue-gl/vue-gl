@@ -1,13 +1,14 @@
 version: 2
 jobs:
-  build:
-    branches:
-      ignore:
-        - gh-pages
+  checkout:
     docker:
-      - image: circleci/node:latest-browsers
+      - image: circleci/node:lts
     steps:
       - checkout
+  dependencies:
+    docker:
+      - image: circleci/node:lts
+    steps:
       - restore_cache:
           keys:
             - yarn-{{ checksum "yarn.lock" }}
@@ -18,34 +19,32 @@ jobs:
           key: yarn-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
+  lint:
+    docker:
+      - image: circleci/node:lts
+    steps:
       - run:
-          name: Install launchers
-          command: |
-            if [ -z $BROWSER_STACK_USERNAME ] || [ -z $BROWSER_STACK_ACCESS_KEY ] ; then
-              yarn add karma-chrome-launcher karma-firefox-launcher
-            elif [ $CIRCLE_BRANCH = master ] ; then
-              yarn add karma-sauce-launcher
-            else
-              yarn add karma-browserstack-launcher
-            fi
-      - run:
-          name: Install the reporter
-          command: yarn add karma-junit-reporter
+          name: Lint
+          command: yarn lint
+  unit_test:
+    docker:
+      - image: circleci/node:lts
+    steps:
       - run:
           name: Run unit tests
           command: yarn test
-      - run:
-          name: Report the coverage
-          command: sudo npm i -g codecov && codecov
-      - run:
-          name: Report the coverage
-          command: |
-            if [ $CIRCLE_BRANCH = master ] ; then
-              npm i codacy-coverage
-              cat "coverage/$(ls -rt coverage | tail -n 1)/lcov.info" | ./node_modules/.bin/codacy-coverage
-            fi
-      - store_test_results:
-          path: junit
-      - store_artifacts:
-          path: coverage
-          destination: coverage
+workflows:
+  version: 2
+  lint_and_test:
+    jobs:
+      - checkout:
+          filters:
+            branches:
+              ignore:
+                - gh-pages
+      - dependencies:
+          requires: checkout
+      - lint:
+          requires: dependencies
+      - unit_test:
+          requires: dependencies

@@ -1,42 +1,45 @@
-describe('VglMeshPhongMaterial:', function suite() {
-  const { VglMeshPhongMaterial, VglNamespace } = VueGL;
-  it('without properties', function test(done) {
+import Vue from 'vue/dist/vue';
+import { MeshPhongMaterial } from 'three';
+import { VglMeshPhongMaterial, VglNamespace } from '../src';
+
+describe('VglMeshPhongMaterial:', () => {
+  test('without properties', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-mesh-phong-material ref="m" /></vgl-namespace>',
       components: { VglMeshPhongMaterial, VglNamespace },
     }).$mount();
     vm.$nextTick(() => {
       try {
-        const expected = new THREE.MeshPhongMaterial();
+        const expected = new MeshPhongMaterial();
         const { inst } = vm.$refs.m;
-        expect(inst).to.deep.equal(Object.assign(expected, { uuid: inst.uuid }));
+        expect(inst).toEqual(Object.assign(expected, { uuid: inst.uuid }));
         done();
       } catch (e) {
         done(e);
       }
     });
   });
-  it('with properties', function test(done) {
+  test('with properties', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-mesh-phong-material color="#8aeda3" specular="#18283e" shininess="44" ref="m" /></vgl-namespace>',
       components: { VglMeshPhongMaterial, VglNamespace },
     }).$mount();
     vm.$nextTick(() => {
       try {
-        const expected = new THREE.MeshPhongMaterial({
+        const expected = new MeshPhongMaterial({
           color: 0x8aeda3,
           specular: 0x18283e,
           shininess: 44,
         });
         const { inst } = vm.$refs.m;
-        expect(inst).to.deep.equal(Object.assign(expected, { uuid: inst.uuid }));
+        expect(inst).toEqual(Object.assign(expected, { uuid: inst.uuid }));
         done();
       } catch (e) {
         done(e);
       }
     });
   });
-  it('after properties are changed', function test(done) {
+  test('after properties are changed', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-mesh-phong-material :color="color" :specular="specular" :shininess="shininess" ref="m" /></vgl-namespace>',
       components: { VglMeshPhongMaterial, VglNamespace },
@@ -52,13 +55,13 @@ describe('VglMeshPhongMaterial:', function suite() {
       vm.shininess = '17.8';
       vm.$nextTick(() => {
         try {
-          const expected = new THREE.MeshPhongMaterial({
+          const expected = new MeshPhongMaterial({
             color: 0xabbcaf,
             specular: 0xffeedd,
             shininess: 17.8,
           });
           const { inst } = vm.$refs.m;
-          expect(inst).to.deep.equal(Object.assign(expected, { uuid: inst.uuid }));
+          expect(inst).toEqual(Object.assign(expected, { uuid: inst.uuid }));
           done();
         } catch (e) {
           done(e);

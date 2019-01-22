@@ -1,38 +1,41 @@
-describe('VglOctahedronGeometry:', function suite() {
-  const { VglOctahedronGeometry, VglNamespace } = VueGL;
-  it('without properties', function test(done) {
+import Vue from 'vue/dist/vue';
+import { BufferGeometry, OctahedronBufferGeometry } from 'three';
+import { VglOctahedronGeometry, VglNamespace } from '../src';
+
+describe('VglOctahedronGeometry:', () => {
+  test('without properties', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-octahedron-geometry ref="g" /></vgl-namespace>',
       components: { VglOctahedronGeometry, VglNamespace },
     }).$mount();
     vm.$nextTick(() => {
       try {
-        const mediator = new THREE.BufferGeometry();
-        const expected = mediator.copy(new THREE.OctahedronBufferGeometry()).toJSON();
-        expect(mediator.copy(vm.$refs.g.inst).toJSON()).to.deep.equal(expected);
+        const mediator = new BufferGeometry();
+        const expected = mediator.copy(new OctahedronBufferGeometry()).toJSON();
+        expect(mediator.copy(vm.$refs.g.inst).toJSON()).toEqual(expected);
         done();
       } catch (e) {
         done(e);
       }
     });
   });
-  it('with properties', function test(done) {
+  test('with properties', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-octahedron-geometry ref="g" radius="72.3" detail="2" /></vgl-namespace>',
       components: { VglOctahedronGeometry, VglNamespace },
     }).$mount();
     vm.$nextTick(() => {
       try {
-        const mediator = new THREE.BufferGeometry();
-        const expected = mediator.copy(new THREE.OctahedronBufferGeometry(72.3, 2)).toJSON();
-        expect(mediator.copy(vm.$refs.g.inst).toJSON()).to.deep.equal(expected);
+        const mediator = new BufferGeometry();
+        const expected = mediator.copy(new OctahedronBufferGeometry(72.3, 2)).toJSON();
+        expect(mediator.copy(vm.$refs.g.inst).toJSON()).toEqual(expected);
         done();
       } catch (e) {
         done(e);
       }
     });
   });
-  it('after properties are changed', function test(done) {
+  test('after properties are changed', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-octahedron-geometry ref="g" :radius="r" :detail="d" /></vgl-namespace>',
       components: { VglOctahedronGeometry, VglNamespace },
@@ -43,9 +46,9 @@ describe('VglOctahedronGeometry:', function suite() {
       vm.d = 1;
       vm.$nextTick(() => {
         try {
-          const mediator = new THREE.BufferGeometry();
-          const expected = mediator.copy(new THREE.OctahedronBufferGeometry(12.5, 1)).toJSON();
-          expect(mediator.copy(vm.$refs.g.inst).toJSON()).to.deep.equal(expected);
+          const mediator = new BufferGeometry();
+          const expected = mediator.copy(new OctahedronBufferGeometry(12.5, 1)).toJSON();
+          expect(mediator.copy(vm.$refs.g.inst).toJSON()).toEqual(expected);
           done();
         } catch (e) {
           done(e);

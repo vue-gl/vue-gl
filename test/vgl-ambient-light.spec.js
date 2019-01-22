@@ -1,6 +1,9 @@
-describe('VglAmbientLight:', function suite() {
-  const { VglAmbientLight, VglNamespace } = VueGL;
-  it('without properties', function test(done) {
+import Vue from 'vue/dist/vue';
+import { AmbientLight } from 'three';
+import { VglAmbientLight, VglNamespace } from '../src';
+
+describe('VglAmbientLight:', () => {
+  test('without properties', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-ambient-light ref="o" /></vgl-namespace>',
       components: { VglAmbientLight, VglNamespace },
@@ -8,16 +11,16 @@ describe('VglAmbientLight:', function suite() {
     vm.$nextTick(() => {
       try {
         const actual = vm.$refs.o.inst.clone();
-        const expected = new THREE.AmbientLight();
+        const expected = new AmbientLight();
         expected.uuid = actual.uuid;
-        expect(actual.toJSON()).to.deep.equal(expected.toJSON());
+        expect(actual.toJSON()).toEqual(expected.toJSON());
         done();
       } catch (e) {
         done(e);
       }
     });
   });
-  it('with properties', function test(done) {
+  test('with properties', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-ambient-light color="#f8054a" intensity="0.88" ref="o" /></vgl-namespace>',
       components: { VglAmbientLight, VglNamespace },
@@ -25,16 +28,16 @@ describe('VglAmbientLight:', function suite() {
     vm.$nextTick(() => {
       try {
         const actual = vm.$refs.o.inst.clone();
-        const expected = new THREE.AmbientLight(0xf8054a, 0.88);
+        const expected = new AmbientLight(0xf8054a, 0.88);
         expected.uuid = actual.uuid;
-        expect(actual.toJSON()).to.deep.equal(expected.toJSON());
+        expect(actual.toJSON()).toEqual(expected.toJSON());
         done();
       } catch (e) {
         done(e);
       }
     });
   });
-  it('after properties are changed', function test(done) {
+  test('after properties are changed', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-ambient-light ref="o" :color="c" :intensity="i" /></vgl-namespace>',
       components: { VglAmbientLight, VglNamespace },
@@ -46,9 +49,9 @@ describe('VglAmbientLight:', function suite() {
       vm.$nextTick(() => {
         try {
           const actual = vm.$refs.o.inst.clone();
-          const expected = new THREE.AmbientLight(0x8899da, 0.76);
+          const expected = new AmbientLight(0x8899da, 0.76);
           expected.uuid = actual.uuid;
-          expect(actual.toJSON()).to.deep.equal(expected.toJSON());
+          expect(actual.toJSON()).toEqual(expected.toJSON());
           done();
         } catch (e) {
           done(e);

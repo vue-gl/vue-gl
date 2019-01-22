@@ -1,40 +1,43 @@
-describe('VglGridHelper:', function suite() {
-  const { VglGridHelper, VglNamespace } = VueGL;
-  it('without properties', function test(done) {
+import Vue from 'vue/dist/vue';
+import { LineSegments, GridHelper } from 'three';
+import { VglGridHelper, VglNamespace } from '../src';
+
+describe('VglGridHelper:', () => {
+  test('without properties', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-grid-helper ref="h" /></vgl-namespace>',
       components: { VglGridHelper, VglNamespace },
     }).$mount();
     vm.$nextTick(() => {
       try {
-        const actual = new THREE.LineSegments().copy(vm.$refs.h.inst);
+        const actual = new LineSegments().copy(vm.$refs.h.inst);
         actual.geometry = vm.$refs.h.inst.geometry;
         actual.material = vm.$refs.h.inst.material;
         actual.updateMatrixWorld();
-        const expected = new THREE.GridHelper();
+        const expected = new GridHelper();
         expected.updateMatrixWorld();
         expected.uuid = actual.uuid;
         expected.geometry.uuid = actual.geometry.uuid;
         expected.material.uuid = actual.material.uuid;
-        expect(actual.toJSON()).to.deep.equal(expected.toJSON());
+        expect(actual.toJSON()).toEqual(expected.toJSON());
         done();
       } catch (e) {
         done(e);
       }
     });
   });
-  it('with properties', function test(done) {
+  test('with properties', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-grid-helper size="88.73" divisions="22" color-center-line="#8fedc3" color-grid="#ff24f5" position="3 3.5 0.2" rotation="0.3 0.3 0.2 XYZ" scale="1.1 1.2 0.9" ref="h" /></vgl-namespace>',
       components: { VglGridHelper, VglNamespace },
     }).$mount();
     vm.$nextTick(() => {
       try {
-        const actual = new THREE.LineSegments().copy(vm.$refs.h.inst);
+        const actual = new LineSegments().copy(vm.$refs.h.inst);
         actual.geometry = vm.$refs.h.inst.geometry;
         actual.material = vm.$refs.h.inst.material;
         actual.updateMatrixWorld();
-        const expected = new THREE.GridHelper(88.73, 22, 0x8fedc3, 0xff24f5);
+        const expected = new GridHelper(88.73, 22, 0x8fedc3, 0xff24f5);
         expected.position.set(3, 3.5, 0.2);
         expected.rotation.set(0.3, 0.3, 0.2, 'XYZ');
         expected.scale.set(1.1, 1.2, 0.9);
@@ -42,14 +45,14 @@ describe('VglGridHelper:', function suite() {
         expected.uuid = actual.uuid;
         expected.geometry.uuid = actual.geometry.uuid;
         expected.material.uuid = actual.material.uuid;
-        expect(actual.toJSON()).to.deep.equal(expected.toJSON());
+        expect(actual.toJSON()).toEqual(expected.toJSON());
         done();
       } catch (e) {
         done(e);
       }
     });
   });
-  it('after properties are changed', function test(done) {
+  test('after properties are changed', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-grid-helper :size="sz" :divisions="d" :color-center-line="cc" :color-grid="cg" :position="p" :rotation="r" :scale="sc" ref="h" /></vgl-namespace>',
       components: { VglGridHelper, VglNamespace },
@@ -73,11 +76,11 @@ describe('VglGridHelper:', function suite() {
       vm.sc = '1 1 1.1';
       vm.$nextTick(() => {
         try {
-          const actual = new THREE.LineSegments().copy(vm.$refs.h.inst);
+          const actual = new LineSegments().copy(vm.$refs.h.inst);
           actual.geometry = vm.$refs.h.inst.geometry;
           actual.material = vm.$refs.h.inst.material;
           actual.updateMatrixWorld();
-          const expected = new THREE.GridHelper(12, 19, 0xdd39f9, 0x6aa57c);
+          const expected = new GridHelper(12, 19, 0xdd39f9, 0x6aa57c);
           expected.position.set(3.5, 4, 0.5);
           expected.rotation.set(0.4, 0.4, 0.3, 'XYZ');
           expected.scale.set(1, 1, 1.1);
@@ -85,7 +88,7 @@ describe('VglGridHelper:', function suite() {
           expected.uuid = actual.uuid;
           expected.geometry.uuid = actual.geometry.uuid;
           expected.material.uuid = actual.material.uuid;
-          expect(actual.toJSON()).to.deep.equal(expected.toJSON());
+          expect(actual.toJSON()).toEqual(expected.toJSON());
           done();
         } catch (e) {
           done(e);

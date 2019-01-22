@@ -1,6 +1,9 @@
-describe('VglHemisphereLight:', function suite() {
-  const { VglHemisphereLight, VglNamespace } = VueGL;
-  it('without properties', function test(done) {
+import Vue from 'vue/dist/vue';
+import { HemisphereLight } from 'three';
+import { VglHemisphereLight, VglNamespace } from '../src';
+
+describe('VglHemisphereLight:', () => {
+  test('without properties', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-hemisphere-light ref="o" /></vgl-namespace>',
       components: { VglHemisphereLight, VglNamespace },
@@ -8,16 +11,16 @@ describe('VglHemisphereLight:', function suite() {
     vm.$nextTick(() => {
       try {
         const actual = vm.$refs.o.inst.clone();
-        const expected = new THREE.HemisphereLight();
+        const expected = new HemisphereLight();
         expected.uuid = actual.uuid;
-        expect(actual.toJSON()).to.deep.equal(expected.toJSON());
+        expect(actual.toJSON()).toEqual(expected.toJSON());
         done();
       } catch (e) {
         done(e);
       }
     });
   });
-  it('with properties', function test(done) {
+  test('with properties', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-hemisphere-light color="#f8054a" ground-color="#6751f2" intensity="0.88" ref="o" /></vgl-namespace>',
       components: { VglHemisphereLight, VglNamespace },
@@ -25,16 +28,16 @@ describe('VglHemisphereLight:', function suite() {
     vm.$nextTick(() => {
       try {
         const actual = vm.$refs.o.inst.clone();
-        const expected = new THREE.HemisphereLight(0xf8054a, 0x6751f2, 0.88);
+        const expected = new HemisphereLight(0xf8054a, 0x6751f2, 0.88);
         expected.uuid = actual.uuid;
-        expect(actual.toJSON()).to.deep.equal(expected.toJSON());
+        expect(actual.toJSON()).toEqual(expected.toJSON());
         done();
       } catch (e) {
         done(e);
       }
     });
   });
-  it('after properties are changed', function test(done) {
+  test('after properties are changed', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-hemisphere-light ref="o" :color="c" :ground-color="g" :intensity="i" /></vgl-namespace>',
       components: { VglHemisphereLight, VglNamespace },
@@ -47,9 +50,9 @@ describe('VglHemisphereLight:', function suite() {
       vm.$nextTick(() => {
         try {
           const actual = vm.$refs.o.inst.clone();
-          const expected = new THREE.HemisphereLight(0x8899da, 0x77645a, 0.76);
+          const expected = new HemisphereLight(0x8899da, 0x77645a, 0.76);
           expected.uuid = actual.uuid;
-          expect(actual.toJSON()).to.deep.equal(expected.toJSON());
+          expect(actual.toJSON()).toEqual(expected.toJSON());
           done();
         } catch (e) {
           done(e);

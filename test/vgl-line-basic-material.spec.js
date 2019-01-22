@@ -1,29 +1,32 @@
-describe('VglLineBasicMaterial:', function suite() {
-  const { VglLineBasicMaterial, VglNamespace } = VueGL;
-  it('without properties', function test(done) {
+import Vue from 'vue/dist/vue';
+import { LineBasicMaterial } from 'three';
+import { VglLineBasicMaterial, VglNamespace } from '../src';
+
+describe('VglLineBasicMaterial:', () => {
+  test('without properties', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-line-basic-material ref="m" /></vgl-namespace>',
       components: { VglLineBasicMaterial, VglNamespace },
     }).$mount();
     vm.$nextTick(() => {
       try {
-        const expected = new THREE.LineBasicMaterial();
+        const expected = new LineBasicMaterial();
         const { inst } = vm.$refs.m;
-        expect(inst).to.deep.equal(Object.assign(expected, { uuid: inst.uuid }));
+        expect(inst).toEqual(Object.assign(expected, { uuid: inst.uuid }));
         done();
       } catch (e) {
         done(e);
       }
     });
   });
-  it('with properties', function test(done) {
+  test('with properties', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-line-basic-material color="#8aeda3" lights linewidth="3.5" linecap="butt" linejoin="miter" ref="m" /></vgl-namespace>',
       components: { VglLineBasicMaterial, VglNamespace },
     }).$mount();
     vm.$nextTick(() => {
       try {
-        const expected = new THREE.LineBasicMaterial({
+        const expected = new LineBasicMaterial({
           color: 0x8aeda3,
           lights: true,
           linewidth: 3.5,
@@ -31,14 +34,14 @@ describe('VglLineBasicMaterial:', function suite() {
           linejoin: 'miter',
         });
         const { inst } = vm.$refs.m;
-        expect(inst).to.deep.equal(Object.assign(expected, { uuid: inst.uuid }));
+        expect(inst).toEqual(Object.assign(expected, { uuid: inst.uuid }));
         done();
       } catch (e) {
         done(e);
       }
     });
   });
-  it('after properties are changed', function test(done) {
+  test('after properties are changed', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-line-basic-material :color="color" :lights="lights" :linewidth="linewidth" :linecap="linecap" :linejoin="linejoin" ref="m" /></vgl-namespace>',
       components: { VglLineBasicMaterial, VglNamespace },
@@ -58,7 +61,7 @@ describe('VglLineBasicMaterial:', function suite() {
       vm.linejoin = 'bevel';
       vm.$nextTick(() => {
         try {
-          const expected = new THREE.LineBasicMaterial({
+          const expected = new LineBasicMaterial({
             color: 0xabbcaf,
             lights: true,
             linewidth: 4.88,
@@ -66,7 +69,7 @@ describe('VglLineBasicMaterial:', function suite() {
             linejoin: 'bevel',
           });
           const { inst } = vm.$refs.m;
-          expect(inst).to.deep.equal(Object.assign(expected, { uuid: inst.uuid }));
+          expect(inst).toEqual(Object.assign(expected, { uuid: inst.uuid }));
           done();
         } catch (e) {
           done(e);

@@ -1,38 +1,41 @@
-describe('VglBoxGeometry:', function suite() {
-  const { VglBoxGeometry, VglNamespace } = VueGL;
-  it('without properties', function test(done) {
+import Vue from 'vue/dist/vue';
+import { BoxBufferGeometry, BufferGeometry } from 'three';
+import { VglBoxGeometry, VglNamespace } from '../src';
+
+describe('VglBoxGeometry:', () => {
+  test('without properties', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-box-geometry ref="g" /></vgl-namespace>',
       components: { VglBoxGeometry, VglNamespace },
     }).$mount();
     vm.$nextTick(() => {
       try {
-        const mediator = new THREE.BufferGeometry();
-        const expected = mediator.copy(new THREE.BoxBufferGeometry()).toJSON();
-        expect(mediator.copy(vm.$refs.g.inst).toJSON()).to.deep.equal(expected);
+        const mediator = new BufferGeometry();
+        const expected = mediator.copy(new BoxBufferGeometry()).toJSON();
+        expect(mediator.copy(vm.$refs.g.inst).toJSON()).toEqual(expected);
         done();
       } catch (e) {
         done(e);
       }
     });
   });
-  it('with properties', function test(done) {
+  test('with properties', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-box-geometry ref="g" width="100" height="60" depth="80" width-segments="3" height-segments="4" depth-segments="7" /></vgl-namespace>',
       components: { VglBoxGeometry, VglNamespace },
     }).$mount();
     vm.$nextTick(() => {
       try {
-        const mediator = new THREE.BufferGeometry();
-        const expected = mediator.copy(new THREE.BoxBufferGeometry(100, 60, 80, 3, 4, 7)).toJSON();
-        expect(mediator.copy(vm.$refs.g.inst).toJSON()).to.deep.equal(expected);
+        const mediator = new BufferGeometry();
+        const expected = mediator.copy(new BoxBufferGeometry(100, 60, 80, 3, 4, 7)).toJSON();
+        expect(mediator.copy(vm.$refs.g.inst).toJSON()).toEqual(expected);
         done();
       } catch (e) {
         done(e);
       }
     });
   });
-  it('after properties are changed', function test(done) {
+  test('after properties are changed', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-box-geometry ref="g" :width="w" :height="h" :depth="d" width-segments="3" height-segments="4" depth-segments="7" /></vgl-namespace>',
       components: { VglBoxGeometry, VglNamespace },
@@ -44,9 +47,9 @@ describe('VglBoxGeometry:', function suite() {
       vm.d = 22;
       vm.$nextTick(() => {
         try {
-          const mediator = new THREE.BufferGeometry();
-          const expected = mediator.copy(new THREE.BoxBufferGeometry(1.5, 7, 22, 3, 4, 7)).toJSON();
-          expect(mediator.copy(vm.$refs.g.inst).toJSON()).to.deep.equal(expected);
+          const mediator = new BufferGeometry();
+          const expected = mediator.copy(new BoxBufferGeometry(1.5, 7, 22, 3, 4, 7)).toJSON();
+          expect(mediator.copy(vm.$refs.g.inst).toJSON()).toEqual(expected);
           done();
         } catch (e) {
           done(e);

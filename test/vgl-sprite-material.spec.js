@@ -1,38 +1,41 @@
-describe('VglSpriteMaterial:', function suite() {
-  const { VglSpriteMaterial, VglNamespace } = VueGL;
-  it('without properties', function test(done) {
+import Vue from 'vue/dist/vue';
+import { SpriteMaterial } from 'three';
+import { VglSpriteMaterial, VglNamespace } from '../src';
+
+describe('VglSpriteMaterial:', () => {
+  test('without properties', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-sprite-material ref="m" /></vgl-namespace>',
       components: { VglSpriteMaterial, VglNamespace },
     }).$mount();
     vm.$nextTick(() => {
       try {
-        const expected = new THREE.SpriteMaterial();
+        const expected = new SpriteMaterial();
         const { inst } = vm.$refs.m;
-        expect(inst).to.deep.equal(Object.assign(expected, { uuid: inst.uuid }));
+        expect(inst).toEqual(Object.assign(expected, { uuid: inst.uuid }));
         done();
       } catch (e) {
         done(e);
       }
     });
   });
-  it('with properties', function test(done) {
+  test('with properties', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-sprite-material color="#8aeda3" ref="m" /></vgl-namespace>',
       components: { VglSpriteMaterial, VglNamespace },
     }).$mount();
     vm.$nextTick(() => {
       try {
-        const expected = new THREE.SpriteMaterial({ color: 0x8aeda3 });
+        const expected = new SpriteMaterial({ color: 0x8aeda3 });
         const { inst } = vm.$refs.m;
-        expect(inst).to.deep.equal(Object.assign(expected, { uuid: inst.uuid }));
+        expect(inst).toEqual(Object.assign(expected, { uuid: inst.uuid }));
         done();
       } catch (e) {
         done(e);
       }
     });
   });
-  it('after properties are changed', function test(done) {
+  test('after properties are changed', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-sprite-material :color="color" ref="m" /></vgl-namespace>',
       components: { VglSpriteMaterial, VglNamespace },
@@ -42,9 +45,9 @@ describe('VglSpriteMaterial:', function suite() {
       vm.color = '#abbcaf';
       vm.$nextTick(() => {
         try {
-          const expected = new THREE.SpriteMaterial({ color: 0xabbcaf });
+          const expected = new SpriteMaterial({ color: 0xabbcaf });
           const { inst } = vm.$refs.m;
-          expect(inst).to.deep.equal(Object.assign(expected, { uuid: inst.uuid }));
+          expect(inst).toEqual(Object.assign(expected, { uuid: inst.uuid }));
           done();
         } catch (e) {
           done(e);

@@ -1,43 +1,46 @@
-describe('VglLatheGeometry:', function suite() {
-  const { VglLatheGeometry, VglNamespace } = VueGL;
-  it('without properties', function test(done) {
+import Vue from 'vue/dist/vue';
+import { BufferGeometry, LatheBufferGeometry, Vector2 } from 'three';
+import { VglLatheGeometry, VglNamespace } from '../src';
+
+describe('VglLatheGeometry:', () => {
+  test('without properties', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-lathe-geometry ref="g" points="0 0" /></vgl-namespace>',
       components: { VglLatheGeometry, VglNamespace },
     }).$mount();
     vm.$nextTick(() => {
       try {
-        const mediator = new THREE.BufferGeometry();
-        const expected = mediator.copy(new THREE.LatheBufferGeometry([new THREE.Vector2(0, 0)]));
-        expect(expected.toJSON()).to.deep.equal(mediator.copy(vm.$refs.g.inst).toJSON());
+        const mediator = new BufferGeometry();
+        const expected = mediator.copy(new LatheBufferGeometry([new Vector2(0, 0)]));
+        expect(expected.toJSON()).toEqual(mediator.copy(vm.$refs.g.inst).toJSON());
         done();
       } catch (e) {
         done(e);
       }
     });
   });
-  it('with properties', function test(done) {
+  test('with properties', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-lathe-geometry ref="g" points="1 -2, 2 1, 3 3.2" segments="60" phi-start="0.1" phi-length="3.3" /></vgl-namespace>',
       components: { VglLatheGeometry, VglNamespace },
     }).$mount();
     vm.$nextTick(() => {
       try {
-        const mediator = new THREE.BufferGeometry();
-        const expected = mediator.copy(new THREE.LatheBufferGeometry(
-          [new THREE.Vector2(1, -2), new THREE.Vector2(2, 1), new THREE.Vector2(3, 3.2)],
+        const mediator = new BufferGeometry();
+        const expected = mediator.copy(new LatheBufferGeometry(
+          [new Vector2(1, -2), new Vector2(2, 1), new Vector2(3, 3.2)],
           60,
           0.1,
           3.3,
         )).toJSON();
-        expect(mediator.copy(vm.$refs.g.inst).toJSON()).to.deep.equal(expected);
+        expect(mediator.copy(vm.$refs.g.inst).toJSON()).toEqual(expected);
         done();
       } catch (e) {
         done(e);
       }
     });
   });
-  it('after properties are changed', function test(done) {
+  test('after properties are changed', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-lathe-geometry ref="g" :points="points" :segments="segs" :phi-start="start" :phi-length="length" /></vgl-namespace>',
       components: { VglLatheGeometry, VglNamespace },
@@ -55,14 +58,14 @@ describe('VglLatheGeometry:', function suite() {
       vm.length = '2.1';
       vm.$nextTick(() => {
         try {
-          const mediator = new THREE.BufferGeometry();
-          const expected = mediator.copy(new THREE.LatheBufferGeometry(
-            [new THREE.Vector2(0.5, -2), new THREE.Vector2(2, 4)],
+          const mediator = new BufferGeometry();
+          const expected = mediator.copy(new LatheBufferGeometry(
+            [new Vector2(0.5, -2), new Vector2(2, 4)],
             67,
             0.5,
             2.1,
           )).toJSON();
-          expect(mediator.copy(vm.$refs.g.inst).toJSON()).to.deep.equal(expected);
+          expect(mediator.copy(vm.$refs.g.inst).toJSON()).toEqual(expected);
           done();
         } catch (e) {
           done(e);

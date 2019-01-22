@@ -1,6 +1,9 @@
-describe('VglRectAreaLight:', function suite() {
-  const { VglRectAreaLight, VglNamespace } = VueGL;
-  it('without properties', function test(done) {
+import Vue from 'vue/dist/vue';
+import { RectAreaLight } from 'three';
+import { VglRectAreaLight, VglNamespace } from '../src';
+
+describe('VglRectAreaLight:', () => {
+  test('without properties', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-rect-area-light ref="o" /></vgl-namespace>',
       components: { VglRectAreaLight, VglNamespace },
@@ -8,16 +11,16 @@ describe('VglRectAreaLight:', function suite() {
     vm.$nextTick(() => {
       try {
         const actual = vm.$refs.o.inst.clone();
-        const expected = new THREE.RectAreaLight();
+        const expected = new RectAreaLight();
         expected.uuid = actual.uuid;
-        expect(actual.toJSON()).to.deep.equal(expected.toJSON());
+        expect(actual.toJSON()).toEqual(expected.toJSON());
         done();
       } catch (e) {
         done(e);
       }
     });
   });
-  it('with properties', function test(done) {
+  test('with properties', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-rect-area-light color="#f8054a" width="15" height="20" intensity="0.88" ref="o" /></vgl-namespace>',
       components: { VglRectAreaLight, VglNamespace },
@@ -25,16 +28,16 @@ describe('VglRectAreaLight:', function suite() {
     vm.$nextTick(() => {
       try {
         const actual = vm.$refs.o.inst.clone();
-        const expected = new THREE.RectAreaLight(0xf8054a, 0.88, 15, 20);
+        const expected = new RectAreaLight(0xf8054a, 0.88, 15, 20);
         expected.uuid = actual.uuid;
-        expect(actual.toJSON()).to.deep.equal(expected.toJSON());
+        expect(actual.toJSON()).toEqual(expected.toJSON());
         done();
       } catch (e) {
         done(e);
       }
     });
   });
-  it('after properties are changed', function test(done) {
+  test('after properties are changed', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-rect-area-light ref="o" :color="c" :width="w" :height="h" :intensity="i" /></vgl-namespace>',
       components: { VglRectAreaLight, VglNamespace },
@@ -50,9 +53,9 @@ describe('VglRectAreaLight:', function suite() {
       vm.$nextTick(() => {
         try {
           const actual = vm.$refs.o.inst.clone();
-          const expected = new THREE.RectAreaLight(0x8899da, 0.76, 25, 30);
+          const expected = new RectAreaLight(0x8899da, 0.76, 25, 30);
           expected.uuid = actual.uuid;
-          expect(actual.toJSON()).to.deep.equal(expected.toJSON());
+          expect(actual.toJSON()).toEqual(expected.toJSON());
           done();
         } catch (e) {
           done(e);

@@ -1,30 +1,33 @@
-describe('VglConeGeometry:', function suite() {
-  const { VglConeGeometry, VglNamespace } = VueGL;
-  it('without properties', function test(done) {
+import Vue from 'vue/dist/vue';
+import { ConeBufferGeometry, BufferGeometry } from 'three';
+import { VglConeGeometry, VglNamespace } from '../src';
+
+describe('VglConeGeometry:', () => {
+  test('without properties', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-cone-geometry ref="g" /></vgl-namespace>',
       components: { VglConeGeometry, VglNamespace },
     }).$mount();
     vm.$nextTick(() => {
       try {
-        const mediator = new THREE.BufferGeometry();
-        const expected = mediator.copy(new THREE.ConeBufferGeometry()).toJSON();
-        expect(mediator.copy(vm.$refs.g.inst).toJSON()).to.deep.equal(expected);
+        const mediator = new BufferGeometry();
+        const expected = mediator.copy(new ConeBufferGeometry()).toJSON();
+        expect(mediator.copy(vm.$refs.g.inst).toJSON()).toEqual(expected);
         done();
       } catch (e) {
         done(e);
       }
     });
   });
-  it('with properties', function test(done) {
+  test('with properties', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-cone-geometry ref="g" radius="1.01" height="1.586" radial-segments="11" height-segments="5" open-ended theta-start="0.63" theta-length="2.21" /></vgl-namespace>',
       components: { VglConeGeometry, VglNamespace },
     }).$mount();
     vm.$nextTick(() => {
       try {
-        const mediator = new THREE.BufferGeometry();
-        const expected = mediator.copy(new THREE.ConeBufferGeometry(
+        const mediator = new BufferGeometry();
+        const expected = mediator.copy(new ConeBufferGeometry(
           1.01,
           1.586,
           11,
@@ -33,14 +36,14 @@ describe('VglConeGeometry:', function suite() {
           0.63,
           2.21,
         )).toJSON();
-        expect(mediator.copy(vm.$refs.g.inst).toJSON()).to.deep.equal(expected);
+        expect(mediator.copy(vm.$refs.g.inst).toJSON()).toEqual(expected);
         done();
       } catch (e) {
         done(e);
       }
     });
   });
-  it('after properties are changed', function test(done) {
+  test('after properties are changed', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-cone-geometry ref="g" :radius="r" height="1.586" radial-segments="11" height-segments="5" :open-ended="o" theta-start="0.63" :theta-length="tLen" /></vgl-namespace>',
       components: { VglConeGeometry, VglNamespace },
@@ -52,8 +55,8 @@ describe('VglConeGeometry:', function suite() {
       vm.tLen = 1.21;
       vm.$nextTick(() => {
         try {
-          const mediator = new THREE.BufferGeometry();
-          const expected = mediator.copy(new THREE.ConeBufferGeometry(
+          const mediator = new BufferGeometry();
+          const expected = mediator.copy(new ConeBufferGeometry(
             0.842,
             1.586,
             11,
@@ -62,7 +65,7 @@ describe('VglConeGeometry:', function suite() {
             0.63,
             1.21,
           )).toJSON();
-          expect(mediator.copy(vm.$refs.g.inst).toJSON()).to.deep.equal(expected);
+          expect(mediator.copy(vm.$refs.g.inst).toJSON()).toEqual(expected);
           done();
         } catch (e) {
           done(e);

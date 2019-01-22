@@ -1,6 +1,9 @@
-describe('VglSpotLight:', function suite() {
-  const { VglSpotLight, VglNamespace } = VueGL;
-  it('without properties', function test(done) {
+import Vue from 'vue/dist/vue';
+import { SpotLight } from 'three';
+import { VglSpotLight, VglNamespace } from '../src';
+
+describe('VglSpotLight:', () => {
+  test('without properties', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-spot-light ref="o" /></vgl-namespace>',
       components: { VglSpotLight, VglNamespace },
@@ -9,24 +12,24 @@ describe('VglSpotLight:', function suite() {
       try {
         const actual = vm.$refs.o.inst.clone();
         actual.updateMatrixWorld();
-        const expected = new THREE.SpotLight();
+        const expected = new SpotLight();
         expected.updateMatrixWorld();
         expected.uuid = actual.uuid;
         expected.shadow.camera.uuid = actual.shadow.camera.uuid;
-        expect(actual.toJSON()).to.deep.equal(expected.toJSON());
+        expect(actual.toJSON()).toEqual(expected.toJSON());
         const actualTarget = actual.target;
         actualTarget.updateMatrixWorld();
         const expectedTarget = expected.target;
         expectedTarget.updateMatrixWorld();
         expectedTarget.uuid = actualTarget.uuid;
-        expect(actualTarget.toJSON()).to.deep.equal(expectedTarget.toJSON());
+        expect(actualTarget.toJSON()).toEqual(expectedTarget.toJSON());
         done();
       } catch (e) {
         done(e);
       }
     });
   });
-  it('with properties', function test(done) {
+  test('with properties', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-spot-light ref="o" position="1 2 -1" intensity="0.792" color="#081f0e" cast-shadow angle="1" decay="2" distance="200" penumbra="0.776" target="-3 -8 -22" /></vgl-namespace>',
       components: { VglSpotLight, VglNamespace },
@@ -35,7 +38,7 @@ describe('VglSpotLight:', function suite() {
       try {
         const actual = vm.$refs.o.inst.clone();
         actual.updateMatrixWorld();
-        const expected = Object.assign(new THREE.SpotLight(0x081f0e, 0.792, 200, 1, 0.776, 2), {
+        const expected = Object.assign(new SpotLight(0x081f0e, 0.792, 200, 1, 0.776, 2), {
           castShadow: true,
         });
         expected.position.set(1, 2, -1);
@@ -43,20 +46,20 @@ describe('VglSpotLight:', function suite() {
         expected.updateMatrixWorld();
         expected.uuid = actual.uuid;
         expected.shadow.camera.uuid = actual.shadow.camera.uuid;
-        expect(actual.toJSON()).to.deep.equal(expected.toJSON());
+        expect(actual.toJSON()).toEqual(expected.toJSON());
         const actualTarget = actual.target;
         actualTarget.updateMatrixWorld();
         const expectedTarget = expected.target;
         expectedTarget.updateMatrixWorld();
         expectedTarget.uuid = actualTarget.uuid;
-        expect(actualTarget.toJSON()).to.deep.equal(expectedTarget.toJSON());
+        expect(actualTarget.toJSON()).toEqual(expectedTarget.toJSON());
         done();
       } catch (e) {
         done(e);
       }
     });
   });
-  it('after properties are changed', function test(done) {
+  test('after properties are changed', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-spot-light ref="o" :position="p" :intensity="i" :color="c" :cast-shadow="cs" :angle="a" :decay="dc" :distance="dt" :penumbra="n" :target="t" /></vgl-namespace>',
       components: { VglNamespace, VglSpotLight },
@@ -86,7 +89,7 @@ describe('VglSpotLight:', function suite() {
         try {
           const actual = vm.$refs.o.inst.clone();
           actual.updateMatrixWorld();
-          const expected = Object.assign(new THREE.SpotLight(0x8899fd, 0.898, 193, 1.2, 0.85, 2), {
+          const expected = Object.assign(new SpotLight(0x8899fd, 0.898, 193, 1.2, 0.85, 2), {
             castShadow: false,
           });
           expected.position.set(0, 3, 1);
@@ -94,13 +97,13 @@ describe('VglSpotLight:', function suite() {
           expected.updateMatrixWorld();
           expected.uuid = actual.uuid;
           expected.shadow.camera.uuid = actual.shadow.camera.uuid;
-          expect(actual.toJSON()).to.deep.equal(expected.toJSON());
+          expect(actual.toJSON()).toEqual(expected.toJSON());
           const actualTarget = actual.target;
           actualTarget.updateMatrixWorld();
           const expectedTarget = expected.target;
           expectedTarget.updateMatrixWorld();
           expectedTarget.uuid = actualTarget.uuid;
-          expect(actualTarget.toJSON()).to.deep.equal(expectedTarget.toJSON());
+          expect(actualTarget.toJSON()).toEqual(expectedTarget.toJSON());
           done();
         } catch (e) {
           done(e);

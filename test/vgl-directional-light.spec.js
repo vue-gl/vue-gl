@@ -1,6 +1,9 @@
-describe('VglDirectionalLight:', function suite() {
-  const { VglDirectionalLight, VglNamespace } = VueGL;
-  it('without properties', function test(done) {
+import Vue from 'vue/dist/vue';
+import { DirectionalLight } from 'three';
+import { VglDirectionalLight, VglNamespace } from '../src';
+
+describe('VglDirectionalLight:', () => {
+  test('without properties', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-directional-light ref="o" /></vgl-namespace>',
       components: { VglDirectionalLight, VglNamespace },
@@ -9,18 +12,18 @@ describe('VglDirectionalLight:', function suite() {
       try {
         const actual = vm.$refs.o.inst.clone();
         actual.updateMatrixWorld();
-        const expected = new THREE.DirectionalLight();
+        const expected = new DirectionalLight();
         expected.updateMatrixWorld();
         expected.uuid = actual.uuid;
         expected.shadow.camera.uuid = actual.shadow.camera.uuid;
-        expect(actual.toJSON()).to.deep.equal(expected.toJSON());
+        expect(actual.toJSON()).toEqual(expected.toJSON());
         done();
       } catch (e) {
         done(e);
       }
     });
   });
-  it('with properties', function test(done) {
+  test('with properties', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-directional-light ref="o" position="1 2 -1" intensity="0.792" color="#081f0e" cast-shadow /></vgl-namespace>',
       components: { VglDirectionalLight, VglNamespace },
@@ -29,20 +32,20 @@ describe('VglDirectionalLight:', function suite() {
       try {
         const actual = vm.$refs.o.inst.clone();
         actual.updateMatrixWorld();
-        const expected = new THREE.DirectionalLight(0x081f0e, 0.792);
+        const expected = new DirectionalLight(0x081f0e, 0.792);
         expected.position.set(1, 2, -1);
         expected.castShadow = true;
         expected.updateMatrixWorld();
         expected.uuid = actual.uuid;
         expected.shadow.camera.uuid = actual.shadow.camera.uuid;
-        expect(actual.toJSON()).to.deep.equal(expected.toJSON());
+        expect(actual.toJSON()).toEqual(expected.toJSON());
         done();
       } catch (e) {
         done(e);
       }
     });
   });
-  it('after properties are changed', function test(done) {
+  test('after properties are changed', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-directional-light ref="o" :position="p" :intensity="i" :color="c" :cast-shadow="s" /></vgl-namespace>',
       components: { VglNamespace, VglDirectionalLight },
@@ -62,13 +65,13 @@ describe('VglDirectionalLight:', function suite() {
         try {
           const actual = vm.$refs.o.inst.clone();
           actual.updateMatrixWorld();
-          const expected = new THREE.DirectionalLight(0x8899fd, 0.898);
+          const expected = new DirectionalLight(0x8899fd, 0.898);
           expected.position.set(0, 3, 1);
           expected.castShadow = false;
           expected.updateMatrixWorld();
           expected.uuid = actual.uuid;
           expected.shadow.camera.uuid = actual.shadow.camera.uuid;
-          expect(actual.toJSON()).to.deep.equal(expected.toJSON());
+          expect(actual.toJSON()).toEqual(expected.toJSON());
           done();
         } catch (e) {
           done(e);

@@ -1,42 +1,45 @@
-describe('VglPointsMaterial:', function suite() {
-  const { VglPointsMaterial, VglNamespace } = VueGL;
-  it('without properties', function test(done) {
+import Vue from 'vue/dist/vue';
+import { PointsMaterial } from 'three';
+import { VglPointsMaterial, VglNamespace } from '../src';
+
+describe('VglPointsMaterial:', () => {
+  test('without properties', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-points-material ref="m" /></vgl-namespace>',
       components: { VglPointsMaterial, VglNamespace },
     }).$mount();
     vm.$nextTick(() => {
       try {
-        const expected = new THREE.PointsMaterial();
+        const expected = new PointsMaterial();
         const { inst } = vm.$refs.m;
-        expect(inst).to.deep.equal(Object.assign(expected, { uuid: inst.uuid }));
+        expect(inst).toEqual(Object.assign(expected, { uuid: inst.uuid }));
         done();
       } catch (e) {
         done(e);
       }
     });
   });
-  it('with properties', function test(done) {
+  test('with properties', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-points-material color="#8aeda3" size="3" disable-size-attenuation ref="m" /></vgl-namespace>',
       components: { VglPointsMaterial, VglNamespace },
     }).$mount();
     vm.$nextTick(() => {
       try {
-        const expected = new THREE.PointsMaterial({
+        const expected = new PointsMaterial({
           color: 0x8aeda3,
           size: 3,
           sizeAttenuation: false,
         });
         const { inst } = vm.$refs.m;
-        expect(inst).to.deep.equal(Object.assign(expected, { uuid: inst.uuid }));
+        expect(inst).toEqual(Object.assign(expected, { uuid: inst.uuid }));
         done();
       } catch (e) {
         done(e);
       }
     });
   });
-  it('after properties are changed', function test(done) {
+  test('after properties are changed', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-points-material :color="color" :size="size" :disable-size-attenuation="!attenuation" ref="m" /></vgl-namespace>',
       components: { VglPointsMaterial, VglNamespace },
@@ -48,13 +51,13 @@ describe('VglPointsMaterial:', function suite() {
       vm.attenuation = true;
       vm.$nextTick(() => {
         try {
-          const expected = new THREE.PointsMaterial({
+          const expected = new PointsMaterial({
             color: 0xabbcaf,
             size: 4.88,
             sizeAttenuation: true,
           });
           const { inst } = vm.$refs.m;
-          expect(inst).to.deep.equal(Object.assign(expected, { uuid: inst.uuid }));
+          expect(inst).toEqual(Object.assign(expected, { uuid: inst.uuid }));
           done();
         } catch (e) {
           done(e);

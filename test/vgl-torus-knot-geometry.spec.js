@@ -1,30 +1,33 @@
-describe('VglTorusKnotGeometry:', function suite() {
-  const { VglTorusKnotGeometry, VglNamespace } = VueGL;
-  it('without properties', function test(done) {
+import Vue from 'vue/dist/vue';
+import { TorusKnotBufferGeometry, BufferGeometry } from 'three';
+import { VglTorusKnotGeometry, VglNamespace } from '../src';
+
+describe('VglTorusKnotGeometry:', () => {
+  test('without properties', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-torus-knot-geometry ref="g" /></vgl-namespace>',
       components: { VglTorusKnotGeometry, VglNamespace },
     }).$mount();
     vm.$nextTick(() => {
       try {
-        const mediator = new THREE.BufferGeometry();
-        const expected = mediator.copy(new THREE.TorusKnotBufferGeometry()).toJSON();
-        expect(mediator.copy(vm.$refs.g.inst).toJSON()).to.deep.equal(expected);
+        const mediator = new BufferGeometry();
+        const expected = mediator.copy(new TorusKnotBufferGeometry()).toJSON();
+        expect(mediator.copy(vm.$refs.g.inst).toJSON()).toEqual(expected);
         done();
       } catch (e) {
         done(e);
       }
     });
   });
-  it('with properties', function test(done) {
+  test('with properties', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-torus-knot-geometry ref="g" radius="15.8" tube="6.2" radial-segments="20" tubular-segments="30" p="3" q="4" /></vgl-namespace>',
       components: { VglTorusKnotGeometry, VglNamespace },
     }).$mount();
     vm.$nextTick(() => {
       try {
-        const mediator = new THREE.BufferGeometry();
-        const expected = mediator.copy(new THREE.TorusKnotBufferGeometry(
+        const mediator = new BufferGeometry();
+        const expected = mediator.copy(new TorusKnotBufferGeometry(
           15.8,
           6.2,
           30,
@@ -32,14 +35,14 @@ describe('VglTorusKnotGeometry:', function suite() {
           3,
           4,
         )).toJSON();
-        expect(mediator.copy(vm.$refs.g.inst).toJSON()).to.deep.equal(expected);
+        expect(mediator.copy(vm.$refs.g.inst).toJSON()).toEqual(expected);
         done();
       } catch (e) {
         done(e);
       }
     });
   });
-  it('after properties are changed', function test(done) {
+  test('after properties are changed', (done) => {
     const vm = new Vue({
       template: '<vgl-namespace><vgl-torus-knot-geometry ref="g" radius="15.8" tube="6.2" radial-segments="20" tubular-segments="10" :p="p" :q="q" /></vgl-namespace>',
       components: { VglTorusKnotGeometry, VglNamespace },
@@ -50,8 +53,8 @@ describe('VglTorusKnotGeometry:', function suite() {
       vm.q = 5;
       vm.$nextTick(() => {
         try {
-          const mediator = new THREE.BufferGeometry();
-          const expected = mediator.copy(new THREE.TorusKnotBufferGeometry(
+          const mediator = new BufferGeometry();
+          const expected = mediator.copy(new TorusKnotBufferGeometry(
             15.8,
             6.2,
             10,
@@ -59,7 +62,7 @@ describe('VglTorusKnotGeometry:', function suite() {
             4,
             5,
           )).toJSON();
-          expect(mediator.copy(vm.$refs.g.inst).toJSON()).to.deep.equal(expected);
+          expect(mediator.copy(vm.$refs.g.inst).toJSON()).toEqual(expected);
           done();
         } catch (e) {
           done(e);
