@@ -43,8 +43,11 @@ workflows:
               ignore:
                 - gh-pages
       - dependencies:
-          requires: checkout
+          requires:
+            - checkout
       - lint:
-          requires: dependencies
+          requires:
+            - dependencies
       - unit_test:
-          requires: dependencies
+          requires:
+            - dependencies
