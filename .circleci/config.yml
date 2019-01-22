@@ -5,10 +5,16 @@ jobs:
       - image: circleci/node:lts
     steps:
       - checkout
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
   dependencies:
     docker:
       - image: circleci/node:lts
     steps:
+      - attach_workspace:
+          at: .
       - restore_cache:
           keys:
             - yarn-{{ checksum "yarn.lock" }}
@@ -19,10 +25,16 @@ jobs:
           key: yarn-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
   lint:
     docker:
       - image: circleci/node:lts
     steps:
+      - attach_workspace:
+          at: .
       - run:
           name: Lint
           command: yarn lint
@@ -30,6 +42,8 @@ jobs:
     docker:
       - image: circleci/node:lts
     steps:
+      - attach_workspace:
+          at: .
       - run:
           name: Run unit tests
           command: yarn test
