@@ -5671,10 +5671,10 @@ text-table@^0.2.0:
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
 
-three@^0.100.0:
-  version "0.100.0"
-  resolved "https://registry.yarnpkg.com/three/-/three-0.100.0.tgz#262841c0b7d88ebd62af73f28d9f578963b3aa00"
-  integrity sha512-/lN2rdE1OqIwJr4/HcSaOisiCY0uVA0sqPpbCG5nil2uICEdS0LfGwSVYTtZDsIpR76r3++h5H3Hzg5D+SJBRQ==
+three@^0.101.0:
+  version "0.101.0"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.101.0.tgz#a72a5b09d28f627868a6b428e15f234eb0dc6b9f"
+  integrity sha512-eHgP4nQsCHoeMv76E9ZWIqHufVzfDlPlU5FQuGNefkongDtSjXNLNJ5IbuAc/at3iQJCjXBX2X6DGt8dayDZHA==
 
 through@^2.3.6, through@~2.3.4, through@~2.3.8:
   version "2.3.8"
