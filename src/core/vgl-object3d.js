@@ -28,7 +28,10 @@ export default {
     /** Optional name of the object. */
     name: string,
     /** Whether the object is visible */
-    visible : boolean,
+    visible: {
+      type: boolean,
+      default: true
+    }
   },
   computed: {
     inst: () => new Object3D(),
