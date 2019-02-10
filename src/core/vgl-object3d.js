@@ -27,6 +27,8 @@ export default {
     receiveShadow: boolean,
     /** Optional name of the object. */
     name: string,
+    /** Whether the object is visible */
+    visible : boolean,
   },
   computed: {
     inst: () => new Object3D(),
@@ -58,6 +60,7 @@ export default {
         Object.assign(inst, {
           castShadow: this.castShadow,
           receiveShadow: this.receiveShadow,
+          visible : this.visible
         });
         if (this.name !== undefined) this.vglNamespace.object3ds[this.name] = inst;
       },
@@ -74,6 +77,7 @@ export default {
       if (object3ds[oldName] === inst) delete object3ds[oldName];
       object3ds[name] = inst;
     },
+    visible(visible) { this.inst.visible = visible; }
   },
   render(h) { return this.$slots.default ? h('div', this.$slots.default) : undefined; },
 };
