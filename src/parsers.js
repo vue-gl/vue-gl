@@ -1,6 +1,13 @@
 import {
-  Vector2, Vector3, Euler, Spherical,
+  Vector2, Vector3, Euler, Spherical, Quaternion,
 } from './three.js';
+
+/**
+ * Returns a parsed quaternion object.
+ */
+export function parseQuaternion(str) {
+  return str.isQuaternion ? str : new Quaternion().fromArray(...str.trim().split(/\s+/).map(elm => parseFloat(elm)), 0);
+}
 
 /**
  * Returns a parsed vector3 object.

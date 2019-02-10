@@ -1,6 +1,6 @@
-import { parseVector3, parseEuler } from '../parsers.js';
+import { parseVector3, parseEuler, parseQuaternion } from '../parsers.js';
 import {
-  vector3, euler, boolean, string,
+  vector3, euler, quaternion, boolean, string,
 } from '../validators.js';
 import { Object3D } from '../three.js';
 
@@ -19,6 +19,8 @@ export default {
     position: vector3,
     /** The object's local rotation as a euler angle. */
     rotation: euler,
+    /** The object's local rotation as a quaternion (specified in x, y, z, w order). */
+    rotationQuaternion: quaternion,
     /** The object's local scale as a 3D vector. */
     scale: vector3,
     /** Whether the object gets rendered into shadow map. */
@@ -27,7 +29,7 @@ export default {
     receiveShadow: boolean,
     /** Optional name of the object. */
     name: string,
-    /** Whether the object is visible */
+    /** Whether the object is visible. */
     visible: {
       type: boolean,
       default: true
@@ -59,6 +61,7 @@ export default {
         if (this.vglObject3d.inst) this.vglObject3d.inst.add(inst);
         if (this.position) inst.position.copy(parseVector3(this.position));
         if (this.rotation) inst.rotation.copy(parseEuler(this.rotation));
+        if (this.rotationQuaternion) inst.quaternion.copy(parseQuaternion(this.rotationQuaternion));
         if (this.scale) inst.scale.copy(parseVector3(this.scale));
         Object.assign(inst, {
           castShadow: this.castShadow,
@@ -72,6 +75,7 @@ export default {
     'vglObject3d.inst': function parentInst(inst) { inst.add(this.inst); },
     position(position) { this.inst.position.copy(parseVector3(position)); },
     rotation(rotation) { this.inst.rotation.copy(parseEuler(rotation)); },
+    rotationQuaternion(rotationQuaternion) { this.inst.quaternion.copy(parseQuaternion(rotationQuaternion)); },
     scale(scale) { this.inst.scale.copy(parseVector3(scale)); },
     castShadow(castShadow) { this.inst.castShadow = castShadow; },
     receiveShadow(receiveShadow) { this.inst.receiveShadow = receiveShadow; },
