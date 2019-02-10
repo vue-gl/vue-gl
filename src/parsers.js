@@ -6,7 +6,7 @@ import {
  * Returns a parsed quaternion object.
  */
 export function parseQuaternion(str) {
-  return str.isQuaternion ? str : new Quaternion().fromArray(...str.trim().split(/\s+/).map(elm => parseFloat(elm)), 0);
+  return str.isQuaternion ? str : new Quaternion(...str.trim().split(/\s+/).map(elm => parseFloat(elm)));
 }
 
 /**
