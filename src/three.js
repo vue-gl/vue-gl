@@ -2,6 +2,7 @@ export {
   Vector3,
   Spherical,
   Euler,
+  Quaternion,
   Vector2,
   TextureLoader,
   UVMapping,
