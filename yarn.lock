@@ -6034,9 +6034,9 @@ void-elements@^2.0.0:
   integrity sha1-wGavtYK7HLQSjWDqkjkulNXp2+w=
 
 vue@^2.5.13:
-  version "2.6.3"
-  resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.3.tgz#180017ba25b94a9864b2921db8644e1062ea82a0"
-  integrity sha512-yftjtahz4UTAtOlXXuw7UaYD86fWrMDAAzqTdqJJx2FIBqcPmBN6kPBHiBJFGaQELVblb5ijbFMXsx0i0F7q3g==
+  version "2.6.5"
+  resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.5.tgz#7a7e8723b875b91800e576aac41cb3ed325dddf0"
+  integrity sha512-htb449YZnpJ5ts+JjXQHVuvH3R3dcaGBe6/ePAwtsRj4cA1FG/OI0rHDCSMs+L9ZHDzpX7ru//Usb/2R3XfQaQ==
 
 which-module@^2.0.0:
   version "2.0.0"
