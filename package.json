@@ -30,7 +30,7 @@
     "publish": "mv .gitignore .gitignore.disabled && (gh-pages --dist docs; mv .gitignore.disabled .gitignore)"
   },
   "dependencies": {
-    "three": "^0.100.0"
+    "three": "^0.101.1"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.0.0",
