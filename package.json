@@ -41,7 +41,7 @@
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-mocha": "^5.0.0",
     "gh-pages": "^2.0.0",
-    "karma": "^3.0.0",
+    "karma": "^4.0.0",
     "karma-babel-preprocessor": "^8.0.0-beta.0",
     "karma-chai": "^0.1.0",
     "karma-coverage": "^1.1.1",
