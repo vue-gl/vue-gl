@@ -1,6 +1,7 @@
 import VglNamespace from '../core/vgl-namespace.js';
 import { WebGLRenderer } from '../three.js';
 import { boolean, string } from '../validators.js';
+import { cameraPropRequiredMessage, scenePropRequiredMessage, cameraTypeUnknownMessage } from '../messages.js';
 
 /**
  * This component creates a canvas that have WebGL context.
@@ -61,7 +62,7 @@ export default {
       let camera;
       // eslint-disable-next-line guard-for-in, no-restricted-syntax
       for (const key in this.vglNamespace.cameras) {
-        if (camera) throw new ReferenceError('Cannot identify the camera. camera prop must be set when multiple cameras are defined.');
+        if (camera) throw new ReferenceError(cameraPropRequiredMessage);
         camera = this.vglNamespace.cameras[key];
       }
       return camera;
@@ -71,7 +72,7 @@ export default {
       let scene;
       // eslint-disable-next-line guard-for-in, no-restricted-syntax
       for (const key in this.vglNamespace.scenes) {
-        if (scene) throw new ReferenceError('Cannot identify the camera. camera prop must be set when multiple cameras are defined.');
+        if (scene) throw new ReferenceError(scenePropRequiredMessage);
         scene = this.vglNamespace.scenes[key];
       }
       return scene;
@@ -98,7 +99,7 @@ export default {
             cameraInst.updateProjectionMatrix();
           }
         } else {
-          throw new TypeError('Unknown camera type.');
+          throw new TypeError(cameraTypeUnknownMessage);
         }
         inst.render(sceneInst, cameraInst);
       }
