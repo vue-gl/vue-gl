@@ -30,7 +30,7 @@
     "publish": "mv .gitignore .gitignore.disabled && (gh-pages --dist docs; mv .gitignore.disabled .gitignore)"
   },
   "dependencies": {
-    "three": "^0.100.0"
+    "three": "^0.101.1"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.0.0",
@@ -45,6 +45,7 @@
     "gl": "^4.1.1",
     "jest": "^23.6.0",
     "markdownlint-cli": "^0.13.0",
+    "nise": "^1.4.8",
     "rollup": "^0.68.1",
     "rollup-plugin-babel": "^4.0.2",
     "rollup-plugin-babel-minify": "^6.0.0",
