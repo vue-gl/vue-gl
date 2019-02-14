@@ -44,7 +44,7 @@ Feel free to ask for help. Everyone is a beginner at first.
 
 ## How to report a bug
 
-**If you find a security vulnerability, do NOT open an issue. [Email us](<ikeda_hiroki@icloud.com>)
+**If you find a security vulnerability, do NOT open an issue. [Email us](<mailto:ikeda_hiroki@icloud.com>)
 instead.**
 
 When [filing an issue](/vue-gl/vue-gl/issues), make sure the following points.
