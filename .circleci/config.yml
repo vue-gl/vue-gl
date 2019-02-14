@@ -71,7 +71,7 @@ jobs:
           command: npm install codecov
       - run:
           name: Report coverage
-          command: codecov
+          command: $(npm bin)/codecov
 workflows:
   version: 2
   before_merge:
