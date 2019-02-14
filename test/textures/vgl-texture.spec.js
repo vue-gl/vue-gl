@@ -47,7 +47,7 @@ describe('VglTexture', () => {
       },
     });
     // Manually trigger an onload event.
-    const evt = document.createEvent('HTMLEvents');
+    const evt = global.document.createEvent('HTMLEvents');
     evt.initEvent('load', true, true);
     ImageLoader.prototype.load.mock.results[0].value.dispatchEvent(evt);
     expect(inst).toHaveProperty('mapping', CubeReflectionMapping);

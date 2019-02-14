@@ -1,6 +1,6 @@
-import VglMaterial from './vgl-material.js';
-import { PointsMaterial } from '../three.js';
-import { string, number, boolean } from '../validators.js';
+import VglMaterial from './vgl-material';
+import { PointsMaterial } from '../three';
+import { string, number, boolean } from '../validators';
 
 /**
  * The default material used by [VglPoints](vgl-points),

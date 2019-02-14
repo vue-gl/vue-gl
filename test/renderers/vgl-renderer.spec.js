@@ -6,7 +6,7 @@ import { scenePropRequiredMessage, cameraPropRequiredMessage } from '../../src/m
 jest.mock('three');
 WebGLRenderer.mockImplementation(function MockedWebGLRenderer() {
   this.dispose = jest.fn();
-  this.domElement = document.createElement('canvas');
+  this.domElement = global.document.createElement('canvas');
   this.render = jest.fn();
   this.setSize = jest.fn();
   this.shadowMap = {};

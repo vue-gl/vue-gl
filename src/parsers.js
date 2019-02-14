@@ -1,6 +1,9 @@
 import {
-  Vector2, Vector3, Euler, Spherical,
-} from './three.js';
+  Vector2,
+  Vector3,
+  Euler,
+  Spherical,
+} from './three';
 
 /**
  * Returns a parsed vector3 object.

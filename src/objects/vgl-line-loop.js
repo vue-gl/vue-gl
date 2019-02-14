@@ -1,5 +1,5 @@
-import VglLine from './vgl-line.js';
-import { LineLoop } from '../three.js';
+import VglLine from './vgl-line';
+import { LineLoop } from '../three';
 
 /**
  * A continuous line component that connects back to the start,

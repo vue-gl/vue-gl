@@ -1,6 +1,6 @@
-import VglLight from './vgl-light.js';
-import { RectAreaLight } from '../three.js';
-import { number } from '../validators.js';
+import VglLight from './vgl-light';
+import { RectAreaLight } from '../three';
+import { number } from '../validators';
 
 /**
  * RectAreaLight emits light uniformly across the face a rectangular plane. See

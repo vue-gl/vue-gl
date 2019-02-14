@@ -1,6 +1,6 @@
-import VglMaterial from './vgl-material.js';
-import { LineDashedMaterial } from '../three.js';
-import { string, number, boolean } from '../validators.js';
+import VglMaterial from './vgl-material';
+import { LineDashedMaterial } from '../three';
+import { string, number, boolean } from '../validators';
 
 /**
  * A material for drawing wireframe-style geometries,

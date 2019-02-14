@@ -1,6 +1,6 @@
-import VglObject3d from '../core/vgl-object3d.js';
-import { Light } from '../three.js';
-import { string, number } from '../validators.js';
+import VglObject3d from '../core/vgl-object3d';
+import { Light } from '../three';
+import { string, number } from '../validators';
 
 /**
  * Abstract mixin component for lights,

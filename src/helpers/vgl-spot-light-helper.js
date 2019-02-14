@@ -1,6 +1,6 @@
-import VglObject3d from '../core/vgl-object3d.js';
-import { SpotLightHelper } from '../three.js';
-import { string } from '../validators.js';
+import VglObject3d from '../core/vgl-object3d';
+import { SpotLightHelper } from '../three';
+import { string } from '../validators';
 
 /**
  * This component displays a cone shaped helper object for a SpotLight,

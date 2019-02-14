@@ -1,6 +1,6 @@
-import VglObject3d from '../core/vgl-object3d.js';
-import { AxesHelper } from '../three.js';
-import { number } from '../validators.js';
+import VglObject3d from '../core/vgl-object3d';
+import { AxesHelper } from '../three';
+import { number } from '../validators';
 
 /**
  * An axis object to visualize the the 3 axes in a simple way,

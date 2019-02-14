@@ -1,7 +1,7 @@
-import VglNamespace from '../core/vgl-namespace.js';
-import { WebGLRenderer } from '../three.js';
-import { boolean, string } from '../validators.js';
-import { cameraPropRequiredMessage, scenePropRequiredMessage, cameraTypeUnknownMessage } from '../messages.js';
+import VglNamespace from '../core/vgl-namespace';
+import { WebGLRenderer } from '../three';
+import { boolean, string } from '../validators';
+import { cameraPropRequiredMessage, scenePropRequiredMessage, cameraTypeUnknownMessage } from '../messages';
 
 /**
  * This component creates a canvas that have WebGL context.

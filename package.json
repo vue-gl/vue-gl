@@ -23,7 +23,7 @@
   "license": "MIT",
   "main": "dist/vue-gl.js",
   "scripts": {
-    "lint": "eslint src test *.js && markdownlint --ignore docs/components *.md docs/**/*.md",
+    "lint": "eslint . && markdownlint --ignore docs/components *.md docs/**/*.md",
     "test": "jest",
     "start": "rollup -c && mkdir -p docs/js && cp -r dist/* docs/js && cp node_modules/three/build/three.min.js node_modules/three/examples/fonts/helvetiker_regular.typeface.json node_modules/vue/dist/vue.min.js docs/js && for d in src/*/ ; do mkdir -p docs/components/`basename $d` && vuedoc.md ${d}vgl-*.js --output docs/components/`basename $d` --level 2 --ignore-name --ignore-computed --ignore-data ; done && bundle exec jekyll serve --source docs",
     "prepare": "rollup -c && mkdir -p docs/js && cp -r dist/* docs/js && cp node_modules/three/build/three.min.js node_modules/three/examples/fonts/helvetiker_regular.typeface.json node_modules/vue/dist/vue.min.js docs/js && for d in src/*/ ; do mkdir -p docs/components/`basename $d` && vuedoc.md ${d}vgl-*.js --output docs/components/`basename $d` --level 2 --ignore-name --ignore-computed --ignore-data ; done",

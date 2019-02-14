@@ -1,6 +1,6 @@
-import { VglMaterialWithMap } from '../mixins.js';
-import { MeshBasicMaterial } from '../three.js';
-import { string } from '../validators.js';
+import { VglMaterialWithMap } from '../mixins';
+import { MeshBasicMaterial } from '../three';
+import { string } from '../validators';
 
 /**
  * A material for drawing geometries in a simple shaded (flat or wireframe) way,
