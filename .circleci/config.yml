@@ -68,13 +68,13 @@ jobs:
           at: .
       - run:
           name: Install reporting tool
-          command: npm install -g codecov
+          command: npm install codecov
       - run:
           name: Report coverage
           command: codecov
 workflows:
   version: 2
-  lint_and_test:
+  before_merge:
     jobs:
       - checkout:
           filters:
