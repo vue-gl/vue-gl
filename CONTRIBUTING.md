@@ -47,7 +47,8 @@ Feel free to ask for help. Everyone is a beginner at first.
 **If you find a security vulnerability, do NOT open an issue. [Email us](<mailto:ikeda_hiroki@icloud.com>)
 instead.**
 
-When [filing an issue](https://github.com/vue-gl/vue-gl/issues/new/choose), make sure the following points.
+When [filing an issue](https://github.com/vue-gl/vue-gl/issues/new/choose), make
+sure the following points.
 
 * What version of VueGL you are using.
 * What version of Vue.js you are using.
@@ -75,8 +76,10 @@ Before you submit a pull request, consider the following points.
 * Include appropriate test case.
 * Be sure all tests have passed. (By running `npm test` or `yarn test`.)
 * Be sure following the code style.  
-  * Javascript codes should follow [airbnb style guide](/airbnb/javascript). Run `npm lint` or `yarn lint` to lint them.
-  * Markdown files should follow default rules of [markdownlint](/DavidAnson/markdownlint). Run `npm lint:md` or `yarn lint:md` to lint them.
+  * Javascript codes should follow [airbnb style guide](/airbnb/javascript). Run
+    `npm lint` or `yarn lint` to lint them.
+  * Markdown files should follow default rules of [markdownlint](/DavidAnson/markdownlint).
+    Run `npm lint:md` or `yarn lint:md` to lint them.
 * Check your fixes at documentation examples.
   1. Run `npm start` or `yarn start`.
   2. After jekyll server started, open the address displayed on the terminal.
