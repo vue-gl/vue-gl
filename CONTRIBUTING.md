@@ -47,7 +47,7 @@ Feel free to ask for help. Everyone is a beginner at first.
 **If you find a security vulnerability, do NOT open an issue. [Email us](<mailto:ikeda_hiroki@icloud.com>)
 instead.**
 
-When [filing an issue](/vue-gl/vue-gl/issues), make sure the following points.
+When [filing an issue](https://github.com/vue-gl/vue-gl/issues/new/choose), make sure the following points.
 
 * What version of VueGL you are using.
 * What version of Vue.js you are using.
@@ -64,7 +64,7 @@ adopt advanced functions for handling WebGL and 3D graphics easier.
 If you find yourself wishing for a feature that doesn't exist in VueGL, you are
 probably not alone! There are bound to be others out there with similar needs. If
 you think that the enhancement is small enough and you can write codes yourself,
-feel free to send a pull request directly. Otherwise, [open an issue](/vue-gl/vue-gl/issues)
+feel free to send a pull request directly. Otherwise, [open an issue](https://github.com/vue-gl/vue-gl/issues/new/choose)
 which describes the feature you would like to see, why you need it, and how it should
 work.
 
@@ -73,15 +73,10 @@ work.
 Before you submit a pull request, consider the following points.
 
 * Include appropriate test case.
-* Be sure all tests have passed at least with 1 browser.  
-  If you have multiple browsers, it is disireble to test with all of them.
-  1. Run `npm test` or `yarn test`.
-  2. After karma server started, open the address displayed on the terminal.
+* Be sure all tests have passed. (By running `npm test` or `yarn test`.)
 * Be sure following the code style.  
-  * Javascript codes should follow [airbnb style guide](/airbnb/javascript)
-    and should pass [eslint](https://eslint.org).
-  * Markdown files should pass [markdownlint](/DavidAnson/markdownlint).
-  1. Run `npm lint` or `yarn lint`.
+  * Javascript codes should follow [airbnb style guide](/airbnb/javascript). Run `npm lint` or `yarn lint` to lint them.
+  * Markdown files should follow default rules of [markdownlint](/DavidAnson/markdownlint). Run `npm lint:md` or `yarn lint:md` to lint them.
 * Check your fixes at documentation examples.
   1. Run `npm start` or `yarn start`.
   2. After jekyll server started, open the address displayed on the terminal.
@@ -104,4 +99,4 @@ we may close the pull request if it isn't showing any activity.
 
 ## Contact us
 
-Feel free to [email us](<ikeda_hiroki@icloud.com>).
+Feel free to [email us](<mailto:ikeda_hiroki@icloud.com>).
