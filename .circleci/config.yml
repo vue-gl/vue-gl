@@ -55,7 +55,7 @@ jobs:
           at: .
       - run:
           name: Run unit tests
-          command: yarn test --coverage --coverage-directory=coverage
+          command: yarn test --coverage --coverage-directory=coverage --max-workers=2
       - persist_to_workspace:
           root: .
           paths:
