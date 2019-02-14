@@ -38,6 +38,15 @@ jobs:
       - run:
           name: Lint
           command: yarn lint
+  lint_md:
+    docker:
+      - image: circleci/node:lts
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Lint documents
+          command: yarn lint:md
   unit_test:
     docker:
       - image: circleci/node:lts
@@ -60,6 +69,9 @@ workflows:
           requires:
             - checkout
       - lint:
+          requires:
+            - dependencies
+      - lint_md:
           requires:
             - dependencies
       - unit_test:
