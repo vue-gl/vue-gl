@@ -55,7 +55,23 @@ jobs:
           at: .
       - run:
           name: Run unit tests
-          command: yarn test
+          command: yarn test --coverage --coverage-directory=coverage
+      - persist_to_workspace:
+          root: .
+          paths:
+            - coverage
+  report_coverage:
+    docker:
+      - image: circleci/node:lts
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Install reporting tool
+          command: npm install -g codecov
+      - run:
+          name: Report coverage
+          command: codecov
 workflows:
   version: 2
   lint_and_test:
@@ -77,3 +93,6 @@ workflows:
       - unit_test:
           requires:
             - dependencies
+      - report_coverage:
+          requires:
+            - unit_test
