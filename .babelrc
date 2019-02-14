@@ -1,20 +1,27 @@
 {
+  "presets": [
+    [
+      "@babel/env",
+      {
+        "modules": false,
+        "targets": {
+          "browsers": ["Explorer >= 9"]
+        }
+      }
+    ]
+  ],
   "env": {
-    "development": {
+    "test": {
       "presets": [
         [
-          "@babel/env", 
+          "@babel/env",
           {
-            "modules": false,
             "targets": {
-              "browsers": ["Explorer >= 9"]
+              "node": "current"
             }
           }
         ]
       ]
-    },
-    "test": {
-      "presets": ["env"]
     }
   }
 }
