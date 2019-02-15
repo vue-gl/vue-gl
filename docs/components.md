@@ -13,9 +13,12 @@ title: false
 
 {% assign components = group.items | sort: 'name' %}
     {%- for component in components %}
-      {%- assign array = component.name | split: '' | reverse | join: '' | remove_first: 'dm.' | split: '' | reverse | join: '' | split: '-' -%}
+      {%- assign array_rev = component.name | split: '' | reverse -%}
+      {%- assign name_rev = array_rev | join: '' | remove_first: 'dm.' -%}
+      {%- assign array = name_rev | split: '' | reverse -%}
+      {%- assign words = array | join: '' | split: '-' -%}
       {%- capture disp -%}
-      {%- for word in array -%}
+      {%- for word in words -%}
         {{ word | capitalize }}
       {%- endfor -%}
       {%- endcapture %}
