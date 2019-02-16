@@ -24,10 +24,10 @@
   "main": "dist/vue-gl.js",
   "scripts": {
     "lint": "eslint .",
-    "lint:md": "markdownlint \"**/*.md\" --ignore node_modules --ignore docs/components",
+    "lint:md": "markdownlint \"**/*.md\" --ignore node_modules --ignore docs/components --ignore _site",
     "test": "jest",
-    "start": "rollup -c && mkdir -p docs/js && cp -r dist/* docs/js && cp node_modules/three/build/three.min.js node_modules/three/examples/fonts/helvetiker_regular.typeface.json node_modules/vue/dist/vue.min.js docs/js && for d in src/*/ ; do mkdir -p docs/components/`basename $d` && vuedoc.md ${d}vgl-*.js --output docs/components/`basename $d` --level 2 --ignore-name --ignore-computed --ignore-data ; done && bundle exec jekyll serve --source docs",
-    "prepare": "rollup -c && mkdir -p docs/js && cp -r dist/* docs/js && cp node_modules/three/build/three.min.js node_modules/three/examples/fonts/helvetiker_regular.typeface.json node_modules/vue/dist/vue.min.js docs/js && for d in src/*/ ; do mkdir -p docs/components/`basename $d` && vuedoc.md ${d}vgl-*.js --output docs/components/`basename $d` --level 2 --ignore-name --ignore-computed --ignore-data ; done",
+    "start": "rollup -c rollup.config.docs.js && for d in src/*/ ; do mkdir -p docs/components/`basename $d` && vuedoc.md ${d}vgl-*.js --output docs/components/`basename $d` --level 2 --ignore-name --ignore-computed --ignore-data ; done && bundle exec jekyll serve --source docs",
+    "prepare": "rollup -c && rollup -c rollup.config.module.js && rollup -c rollup.config.docs.js && for d in src/*/ ; do mkdir -p docs/components/`basename $d` && vuedoc.md ${d}vgl-*.js --output docs/components/`basename $d` --level 2 --ignore-name --ignore-computed --ignore-data ; done",
     "publish": "mv .gitignore .gitignore.disabled && (gh-pages --dist docs; mv .gitignore.disabled .gitignore)"
   },
   "dependencies": {
@@ -47,6 +47,7 @@
     "rollup": "^1.1.2",
     "rollup-plugin-babel": "^4.0.2",
     "rollup-plugin-babel-minify": "^6.0.0",
+    "rollup-plugin-copy": "^0.2.3",
     "vue": "^2.5.13"
   },
   "peerDependencies": {
