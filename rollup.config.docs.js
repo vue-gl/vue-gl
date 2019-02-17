@@ -1,6 +1,8 @@
 import path from 'path';
 import copy from 'rollup-plugin-copy';
-import config from './rollup.config';
+import configArray from './rollup.config';
+
+const [config] = configArray;
 
 Object.assign(config.output, {
   file: path.resolve('docs/js/vue-gl.js'),

@@ -1,8 +1,9 @@
 import path from 'path';
 import babel from 'rollup-plugin-babel';
 import minify from 'rollup-plugin-babel-minify';
+import { version } from 'three/package.json';
 
-export default {
+const config = {
   input: path.resolve('src/index.js'),
   external: 'three',
   plugins: [babel(), minify()],
@@ -13,3 +14,14 @@ export default {
     globals: { three: 'THREE' },
   },
 };
+
+export default [
+  config,
+  Object.assign({}, config, {
+    output: {
+      file: path.resolve('dist/vue-gl.module.js'),
+      format: 'es',
+      paths: { three: `//unpkg.com/three@${version}/build/three.module.js` },
+    },
+  }),
+];
