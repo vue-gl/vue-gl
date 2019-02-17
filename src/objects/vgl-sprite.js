@@ -1,6 +1,6 @@
-import { VglObject3dWithMatarial } from '../mixins.js';
-import { Sprite } from '../three.js';
-import { string } from '../validators.js';
+import { VglObject3dWithMatarial } from '../mixins';
+import { Sprite } from '../three';
+import { string } from '../validators';
 
 /**
  * A sprite component corresponding [THREE.Sprite](https://threejs.org/docs/index.html#api/objects/Sprite).

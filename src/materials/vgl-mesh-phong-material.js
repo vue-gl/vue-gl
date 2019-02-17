@@ -1,6 +1,6 @@
-import { VglMaterialWithMap } from '../mixins.js';
-import { MeshPhongMaterial } from '../three.js';
-import { string, number } from '../validators.js';
+import { VglMaterialWithMap } from '../mixins';
+import { MeshPhongMaterial } from '../three';
+import { string, number } from '../validators';
 
 /**
  * A material for shiny surfaces with specular highlights,

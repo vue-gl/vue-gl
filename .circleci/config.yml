@@ -38,6 +38,15 @@ jobs:
       - run:
           name: Lint
           command: yarn lint
+  lint_md:
+    docker:
+      - image: circleci/node:lts
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Lint documents
+          command: yarn lint:md
   unit_test:
     docker:
       - image: circleci/node:lts
@@ -46,10 +55,26 @@ jobs:
           at: .
       - run:
           name: Run unit tests
-          command: yarn test
+          command: yarn test --coverage --coverage-directory=coverage --max-workers=2
+      - persist_to_workspace:
+          root: .
+          paths:
+            - coverage
+  report_coverage:
+    docker:
+      - image: circleci/node:lts
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Install reporting tool
+          command: npm install codecov
+      - run:
+          name: Report coverage
+          command: $(npm bin)/codecov
 workflows:
   version: 2
-  lint_and_test:
+  before_merge:
     jobs:
       - checkout:
           filters:
@@ -62,6 +87,12 @@ workflows:
       - lint:
           requires:
             - dependencies
+      - lint_md:
+          requires:
+            - dependencies
       - unit_test:
           requires:
             - dependencies
+      - report_coverage:
+          requires:
+            - unit_test

@@ -6,8 +6,8 @@ import {
   FrontSide,
   BackSide,
   DoubleSide,
-} from '../three.js';
-import { string } from '../validators.js';
+} from '../three';
+import { string } from '../validators';
 
 const vertexColors = {
   no: NoColors,

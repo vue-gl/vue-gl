@@ -1,7 +1,7 @@
-import VglObject3d from '../core/vgl-object3d.js';
-import { ArrowHelper, Color, Vector3 } from '../three.js';
-import { parseVector3 } from '../parsers.js';
-import { number, string, vector3 } from '../validators.js';
+import VglObject3d from '../core/vgl-object3d';
+import { ArrowHelper, Color, Vector3 } from '../three';
+import { parseVector3 } from '../parsers';
+import { number, string, vector3 } from '../validators';
 
 /**
  * An 3D arrow object for visualizing directions,

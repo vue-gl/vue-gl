@@ -1,6 +1,6 @@
-import VglObject3d from '../core/vgl-object3d.js';
-import { DirectionalLightHelper } from '../three.js';
-import { string, number } from '../validators.js';
+import VglObject3d from '../core/vgl-object3d';
+import { DirectionalLightHelper } from '../three';
+import { string, number } from '../validators';
 
 /**
  * A helper component to assist with visualizing a DirectionalLight's effect on the scene,

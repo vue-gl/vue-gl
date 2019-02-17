@@ -1,6 +1,6 @@
-import { BufferGeometry, BufferAttribute } from '../three.js';
-import { string, floatArray } from '../validators.js';
-import { parseArray } from '../parsers.js';
+import { BufferGeometry, BufferAttribute } from '../three';
+import { string, floatArray } from '../validators';
+import { parseArray } from '../parsers';
 
 /**
  * This is the base mixin component for all geometry components,

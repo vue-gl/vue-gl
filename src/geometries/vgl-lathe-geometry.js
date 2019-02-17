@@ -1,7 +1,7 @@
-import VglGeometry from '../core/vgl-geometry.js';
-import { LatheBufferGeometry } from '../three.js';
-import { parseVector2Array } from '../parsers.js';
-import { vector2Array, number } from '../validators.js';
+import VglGeometry from '../core/vgl-geometry';
+import { LatheBufferGeometry } from '../three';
+import { parseVector2Array } from '../parsers';
+import { vector2Array, number } from '../validators';
 
 /**
  * A component for creating extruded geometry from a path shape,
