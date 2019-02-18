@@ -6,7 +6,7 @@ import {
   FrontSide,
   BackSide,
   DoubleSide,
-} from '../three';
+} from 'three';
 import { string } from '../validators';
 
 const vertexColors = {

@@ -1,5 +1,5 @@
+import { TorusKnotBufferGeometry } from 'three';
 import VglGeometry from '../core/vgl-geometry';
-import { TorusKnotBufferGeometry } from '../three';
 import { number } from '../validators';
 
 /**

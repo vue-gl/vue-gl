@@ -1,5 +1,5 @@
+import { RingBufferGeometry } from 'three';
 import VglGeometry from '../core/vgl-geometry';
-import { RingBufferGeometry } from '../three';
 import { number } from '../validators';
 
 /**

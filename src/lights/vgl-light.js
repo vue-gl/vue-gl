@@ -1,5 +1,5 @@
+import { Light } from 'three';
 import VglObject3d from '../core/vgl-object3d';
-import { Light } from '../three';
 import { string, number } from '../validators';
 
 /**

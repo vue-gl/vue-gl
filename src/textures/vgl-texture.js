@@ -47,7 +47,7 @@ import {
   RGBDEncoding,
   BasicDepthPacking,
   RGBADepthPacking,
-} from '../three';
+} from 'three';
 import {
   string, number, vector2, boolean,
 } from '../validators';

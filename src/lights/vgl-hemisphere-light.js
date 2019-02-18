@@ -1,5 +1,5 @@
+import { HemisphereLight } from 'three';
 import VglLight from './vgl-light';
-import { HemisphereLight } from '../three';
 import { string } from '../validators';
 
 /**

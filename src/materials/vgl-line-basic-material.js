@@ -1,5 +1,5 @@
+import { LineBasicMaterial } from 'three';
 import VglMaterial from './vgl-material';
-import { LineBasicMaterial } from '../three';
 import { string, number, boolean } from '../validators';
 
 /**

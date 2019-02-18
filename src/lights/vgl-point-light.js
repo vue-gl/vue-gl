@@ -1,5 +1,5 @@
+import { PointLight } from 'three';
 import VglLight from './vgl-light';
-import { PointLight } from '../three';
 import { number } from '../validators';
 
 /**

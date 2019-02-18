@@ -1,5 +1,5 @@
+import { LineDashedMaterial } from 'three';
 import VglMaterial from './vgl-material';
-import { LineDashedMaterial } from '../three';
 import { string, number, boolean } from '../validators';
 
 /**

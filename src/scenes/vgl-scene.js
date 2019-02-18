@@ -1,5 +1,5 @@
+import { Scene } from 'three';
 import VglObject3d from '../core/vgl-object3d';
-import { Scene } from '../three';
 
 /**
  * This is where you place objects,

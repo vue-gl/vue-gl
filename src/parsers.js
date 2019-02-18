@@ -3,7 +3,7 @@ import {
   Vector3,
   Euler,
   Spherical,
-} from './three';
+} from 'three';
 
 /**
  * Returns a parsed vector3 object.

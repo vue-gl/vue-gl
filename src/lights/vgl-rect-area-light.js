@@ -1,5 +1,5 @@
+import { RectAreaLight } from 'three';
 import VglLight from './vgl-light';
-import { RectAreaLight } from '../three';
 import { number } from '../validators';
 
 /**

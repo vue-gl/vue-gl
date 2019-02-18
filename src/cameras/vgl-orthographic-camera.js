@@ -1,5 +1,5 @@
+import { OrthographicCamera } from 'three';
 import VglCamera from './vgl-camera';
-import { OrthographicCamera } from '../three';
 import { number } from '../validators';
 
 /**

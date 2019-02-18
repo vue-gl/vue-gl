@@ -1,5 +1,5 @@
+import { LineLoop } from 'three';
 import VglLine from './vgl-line';
-import { LineLoop } from '../three';
 
 /**
  * A continuous line component that connects back to the start,

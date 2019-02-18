@@ -1,5 +1,5 @@
+import { Line } from 'three';
 import { VglObject3dWithMatarialAndGeometry } from '../mixins';
-import { Line } from '../three';
 import { string } from '../validators';
 
 /**

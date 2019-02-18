@@ -1,5 +1,5 @@
+import { Sprite } from 'three';
 import { VglObject3dWithMatarial } from '../mixins';
-import { Sprite } from '../three';
 import { string } from '../validators';
 
 /**

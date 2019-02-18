@@ -1,5 +1,5 @@
+import { ExtrudeBufferGeometry } from 'three';
 import VglGeometry from '../core/vgl-geometry';
-import { ExtrudeBufferGeometry } from '../three';
 
 /**
  * A component for creating extruded geometry from a path shape,

@@ -1,5 +1,5 @@
+import { PerspectiveCamera } from 'three';
 import VglCamera from './vgl-camera';
-import { PerspectiveCamera } from '../three';
 import { number } from '../validators';
 
 /**

@@ -1,5 +1,5 @@
+import { AxesHelper } from 'three';
 import VglObject3d from '../core/vgl-object3d';
-import { AxesHelper } from '../three';
 import { number } from '../validators';
 
 /**

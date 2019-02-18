@@ -1,5 +1,5 @@
+import { PolarGridHelper } from 'three';
 import VglObject3d from '../core/vgl-object3d';
-import { PolarGridHelper } from '../three';
 import { number, string } from '../validators';
 
 /**

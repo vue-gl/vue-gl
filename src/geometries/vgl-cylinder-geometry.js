@@ -1,5 +1,5 @@
+import { CylinderBufferGeometry } from 'three';
 import VglGeometry from '../core/vgl-geometry';
-import { CylinderBufferGeometry } from '../three';
 import { number, boolean } from '../validators';
 
 /**
