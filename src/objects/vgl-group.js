@@ -1,5 +1,5 @@
+import { Group } from 'three';
 import VglObject3d from '../core/vgl-object3d';
-import { Group } from '../three';
 
 /**
  * A component for grouping objects,

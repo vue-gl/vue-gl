@@ -1,4 +1,4 @@
-import { BufferGeometry, BufferAttribute } from '../three';
+import { BufferGeometry, BufferAttribute } from 'three';
 import { string, floatArray } from '../validators';
 import { parseArray } from '../parsers';
 

@@ -1,8 +1,11 @@
+import { Object3D } from 'three';
 import { parseVector3, parseEuler } from '../parsers';
 import {
-  vector3, euler, boolean, string,
+  vector3,
+  euler,
+  boolean,
+  string,
 } from '../validators';
-import { Object3D } from '../three';
 
 /**
  * This is the base mixin component for most object components in VueGL,

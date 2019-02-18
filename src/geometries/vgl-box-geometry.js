@@ -1,5 +1,5 @@
+import { BoxBufferGeometry } from 'three';
 import VglGeometry from '../core/vgl-geometry';
-import { BoxBufferGeometry } from '../three';
 import { number } from '../validators';
 
 /**

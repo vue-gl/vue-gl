@@ -1,5 +1,5 @@
+import { MeshToonMaterial } from 'three';
 import VglMeshPhongMaterial from './vgl-mesh-phong-material';
-import { MeshToonMaterial } from '../three';
 
 /**
  * An extension of the mesh phong material with toon shading,

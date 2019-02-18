@@ -1,5 +1,5 @@
+import { CameraHelper } from 'three';
 import VglObject3d from '../core/vgl-object3d';
-import { CameraHelper } from '../three';
 import { string } from '../validators';
 
 /**

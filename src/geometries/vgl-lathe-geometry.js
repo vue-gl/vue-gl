@@ -1,5 +1,5 @@
+import { LatheBufferGeometry } from 'three';
 import VglGeometry from '../core/vgl-geometry';
-import { LatheBufferGeometry } from '../three';
 import { parseVector2Array } from '../parsers';
 import { vector2Array, number } from '../validators';
 

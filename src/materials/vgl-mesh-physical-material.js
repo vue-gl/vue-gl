@@ -1,5 +1,5 @@
+import { MeshPhysicalMaterial } from 'three';
 import VglMeshStandardMaterial from './vgl-mesh-standard-material';
-import { MeshPhysicalMaterial } from '../three';
 import { number } from '../validators';
 
 /**

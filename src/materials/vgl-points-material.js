@@ -1,5 +1,5 @@
+import { PointsMaterial } from 'three';
 import VglMaterial from './vgl-material';
-import { PointsMaterial } from '../three';
 import { string, number, boolean } from '../validators';
 
 /**

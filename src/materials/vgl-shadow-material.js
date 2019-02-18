@@ -1,5 +1,5 @@
+import { ShadowMaterial } from 'three';
 import VglMaterial from './vgl-material';
-import { ShadowMaterial } from '../three';
 
 /**
  * This material can receive shadows but otherwise is completely transparent,

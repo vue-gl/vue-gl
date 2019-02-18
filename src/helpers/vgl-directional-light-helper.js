@@ -1,5 +1,5 @@
+import { DirectionalLightHelper } from 'three';
 import VglObject3d from '../core/vgl-object3d';
-import { DirectionalLightHelper } from '../three';
 import { string, number } from '../validators';
 
 /**

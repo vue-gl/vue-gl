@@ -1,5 +1,5 @@
+import { SpriteMaterial } from 'three';
 import { VglMaterialWithMap } from '../mixins';
-import { SpriteMaterial } from '../three';
 import { string } from '../validators';
 
 /**

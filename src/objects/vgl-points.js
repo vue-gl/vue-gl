@@ -1,5 +1,5 @@
+import { Points } from 'three';
 import { VglObject3dWithMatarialAndGeometry } from '../mixins';
-import { Points } from '../three';
 import { string } from '../validators';
 
 /**

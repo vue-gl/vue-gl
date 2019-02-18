@@ -1,5 +1,5 @@
+import { ArrowHelper, Color, Vector3 } from 'three';
 import VglObject3d from '../core/vgl-object3d';
-import { ArrowHelper, Color, Vector3 } from '../three';
 import { parseVector3 } from '../parsers';
 import { number, string, vector3 } from '../validators';
 

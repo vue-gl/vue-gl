@@ -1,5 +1,5 @@
+import { TorusBufferGeometry } from 'three';
 import VglGeometry from '../core/vgl-geometry';
-import { TorusBufferGeometry } from '../three';
 import { number } from '../validators';
 
 /**

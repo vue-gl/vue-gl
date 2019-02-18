@@ -1,5 +1,5 @@
+import { ConeBufferGeometry } from 'three';
 import VglCylinderGeometry from './vgl-cylinder-geometry';
-import { ConeBufferGeometry } from '../three';
 import { number } from '../validators';
 
 /**

@@ -3,7 +3,7 @@ import {
   Spherical,
   Euler,
   Vector2,
-} from './three';
+} from 'three';
 
 export const number = [String, Number];
 export const string = String;

@@ -1,4 +1,4 @@
-import { OctahedronBufferGeometry } from '../three';
+import { OctahedronBufferGeometry } from 'three';
 import VglGeometry from '../core/vgl-geometry';
 import { number } from '../validators';
 

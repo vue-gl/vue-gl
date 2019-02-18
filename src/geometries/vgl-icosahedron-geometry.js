@@ -1,4 +1,4 @@
-import { IcosahedronBufferGeometry } from '../three';
+import { IcosahedronBufferGeometry } from 'three';
 import VglGeometry from '../core/vgl-geometry';
 import { number } from '../validators';
 

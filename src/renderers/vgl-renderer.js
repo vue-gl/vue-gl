@@ -1,5 +1,5 @@
+import { WebGLRenderer } from 'three';
 import VglNamespace from '../core/vgl-namespace';
-import { WebGLRenderer } from '../three';
 import { boolean, string } from '../validators';
 import { cameraPropRequiredMessage, scenePropRequiredMessage, cameraTypeUnknownMessage } from '../messages';
 

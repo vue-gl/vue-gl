@@ -1,5 +1,5 @@
+import { MeshStandardMaterial } from 'three';
 import { VglMaterialWithMap } from '../mixins';
-import { MeshStandardMaterial } from '../three';
 import { string } from '../validators';
 
 /**

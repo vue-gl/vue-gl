@@ -1,5 +1,5 @@
+import { SpotLight } from 'three';
 import VglLight from './vgl-light';
-import { SpotLight } from '../three';
 import { parseVector3 } from '../parsers';
 import { number, vector3 } from '../validators';
 

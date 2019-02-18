@@ -1,5 +1,5 @@
+import { Mesh } from 'three';
 import { VglObject3dWithMatarialAndGeometry } from '../mixins';
-import { Mesh } from '../three';
 import { string } from '../validators';
 
 /**

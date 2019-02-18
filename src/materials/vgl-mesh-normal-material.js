@@ -1,5 +1,5 @@
+import { MeshNormalMaterial } from 'three';
 import VglMaterial from './vgl-material';
-import { MeshNormalMaterial } from '../three';
 import { boolean } from '../validators';
 
 /**
