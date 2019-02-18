@@ -1,6 +1,6 @@
-import { DodecahedronBufferGeometry } from '../three.js';
-import VglGeometry from '../core/vgl-geometry.js';
-import { number } from '../validators.js';
+import { DodecahedronBufferGeometry } from 'three';
+import VglGeometry from '../core/vgl-geometry';
+import { number } from '../validators';
 
 /**
  * A component for generating a dodecahedron geometries,

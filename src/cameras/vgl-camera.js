@@ -1,7 +1,7 @@
-import VglObject3d from '../core/vgl-object3d.js';
-import { parseVector3, parseSpherical } from '../parsers.js';
-import { vector3, spherical } from '../validators.js';
-import { Camera, Vector3 } from '../three.js';
+import { Camera, Vector3 } from 'three';
+import VglObject3d from '../core/vgl-object3d';
+import { parseVector3, parseSpherical } from '../parsers';
+import { vector3, spherical } from '../validators';
 
 /**
  * This is abstract base component for cameras,

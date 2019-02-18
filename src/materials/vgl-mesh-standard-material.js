@@ -1,6 +1,6 @@
-import { VglMaterialWithMap } from '../mixins.js';
-import { MeshStandardMaterial } from '../three.js';
-import { string } from '../validators.js';
+import { MeshStandardMaterial } from 'three';
+import { VglMaterialWithMap } from '../mixins';
+import { string } from '../validators';
 
 /**
  * A standard physically based material,

@@ -1,6 +1,10 @@
 import {
-  Vector3, Spherical, Euler, Vector2, Quaternion,
-} from './three.js';
+  Vector3,
+  Spherical,
+  Euler,
+  Vector2,
+  Quaternion,
+} from 'three';
 
 export const number = [String, Number];
 export const string = String;

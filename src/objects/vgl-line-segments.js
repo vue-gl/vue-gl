@@ -1,5 +1,5 @@
-import VglLine from './vgl-line.js';
-import { LineSegments } from '../three.js';
+import { LineSegments } from 'three';
+import VglLine from './vgl-line';
 
 /**
  * A series of lines component drawn between pairs of vertices,

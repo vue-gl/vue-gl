@@ -1,13 +1,20 @@
 version: 2
 jobs:
-  build:
-    branches:
-      ignore:
-        - gh-pages
+  checkout:
     docker:
-      - image: circleci/node:latest-browsers
+      - image: circleci/node:lts
     steps:
       - checkout
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+  dependencies:
+    docker:
+      - image: circleci/node:lts
+    steps:
+      - attach_workspace:
+          at: .
       - restore_cache:
           keys:
             - yarn-{{ checksum "yarn.lock" }}
@@ -18,34 +25,74 @@ jobs:
           key: yarn-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+  lint:
+    docker:
+      - image: circleci/node:lts
+    steps:
+      - attach_workspace:
+          at: .
       - run:
-          name: Install launchers
-          command: |
-            if [ -z $BROWSER_STACK_USERNAME ] || [ -z $BROWSER_STACK_ACCESS_KEY ] ; then
-              yarn add karma-chrome-launcher karma-firefox-launcher
-            elif [ $CIRCLE_BRANCH = master ] ; then
-              yarn add karma-sauce-launcher
-            else
-              yarn add karma-browserstack-launcher
-            fi
+          name: Lint
+          command: yarn lint
+  lint_md:
+    docker:
+      - image: circleci/node:lts
+    steps:
+      - attach_workspace:
+          at: .
       - run:
-          name: Install the reporter
-          command: yarn add karma-junit-reporter
+          name: Lint documents
+          command: yarn lint:md
+  unit_test:
+    docker:
+      - image: circleci/node:lts
+    steps:
+      - attach_workspace:
+          at: .
       - run:
           name: Run unit tests
-          command: yarn test
+          command: yarn test --coverage --coverage-directory=coverage --max-workers=2
+      - persist_to_workspace:
+          root: .
+          paths:
+            - coverage
+  report_coverage:
+    docker:
+      - image: circleci/node:lts
+    steps:
+      - attach_workspace:
+          at: .
       - run:
-          name: Report the coverage
-          command: sudo npm i -g codecov && codecov
+          name: Install reporting tool
+          command: npm install codecov
       - run:
-          name: Report the coverage
-          command: |
-            if [ $CIRCLE_BRANCH = master ] ; then
-              npm i codacy-coverage
-              cat "coverage/$(ls -rt coverage | tail -n 1)/lcov.info" | ./node_modules/.bin/codacy-coverage
-            fi
-      - store_test_results:
-          path: junit
-      - store_artifacts:
-          path: coverage
-          destination: coverage
+          name: Report coverage
+          command: $(npm bin)/codecov
+workflows:
+  version: 2
+  before_merge:
+    jobs:
+      - checkout:
+          filters:
+            branches:
+              ignore:
+                - gh-pages
+      - dependencies:
+          requires:
+            - checkout
+      - lint:
+          requires:
+            - dependencies
+      - lint_md:
+          requires:
+            - dependencies
+      - unit_test:
+          requires:
+            - dependencies
+      - report_coverage:
+          requires:
+            - unit_test

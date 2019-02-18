@@ -1,6 +1,6 @@
-import { IcosahedronBufferGeometry } from '../three.js';
-import VglGeometry from '../core/vgl-geometry.js';
-import { number } from '../validators.js';
+import { IcosahedronBufferGeometry } from 'three';
+import VglGeometry from '../core/vgl-geometry';
+import { number } from '../validators';
 
 /**
  * A component for generating a icosahedron geometries,

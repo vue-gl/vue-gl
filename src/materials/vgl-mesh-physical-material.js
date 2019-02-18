@@ -1,6 +1,6 @@
-import VglMeshStandardMaterial from './vgl-mesh-standard-material.js';
-import { MeshPhysicalMaterial } from '../three.js';
-import { number } from '../validators.js';
+import { MeshPhysicalMaterial } from 'three';
+import VglMeshStandardMaterial from './vgl-mesh-standard-material';
+import { number } from '../validators';
 
 /**
  * An extension of the mesh standard material that allows for greater control over reflectivity,

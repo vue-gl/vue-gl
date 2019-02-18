@@ -10,8 +10,7 @@ See the [documents](https://vue-gl.github.io/vue-gl/) for more details.
 [![CircleCI](https://circleci.com/gh/vue-gl/vue-gl.svg?style=svg)](https://circleci.com/gh/vue-gl/vue-gl
 )  
 [![codecov](https://codecov.io/gh/vue-gl/vue-gl/branch/master/graph/badge.svg)](https://codecov.io/gh/vue-gl/vue-gl
-)  
-[![Build Status](https://saucelabs.com/browser-matrix/vuegl.svg)](https://saucelabs.com/open_sauce/user/vuegl)
+)
 
 ## Usage
 

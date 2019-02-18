@@ -1,5 +1,5 @@
-import VglCurve from './vgl-curve.js';
-import { CurvePath } from '../three.js';
+import { CurvePath } from 'three';
+import VglCurve from './vgl-curve';
 
 export default {
   mixins: [VglCurve],

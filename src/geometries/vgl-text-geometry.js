@@ -1,6 +1,6 @@
-import VglExtrudeGeometry from './vgl-extrude-geometry.js';
-import { TextBufferGeometry, BufferGeometry, FontLoader } from '../three.js';
-import { number, string, boolean } from '../validators.js';
+import { TextBufferGeometry, BufferGeometry, FontLoader } from 'three';
+import VglExtrudeGeometry from './vgl-extrude-geometry';
+import { number, string, boolean } from '../validators';
 
 const fonts = Object.create(null);
 

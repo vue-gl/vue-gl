@@ -1,6 +1,6 @@
-import VglGeometry from '../core/vgl-geometry.js';
-import { RingBufferGeometry } from '../three.js';
-import { number } from '../validators.js';
+import { RingBufferGeometry } from 'three';
+import VglGeometry from '../core/vgl-geometry';
+import { number } from '../validators';
 
 /**
  * This is a simple shape component of Euclidean geometry,

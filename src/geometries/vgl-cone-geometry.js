@@ -1,6 +1,6 @@
-import VglCylinderGeometry from './vgl-cylinder-geometry.js';
-import { ConeBufferGeometry } from '../three.js';
-import { number } from '../validators.js';
+import { ConeBufferGeometry } from 'three';
+import VglCylinderGeometry from './vgl-cylinder-geometry';
+import { number } from '../validators';
 
 /**
  * This is a component for generating cone geometries,

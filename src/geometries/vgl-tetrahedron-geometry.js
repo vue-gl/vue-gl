@@ -1,6 +1,6 @@
-import { TetrahedronBufferGeometry } from '../three.js';
-import VglGeometry from '../core/vgl-geometry.js';
-import { number } from '../validators.js';
+import { TetrahedronBufferGeometry } from 'three';
+import VglGeometry from '../core/vgl-geometry';
+import { number } from '../validators';
 
 /**
  * A component for generating a tetrahedron geometries,

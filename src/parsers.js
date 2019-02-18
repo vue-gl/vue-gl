@@ -1,6 +1,10 @@
 import {
-  Vector2, Vector3, Euler, Spherical, Quaternion,
-} from './three.js';
+  Vector2,
+  Vector3,
+  Euler,
+  Spherical,
+  Quaternion,
+} from 'three';
 
 /**
  * Returns a parsed quaternion object.

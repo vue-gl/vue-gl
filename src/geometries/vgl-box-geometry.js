@@ -1,6 +1,6 @@
-import VglGeometry from '../core/vgl-geometry.js';
-import { BoxBufferGeometry } from '../three.js';
-import { number } from '../validators.js';
+import { BoxBufferGeometry } from 'three';
+import VglGeometry from '../core/vgl-geometry';
+import { number } from '../validators';
 
 /**
  * This is the quadrilateral primitive geometry component,

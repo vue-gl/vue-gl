@@ -1,6 +1,6 @@
-import VglObject3d from '../core/vgl-object3d.js';
-import { BoxHelper } from '../three.js';
-import { string } from '../validators.js';
+import { BoxHelper } from 'three';
+import VglObject3d from '../core/vgl-object3d';
+import { string } from '../validators';
 
 /**
  * A helper component to show the world-axis-aligned bounding box around its parent,

@@ -1,4 +1,4 @@
-import { Curve } from '../three.js';
+import { Curve } from 'three';
 
 export default {
   inject: ['vglNamespace'],

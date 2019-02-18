@@ -1,6 +1,6 @@
-import { VglObject3dWithMatarialAndGeometry } from '../mixins.js';
-import { Mesh } from '../three.js';
-import { string } from '../validators.js';
+import { Mesh } from 'three';
+import { VglObject3dWithMatarialAndGeometry } from '../mixins';
+import { string } from '../validators';
 
 /**
  * A component representing triangular polygon mesh based objects,

@@ -1,6 +1,6 @@
-import { VglMaterialWithMap } from '../mixins.js';
-import { SpriteMaterial } from '../three.js';
-import { string } from '../validators.js';
+import { SpriteMaterial } from 'three';
+import { VglMaterialWithMap } from '../mixins';
+import { string } from '../validators';
 
 /**
  * A material for a use with a [VglSprite](vgl-sprite) component,

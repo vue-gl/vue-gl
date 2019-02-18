@@ -1,6 +1,6 @@
-import VglLight from './vgl-light.js';
-import { HemisphereLight } from '../three.js';
-import { string } from '../validators.js';
+import { HemisphereLight } from 'three';
+import VglLight from './vgl-light';
+import { string } from '../validators';
 
 /**
  * A light source positioned directly above the scene, with color fading from the sky color to the

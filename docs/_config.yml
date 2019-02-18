@@ -12,3 +12,5 @@ defaults:
       path: components
     values:
       layout: component
+exclude:
+  - rollup.config.js

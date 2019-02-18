@@ -1,6 +1,6 @@
-import { VglObject3dWithMatarialAndGeometry } from '../mixins.js';
-import { Line } from '../three.js';
-import { string } from '../validators.js';
+import { Line } from 'three';
+import { VglObject3dWithMatarialAndGeometry } from '../mixins';
+import { string } from '../validators';
 
 /**
  * A continuous line component,

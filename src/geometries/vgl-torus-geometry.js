@@ -1,6 +1,6 @@
-import VglGeometry from '../core/vgl-geometry.js';
-import { TorusBufferGeometry } from '../three.js';
-import { number } from '../validators.js';
+import { TorusBufferGeometry } from 'three';
+import VglGeometry from '../core/vgl-geometry';
+import { number } from '../validators';
 
 /**
  * A component for generating torus geometries,

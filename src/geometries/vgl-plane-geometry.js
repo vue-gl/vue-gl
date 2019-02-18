@@ -1,6 +1,6 @@
-import VglGeometry from '../core/vgl-geometry.js';
-import { PlaneBufferGeometry } from '../three.js';
-import { number } from '../validators.js';
+import { PlaneBufferGeometry } from 'three';
+import VglGeometry from '../core/vgl-geometry';
+import { number } from '../validators';
 
 /**
  * A component for generating plane geometries,

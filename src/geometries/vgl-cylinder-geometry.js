@@ -1,6 +1,6 @@
-import VglGeometry from '../core/vgl-geometry.js';
-import { CylinderBufferGeometry } from '../three.js';
-import { number, boolean } from '../validators.js';
+import { CylinderBufferGeometry } from 'three';
+import VglGeometry from '../core/vgl-geometry';
+import { number, boolean } from '../validators';
 
 /**
  * This is a component for generating cylinder geometries,

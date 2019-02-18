@@ -1,5 +1,5 @@
-import VglObject3d from '../core/vgl-object3d.js';
-import { Group } from '../three.js';
+import { Group } from 'three';
+import VglObject3d from '../core/vgl-object3d';
 
 /**
  * A component for grouping objects,

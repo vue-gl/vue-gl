@@ -1,6 +1,6 @@
-import VglCamera from './vgl-camera.js';
-import { PerspectiveCamera } from '../three.js';
-import { number } from '../validators.js';
+import { PerspectiveCamera } from 'three';
+import VglCamera from './vgl-camera';
+import { number } from '../validators';
 
 /**
  * Camera that uses perspective projection,

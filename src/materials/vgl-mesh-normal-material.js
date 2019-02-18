@@ -1,6 +1,6 @@
-import VglMaterial from './vgl-material.js';
-import { MeshNormalMaterial } from '../three.js';
-import { boolean } from '../validators.js';
+import { MeshNormalMaterial } from 'three';
+import VglMaterial from './vgl-material';
+import { boolean } from '../validators';
 
 /**
  * A material that maps the normal vectors to RGB colors,

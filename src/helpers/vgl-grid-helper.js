@@ -1,6 +1,6 @@
-import VglObject3d from '../core/vgl-object3d.js';
-import { GridHelper } from '../three.js';
-import { number, string } from '../validators.js';
+import { GridHelper } from 'three';
+import VglObject3d from '../core/vgl-object3d';
+import { number, string } from '../validators';
 
 /**
  * A component to define grids,

@@ -1,6 +1,6 @@
-import { VglMaterialWithMap } from '../mixins.js';
-import { MeshDepthMaterial } from '../three.js';
-import { string, boolean } from '../validators.js';
+import { MeshDepthMaterial } from 'three';
+import { VglMaterialWithMap } from '../mixins';
+import { string, boolean } from '../validators';
 
 /**
  * A material for drawing geometry by depth,

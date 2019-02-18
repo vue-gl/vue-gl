@@ -1,6 +1,6 @@
-import VglCamera from './vgl-camera.js';
-import { OrthographicCamera } from '../three.js';
-import { number } from '../validators.js';
+import { OrthographicCamera } from 'three';
+import VglCamera from './vgl-camera';
+import { number } from '../validators';
 
 /**
  * Camera that uses orthographic projection,

@@ -1,5 +1,5 @@
-import VglPath from './vgl-path.js';
-import { Shape } from '../three.js';
+import { Shape } from 'three';
+import VglPath from './vgl-path';
 
 export default {
   mixins: [VglPath],

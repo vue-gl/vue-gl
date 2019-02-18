@@ -1,6 +1,6 @@
-import VglGeometry from '../core/vgl-geometry.js';
-import { SphereBufferGeometry } from '../three.js';
-import { number } from '../validators.js';
+import { SphereBufferGeometry } from 'three';
+import VglGeometry from '../core/vgl-geometry';
+import { number } from '../validators';
 
 /**
  * This is a component for generating sphere geometries,

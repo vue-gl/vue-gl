@@ -1,5 +1,5 @@
-import VglMaterial from './materials/vgl-material.js';
-import VglObject3d from './core/vgl-object3d.js';
+import VglMaterial from './materials/vgl-material';
+import VglObject3d from './core/vgl-object3d';
 
 export const VglObject3dWithMatarial = {
   mixins: [VglObject3d],

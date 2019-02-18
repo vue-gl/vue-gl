@@ -47,11 +47,11 @@ import {
   RGBDEncoding,
   BasicDepthPacking,
   RGBADepthPacking,
-} from '../three.js';
+} from 'three';
 import {
   string, number, vector2, boolean,
-} from '../validators.js';
-import { parseVector2 } from '../parsers.js';
+} from '../validators';
+import { parseVector2 } from '../parsers';
 
 const mapping = {
   uv: UVMapping,

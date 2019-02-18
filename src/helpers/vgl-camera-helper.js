@@ -1,6 +1,6 @@
-import VglObject3d from '../core/vgl-object3d.js';
-import { CameraHelper } from '../three.js';
-import { string } from '../validators.js';
+import { CameraHelper } from 'three';
+import VglObject3d from '../core/vgl-object3d';
+import { string } from '../validators';
 
 /**
  * This helps with visualizing what a camera contains in its frustum,

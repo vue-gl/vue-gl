@@ -1,5 +1,5 @@
-import VglLight from './vgl-light.js';
-import { AmbientLight } from '../three.js';
+import { AmbientLight } from 'three';
+import VglLight from './vgl-light';
 
 /**
  * A light component globally illuminates all objects in the scene equally,

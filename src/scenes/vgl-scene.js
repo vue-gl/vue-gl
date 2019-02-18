@@ -1,5 +1,5 @@
-import VglObject3d from '../core/vgl-object3d.js';
-import { Scene } from '../three.js';
+import { Scene } from 'three';
+import VglObject3d from '../core/vgl-object3d';
 
 /**
  * This is where you place objects,
