@@ -3,7 +3,7 @@ import { parseVector3, parseEuler, parseQuaternion } from '../parsers';
 import {
   vector3,
   euler,
-  quaternion, 
+  quaternion,
   boolean,
   string,
 } from '../validators';
@@ -36,8 +36,8 @@ export default {
     /** Whether the object is visible. */
     visible: {
       type: boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   computed: {
     inst: () => new Object3D(),
@@ -70,7 +70,7 @@ export default {
         Object.assign(inst, {
           castShadow: this.castShadow,
           receiveShadow: this.receiveShadow,
-          visible : this.visible
+          visible: this.visible,
         });
         if (this.name !== undefined) this.vglNamespace.object3ds[this.name] = inst;
       },
@@ -79,7 +79,9 @@ export default {
     'vglObject3d.inst': function parentInst(inst) { inst.add(this.inst); },
     position(position) { this.inst.position.copy(parseVector3(position)); },
     rotation(rotation) { this.inst.rotation.copy(parseEuler(rotation)); },
-    rotationQuaternion(rotationQuaternion) { this.inst.quaternion.copy(parseQuaternion(rotationQuaternion)); },
+    rotationQuaternion(rotationQuaternion) {
+      this.inst.quaternion.copy(parseQuaternion(rotationQuaternion));
+    },
     scale(scale) { this.inst.scale.copy(parseVector3(scale)); },
     castShadow(castShadow) { this.inst.castShadow = castShadow; },
     receiveShadow(receiveShadow) { this.inst.receiveShadow = receiveShadow; },
@@ -88,7 +90,7 @@ export default {
       if (object3ds[oldName] === inst) delete object3ds[oldName];
       object3ds[name] = inst;
     },
-    visible(visible) { this.inst.visible = visible; }
+    visible(visible) { this.inst.visible = visible; },
   },
   render(h) { return this.$slots.default ? h('div', this.$slots.default) : undefined; },
 };
