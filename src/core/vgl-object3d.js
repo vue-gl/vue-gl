@@ -23,7 +23,11 @@ export default {
     position: vector3,
     /** The object's local rotation as a euler angle. */
     rotation: euler,
-    /** The object's local rotation as a quaternion (specified in x, y, z, w order). */
+    /**
+     * The object's local rotation as a quaternion (specified in x, y, z, w order).
+     * Do not use in conjunction with the rotation prop, since they both control the same property
+     * of the underlying THREE.Object3D object.
+     */
     rotationQuaternion: quaternion,
     /** The object's local scale as a 3D vector. */
     scale: vector3,
