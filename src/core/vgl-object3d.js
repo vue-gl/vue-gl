@@ -1,8 +1,9 @@
 import { Object3D } from 'three';
-import { parseVector3, parseEuler } from '../parsers';
+import { parseVector3, parseEuler, parseQuaternion } from '../parsers';
 import {
   vector3,
   euler,
+  quaternion,
   boolean,
   string,
 } from '../validators';
@@ -22,6 +23,12 @@ export default {
     position: vector3,
     /** The object's local rotation as a euler angle. */
     rotation: euler,
+    /**
+     * The object's local rotation as a quaternion (specified in x, y, z, w order).
+     * Do not use in conjunction with the rotation prop, since they both control the same property
+     * of the underlying THREE.Object3D object.
+     */
+    rotationQuaternion: quaternion,
     /** The object's local scale as a 3D vector. */
     scale: vector3,
     /** Whether the object gets rendered into shadow map. */
@@ -30,6 +37,11 @@ export default {
     receiveShadow: boolean,
     /** Optional name of the object. */
     name: string,
+    /** Whether the object is visible. */
+    visible: {
+      type: boolean,
+      default: true,
+    },
   },
   computed: {
     inst: () => new Object3D(),
@@ -57,10 +69,12 @@ export default {
         if (this.vglObject3d.inst) this.vglObject3d.inst.add(inst);
         if (this.position) inst.position.copy(parseVector3(this.position));
         if (this.rotation) inst.rotation.copy(parseEuler(this.rotation));
+        if (this.rotationQuaternion) inst.quaternion.copy(parseQuaternion(this.rotationQuaternion));
         if (this.scale) inst.scale.copy(parseVector3(this.scale));
         Object.assign(inst, {
           castShadow: this.castShadow,
           receiveShadow: this.receiveShadow,
+          visible: this.visible,
         });
         if (this.name !== undefined) this.vglNamespace.object3ds[this.name] = inst;
       },
@@ -69,6 +83,9 @@ export default {
     'vglObject3d.inst': function parentInst(inst) { inst.add(this.inst); },
     position(position) { this.inst.position.copy(parseVector3(position)); },
     rotation(rotation) { this.inst.rotation.copy(parseEuler(rotation)); },
+    rotationQuaternion(rotationQuaternion) {
+      this.inst.quaternion.copy(parseQuaternion(rotationQuaternion));
+    },
     scale(scale) { this.inst.scale.copy(parseVector3(scale)); },
     castShadow(castShadow) { this.inst.castShadow = castShadow; },
     receiveShadow(receiveShadow) { this.inst.receiveShadow = receiveShadow; },
@@ -77,6 +94,7 @@ export default {
       if (object3ds[oldName] === inst) delete object3ds[oldName];
       object3ds[name] = inst;
     },
+    visible(visible) { this.inst.visible = visible; },
   },
   render(h) { return this.$slots.default ? h('div', this.$slots.default) : undefined; },
 };

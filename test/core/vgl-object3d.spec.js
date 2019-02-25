@@ -35,6 +35,22 @@ describe('VglObject3d', () => {
     expect(inst).toHaveProperty('castShadow', true);
     expect(inst).toHaveProperty('receiveShadow', true);
   });
+  test('quaternion property of the instance should correspond to rotationQuaternion prop', () => {
+    const { inst } = new (Vue.extend(VglObject3d))({
+      inject,
+      propsData: {
+        position: '8 3 -3.5',
+        rotationQuaternion: '0.671749 0.051361 0.124275 0.728472',
+      },
+    });
+    expect(inst.position).toHaveProperty('x', 8);
+    expect(inst.position).toHaveProperty('y', 3);
+    expect(inst.position).toHaveProperty('z', -3.5);
+    expect(inst.quaternion).toHaveProperty('x', 0.671749);
+    expect(inst.quaternion).toHaveProperty('y', 0.051361);
+    expect(inst.quaternion).toHaveProperty('z', 0.124275);
+    expect(inst.quaternion).toHaveProperty('w', 0.728472);
+  });
   test('the instance sould not be reinstantiated after props change', async () => {
     const vm = new (Vue.extend(VglObject3d))({ inject });
     const { inst } = vm;
@@ -67,11 +83,21 @@ describe('VglObject3d', () => {
     expect(vm.inst).toHaveProperty('castShadow', true);
     expect(vm.inst).toHaveProperty('receiveShadow', true);
   });
+  test('quaternion property of the instance should change after a change prop change', async () => {
+    const vm = new (Vue.extend(VglObject3d))({ inject });
+    vm.rotationQuaternion = '0.671749 0.051361 0.124275 0.728472';
+    await vm.$nextTick();
+    expect(vm.inst.quaternion).toHaveProperty('x', 0.671749);
+    expect(vm.inst.quaternion).toHaveProperty('y', 0.051361);
+    expect(vm.inst.quaternion).toHaveProperty('z', 0.124275);
+    expect(vm.inst.quaternion).toHaveProperty('w', 0.728472);
+  });
   test('the properties of the instance should be defaults without props', () => {
     const { inst } = new (Vue.extend(VglObject3d))({ inject });
     const {
       position,
       rotation,
+      quaternion,
       scale,
       castShadow,
       receiveShadow,
@@ -83,6 +109,10 @@ describe('VglObject3d', () => {
     expect(inst.rotation).toHaveProperty('y', rotation.y);
     expect(inst.rotation).toHaveProperty('z', rotation.z);
     expect(inst.rotation).toHaveProperty('order', rotation.order);
+    expect(inst.quaternion).toHaveProperty('x', quaternion.x);
+    expect(inst.quaternion).toHaveProperty('y', quaternion.y);
+    expect(inst.quaternion).toHaveProperty('z', quaternion.z);
+    expect(inst.quaternion).toHaveProperty('w', quaternion.w);
     expect(inst.scale).toHaveProperty('x', scale.x);
     expect(inst.scale).toHaveProperty('y', scale.y);
     expect(inst.scale).toHaveProperty('z', scale.z);
