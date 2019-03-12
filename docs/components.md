@@ -22,7 +22,9 @@ title: false
         {{ word | capitalize }}
       {%- endfor -%}
       {%- endcapture %}
+
 * [{{ disp }}]({{ component.url | relative_url }}#content-wrapper)
+
     {%- endfor %}
   {% endif %}
 {%- endfor -%}

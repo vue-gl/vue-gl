@@ -83,6 +83,7 @@ Before you submit a pull request, consider the following points.
 * Check your fixes at documentation examples.
   1. Run `npm start` or `yarn start`.
   2. After jekyll server started, open the address displayed on the terminal.
+
 > You need [Node.js and npm](https://nodejs.org) to build, test, and lint
 > VueGL.  
 > You need [Ruby](https://www.ruby-lang.org) and [Bundler](http://bundler.io) to
