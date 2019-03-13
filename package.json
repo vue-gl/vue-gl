@@ -47,7 +47,7 @@
     "nise": "^1.4.8",
     "rollup": "^1.1.2",
     "rollup-plugin-babel": "^4.0.2",
-    "rollup-plugin-babel-minify": "^7.0.0",
+    "rollup-plugin-babel-minify": "^8.0.0",
     "rollup-plugin-copy": "^0.2.3",
     "vue": "^2.5.13"
   },
