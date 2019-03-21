@@ -22,6 +22,7 @@
   },
   "license": "MIT",
   "main": "dist/vue-gl.js",
+  "types": "src/index.d.ts",
   "scripts": {
     "lint": "eslint .",
     "lint:md": "markdownlint \"**/*.md\" --ignore node_modules --ignore docs/components --ignore _site",
