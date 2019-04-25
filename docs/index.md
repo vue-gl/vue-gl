@@ -69,7 +69,3 @@ It might be helpful if you want to reduce using resouces.
 All modern browsers except IE < 8 are supported, depends on Vue.js and three.js.
 Note that IE9 needs a polyfill for TypedArray class ([js-polyfills/typedarray.js](https://github.com/inexorabletash/polyfill/blob/master/typedarray.js)
 is a one of the options).
-
-Components are tested on following browsers.
-
-![Build Status](https://saucelabs.com/browser-matrix/vuegl.svg)
