@@ -73,3 +73,17 @@ div.example a {
   top: 1ex;
   right: 1ex;
 }
+
+header .ads {
+  width: 134px + 68px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  top: 58px + 22px + 10px;
+  @media only screen and (max-width: 767px) {
+    position: relative;
+    width: auto;
+    top: 0;
+    margin-top: 10px;
+  }
+}
