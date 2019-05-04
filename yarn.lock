@@ -4891,9 +4891,9 @@ rollup-plugin-babel@^4.0.2:
     rollup-pluginutils "^2.3.0"
 
 rollup-plugin-copy@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-copy/-/rollup-plugin-copy-2.0.0.tgz#26d49ccdb5b64983bb781784ebaa53f72d042879"
-  integrity sha512-hCgwxHzmlnghDPmV6oJIpX19bW2rbhE5T9vc+hHism8tToRNh+r38cMQSYZ5gJ4+E51DUJ/tqnGAP+Mll/R3BA==
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-copy/-/rollup-plugin-copy-2.0.1.tgz#2a45e45be84a0d4054d1774604044e7f7581fdae"
+  integrity sha512-IE+Ob5k1Pi/DLi8SlFcf9jN1m2p0ovIwMuz0GM5NeQeV14puW/bCUpmXlqVtQVy+ErXOhZEeBaqinJ0xnJdxKg==
   dependencies:
     chalk "^2.4.2"
     fs-extra "^7.0.1"
