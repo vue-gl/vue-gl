@@ -1,6 +1,6 @@
 import { Mesh } from 'three';
 import { VglObject3dWithMatarialAndGeometry } from '../mixins';
-import { string } from '../validators';
+import { string, materials } from '../validators';
 
 /**
  * A component representing triangular polygon mesh based objects,
@@ -15,7 +15,7 @@ export default {
     /** Name of the geometry, defining the object's structure. */
     geometry: string,
     /** Name of the material, defining the object's appearance. */
-    material: string,
+    material: materials,
   },
   computed: {
     inst: () => new Mesh(),
