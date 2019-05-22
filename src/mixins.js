@@ -8,7 +8,7 @@ export const VglObject3dWithMatarial = {
       const { vglNamespace: { materials }, material, inst } = this;
       if (Array.isArray(material)) {
         inst.material = material.reduce(
-          (acc, current) => (materials[current] ? [...acc, materials[current]] : acc),
+          (acc, current) => (materials[current] ? [...acc, materials[current]] : acc), [],
         );
       } else if (materials[material]) inst.material = materials[material];
     },
