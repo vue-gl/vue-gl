@@ -64,3 +64,6 @@ junit/
 dist/
 docs/js/
 docs/components/
+
+# JetBrains IDE
+.idea/
