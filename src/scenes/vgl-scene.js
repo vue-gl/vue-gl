@@ -1,6 +1,6 @@
 import { Scene } from 'three';
 import VglObject3d from '../core/vgl-object3d';
-import { parseFog } from '../parsers';
+import { parseFog, parseColor } from '../parsers';
 import { string } from '../validators';
 
 /**
@@ -15,6 +15,13 @@ export default {
   props: {
     /** the color, near and far parameters of the scene's fog */
     fog: string,
+    /**
+     * Expecting to accept a string representing a color.
+     * Will be overwrited by backgroundTexture prop if both props are set
+    */
+    backgroundColor: string,
+    /** Expecting to accept a string representing a texture name. */
+    backgroundTexture: string,
   },
   computed: {
     inst: () => new Scene(),
@@ -24,6 +31,10 @@ export default {
       handler(inst) {
         this.vglNamespace.scenes[this.name] = inst;
         if (this.fog) this.inst.fog = parseFog(this.fog);
+        if (this.backgroundColor) this.inst.background = parseColor(this.backgroundColor);
+        if (this.backgroundTexture) {
+          this.inst.background = this.vglNamespace.textures[this.backgroundTexture] || null;
+        }
       },
       immediate: true,
     },
@@ -34,6 +45,12 @@ export default {
     },
     fog(fog) {
       this.inst.fog = parseFog(fog);
+    },
+    backgroundColor(color) {
+      this.inst.background = parseColor(color);
+    },
+    backgroundTexture(name) {
+      this.inst.background = this.vglNamespace.textures[name] || null;
     },
   },
   beforeDestroy() {
