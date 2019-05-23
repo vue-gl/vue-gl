@@ -1,7 +1,7 @@
 import { Scene } from 'three';
 import VglObject3d from '../core/vgl-object3d';
 import { parseFog, parseColor } from '../parsers';
-import { string } from '../validators';
+import { string, fog } from '../validators';
 
 /**
  * This is where you place objects,
@@ -14,7 +14,9 @@ export default {
   mixins: [VglObject3d],
   props: {
     /** the color, near and far parameters of the scene's fog */
-    fog: string,
+    fog: {
+      type: fog,
+    },
     /**
      * Expecting to accept a string representing a color.
      * Will be overwrited by backgroundTexture prop if both props are set
@@ -43,8 +45,8 @@ export default {
       if (scenes[oldName] === inst) delete scenes[oldName];
       scenes[name] = inst;
     },
-    fog(fog) {
-      this.inst.fog = parseFog(fog);
+    fog(newFog) {
+      this.inst.fog = parseFog(newFog);
     },
     backgroundColor(color) {
       this.inst.background = parseColor(color);
