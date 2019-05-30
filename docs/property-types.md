@@ -69,4 +69,5 @@ Following list shows all property types and parsing schemas.
   Parsed as an array of vector2s.
 - ***fog***
   Space-separated paramaters as color, near and far, corresponding [THREE.Fog](https://threejs.org/docs/#api/en/scenes/Fog)
-  
+- ***names***
+  A string or an array of string.

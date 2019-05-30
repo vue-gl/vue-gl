@@ -6,7 +6,11 @@ export const VglObject3dWithMatarial = {
   methods: {
     setMaterial() {
       const { vglNamespace: { materials }, material, inst } = this;
-      if (materials[material]) inst.material = materials[material];
+      if (Array.isArray(material)) {
+        inst.material = material.reduce(
+          (acc, current) => (materials[current] ? [...acc, materials[current]] : acc), [],
+        );
+      } else if (materials[material]) inst.material = materials[material];
     },
   },
   created() { this.vglNamespace.beforeRender.unshift(this.setMaterial); },

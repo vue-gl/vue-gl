@@ -18,3 +18,4 @@ export const quaternion = [String, Quaternion];
 export const floatArray = [String, Array];
 export const vector2Array = [String, Array];
 export const fog = [String, Fog];
+export const names = [String, Array];
