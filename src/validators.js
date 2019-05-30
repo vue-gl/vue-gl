@@ -16,3 +16,4 @@ export const vector2 = [String, Vector2];
 export const quaternion = [String, Quaternion];
 export const floatArray = [String, Array];
 export const vector2Array = [String, Array];
+export const names = [String, Array];

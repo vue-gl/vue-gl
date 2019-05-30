@@ -67,3 +67,5 @@ Following list shows all property types and parsing schemas.
   Parsed as an array of float numbers.
 - ***vector2Array***
   Parsed as an array of vector2s.
+- ***names***
+  A string or an array of string.
