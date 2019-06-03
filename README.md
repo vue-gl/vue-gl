@@ -183,7 +183,7 @@ When you open the html above in the browser, you'll see below.
         Corresponding to [THREE.PointsMaterial](https://threejs.org/docs/index.html#api/materials/PointsMaterial)
   - [ ] **[VglRawShaderMaterial](src/materials/vgl-raw-shader-material.js)** -
         Corresponding to [THREE.RawShaderMaterial](https://threejs.org/docs/index.html#api/materials/RawShaderMaterial)
-  - [ ] **[VglShaderMaterial](src/materials/vgl-shader-material.js)** -
+  - [X] **[VglShaderMaterial](src/materials/vgl-shader-material.js)** -
         Corresponding to [THREE.ShaderMaterial](https://threejs.org/docs/index.html#api/materials/ShaderMaterial)
   - [x] **[VglShadowMaterial](src/materials/vgl-shadow-material.js)** -
         Corresponding to [THREE.ShadowMaterial](https://threejs.org/docs/index.html#api/materials/ShadowMaterial)
