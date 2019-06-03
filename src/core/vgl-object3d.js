@@ -95,7 +95,7 @@ export default {
     name(name, oldName) {
       const { vglNamespace: { object3ds }, inst } = this;
       if (object3ds[oldName] === inst) delete object3ds[oldName];
-      this.inst.name = this.name;
+      this.inst.name = name;
       object3ds[name] = inst;
     },
     visible(visible) { this.inst.visible = visible; },
