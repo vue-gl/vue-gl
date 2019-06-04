@@ -28,6 +28,16 @@ export default {
   computed: {
     inst: () => new Scene(),
   },
+  methods: {
+    setBackgroundTexture() {
+      const { vglNamespace: { textures }, inst, backgroundTexture } = this;
+      if (backgroundTexture in textures) inst.background = textures[backgroundTexture];
+    },
+  },
+  created() {
+    const { vglNamespace: { beforeRender }, setBackgroundTexture } = this;
+    beforeRender.unshift(setBackgroundTexture);
+  },
   watch: {
     inst: {
       handler(inst) {
@@ -56,7 +66,8 @@ export default {
     },
   },
   beforeDestroy() {
-    const { vglNamespace: { scenes }, inst } = this;
+    const { vglNamespace: { scenes, beforeRender }, inst, setBackgroundTexture } = this;
     if (scenes[this.name] === inst) delete scenes[this.name];
+    beforeRender.splice(beforeRender.indexOf(setBackgroundTexture), 1);
   },
 };
