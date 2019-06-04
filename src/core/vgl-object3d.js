@@ -77,7 +77,8 @@ export default {
           visible: this.visible,
         });
         if (this.name !== undefined) {
-          this.inst.name = this.name;
+          // eslint-disable-next-line no-param-reassign
+          inst.name = this.name;
           this.vglNamespace.object3ds[this.name] = inst;
         }
       },
