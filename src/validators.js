@@ -4,6 +4,7 @@ import {
   Euler,
   Vector2,
   Quaternion,
+  Fog,
 } from 'three';
 
 export const number = [String, Number];
@@ -16,4 +17,5 @@ export const vector2 = [String, Vector2];
 export const quaternion = [String, Quaternion];
 export const floatArray = [String, Array];
 export const vector2Array = [String, Array];
+export const fog = [String, Fog];
 export const names = [String, Array];
