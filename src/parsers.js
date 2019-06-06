@@ -4,6 +4,8 @@ import {
   Euler,
   Spherical,
   Quaternion,
+  Fog,
+  Color,
 } from 'three';
 
 /**
@@ -53,4 +55,18 @@ export function parseArray(str) {
  */
 export function parseVector2Array(str) {
   return parseArray(str).map(elm => parseVector2(elm));
+}
+
+/**
+ * Returns a parsed fog object
+ */
+export function parseFog(str) {
+  return str.isFog ? str : new Fog(...str.trim().split(/\s+/).map((elm, i) => (i === 0 ? elm : parseFloat(elm))));
+}
+
+/**
+ * Returns a parsed Color object
+ */
+export function parseColor(str) {
+  return str.isColor ? str : new Color(str);
 }
