@@ -132,4 +132,14 @@ describe('VglObject3d', () => {
     child.$destroy();
     expect(vm.inst.children).not.toContain(child.inst);
   });
+  test('the instance should have the name applied on ThreeJS Object inst', () => {
+    const { inst } = new (Vue.extend(VglObject3d))({ inject, propsData: { name: 'test' } });
+    expect(inst.name).toBe('test');
+  });
+  test('the properties "name" of the instance should change after props change', async () => {
+    const vm = new (Vue.extend(VglObject3d))({ inject, propsData: { name: 'test' } });
+    vm.name = 'newName';
+    await vm.$nextTick();
+    expect(vm.inst.name).toBe('newName');
+  });
 });
