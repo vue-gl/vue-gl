@@ -76,7 +76,11 @@ export default {
           receiveShadow: this.receiveShadow,
           visible: this.visible,
         });
-        if (this.name !== undefined) this.vglNamespace.object3ds[this.name] = inst;
+        if (this.name !== undefined) {
+          // eslint-disable-next-line no-param-reassign
+          inst.name = this.name;
+          this.vglNamespace.object3ds[this.name] = inst;
+        }
       },
       immediate: true,
     },
@@ -92,6 +96,7 @@ export default {
     name(name, oldName) {
       const { vglNamespace: { object3ds }, inst } = this;
       if (object3ds[oldName] === inst) delete object3ds[oldName];
+      this.inst.name = name;
       object3ds[name] = inst;
     },
     visible(visible) { this.inst.visible = visible; },
