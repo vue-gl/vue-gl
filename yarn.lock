@@ -5469,10 +5469,10 @@ text-table@^0.2.0:
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
 
-three@^0.105.1:
-  version "0.105.2"
-  resolved "https://registry.yarnpkg.com/three/-/three-0.105.2.tgz#d135f1549bdcf5a9acd904ba3dbf9198a0268984"
-  integrity sha512-L3Al37k4g3hVbgFFS251UVtIc25chhyN0/RvXzR0C+uIBToV6EKDG+MZzEXm9L2miGUVMK27W46/VkP6WUZXMg==
+three@^0.106.0:
+  version "0.106.0"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.106.0.tgz#dacd023c2cd1381e566d8561a226ba97b2fcb45f"
+  integrity sha512-fUMDenzhJDf+DNLPrQqDTbVYbXb/2Q4Y4EDBsDORS3UIR9GairCpFXzn9uOq+htVyagJGBsBpx8eyKQeXs/9YQ==
 
 throat@^4.0.0:
   version "4.1.0"
