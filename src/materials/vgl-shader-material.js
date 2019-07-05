@@ -66,7 +66,6 @@ export default {
      *    { other uniforms... }
      * ]),
      * ```
-     * This prop is only used for initialization; it is not reactive.
      */
     lights: { type: boolean, default: false },
     /**
