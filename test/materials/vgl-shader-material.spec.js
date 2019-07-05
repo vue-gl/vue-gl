@@ -45,13 +45,11 @@ describe('VglShaderMaterial', () => {
     expect(inst).toHaveProperty('wireframe', true);
     expect(inst).toHaveProperty('wireframeLinewidth', 3.0);
   });
-  test('the instance sould not be reinstantiated after props change', async () => {
+  test('the instance sould not be reinstantiated after most props change', async () => {
     const vm = new (Vue.extend(VglShaderMaterial))({ inject });
     const { inst } = vm;
     vm.defines = { FOO: 1 };
-    vm.fog = true;
     vm.fragmentShader = 'frag shader';
-    vm.lights = true;
     vm.linewidth = 2.0;
     vm.flatShading = true;
     vm.uniforms = { u: { value: 0.0 } };
@@ -60,6 +58,14 @@ describe('VglShaderMaterial', () => {
     vm.wireframeLinewidth = 3.0;
     await vm.$nextTick();
     expect(inst).toBe(vm.inst);
+  });
+  test('the instance sould be reinstantiated after fog/lights change', async () => {
+    const vm = new (Vue.extend(VglShaderMaterial))({ inject });
+    const { inst } = vm;
+    vm.fog = true;
+    vm.lights = true;
+    await vm.$nextTick();
+    expect(inst).not.toBe(vm.inst);
   });
   test('the properties of the instance should change after props change', async () => {
     const vm = new (Vue.extend(VglShaderMaterial))({ inject });
