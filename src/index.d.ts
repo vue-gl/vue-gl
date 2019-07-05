@@ -58,6 +58,7 @@ export const VglMeshNormalMaterial: object;
 export const VglMeshPhongMaterial: object;
 export const VglMeshToonMaterial: object;
 export const VglMeshPhysicalMaterial: object;
+export const VglShaderMaterial: object;
 export const VglLatheGeometry: object;
 export const VglSpotLightHelper: object;
 export const VglHemisphereLight: object;

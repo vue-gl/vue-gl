@@ -56,6 +56,7 @@ import VglMeshNormalMaterial from './materials/vgl-mesh-normal-material';
 import VglMeshPhongMaterial from './materials/vgl-mesh-phong-material';
 import VglMeshToonMaterial from './materials/vgl-mesh-toon-material';
 import VglMeshPhysicalMaterial from './materials/vgl-mesh-physical-material';
+import VglShaderMaterial from './materials/vgl-shader-material';
 import VglLatheGeometry from './geometries/vgl-lathe-geometry';
 import VglSpotLightHelper from './helpers/vgl-spot-light-helper';
 import VglHemisphereLight from './lights/vgl-hemisphere-light';
@@ -120,6 +121,7 @@ export {
   VglMeshPhongMaterial,
   VglMeshToonMaterial,
   VglMeshPhysicalMaterial,
+  VglShaderMaterial,
   VglLatheGeometry,
   VglSpotLightHelper,
   VglHemisphereLight,
