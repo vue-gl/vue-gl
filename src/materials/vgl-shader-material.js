@@ -37,15 +37,16 @@ export default {
     defines: { type: Object, default: () => ({}) },
     /**
      * Define whether the material color is affected by global fog settings; true to pass fog
-     * uniforms to the shader. Note that when using this, THREE expects fog-related uniforms to be
-     * defined on your material; you can use something like the following to include them:
+     * uniforms to the shader. Note that changing this value will cause the material to be
+     * reconstructed, so be aware of performance if using this reactively. Also note that when using
+     * this, THREE expects fog-related uniforms to be defined on your material; you can use
+     * something like the following to include them:
      * ```
      * uniforms: THREE.UniformsUtils.merge([
      *    THREE.UniformsLib['fog'],
      *    { other uniforms... }
      * ]),
      * ```
-     * This prop is only used for initialization; it is not reactive.
      */
     fog: { type: boolean, default: false },
     /**
@@ -55,8 +56,10 @@ export default {
     fragmentShader: { type: string },
     /**
      * Defines whether this material uses lighting; true to pass uniform data related to lighting to
-     * this shader. Note that when using this, THREE expects lighting-related uniforms to be defined
-     * on your material; you can use something like the following to include them:
+     * this shader. Note that changing this value will cause the material to be reconstructed, so be
+     * aware of performance if using this reactively. Also note that when using this, THREE expects
+     * lighting-related uniforms to be defined on your material; you can use something like the
+     * following to include them:
      * ```
      * uniforms: THREE.UniformsUtils.merge([
      *    THREE.UniformsLib['lights'],
@@ -104,7 +107,12 @@ export default {
   },
 
   computed: {
-    inst: () => new ShaderMaterial(),
+    inst() {
+      return new ShaderMaterial({
+        fog: this.fog,
+        lights: this.lights,
+      });
+    },
   },
 
   watch: {
