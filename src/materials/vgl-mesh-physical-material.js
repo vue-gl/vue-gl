@@ -13,9 +13,9 @@ export default {
   mixins: [VglMeshStandardMaterial],
   props: {
     /** ClearCoat level, from 0.0 to 1.0. */
-    clearCoat: { type: number, default: 0 },
+    clearcoat: { type: number, default: 0 },
     /** How rough the clearCoat appears, from 0.0 to 1.0. */
-    clearCoatRoughness: { type: number, default: 0 },
+    clearcoatRoughness: { type: number, default: 0 },
     /** Degree of reflectivity, from 0.0 to 1.0. */
     reflectivity: { type: number, default: 0.5 },
   },
@@ -26,15 +26,15 @@ export default {
     inst: {
       handler(inst) {
         Object.assign(inst, {
-          clearCoat: parseFloat(this.clearCoat),
-          clearCoatRoughness: parseFloat(this.clearCoatRoughness),
+          clearcoat: parseFloat(this.clearcoat),
+          clearcoatRoughness: parseFloat(this.clearcoatRoughness),
           reflectivity: parseFloat(this.reflectivity),
         });
       },
       immediate: true,
     },
-    clearCoat(clearCoat) { this.inst.clearCoat = parseFloat(clearCoat); },
-    clearCoatRoughness(roughness) { this.inst.clearCoatRoughness = parseFloat(roughness); },
+    clearcoat(clearcoat) { this.inst.clearcoat = parseFloat(clearcoat); },
+    clearcoatRoughness(roughness) { this.inst.clearcoatRoughness = parseFloat(roughness); },
     reflectivity(reflectivity) { this.inst.reflectivity = parseFloat(reflectivity); },
   },
 };
