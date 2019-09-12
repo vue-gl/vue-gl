@@ -38,7 +38,7 @@
     "@babel/core": "^7.3.3",
     "@babel/preset-env": "^7.0.0",
     "@vuedoc/md": "^1.1.1",
-    "eslint": "^5.0.0",
+    "eslint": "^6.3.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-jest": "^22.1.3",
