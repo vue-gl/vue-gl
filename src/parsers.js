@@ -12,21 +12,21 @@ import {
  * Returns a parsed quaternion object.
  */
 export function parseQuaternion(str) {
-  return str.isQuaternion ? str : new Quaternion(...str.trim().split(/\s+/).map(elm => parseFloat(elm)));
+  return str.isQuaternion ? str : new Quaternion(...str.trim().split(/\s+/).map((elm) => parseFloat(elm)));
 }
 
 /**
  * Returns a parsed vector3 object.
  */
 export function parseVector3(str) {
-  return str.isVector3 ? str : new Vector3(...str.trim().split(/\s+/).map(elm => parseFloat(elm)));
+  return str.isVector3 ? str : new Vector3(...str.trim().split(/\s+/).map((elm) => parseFloat(elm)));
 }
 
 /**
  * Returns a parsed vector2 object.
  */
 export function parseVector2(str) {
-  return str.isVector2 ? str : new Vector2(...str.trim().split(/\s+/).map(elm => parseFloat(elm)));
+  return str.isVector2 ? str : new Vector2(...str.trim().split(/\s+/).map((elm) => parseFloat(elm)));
 }
 
 /**
@@ -40,7 +40,7 @@ export function parseEuler(str) {
  * Returns a parsed spherical object.
  */
 export function parseSpherical(str) {
-  return str.isSpherical ? str : new Spherical(...str.trim().split(/\s+/).map(elm => parseFloat(elm))).makeSafe();
+  return str.isSpherical ? str : new Spherical(...str.trim().split(/\s+/).map((elm) => parseFloat(elm))).makeSafe();
 }
 
 /**
@@ -54,7 +54,7 @@ export function parseArray(str) {
  * Returns a parsed array of vector2.
  */
 export function parseVector2Array(str) {
-  return parseArray(str).map(elm => parseVector2(elm));
+  return parseArray(str).map((elm) => parseVector2(elm));
 }
 
 /**
