@@ -9,9 +9,16 @@ Object.assign(config.output, {
 });
 
 config.plugins.push(copy({
-  [require.resolve('vue/dist/vue.min')]: path.resolve('docs/js/vue.min.js'),
-  [require.resolve('three/build/three.min')]: path.resolve('docs/js/three.min.js'),
-  [require.resolve('three/examples/fonts/helvetiker_regular.typeface.json')]: path.resolve('docs/js/helvetiker_regular.typeface.json'),
+  targets: [{
+    src: require.resolve('vue/dist/vue.min'),
+    dest: path.resolve('docs/js'),
+  }, {
+    src: require.resolve('three/build/three.min'),
+    dest: path.resolve('docs/js'),
+  }, {
+    src: require.resolve('three/examples/fonts/helvetiker_regular.typeface.json'),
+    dest: path.resolve('docs/js'),
+  }]
 }));
 
 export default config;
