@@ -18,7 +18,7 @@ config.plugins.push(copy({
   }, {
     src: require.resolve('three/examples/fonts/helvetiker_regular.typeface.json'),
     dest: path.resolve('docs/js'),
-  }]
+  }],
 }));
 
 export default config;
