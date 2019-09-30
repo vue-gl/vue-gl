@@ -22,22 +22,22 @@ describe('VglMeshPhysicalMaterial:', () => {
       inject,
       propsData: {
         color: '#8aeda3',
-        clearCoat: '0.8',
-        clearCoatRoughness: '0.7',
+        clearcoat: '0.8',
+        clearcoatRoughness: '0.7',
         reflectivity: '0.4',
       },
     });
     expect(inst.color.getHex()).toBe(0x8aeda3);
-    expect(inst).toHaveProperty('clearCoat', 0.8);
-    expect(inst).toHaveProperty('clearCoatRoughness', 0.7);
+    expect(inst).toHaveProperty('clearcoat', 0.8);
+    expect(inst).toHaveProperty('clearcoatRoughness', 0.7);
     expect(inst).toHaveProperty('reflectivity', 0.4);
   });
   test('the instance sould not be reinstantiated after props change', async () => {
     const vm = new (Vue.extend(VglMeshPhysicalMaterial))({ inject });
     const { inst } = vm;
     vm.color = '#6751f2';
-    vm.clearCoat = '0.8';
-    vm.clearCoatRoughness = '0.7';
+    vm.clearcoat = '0.8';
+    vm.clearcoatRoughness = '0.7';
     vm.reflectivity = '0.4';
     await vm.$nextTick();
     expect(inst).toBe(vm.inst);
@@ -45,23 +45,23 @@ describe('VglMeshPhysicalMaterial:', () => {
   test('the properties of the instance should change after props change', async () => {
     const vm = new (Vue.extend(VglMeshPhysicalMaterial))({ inject });
     vm.color = '#6751f2';
-    vm.clearCoat = '0.8';
-    vm.clearCoatRoughness = '0.7';
+    vm.clearcoat = '0.8';
+    vm.clearcoatRoughness = '0.7';
     vm.reflectivity = '0.4';
     await vm.$nextTick();
     expect(vm.inst.color.getHex()).toBe(0x6751f2);
-    expect(vm.inst).toHaveProperty('clearCoat', 0.8);
-    expect(vm.inst).toHaveProperty('clearCoatRoughness', 0.7);
+    expect(vm.inst).toHaveProperty('clearcoat', 0.8);
+    expect(vm.inst).toHaveProperty('clearcoatRoughness', 0.7);
     expect(vm.inst).toHaveProperty('reflectivity', 0.4);
   });
   test('the properties of the instance should be defaults without props', () => {
     const { inst } = new (Vue.extend(VglMeshPhysicalMaterial))({ inject });
     const {
-      color, clearCoat, clearCoatRoughness, reflectivity,
+      color, clearcoat, clearcoatRoughness, reflectivity,
     } = new MeshPhysicalMaterial();
     expect(inst.color.getHex()).toBe(color.getHex());
-    expect(inst).toHaveProperty('clearCoat', clearCoat);
-    expect(inst).toHaveProperty('clearCoatRoughness', clearCoatRoughness);
+    expect(inst).toHaveProperty('clearcoat', clearcoat);
+    expect(inst).toHaveProperty('clearcoatRoughness', clearcoatRoughness);
     expect(inst).toHaveProperty('reflectivity', reflectivity);
   });
 });
