@@ -15,13 +15,11 @@ const config = {
   },
 };
 
-export default [
-  config,
-  Object.assign({}, config, {
-    output: {
-      file: path.resolve('dist/vue-gl.module.js'),
-      format: 'es',
-      paths: { three: `//unpkg.com/three@${version}/build/three.module.js` },
-    },
-  }),
-];
+export default [config, {
+  ...config,
+  output: {
+    file: path.resolve('dist/vue-gl.module.js'),
+    format: 'es',
+    paths: { three: `//unpkg.com/three@${version}/build/three.module.js` },
+  },
+}];
