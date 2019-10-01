@@ -28,8 +28,10 @@ export function parseVector3(str) {
  */
 export function parseVector2(str) {
   if (str.isVector2) return str;
-  if (Array.isArray(str) && str.length === 2) return new Vector2(...(str.map(e => parseFloat(e))));
-  return new Vector2(...str.trim().split(/\s+/).map(elm => parseFloat(elm)));
+  if (Array.isArray(str) && str.length === 2) {
+    return new Vector2(...(str.map((e) => parseFloat(e))));
+  }
+  return new Vector2(...str.trim().split(/\s+/).map((elm) => parseFloat(elm)));
 }
 
 /**

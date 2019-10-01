@@ -52,7 +52,7 @@ describe('VglExtrudeGeometry', () => {
   });
   test('the shape of the instance should be specified by props', () => {
     const points = [[350, 0], [350, 1181], [0, 1181], [0, 79], [15, 79], [15, 0]];
-    const virtualShape = new Shape(points.map(e => new Vector2(...e)));
+    const virtualShape = new Shape(points.map((e) => new Vector2(...e)));
     const { inst } = new (Vue.extend(VglExtrudeGeometry))({
       inject,
       propsData: {
@@ -67,11 +67,11 @@ describe('VglExtrudeGeometry', () => {
   });
   test('the shapes props as an Array of string', () => {
     const points = [[350, 0], [350, 1181], [0, 1181], [0, 79], [15, 79], [15, 0]];
-    const virtualShape = new Shape(points.map(e => new Vector2(...e)));
+    const virtualShape = new Shape(points.map((e) => new Vector2(...e)));
     const { inst } = new (Vue.extend(VglExtrudeGeometry))({
       inject,
       propsData: {
-        shapes: points.map(e => e.join(' ')),
+        shapes: points.map((e) => e.join(' ')),
       },
     });
     const { shapes } = inst.parameters;
@@ -82,11 +82,11 @@ describe('VglExtrudeGeometry', () => {
   });
   test('the shapes props as an Array of Vector2', () => {
     const points = [[350, 0], [350, 1181], [0, 1181], [0, 79], [15, 79], [15, 0]];
-    const virtualShape = new Shape(points.map(e => new Vector2(...e)));
+    const virtualShape = new Shape(points.map((e) => new Vector2(...e)));
     const { inst } = new (Vue.extend(VglExtrudeGeometry))({
       inject,
       propsData: {
-        shapes: points.map(e => new Vector2(...e)),
+        shapes: points.map((e) => new Vector2(...e)),
       },
     });
     const { shapes } = inst.parameters;
@@ -97,7 +97,7 @@ describe('VglExtrudeGeometry', () => {
   });
   test('the shapes props as a THREE.Shape', () => {
     const points = [[350, 0], [350, 1181], [0, 1181], [0, 79], [15, 79], [15, 0]];
-    const virtualShape = new Shape(points.map(e => new Vector2(...e)));
+    const virtualShape = new Shape(points.map((e) => new Vector2(...e)));
     const propShapes = virtualShape.clone();
     const { inst } = new (Vue.extend(VglExtrudeGeometry))({
       inject,
