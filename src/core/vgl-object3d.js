@@ -59,7 +59,7 @@ export default {
   beforeDestroy() {
     const { vglNamespace, inst, name } = this;
     if (inst.parent) inst.parent.remove(inst);
-    if (vglNamespace.object3ds[name] === inst) this.$delete(vglNamespace.object3ds, name);
+    if (vglNamespace.object3ds[name] === inst) delete vglNamespace.object3ds[name];
     vglNamespace.update();
   },
   watch: {
@@ -79,7 +79,7 @@ export default {
         if (this.name !== undefined) {
           // eslint-disable-next-line no-param-reassign
           inst.name = this.name;
-          this.$set(this.vglNamespace.object3ds, this.name, inst);
+          this.vglNamespace.object3ds[this.name] = inst;
         }
       },
       immediate: true,
@@ -95,9 +95,9 @@ export default {
     receiveShadow(receiveShadow) { this.inst.receiveShadow = receiveShadow; },
     name(name, oldName) {
       const { vglNamespace: { object3ds }, inst } = this;
-      if (object3ds[oldName] === inst) this.$delete(object3ds, oldName);
+      if (object3ds[oldName] === inst) delete object3ds[oldName];
       this.inst.name = name;
-      this.$set(object3ds, name, inst);
+      object3ds[name] = inst;
     },
     visible(visible) { this.inst.visible = visible; },
   },
