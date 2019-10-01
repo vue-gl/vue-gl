@@ -72,4 +72,7 @@ Following list shows all property types and parsing schemas.
 - ***names***
   A string or an array of string.
 - ***shapes***
-  An array of vector2s or an array of [THREE.Shape](https://threejs.org/docs/#api/en/extras/core/Shape), corresponding to [THREE.ExtrudeBufferGeometry](https://threejs.org/docs/#api/en/geometries/ExtrudeBufferGeometry)
+  An array of vector2s or an array of
+  [THREE.Shape](https://threejs.org/docs/#api/en/extras/core/Shape),
+  corresponding to
+  [THREE.ExtrudeBufferGeometry](https://threejs.org/docs/#api/en/geometries/ExtrudeBufferGeometry)
