@@ -1,7 +1,5 @@
 ---
-title: false
 ---
-
 # Components
 
 {% assign groups = site.pages | group_by: 'dir' | sort: 'name' %}
