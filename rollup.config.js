@@ -20,6 +20,6 @@ export default [config, {
   output: {
     file: path.resolve('dist/vue-gl.module.js'),
     format: 'es',
-    paths: { three: `//unpkg.com/three@${peerDependencies.three}/build/three.module.js` },
+    paths: { three: `//unpkg.com/three@${peerDependencies.three.substring(3)}/build/three.module.js` },
   },
 }];
