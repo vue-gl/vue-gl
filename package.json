@@ -51,6 +51,6 @@
   },
   "peerDependencies": {
     "vue": "^2.2.0",
-    "three": "^0.108.0"
+    "three": ">= 0.108.0"
   }
 }
