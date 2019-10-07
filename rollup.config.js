@@ -1,7 +1,7 @@
 import path from 'path';
 import babel from 'rollup-plugin-babel';
 import minify from 'rollup-plugin-babel-minify';
-import { version } from 'three/package.json';
+import { peerDependencies } from './package.json';
 
 const config = {
   input: path.resolve('src/index.js'),
@@ -15,11 +15,12 @@ const config = {
   },
 };
 
+
 export default [config, {
   ...config,
   output: {
     file: path.resolve('dist/vue-gl.module.js'),
     format: 'es',
-    paths: { three: `//unpkg.com/three@${version}/build/three.module.js` },
+    paths: { three: `//unpkg.com/three@${peerDependencies.three}/build/three.module.js` },
   },
 }];
