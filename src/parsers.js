@@ -6,6 +6,7 @@ import {
   Quaternion,
   Fog,
   Color,
+  Shape,
 } from 'three';
 
 /**
@@ -26,7 +27,11 @@ export function parseVector3(str) {
  * Returns a parsed vector2 object.
  */
 export function parseVector2(str) {
-  return str.isVector2 ? str : new Vector2(...str.trim().split(/\s+/).map((elm) => parseFloat(elm)));
+  if (str.isVector2) return str;
+  if (Array.isArray(str)) {
+    return new Vector2(...(str.map((e) => parseFloat(e))));
+  }
+  return new Vector2(...str.trim().split(/\s+/).map((elm) => parseFloat(elm)));
 }
 
 /**
@@ -69,4 +74,12 @@ export function parseFog(str) {
  */
 export function parseColor(str) {
   return str.isColor ? str : new Color(str);
+}
+
+/**
+ * Return a parsed Shape
+ */
+export function parseShape(str) {
+  if (!str) return new Shape();
+  return (str.type && str.type === 'Shape') ? str : new Shape(parseVector2Array(str));
 }
