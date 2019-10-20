@@ -58,23 +58,21 @@ export default {
       return inst;
     },
     cameraInst() {
-      if (this.camera !== undefined) return this.vglNamespace.cameras[this.camera];
+      if (this.camera !== undefined) return this.vglNamespace.cameras.get(this.camera);
       let camera;
-      // eslint-disable-next-line guard-for-in, no-restricted-syntax
-      for (const key in this.vglNamespace.cameras) {
+      this.vglNamespace.cameras.keys().forEach((key) => {
         if (camera) throw new ReferenceError(cameraPropRequiredMessage);
-        camera = this.vglNamespace.cameras[key];
-      }
+        camera = this.vglNamespace.cameras.get(key);
+      });
       return camera;
     },
     sceneInst() {
-      if (this.scene !== undefined) return this.vglNamespace.scenes[this.scene];
+      if (this.scene !== undefined) return this.vglNamespace.scenes.get(this.scene);
       let scene;
-      // eslint-disable-next-line guard-for-in, no-restricted-syntax
-      for (const key in this.vglNamespace.scenes) {
+      this.vglNamespace.scenes.keys().forEach((key) => {
         if (scene) throw new ReferenceError(scenePropRequiredMessage);
-        scene = this.vglNamespace.scenes[key];
-      }
+        scene = this.vglNamespace.scenes.get(key);
+      });
       return scene;
     },
   },

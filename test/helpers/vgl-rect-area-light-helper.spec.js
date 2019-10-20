@@ -6,8 +6,8 @@ describe('VglRectAreaLightHelper:', () => {
   let inject;
   beforeEach(() => {
     const { vglNamespace } = new Vue({ parent: new Vue(VglNamespace), inject: ['vglNamespace'] });
-    vglNamespace.object3ds.testLight = new RectAreaLight(0xe2f3b4);
-    vglNamespace.object3ds.testLight.position.set(3.8, 2, 0.5);
+    vglNamespace.object3ds.set('testLight', new RectAreaLight(0xe2f3b4));
+    vglNamespace.object3ds.get('testLight').position.set(3.8, 2, 0.5);
     inject = { vglNamespace: { default: vglNamespace } };
   });
   test('the inst property should be an instance of RectAreaLightelper', () => {

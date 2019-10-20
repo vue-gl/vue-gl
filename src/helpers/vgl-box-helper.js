@@ -21,7 +21,7 @@ export default {
     inst() { return new BoxHelper(undefined, this.color); },
   },
   methods: {
-    setFromObject() { this.inst.setFromObject(this.vglNamespace.object3ds[this.object]); },
+    setFromObject() { this.inst.setFromObject(this.vglNamespace.object3ds.get(this.object)); },
   },
   created() { this.vglNamespace.beforeRender.push(this.setFromObject); },
   beforeDestroy() {

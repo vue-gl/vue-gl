@@ -85,28 +85,27 @@ describe('VglRenderer', () => {
     afterAll(() => { Vue.config.errorHandler = undefined; });
     test('an error shoud be thrown when multiple scenes are defined but scene prop is undefined', async () => {
       const vm = new Vue(VglRenderer);
-      Object.assign(vm.vglNamespace.scenes, { s1: new Scene(), s2: new Scene() });
+      vm.vglNamespace.scenes.set('s1', new Scene());
+      vm.vglNamespace.scenes.set('s2', new Scene());
       await vm.$mount().$nextTick();
       expect(Vue.config.errorHandler).toHaveBeenCalledWith(new ReferenceError(scenePropRequiredMessage), vm, 'nextTick');
     });
     test('any errors shoud not be thrown when scene prop is undefined but only one scene is defined', async () => {
       const vm = new Vue(VglRenderer);
-      Object.assign(vm.vglNamespace.scenes, { s1: new Scene() });
+      vm.vglNamespace.scenes.set('s1', new Scene());
       await vm.$mount().$nextTick();
       expect(Vue.config.errorHandler).not.toHaveBeenCalled();
     });
     test('an error shoud be thrown when multiple cameras are defined but camera prop is undefined', async () => {
       const vm = new Vue(VglRenderer);
-      Object.assign(vm.vglNamespace.cameras, {
-        c1: new PerspectiveCamera(),
-        c2: new PerspectiveCamera(),
-      });
+      vm.vglNamespace.cameras.set('c1', new PerspectiveCamera());
+      vm.vglNamespace.cameras.set('c2', new PerspectiveCamera());
       await vm.$mount().$nextTick();
       expect(Vue.config.errorHandler).toHaveBeenCalledWith(new ReferenceError(cameraPropRequiredMessage), vm, 'nextTick');
     });
     test('any errors shoud not be thrown when camera prop is undefined but only one camera is defined', async () => {
       const vm = new Vue(VglRenderer);
-      Object.assign(vm.vglNamespace.cameras, { c1: new PerspectiveCamera() });
+      vm.vglNamespace.cameras.set('c1', new PerspectiveCamera());
       await vm.$mount().$nextTick();
       expect(Vue.config.errorHandler).not.toHaveBeenCalled();
     });

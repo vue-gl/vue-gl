@@ -6,7 +6,7 @@ describe('VglCameraHelper', () => {
   let inject;
   beforeEach(() => {
     const { vglNamespace } = new Vue({ parent: new Vue(VglNamespace), inject: ['vglNamespace'] });
-    vglNamespace.cameras.testCamera = new PerspectiveCamera(52, undefined, 0.11, 2100);
+    vglNamespace.cameras.set('testCamera', new PerspectiveCamera(52, undefined, 0.11, 2100));
     inject = { vglNamespace: { default: vglNamespace } };
   });
   test('the inst property should be an instance of the CameraHelper', () => {

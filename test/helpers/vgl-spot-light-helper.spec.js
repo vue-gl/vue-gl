@@ -6,8 +6,8 @@ describe('VglSpotLightHelper:', () => {
   let inject;
   beforeEach(() => {
     const { vglNamespace } = new Vue({ parent: new Vue(VglNamespace), inject: ['vglNamespace'] });
-    vglNamespace.object3ds.testLight = new SpotLight(0xe2f3b4, undefined, 22.3, 1.1);
-    vglNamespace.object3ds.testLight.position.set(3.8, 2, -0.5);
+    vglNamespace.object3ds.set('testLight', new SpotLight(0xe2f3b4, undefined, 22.3, 1.1));
+    vglNamespace.object3ds.get('testLight').position.set(3.8, 2, -0.5);
     inject = { vglNamespace: { default: vglNamespace } };
   });
   test('the inst property should be an instance of SpotLightelper', () => {

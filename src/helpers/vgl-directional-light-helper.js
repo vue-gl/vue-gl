@@ -22,7 +22,7 @@ export default {
   data() { return { s: undefined }; },
   methods: {
     setHelper() {
-      const light = this.vglNamespace.object3ds[this.light];
+      const light = this.vglNamespace.object3ds.get(this.light);
       if (this.inst.children.length) {
         const [helper] = this.inst.children;
         if (helper.light === light && this.s === this.size) {

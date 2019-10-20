@@ -31,7 +31,7 @@ export default {
   methods: {
     setBackgroundTexture() {
       const { vglNamespace: { textures }, inst, backgroundTexture } = this;
-      if (backgroundTexture in textures) inst.background = textures[backgroundTexture];
+      if (backgroundTexture in textures.keys()) inst.background = textures.get(backgroundTexture);
     },
   },
   created() {
@@ -41,19 +41,19 @@ export default {
   watch: {
     inst: {
       handler(inst) {
-        this.vglNamespace.scenes[this.name] = inst;
+        this.vglNamespace.scenes.set(this.name, inst);
         if (this.fog) this.inst.fog = parseFog(this.fog);
         if (this.backgroundColor) this.inst.background = parseColor(this.backgroundColor);
         if (this.backgroundTexture) {
-          this.inst.background = this.vglNamespace.textures[this.backgroundTexture] || null;
+          this.inst.background = this.vglNamespace.textures.get(this.backgroundTexture) || null;
         }
       },
       immediate: true,
     },
     name(name, oldName) {
       const { vglNamespace: { scenes }, inst } = this;
-      if (scenes[oldName] === inst) delete scenes[oldName];
-      scenes[name] = inst;
+      scenes.delete(oldName, inst);
+      scenes.set(name, inst);
     },
     fog(newFog) {
       this.inst.fog = parseFog(newFog);
@@ -62,12 +62,12 @@ export default {
       this.inst.background = parseColor(color);
     },
     backgroundTexture(name) {
-      this.inst.background = this.vglNamespace.textures[name] || null;
+      this.inst.background = this.vglNamespace.textures.get(name) || null;
     },
   },
   beforeDestroy() {
     const { vglNamespace: { scenes, beforeRender }, inst, setBackgroundTexture } = this;
-    if (scenes[this.name] === inst) delete scenes[this.name];
+    scenes.delete(this.name, inst);
     beforeRender.splice(beforeRender.indexOf(setBackgroundTexture), 1);
   },
 };

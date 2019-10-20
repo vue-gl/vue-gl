@@ -19,10 +19,10 @@ export default {
   methods: {
     setHelper() {
       if (!this.inst.children.length) {
-        this.inst.add(new CameraHelper(this.vglNamespace.cameras[this.camera]));
+        this.inst.add(new CameraHelper(this.vglNamespace.cameras.get(this.camera)));
       } else {
         const [helper] = this.inst.children;
-        helper.camera = this.vglNamespace.cameras[this.camera];
+        helper.camera = this.vglNamespace.cameras.get(this.camera);
         helper.camera.updateProjectionMatrix();
         helper.update();
       }

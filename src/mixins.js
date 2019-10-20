@@ -8,9 +8,9 @@ export const VglObject3dWithMatarial = {
       const { vglNamespace: { materials }, material, inst } = this;
       if (Array.isArray(material)) {
         inst.material = material.reduce(
-          (acc, current) => (materials[current] ? [...acc, materials[current]] : acc), [],
+          (acc, current) => (materials.get(current) ? [...acc, materials.get(current)] : acc), [],
         );
-      } else if (materials[material]) inst.material = materials[material];
+      } else if (materials.get(material)) inst.material = materials.get(material);
     },
   },
   created() { this.vglNamespace.beforeRender.unshift(this.setMaterial); },
@@ -25,7 +25,7 @@ export const VglObject3dWithMatarialAndGeometry = {
   methods: {
     setGeometry() {
       const { vglNamespace: { geometries }, geometry, inst } = this;
-      if (geometries[geometry]) inst.geometry = geometries[geometry];
+      if (geometries.get(geometry)) inst.geometry = geometries.get(geometry);
     },
   },
   created() { this.vglNamespace.beforeRender.unshift(this.setGeometry); },
@@ -40,7 +40,7 @@ export const VglMaterialWithMap = {
   methods: {
     setMap() {
       const { vglNamespace: { textures }, inst, map } = this;
-      if (map in textures) inst.map = textures[map];
+      if (map in textures.keys()) inst.map = textures.get(map);
     },
   },
   created() { this.vglNamespace.beforeRender.unshift(this.setMap); },

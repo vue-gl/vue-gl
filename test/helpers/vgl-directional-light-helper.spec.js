@@ -6,8 +6,8 @@ describe('VglDirectionalLightHelper', () => {
   let inject;
   beforeEach(() => {
     const { vglNamespace } = new Vue({ parent: new Vue(VglNamespace), inject: ['vglNamespace'] });
-    vglNamespace.object3ds.testLight = new DirectionalLight(0xe2f3b4);
-    vglNamespace.object3ds.testLight.position.set(3.8, 2.1, -0.5);
+    vglNamespace.object3ds.set('testLight', new DirectionalLight(0xe2f3b4));
+    vglNamespace.object3ds.get('testLight').position.set(3.8, 2.1, -0.5);
     inject = { vglNamespace: { default: vglNamespace } };
   });
   test('the inst property should be an instance of DirectionalLightelper', () => {

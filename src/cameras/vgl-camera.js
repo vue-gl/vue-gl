@@ -34,7 +34,7 @@ export default {
   watch: {
     inst: {
       handler(inst) {
-        this.vglNamespace.cameras[this.name] = inst;
+        this.vglNamespace.cameras.set(this.name, inst);
         if (this.orbitPosition || this.orbitTarget) {
           let target;
           if (this.orbitTarget) target = parseVector3(this.orbitTarget);
@@ -49,8 +49,8 @@ export default {
     },
     name(name, oldName) {
       const { vglNamespace: { cameras }, inst } = this;
-      if (cameras[oldName] === inst) delete cameras[oldName];
-      cameras[name] = inst;
+      cameras.delete(oldName, inst);
+      cameras.set(name, inst);
     },
     orbitTarget(orbitTarget) {
       const target = parseVector3(orbitTarget);
@@ -72,6 +72,6 @@ export default {
   },
   beforeDestroy() {
     const { vglNamespace: { cameras }, inst } = this;
-    if (cameras[this.name] === inst) delete cameras[this.name];
+    cameras.delete(this.name, inst);
   },
 };

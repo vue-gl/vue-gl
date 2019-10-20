@@ -19,18 +19,19 @@ export default {
   },
   methods: {
     setHelper() {
-      if (this.inst.children.length) {
-        const [helper] = this.inst.children;
-        if (helper.light === this.vglNamespace.object3ds[this.light]) {
+      const { vglNamespace: { object3ds }, inst } = this;
+      if (inst.children.length) {
+        const [helper] = inst.children;
+        if (helper.light === object3ds.get(this.light)) {
           helper.color = this.color;
           helper.update();
         } else {
-          this.inst.remove(helper);
+          inst.remove(helper);
           helper.dispose();
-          this.inst.add(new SpotLightHelper(this.vglNamespace.object3ds[this.light], this.color));
+          inst.add(new SpotLightHelper(object3ds.get(this.light), this.color));
         }
       } else {
-        this.inst.add(new SpotLightHelper(this.vglNamespace.object3ds[this.light], this.color));
+        inst.add(new SpotLightHelper(object3ds.get(this.light), this.color));
       }
     },
   },

@@ -46,21 +46,21 @@ export default {
           side: sides[this.side],
           vertexColors: vertexColors[this.vertexColors],
         });
-        this.vglNamespace.materials[this.name] = inst;
+        this.vglNamespace.materials.set(this.name, inst);
       },
       immediate: true,
     },
     name(name, oldName) {
       const { vglNamespace: { materials }, inst } = this;
-      if (materials[oldName] === inst) delete materials[oldName];
-      materials[name] = inst;
+      materials.delete(oldName, inst);
+      materials.set(name, inst);
     },
     side(side) { this.inst.side = sides[side]; },
     vertexColors(colors) { this.inst.vertexColors = vertexColors[colors]; },
   },
   beforeDestroy() {
     const { vglNamespace: { materials }, inst } = this;
-    if (materials[this.name] === inst) delete materials[this.name];
+    materials.delete(this.name, inst);
   },
   created() { this.vglNamespace.update(); },
   beforeUpdate() { this.vglNamespace.update(); },

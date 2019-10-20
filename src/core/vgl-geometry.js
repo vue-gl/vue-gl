@@ -45,14 +45,14 @@ export default {
           inst.addAttribute('normal', normalAttribute);
         }
         if (oldInst) oldInst.dispose();
-        this.vglNamespace.geometries[this.name] = inst;
+        this.vglNamespace.geometries.set(this.name, inst);
       },
       immediate: true,
     },
     name(name, oldName) {
       const { vglNamespace: { geometries }, inst } = this;
-      if (geometries[oldName] === inst) delete geometries[oldName];
-      geometries[name] = inst;
+      geometries.delete(oldName, inst);
+      geometries.set(name, inst);
     },
     positionAttribute(positionAttribute) {
       const positionArray = parseArray(positionAttribute);
@@ -87,7 +87,7 @@ export default {
   },
   beforeDestroy() {
     const { vglNamespace: { geometries }, inst } = this;
-    if (geometries[this.name] === inst) delete geometries[this.name];
+    geometries.delete(this.name, inst);
     inst.dispose();
   },
   created() { this.vglNamespace.update(); },

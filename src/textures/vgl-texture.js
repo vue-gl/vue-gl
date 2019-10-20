@@ -156,7 +156,7 @@ export default {
   watch: {
     inst: {
       handler(inst) {
-        this.vglNamespace.textures[this.name] = inst;
+        this.vglNamespace.textures.set(this.name, inst);
         Object.assign(inst, {
           mapping: mapping[this.mapping],
           wrapS: wrapping[this.wrapS],
@@ -178,8 +178,8 @@ export default {
     },
     name(name, oldName) {
       const { vglNamespace: { textures }, inst } = this;
-      if (textures[oldName] === inst) delete textures[oldName];
-      textures[name] = inst;
+      textures.delete(oldName, inst);
+      textures.set(name, inst);
     },
     mapping(mode) { this.inst.mapping = mapping[mode]; },
     wrapS(mode) { this.inst.wrapS = wrapping[mode]; },
@@ -199,7 +199,7 @@ export default {
   },
   beforeDestroy() {
     const { vglNamespace: { textures }, inst, name } = this;
-    if (textures[name] === inst) delete textures[name];
+    textures.delete(name, inst);
   },
   beforeUpdate() {
     this.inst.needsUpdate = true;
