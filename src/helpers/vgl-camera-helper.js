@@ -7,7 +7,7 @@ import { string } from '../validators';
  * corresponding [THREE.CameraHelper](https://threejs.org/docs/index.html#api/helpers/CameraHelper).
  * It visualizes the frustum of a camera using a LineSegments.
  *
- * Properties of [VglObject3d](vgl-object3d) are also available as mixin.
+ * Properties of [VglObject3d](../core/vgl-object3d) are also available as mixin.
  */
 
 export default {

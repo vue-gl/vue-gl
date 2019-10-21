@@ -10,7 +10,7 @@ import { vector3, spherical } from '../validators';
  * You probably want a [VglPerspectiveCamera](vgl-perspective-camera)
  * and [VglOrthographicCamera](vgl-orthographic-camera).
  *
- * Properties of [VglObject3d](vgl-object3d) are also available as mixin.
+ * Properties of [VglObject3d](../core/vgl-object3d) are also available as mixin.
  */
 
 export default {

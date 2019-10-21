@@ -6,7 +6,7 @@ import { string, number } from '../validators';
  * Abstract mixin component for lights,
  * corresponding [THREE.Light](https://threejs.org/docs/index.html#api/lights/Light).
  *
- * Properties of [VglObject3d](vgl-object3d) are also available as mixin.
+ * Properties of [VglObject3d](../core/vgl-object3d) are also available as mixin.
  */
 
 export default {

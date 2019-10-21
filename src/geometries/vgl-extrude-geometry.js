@@ -7,7 +7,7 @@ import { parseShape } from '../parsers';
  * A component for creating extruded geometry from a path shape,
  * corresponding [THREE.ExtrudeGeometry](https://threejs.org/docs/index.html#api/geometries/ExtrudeGeometry).
  *
- * Properties of [VglGeometry](vgl-geometry) are also available as mixin.
+ * Properties of [VglGeometry](../core/vgl-geometry) are also available as mixin.
  */
 
 export default {

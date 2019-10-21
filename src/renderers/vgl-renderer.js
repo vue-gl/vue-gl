@@ -7,7 +7,7 @@ import { cameraPropRequiredMessage, scenePropRequiredMessage, cameraTypeUnknownM
  * This component creates a canvas that have WebGL context.
  * Options are corresponding [THREE.WebGLRenderer](https://threejs.org/docs/index.html#api/core/Object3D).
  *
- * Properties of [VglNamespace](vgl-namespace) are also available as mixin.
+ * Properties of [VglNamespace](../core/vgl-namespace) are also available as mixin.
  */
 
 export default {

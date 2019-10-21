@@ -7,7 +7,7 @@ import { string, fog } from '../validators';
  * This is where you place objects,
  * corresponding [THREE.Scene](https://threejs.org/docs/index.html#api/scenes/Scene).
  *
- * Properties of [VglObject3d](vgl-object3d) are also available as mixin.
+ * Properties of [VglObject3d](../core/vgl-object3d) are also available as mixin.
  */
 
 export default {

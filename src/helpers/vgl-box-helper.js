@@ -6,7 +6,7 @@ import { string } from '../validators';
  * A helper component to show the world-axis-aligned bounding box around its parent,
  * corresponding [THREE.BoxHelper](https://threejs.org/docs/index.html#api/helpers/BoxHelper).
  *
- * Properties of [VglObject3d](vgl-object3d) are also available as mixin.
+ * Properties of [VglObject3d](../core/vgl-object3d) are also available as mixin.
  */
 
 export default {

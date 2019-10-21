@@ -11,7 +11,7 @@ import { number } from '../validators';
  * It can also be used to create regular polygons,
  * where the number of segments determines the number of sides.
  *
- * Properties of [VglGeometry](vgl-geometry) are also available as mixin.
+ * Properties of [VglGeometry](../core/vgl-geometry) are also available as mixin.
  */
 
 export default {

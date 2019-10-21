@@ -8,7 +8,7 @@ const fonts = Object.create(null);
  * A component for generating text as a single geometry,
  * corresponding [THREE.TextGeometry](https://threejs.org/docs/index.html#api/geometries/TextGeometry).
  *
- * Properties of [VglGeometry](vgl-geometry) are also available as mixin.
+ * Properties of [VglGeometry](../core/vgl-geometry) are also available as mixin.
  */
 
 export default {

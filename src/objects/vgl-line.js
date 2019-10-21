@@ -6,7 +6,7 @@ import { string } from '../validators';
  * A continuous line component,
  * corresponding [THREE.Line](https://threejs.org/docs/index.html#api/objects/Line).
  *
- * Properties of [VglObject3d](vgl-object3d) are also available as mixin.
+ * Properties of [VglObject3d](../core/vgl-object3d) are also available as mixin.
  */
 
 export default {

@@ -6,7 +6,7 @@ import { string, number } from '../validators';
  * A helper component to assist with visualizing a DirectionalLight's effect on the scene,
  * corresponding [THREE.DirectionalLightHelper](https://threejs.org/docs/index.html#api/helpers/DirectionalLightHelper).
  *
- * Properties of [VglObject3d](vgl-object3d) are also available as mixin.
+ * Properties of [VglObject3d](../core/vgl-object3d) are also available as mixin.
  */
 
 export default {
