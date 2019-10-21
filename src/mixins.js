@@ -83,7 +83,7 @@ export const VglMaterialWithMap = {
   methods: {
     setMap() {
       const { vglNamespace: { textures }, inst, map } = this;
-      if (map in textures.keys()) inst.map = textures.get(map);
+      if (textures.keys().includes(map)) inst.map = textures.get(map);
     },
   },
   watch: {
