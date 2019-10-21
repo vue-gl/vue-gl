@@ -49,7 +49,7 @@ export default class Namespace {
   delete(key, inst) {
     if (this.hash[key] !== inst) return;
     delete this.hash[key];
-    this.emit(key, undefined);
+    this.emit(key, this.parent && this.parent.get(key));
   }
 
   emit(key, inst) {
