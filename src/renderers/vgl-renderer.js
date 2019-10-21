@@ -59,21 +59,15 @@ export default {
     },
     cameraInst() {
       if (this.camera !== undefined) return this.vglNamespace.cameras.get(this.camera);
-      let camera;
-      this.vglNamespace.cameras.keys().forEach((key) => {
-        if (camera) throw new ReferenceError(cameraPropRequiredMessage);
-        camera = this.vglNamespace.cameras.get(key);
-      });
-      return camera;
+      const [firstKey, ...restKeys] = this.vglNamespace.cameras.keys();
+      if (restKeys.length) throw new ReferenceError(cameraPropRequiredMessage);
+      return this.vglNamespace.cameras.get(firstKey);
     },
     sceneInst() {
       if (this.scene !== undefined) return this.vglNamespace.scenes.get(this.scene);
-      let scene;
-      this.vglNamespace.scenes.keys().forEach((key) => {
-        if (scene) throw new ReferenceError(scenePropRequiredMessage);
-        scene = this.vglNamespace.scenes.get(key);
-      });
-      return scene;
+      const [firstKey, ...restKeys] = this.vglNamespace.scenes.keys();
+      if (restKeys.length) throw new ReferenceError(scenePropRequiredMessage);
+      return this.vglNamespace.scenes.get(firstKey);
     },
   },
   methods: {
