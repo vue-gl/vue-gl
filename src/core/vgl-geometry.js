@@ -63,6 +63,7 @@ export default {
         attributeObject.setArray(new Float32Array(positionArray));
       }
       attributeObject.needsUpdate = true;
+      this.vglNamespace.geometries.emit(this.name, this.inst);
     },
     colorAttribute(colorAttribute) {
       const colorArray = parseArray(colorAttribute);
@@ -73,6 +74,7 @@ export default {
         attributeObject.setArray(new Float32Array(colorArray));
       }
       attributeObject.needsUpdate = true;
+      this.vglNamespace.geometries.emit(this.name, this.inst);
     },
     normalAttribute(normalAttribute) {
       const normalArray = parseArray(normalAttribute);
@@ -83,6 +85,7 @@ export default {
         attributeObject.setArray(new Float32Array(normalArray));
       }
       attributeObject.needsUpdate = true;
+      this.vglNamespace.geometries.emit(this.name, this.inst);
     },
   },
   beforeDestroy() {
@@ -90,7 +93,5 @@ export default {
     geometries.delete(this.name, inst);
     inst.dispose();
   },
-  created() { this.vglNamespace.update(); },
-  beforeUpdate() { this.vglNamespace.update(); },
   render(h) { return this.$slots.default ? h('div', this.$slots.default) : undefined; },
 };

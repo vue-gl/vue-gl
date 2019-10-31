@@ -1,7 +1,7 @@
 import { WebGLRenderer } from 'three';
 import VglNamespace from '../core/vgl-namespace';
 import { boolean, string } from '../validators';
-import { cameraPropRequiredMessage, scenePropRequiredMessage, cameraTypeUnknownMessage } from '../messages';
+import { setCameraSize } from './utilities';
 
 /**
  * This component creates a canvas that have WebGL context.
@@ -57,54 +57,103 @@ export default {
       inst.shadowMap.enabled = this.shadowMapEnabled;
       return inst;
     },
-    cameraInst() {
-      if (this.camera !== undefined) return this.vglNamespace.cameras.get(this.camera);
-      const [firstKey, ...restKeys] = this.vglNamespace.cameras.keys();
-      if (restKeys.length) throw new ReferenceError(cameraPropRequiredMessage);
-      return this.vglNamespace.cameras.get(firstKey);
-    },
-    sceneInst() {
-      if (this.scene !== undefined) return this.vglNamespace.scenes.get(this.scene);
-      const [firstKey, ...restKeys] = this.vglNamespace.scenes.keys();
-      if (restKeys.length) throw new ReferenceError(scenePropRequiredMessage);
-      return this.vglNamespace.scenes.get(firstKey);
-    },
   },
   methods: {
-    render() {
-      const { inst, cameraInst, sceneInst } = this;
-      if (cameraInst && sceneInst) {
-        if (cameraInst.isPerspectiveCamera) {
-          const aspect = this.$el.clientWidth / this.$el.clientHeight;
-          if (cameraInst.aspect !== aspect) {
-            cameraInst.aspect = aspect;
-            cameraInst.updateProjectionMatrix();
-          }
-        } else if (cameraInst.isOrthographicCamera) {
-          const width = this.$el.clientWidth / 2;
-          const height = this.$el.clientHeight / 2;
-          if (cameraInst.right !== width || cameraInst.top !== height) {
-            cameraInst.left = -width;
-            cameraInst.right = width;
-            cameraInst.top = height;
-            cameraInst.bottom = -height;
-            cameraInst.updateProjectionMatrix();
-          }
-        } else {
-          throw new TypeError(cameraTypeUnknownMessage);
-        }
-        inst.render(sceneInst, cameraInst);
+    setCameraRef(camera) {
+      this.cameraRef = camera;
+      if (this.$el) {
+        if (camera) setCameraSize(camera, this.$el.clientWidth, this.$el.clientHeight);
+        this.requestRender = camera && this.sceneRef ? 1 : -1;
       }
     },
+    setSceneRef(scene) {
+      this.sceneRef = scene;
+      if (this.$el) this.requestRender = scene && this.cameraRef ? 1 : -1;
+    },
+    setFallbackCamera(cameras) {
+      const keys = cameras.keys();
+      this.setCameraRef(keys.length === 1 ? cameras.get(keys[0]) : undefined);
+    },
+    setFallbackScene(scenes) {
+      const keys = scenes.keys();
+      this.setSceneRef(keys.length === 1 ? scenes.get(keys[0]) : undefined);
+    },
   },
+  data() { return { requestRender: 0 }; },
   watch: {
+    requestRender(request, prevRequest) {
+      if (!request || prevRequest) return;
+      this.$nextTick(() => {
+        if (this.requestRender > 0) {
+          this.vglNamespace.beforeRender.forEach((fn) => fn());
+          this.inst.render(this.sceneRef, this.cameraRef);
+        } else if (!this.cameraRef && this.vglNamespace.cameras.keys().length) {
+          if (this.camera === undefined) {
+            const { length } = this.vglNamespace.cameras.keys();
+            throw new ReferenceError(
+              `Cannot identify the camera. Multiple(${length}) cameras are defined but camera prop is not given.`,
+            );
+          } else {
+            throw new ReferenceError(
+              `Cannot identify the camera. The camera named ${this.camera} is not defined.`,
+            );
+          }
+        } else if (!this.sceneRef && this.vglNamespace.scenes.keys().length) {
+          if (this.scene === undefined) {
+            const { length } = this.vglNamespace.cameras.keys();
+            throw new ReferenceError(
+              `Cannot identify the scene. Multiple(${length}) scenes are defined but scene prop is not given.`,
+            );
+          } else {
+            throw new ReferenceError(
+              `Cannot identify the scene. The scene named ${this.scene} is not defined.`,
+            );
+          }
+        }
+        this.requestRender = 0;
+      });
+    },
     inst(inst, oldInst) {
       if (this.$el) {
         inst.setSize(this.$el.clientWidth, this.$el.clientHeight);
         this.$el.replaceChild(inst.domElement, oldInst.domElement);
-        this.vglNamespace.update();
+        if (this.cameraRef && this.sceneRef) this.requestRender = 1;
       }
       oldInst.dispose();
+    },
+    camera: {
+      handler(camera, oldCamera) {
+        if (oldCamera === undefined) {
+          this.vglNamespace.cameras.unlisten(this.setFallbackCamera);
+        } else {
+          this.vglNamespace.cameras.unlisten(oldCamera, this.setCameraRef);
+        }
+        if (camera === undefined) {
+          this.vglNamespace.cameras.listen(this.setFallbackCamera);
+          this.setFallbackCamera(this.vglNamespace.cameras);
+        } else {
+          this.vglNamespace.cameras.listen(camera, this.setCameraRef);
+          this.setCameraRef(this.vglNamespace.cameras.get(camera));
+        }
+      },
+      immediate: true,
+    },
+    scene: {
+      handler(scene, oldScene) {
+        if (oldScene === undefined) {
+          this.vglNamespace.scenes.unlisten(this.setFallbackScene);
+        } else {
+          this.vglNamespace.scenes.unlisten(oldScene, this.setSceneRef);
+        }
+        if (scene === undefined) {
+          this.vglNamespace.scenes.listen(this.setFallbackScene);
+          this.setFallbackScene(this.vglNamespace.scenes);
+        } else {
+          this.vglNamespace.scenes.listen(scene, this.setSceneRef);
+          this.setSceneRef(this.vglNamespace.scenes.get(scene));
+        }
+      },
+      immediate: true,
     },
   },
   created() {
@@ -113,11 +162,23 @@ export default {
   mounted() {
     this.inst.setSize(this.$el.clientWidth, this.$el.clientHeight);
     this.$el.appendChild(this.inst.domElement);
-    this.vglNamespace.update();
+    if (this.cameraRef) setCameraSize(this.cameraRef, this.$el.clientWidth, this.$el.clientHeight);
+    this.requestRender = this.cameraRef && this.sceneRef ? 1 : -1;
   },
   beforeDestroy() {
-    this.vglNamespace.renderers.splice(this.vglNamespace.renderers.indexOf(this), 1);
+    if (this.camera === undefined) {
+      this.vglNamespace.cameras.unlisten(this.setFallbackCamera);
+    } else {
+      this.vglNamespace.cameras.unlisten(this.camera, this.setCameraRef);
+    }
+    if (this.scene === undefined) {
+      this.vglNamespace.scenes.unlisten(this.setFallbackScene);
+    } else {
+      this.vglNamespace.scenes.unlisten(this.scene, this.setSceneRef);
+    }
     this.inst.dispose();
+
+    this.vglNamespace.renderers.splice(this.vglNamespace.renderers.indexOf(this), 1);
   },
   render(h) {
     return h('div', [h('iframe', {
@@ -132,7 +193,10 @@ export default {
         load: (event) => {
           event.target.contentWindow.addEventListener('resize', () => {
             this.inst.setSize(this.$el.clientWidth, this.$el.clientHeight);
-            this.vglNamespace.update();
+            if (this.cameraRef) {
+              setCameraSize(this.cameraRef, this.$el.clientWidth, this.$el.clientHeight);
+              if (this.sceneRef) this.requestRender = 1;
+            }
           }, false);
         },
       },

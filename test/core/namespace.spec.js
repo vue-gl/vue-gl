@@ -219,12 +219,18 @@ describe('Namespace class', () => {
     let listener1;
     let listener2;
     let listener3;
+    let listener4;
+    let listener5;
+    let listener6;
     let testValue1;
     beforeEach(() => {
       ns = new Namespace();
       listener1 = jest.fn();
       listener2 = jest.fn();
       listener3 = jest.fn();
+      listener4 = jest.fn();
+      listener5 = jest.fn();
+      listener6 = jest.fn();
       testValue1 = { s: 19 };
     });
     test('should register multiple callbacks for same key', () => {
@@ -242,21 +248,40 @@ describe('Namespace class', () => {
       ns.set('testKey', testValue1);
       expect(listener1).toHaveBeenNthCalledWith(1, testValue1);
     });
+    test('should register a callback as global listener', () => {
+      ns.listen(listener4);
+      ns.listen(listener6);
+      ns.set('testKey', testValue1);
+      expect(listener4).toHaveBeenNthCalledWith(1, ns);
+      expect(listener6).toHaveBeenNthCalledWith(1, ns);
+    });
+    test('should not register duplicate callbacks as global listener', () => {
+      ns.listen(listener5);
+      ns.listen(listener5);
+      ns.set('testKey', testValue1);
+      expect(listener5).toHaveBeenNthCalledWith(1, ns);
+    });
   });
   describe('unlisten method', () => {
     let listener1;
     let listener2;
     let listener3;
+    let listener4;
+    let listener5;
     let testValue1;
     beforeEach(() => {
       listener1 = jest.fn();
       listener2 = jest.fn();
       listener3 = jest.fn();
+      listener4 = jest.fn();
+      listener5 = jest.fn();
       testValue1 = { t: 20 };
       ns = new Namespace();
       ns.listen('testKey1', listener1);
       ns.listen('testKey1', listener2);
       ns.listen('testKey1', listener3);
+      ns.listen(listener4);
+      ns.listen(listener5);
     });
     test('should unregister a callback', () => {
       ns.unlisten('testKey1', listener1);
@@ -273,6 +298,12 @@ describe('Namespace class', () => {
       expect(listener1).not.toHaveBeenCalled();
       expect(listener2).not.toHaveBeenCalled();
       expect(listener3).not.toHaveBeenCalled();
+    });
+    test('should unregister a global callback', () => {
+      ns.unlisten(listener4);
+      ns.set('testKey1', testValue1);
+      expect(listener4).not.toHaveBeenCalled();
+      expect(listener5).toHaveBeenCalledWith(ns);
     });
   });
   describe('destroy method', () => {

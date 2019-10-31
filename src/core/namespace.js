@@ -4,26 +4,33 @@ export default class Namespace {
     this.children = [];
     this.hash = Object.create(null);
     this.listeners = Object.create(null);
+    this.globalListeners = [];
     if (parent) parent.children.push(this);
   }
 
   listen(key, fn) {
-    if (key in this.listeners) {
-      if (this.listeners[key].includes(fn)) return;
-      this.listeners[key].push(fn);
+    if (typeof key === 'function') {
+      if (!this.globalListeners.includes(key)) this.globalListeners.push(key);
+    } else if (key in this.listeners) {
+      if (!this.listeners[key].includes(fn)) this.listeners[key].push(fn);
     } else {
       this.listeners[key] = [fn];
     }
   }
 
   unlisten(key, fn) {
-    const listeners = this.listeners[key];
-    if (listeners) {
-      if (listeners.length > 1) {
-        const index = listeners.indexOf(fn);
-        if (index >= 0) listeners.splice(index, 1);
-      } else if (listeners[0] === fn) {
-        delete this.listeners[key];
+    if (typeof key === 'function') {
+      const index = this.globalListeners.indexOf(key);
+      if (index >= 0) this.globalListeners.splice(index, 1);
+    } else {
+      const listeners = this.listeners[key];
+      if (listeners) {
+        if (listeners.length > 1) {
+          const index = listeners.indexOf(fn);
+          if (index >= 0) listeners.splice(index, 1);
+        } else if (listeners[0] === fn) {
+          delete this.listeners[key];
+        }
       }
     }
   }
@@ -55,6 +62,7 @@ export default class Namespace {
   emit(key, inst) {
     if (key in this.listeners) this.listeners[key].forEach((fn) => fn(inst));
     this.children.forEach((child) => { if (!(key in child.hash)) child.emit(key, inst); });
+    if (this.globalListeners.length) this.globalListeners.forEach((fn) => fn(this));
   }
 
   destroy() {

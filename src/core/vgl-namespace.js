@@ -35,11 +35,19 @@ import Namespace from './namespace';
 export default {
   computed: {
     vglNamespace() {
+      const {
+        vglNamespaceParent: {
+          geometries,
+          materials,
+          textures,
+          object3ds,
+        },
+      } = this;
       return Object.create(this.vglNamespaceParent, {
-        geometries: { value: this.vglNamespaceParent.geometries.fork() },
-        materials: { value: this.vglNamespaceParent.materials.fork() },
-        textures: { value: this.vglNamespaceParent.textures.fork() },
-        object3ds: { value: this.vglNamespaceParent.object3ds.fork() },
+        geometries: { value: geometries ? geometries.fork() : new Namespace() },
+        materials: { value: materials ? materials.fork() : new Namespace() },
+        textures: { value: textures ? textures.fork() : new Namespace() },
+        object3ds: { value: object3ds ? object3ds.fork() : new Namespace() },
       });
     },
   },
@@ -49,26 +57,12 @@ export default {
       default() {
         const renderers = [];
         const beforeRender = [];
-        let updated;
         return {
           renderers,
           cameras: new Namespace(),
           scenes: new Namespace(),
-          update: () => {
-            if (!updated) {
-              this.$nextTick(() => {
-                beforeRender.forEach((hook) => { hook(); });
-                renderers.forEach((vm) => { vm.render(); });
-                updated = false;
-              });
-              updated = true;
-            }
-          },
+          update: () => renderers.forEach((c) => Object.assign(c, { requestRender: 1 })),
           beforeRender,
-          geometries: new Namespace(),
-          materials: new Namespace(),
-          textures: new Namespace(),
-          object3ds: new Namespace(),
         };
       },
     },

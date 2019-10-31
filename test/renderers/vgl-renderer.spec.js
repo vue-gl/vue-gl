@@ -1,7 +1,6 @@
 import Vue from 'vue/dist/vue';
 import { WebGLRenderer, Scene, PerspectiveCamera } from 'three';
 import { VglRenderer } from '../../src';
-import { scenePropRequiredMessage, cameraPropRequiredMessage } from '../../src/messages';
 
 jest.mock('three');
 WebGLRenderer.mockImplementation(function MockedWebGLRenderer() {
@@ -79,6 +78,40 @@ describe('VglRenderer', () => {
     await vm.$nextTick();
     expect(vm.$el.querySelector('canvas')).toBe(vm.inst.domElement);
   });
+  describe('render method', () => {
+    test('should be called with unnamed scene and camera', async () => {
+      const vm = new Vue(VglRenderer).$mount();
+      const scene = new Scene();
+      const camera = new PerspectiveCamera();
+      vm.vglNamespace.scenes.set(undefined, scene);
+      vm.vglNamespace.cameras.set(undefined, camera);
+      await vm.$nextTick();
+      expect(vm.inst.render).toHaveBeenLastCalledWith(scene, camera);
+    });
+    test('should render with named scene and camera', async () => {
+      const vm = new (Vue.extend(VglRenderer))({ propsData: { camera: 'c1', scene: 's1' } }).$mount();
+      const scene = new Scene();
+      const camera = new PerspectiveCamera();
+      vm.vglNamespace.scenes.set('s1', scene);
+      vm.vglNamespace.scenes.set('s2', new Scene());
+      vm.vglNamespace.cameras.set('c1', camera);
+      vm.vglNamespace.cameras.set('c2', new PerspectiveCamera());
+      await vm.$nextTick();
+      expect(vm.inst.render).toHaveBeenLastCalledWith(scene, camera);
+    });
+    test('should render with replaced scene and camera', async () => {
+      const vm = new (Vue.extend(VglRenderer))({ propsData: { camera: 'c1', scene: 's1' } }).$mount();
+      const scene = new Scene();
+      const camera = new PerspectiveCamera();
+      vm.vglNamespace.scenes.set('s1', new Scene());
+      vm.vglNamespace.cameras.set('c1', new PerspectiveCamera());
+      await vm.$nextTick();
+      vm.vglNamespace.scenes.set('s1', scene);
+      vm.vglNamespace.cameras.set('c1', camera);
+      await vm.$nextTick();
+      expect(vm.inst.render).toHaveBeenLastCalledWith(scene, camera);
+    });
+  });
   describe('specifying scene and camera to render', () => {
     beforeAll(() => { Vue.config.errorHandler = jest.fn(); });
     afterEach(() => Vue.config.errorHandler.mockClear());
@@ -88,7 +121,7 @@ describe('VglRenderer', () => {
       vm.vglNamespace.scenes.set('s1', new Scene());
       vm.vglNamespace.scenes.set('s2', new Scene());
       await vm.$mount().$nextTick();
-      expect(Vue.config.errorHandler).toHaveBeenCalledWith(new ReferenceError(scenePropRequiredMessage), vm, 'nextTick');
+      expect(Vue.config.errorHandler).toHaveBeenCalledWith(expect.any(ReferenceError), vm, 'nextTick');
     });
     test('any errors shoud not be thrown when scene prop is undefined but only one scene is defined', async () => {
       const vm = new Vue(VglRenderer);
@@ -101,7 +134,7 @@ describe('VglRenderer', () => {
       vm.vglNamespace.cameras.set('c1', new PerspectiveCamera());
       vm.vglNamespace.cameras.set('c2', new PerspectiveCamera());
       await vm.$mount().$nextTick();
-      expect(Vue.config.errorHandler).toHaveBeenCalledWith(new ReferenceError(cameraPropRequiredMessage), vm, 'nextTick');
+      expect(Vue.config.errorHandler).toHaveBeenCalledWith(expect.any(ReferenceError), vm, 'nextTick');
     });
     test('any errors shoud not be thrown when camera prop is undefined but only one camera is defined', async () => {
       const vm = new Vue(VglRenderer);
