@@ -62,7 +62,7 @@ export default class Namespace {
   emit(key, inst) {
     if (key in this.listeners) this.listeners[key].forEach((fn) => fn(inst));
     this.children.forEach((child) => { if (!(key in child.hash)) child.emit(key, inst); });
-    if (this.globalListeners.length) this.globalListeners.forEach((fn) => fn(this));
+    this.globalListeners.forEach((fn) => fn(this));
   }
 
   destroy() {
