@@ -33,10 +33,12 @@ export default {
       const { vglNamespace: { textures }, inst, backgroundTexture } = this;
       if (backgroundTexture in textures.keys()) inst.background = textures.get(backgroundTexture);
     },
+    emit() { this.vglNamespace.scenes.emit(this.name, this.inst); },
   },
   created() {
     const { vglNamespace: { beforeRender }, setBackgroundTexture } = this;
     beforeRender.unshift(setBackgroundTexture);
+    this.vglObject3d.listen(this.emit);
   },
   watch: {
     inst: {
@@ -69,5 +71,6 @@ export default {
     const { vglNamespace: { scenes, beforeRender }, inst, setBackgroundTexture } = this;
     scenes.delete(this.name, inst);
     beforeRender.splice(beforeRender.indexOf(setBackgroundTexture), 1);
+    this.vglObject3d.unlisten(this.emit);
   },
 };

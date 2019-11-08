@@ -38,29 +38,36 @@ export default {
     /** Optional name of the object. */
     name: string,
     /** Whether the object is visible. */
-    visible: {
-      type: boolean,
-      default: true,
-    },
+    hidden: boolean,
   },
   computed: {
     inst: () => new Object3D(),
+    parent() { return this.vglObject3d.inst; },
   },
   inject: {
-    vglObject3d: { default: {} },
-    vglNamespace: 'vglNamespace',
+    vglObject3d: {
+      default() {
+        const listeners = [];
+        return {
+          listen(fn) { if (!listeners.includes(fn)) listeners.push(fn); },
+          unlisten(fn) {
+            const index = listeners.indexOf(fn);
+            if (index >= 0) listeners.splice(index, 1);
+          },
+          emit() { listeners.forEach((fn) => fn()); },
+        };
+      },
+    },
+    vglNamespace: {
+      default() { throw new Error('VueGL components must be wraped by VglNamespace component.'); },
+    },
   },
   provide() {
-    const vm = this;
-    return { vglObject3d: { get inst() { return vm.inst; } } };
+    return { vglObject3d: Object.create(this.vglObject3d, { inst: { get: () => this.inst } }) };
   },
-  created() { this.vglNamespace.update(); },
-  beforeUpdate() { this.vglNamespace.update(); },
   beforeDestroy() {
-    const { vglNamespace, inst, name } = this;
-    if (inst.parent) inst.parent.remove(inst);
-    vglNamespace.object3ds.delete(name, inst);
-    vglNamespace.update();
+    if (this.inst.parent) this.inst.parent.remove(this.inst);
+    if (this.name !== undefined) this.vglNamespace.object3ds.delete(this.name, this.inst);
   },
   watch: {
     inst: {
@@ -74,17 +81,14 @@ export default {
         Object.assign(inst, {
           castShadow: this.castShadow,
           receiveShadow: this.receiveShadow,
-          visible: this.visible,
+          visible: !this.hidden,
+          name: this.name,
         });
-        if (this.name !== undefined) {
-          // eslint-disable-next-line no-param-reassign
-          inst.name = this.name;
-          this.vglNamespace.object3ds.set(this.name, inst);
-        }
+        if (this.name !== undefined) this.vglNamespace.object3ds.set(this.name, inst);
       },
       immediate: true,
     },
-    'vglObject3d.inst': function parentInst(inst) { inst.add(this.inst); },
+    parent(inst) { inst.add(this.inst); },
     position(position) { this.inst.position.copy(parseVector3(position)); },
     rotation(rotation) { this.inst.rotation.copy(parseEuler(rotation)); },
     rotationQuaternion(rotationQuaternion) {
@@ -94,12 +98,13 @@ export default {
     castShadow(castShadow) { this.inst.castShadow = castShadow; },
     receiveShadow(receiveShadow) { this.inst.receiveShadow = receiveShadow; },
     name(name, oldName) {
-      const { vglNamespace: { object3ds }, inst } = this;
-      object3ds.delete(oldName, inst);
       this.inst.name = name;
-      object3ds.set(name, inst);
+      if (oldName !== undefined) this.vglNamespace.object3ds.delete(oldName, this.inst);
+      if (name !== undefined) this.vglNamespace.object3ds.set(name, this.inst);
     },
-    visible(visible) { this.inst.visible = visible; },
+    hidden(hidden) { this.inst.visible = !hidden; },
   },
+  beforeUpdate() { this.vglObject3d.emit(); },
+  created() { this.vglObject3d.emit(); },
   render(h) { return this.$slots.default ? h('div', this.$slots.default) : undefined; },
 };

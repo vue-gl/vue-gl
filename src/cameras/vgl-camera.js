@@ -70,8 +70,13 @@ export default {
       }
     },
   },
+  methods: {
+    emit() { this.vglNamespace.cameras.emit(this.name, this.inst); },
+  },
+  created() { this.vglObject3d.listen(this.emit); },
   beforeDestroy() {
     const { vglNamespace: { cameras }, inst } = this;
     cameras.delete(this.name, inst);
+    this.vglObject3d.unlisten(this.emit);
   },
 };
