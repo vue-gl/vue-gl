@@ -9,7 +9,7 @@
   dependencies:
     "@babel/highlight" "^7.0.0"
 
-"@babel/core@^7.1.0", "@babel/core@^7.3.3", "@babel/core@^7.6.0":
+"@babel/core@^7.1.0", "@babel/core@^7.3.3", "@babel/core@^7.7.2":
   version "7.7.2"
   resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.7.2.tgz#ea5b99693bcfc058116f42fa1dd54da412b29d91"
   integrity sha512-eeD7VEZKfhK1KUXGiyPFettgF3m513f8FoBSWiQ1xTvl1RAopLs42Wp9+Ze911I6H0N9lNqJMDgoZT7gHsipeQ==
@@ -5141,11 +5141,11 @@ rimraf@^2.5.4, rimraf@^2.6.1, rimraf@^2.6.2, rimraf@^2.6.3:
     glob "^7.1.3"
 
 rollup-plugin-babel-minify@^9.0.0:
-  version "9.1.0"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-babel-minify/-/rollup-plugin-babel-minify-9.1.0.tgz#27cff4fe1c13728029992e7f1452852f2dfd5b6d"
-  integrity sha512-hA0/vAAPoc6wHH94o7qTI4Ja4BsbFIKWJ+Wy8XPdVhz1dDCbPoP44IMmqCJEpSsf5Gy4l1Uji3qWVeSJwxxVzg==
+  version "9.1.1"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-babel-minify/-/rollup-plugin-babel-minify-9.1.1.tgz#a08c7c231952e276f234bdbbc5b52072df6d60d9"
+  integrity sha512-/Jph4PungzuB4h8uPSNKJQ16GjxVTfaRT6f4EwZW5NfD7RU7niFSEMMCZAlM6ezf11MBo1ttQcei+FisyCxicg==
   dependencies:
-    "@babel/core" "^7.6.0"
+    "@babel/core" "^7.7.2"
     "@babel/plugin-syntax-dynamic-import" "^7.2.0"
     "@comandeer/babel-plugin-banner" "^5.0.0"
     babel-preset-minify "^0.5.1"
