@@ -156,9 +156,6 @@ export default {
       immediate: true,
     },
   },
-  created() {
-    this.vglNamespace.renderers.push(this);
-  },
   mounted() {
     this.inst.setSize(this.$el.clientWidth, this.$el.clientHeight);
     this.$el.appendChild(this.inst.domElement);
@@ -177,8 +174,6 @@ export default {
       this.vglNamespace.scenes.unlisten(this.scene, this.setSceneRef);
     }
     this.inst.dispose();
-
-    this.vglNamespace.renderers.splice(this.vglNamespace.renderers.indexOf(this), 1);
   },
   render(h) {
     return h('div', [h('iframe', {

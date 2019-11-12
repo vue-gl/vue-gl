@@ -55,13 +55,10 @@ export default {
     vglNamespaceParent: {
       from: 'vglNamespace',
       default() {
-        const renderers = [];
         const beforeRender = [];
         return {
-          renderers,
           cameras: new Namespace(),
           scenes: new Namespace(),
-          update: () => renderers.forEach((c) => Object.assign(c, { requestRender: 1 })),
           beforeRender,
         };
       },
