@@ -149,7 +149,7 @@ export default {
     inst() {
       return new TextureLoader().load(this.src, (texture) => {
         if (this.format) Object.assign(texture, { format: format[this.format] });
-        this.vglNamespace.update();
+        this.vglNamespace.textures.emit(this.name, this.inst);
       });
     },
   },
@@ -203,7 +203,7 @@ export default {
   },
   beforeUpdate() {
     this.inst.needsUpdate = true;
-    this.vglNamespace.update();
+    this.vglNamespace.textures.emit(this.name, this.inst);
   },
   render(h) {
     return this.$slots.default ? h('div', this.$slots.default) : undefined;

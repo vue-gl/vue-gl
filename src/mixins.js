@@ -11,7 +11,7 @@ export const VglObject3dWithMatarial = {
           (acc, current) => (materials.get(current) ? [...acc, materials.get(current)] : acc), [],
         );
       } else if (material) inst.material = material;
-      this.vglNamespace.update();
+      this.vglObject3d.emit();
     },
   },
   watch: {
@@ -59,7 +59,6 @@ export const VglObject3dWithMatarialAndGeometry = {
     setGeometry(geometry) {
       if (geometry) {
         this.inst.geometry = geometry;
-        this.vglNamespace.update();
       }
     },
   },
@@ -90,6 +89,7 @@ export const VglMaterialWithMap = {
     setMap() {
       const { vglNamespace: { textures }, inst, map } = this;
       if (textures.keys().includes(map)) inst.map = textures.get(map);
+      this.vglNamespace.materials.emit(this.name, inst);
     },
   },
   watch: {

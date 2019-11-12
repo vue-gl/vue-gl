@@ -54,18 +54,19 @@ export default {
         if (!fonts[src]) {
           fonts[src] = [() => {
             if (src === this.font) this.f = src;
-            this.vglNamespace.update();
           }];
           new FontLoader().load(src, (font) => {
             const queue = fonts[src];
             fonts[src] = font;
             queue.forEach((f) => { f(); });
+            this.vglNamespace.geometries.emit(this.name, this.inst);
           });
         } else if (fonts[src].isFont) {
           this.f = src;
         } else {
           fonts[src].push(() => { if (src === this.font) this.f = src; });
         }
+        this.vglNamespace.geometries.emit(this.name, this.inst);
       },
       immediate: true,
     },
