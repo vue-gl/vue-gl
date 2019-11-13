@@ -104,7 +104,10 @@ export default {
     },
     hidden(hidden) { this.inst.visible = !hidden; },
   },
-  beforeUpdate() { this.vglObject3d.emit(); },
+  beforeUpdate() {
+    this.vglObject3d.emit();
+    if (this.name !== undefined) this.vglNamespace.object3ds.emit(this.name, this.inst);
+  },
   created() { this.vglObject3d.emit(); },
   render(h) { return this.$slots.default ? h('div', this.$slots.default) : undefined; },
 };

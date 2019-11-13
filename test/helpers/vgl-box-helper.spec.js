@@ -21,7 +21,6 @@ describe('VglBoxHelper', () => {
     test('in case with default values', () => {
       const vm = new (Vue.extend(VglBoxHelper))({ inject, propsData: { object: 'testSphere' } });
       const expected = new BoxHelper(new Mesh(new SphereBufferGeometry(5.4, 31.3, 30.9)));
-      vm.vglNamespace.beforeRender[0]();
       expect(vm.inst.geometry)
         .toHaveProperty('attributes', expected.geometry.attributes);
       expect(vm.inst.material).toHaveProperty('color', expected.material.color);

@@ -59,6 +59,8 @@ export const VglObject3dWithMatarialAndGeometry = {
     setGeometry(geometry) {
       if (geometry) {
         this.inst.geometry = geometry;
+        this.vglObject3d.emit();
+        if (this.name !== undefined) this.vglNamespace.object3ds.emit(this.name, this.inst);
       }
     },
   },

@@ -21,11 +21,29 @@ export default {
     inst() { return new BoxHelper(undefined, this.color); },
   },
   methods: {
-    setFromObject() { this.inst.setFromObject(this.vglNamespace.object3ds.get(this.object)); },
+    setFromObject(obj) { this.inst.setFromObject(obj); },
   },
-  created() { this.vglNamespace.beforeRender.push(this.setFromObject); },
+  watch: {
+    inst() {
+      if (this.object !== undefined) {
+        this.setFromObject(this.vglNamespace.object3ds.get(this.object));
+      }
+    },
+    object: {
+      handler(name, oldName) {
+        const { vglNamespace: { object3ds }, setFromObject } = this;
+        if (oldName !== undefined) object3ds.unlisten(oldName, setFromObject);
+        if (name !== undefined) {
+          object3ds.listen(name, setFromObject);
+          setFromObject(this.vglNamespace.object3ds.get(name));
+        }
+      },
+      immediate: true,
+    },
+  },
   beforeDestroy() {
-    const { vglNamespace: { beforeRender }, setFromObject } = this;
-    beforeRender.splice(beforeRender.indexOf(setFromObject), 1);
+    if (this.object !== undefined) {
+      this.vglNamespace.object3ds.unlisten(this.object, this.setFromObject);
+    }
   },
 };
