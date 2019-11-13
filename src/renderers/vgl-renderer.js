@@ -63,12 +63,12 @@ export default {
       this.cameraRef = camera;
       if (this.$el) {
         if (camera) setCameraSize(camera, this.$el.clientWidth, this.$el.clientHeight);
-        this.requestRender(camera && this.sceneRef ? 1 : -1);
+        this.requestRender(camera && this.sceneRef);
       }
     },
     setSceneRef(scene) {
       this.sceneRef = scene;
-      if (this.$el) this.requestRender(scene && this.cameraRef ? 1 : -1);
+      if (this.$el) this.requestRender(scene && this.cameraRef);
     },
     setFallbackCamera(cameras) {
       const keys = cameras.keys();
@@ -78,39 +78,39 @@ export default {
       const keys = scenes.keys();
       this.setSceneRef(keys.length === 1 ? scenes.get(keys[0]) : undefined);
     },
-    requestRender(request) {
-      const prevRequest = this.reservation;
-      this.reservation = request;
-      if (!request || prevRequest) return;
-      this.$nextTick(() => {
-        if (this.reservation > 0) {
-          this.vglNamespace.beforeRender.forEach((fn) => fn());
-          this.inst.render(this.sceneRef, this.cameraRef);
-        } else if (!this.cameraRef && this.vglNamespace.cameras.keys().length) {
-          if (this.camera === undefined) {
-            const { length } = this.vglNamespace.cameras.keys();
-            throw new ReferenceError(
-              `Cannot identify the camera. Multiple(${length}) cameras are defined but camera prop is not given.`,
-            );
-          } else {
-            throw new ReferenceError(
-              `Cannot identify the camera. The camera named ${this.camera} is not defined.`,
-            );
+    requestRender(...args) {
+      if (!this.reservation) {
+        this.$nextTick(() => {
+          if (this.reservation > 0) {
+            this.vglNamespace.beforeRender.forEach((fn) => fn());
+            this.inst.render(this.sceneRef, this.cameraRef);
+          } else if (!this.cameraRef && this.vglNamespace.cameras.keys().length) {
+            if (this.camera === undefined) {
+              const { length } = this.vglNamespace.cameras.keys();
+              throw new ReferenceError(
+                `Cannot identify the camera. Multiple(${length}) cameras are defined but camera prop is not given.`,
+              );
+            } else {
+              throw new ReferenceError(
+                `Cannot identify the camera. The camera named ${this.camera} is not defined.`,
+              );
+            }
+          } else if (!this.sceneRef && this.vglNamespace.scenes.keys().length) {
+            if (this.scene === undefined) {
+              const { length } = this.vglNamespace.cameras.keys();
+              throw new ReferenceError(
+                `Cannot identify the scene. Multiple(${length}) scenes are defined but scene prop is not given.`,
+              );
+            } else {
+              throw new ReferenceError(
+                `Cannot identify the scene. The scene named ${this.scene} is not defined.`,
+              );
+            }
           }
-        } else if (!this.sceneRef && this.vglNamespace.scenes.keys().length) {
-          if (this.scene === undefined) {
-            const { length } = this.vglNamespace.cameras.keys();
-            throw new ReferenceError(
-              `Cannot identify the scene. Multiple(${length}) scenes are defined but scene prop is not given.`,
-            );
-          } else {
-            throw new ReferenceError(
-              `Cannot identify the scene. The scene named ${this.scene} is not defined.`,
-            );
-          }
-        }
-        this.reservation = 0;
-      });
+          this.reservation = 0;
+        });
+      }
+      this.reservation = !args.length || args[0] ? 1 : -1;
     },
   },
   watch: {
@@ -118,7 +118,7 @@ export default {
       if (this.$el) {
         inst.setSize(this.$el.clientWidth, this.$el.clientHeight);
         this.$el.replaceChild(inst.domElement, oldInst.domElement);
-        if (this.cameraRef && this.sceneRef) this.requestRender(1);
+        if (this.cameraRef && this.sceneRef) this.requestRender();
       }
       oldInst.dispose();
     },
@@ -161,7 +161,7 @@ export default {
     this.inst.setSize(this.$el.clientWidth, this.$el.clientHeight);
     this.$el.appendChild(this.inst.domElement);
     if (this.cameraRef) setCameraSize(this.cameraRef, this.$el.clientWidth, this.$el.clientHeight);
-    this.requestRender(this.cameraRef && this.sceneRef ? 1 : -1);
+    this.requestRender(this.cameraRef && this.sceneRef);
   },
   beforeDestroy() {
     if (this.camera === undefined) {
@@ -191,7 +191,7 @@ export default {
             this.inst.setSize(this.$el.clientWidth, this.$el.clientHeight);
             if (this.cameraRef) {
               setCameraSize(this.cameraRef, this.$el.clientWidth, this.$el.clientHeight);
-              if (this.sceneRef) this.requestRender(1);
+              if (this.sceneRef) this.requestRender();
             }
           }, false);
         },
