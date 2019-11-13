@@ -56,31 +56,46 @@ export default {
     },
     positionAttribute(positionAttribute) {
       const positionArray = parseArray(positionAttribute);
-      const attributeObject = this.inst.getAttribute('position');
+      let attributeObject = this.inst.getAttribute('position');
       if (attributeObject.array.length === positionArray.length) {
         attributeObject.copyArray(positionArray);
       } else {
-        attributeObject.setAttribute('array', new Float32Array(positionArray));
+        /* itemSize / array length is different from previous..
+        recreate new Buffer and restore version */
+        const previousVersion = attributeObject.version;
+        attributeObject = new BufferAttribute(new Float32Array(positionArray), 3);
+        attributeObject.version = previousVersion;
+        this.inst.setAttribute('position', attributeObject);
       }
       attributeObject.needsUpdate = true;
     },
     colorAttribute(colorAttribute) {
       const colorArray = parseArray(colorAttribute);
-      const attributeObject = this.inst.getAttribute('color');
+      let attributeObject = this.inst.getAttribute('color');
       if (attributeObject.array.length === colorArray.length) {
         attributeObject.copyArray(colorArray);
       } else {
-        attributeObject.setAttribute('array', new Float32Array(colorArray));
+        /* itemSize / array length is different from previous..
+        recreate new Buffer and restore version */
+        const previousVersion = attributeObject.version;
+        attributeObject = new BufferAttribute(new Float32Array(colorArray), 3);
+        attributeObject.version = previousVersion;
+        this.inst.setAttribute('color', attributeObject);
       }
       attributeObject.needsUpdate = true;
     },
     normalAttribute(normalAttribute) {
       const normalArray = parseArray(normalAttribute);
-      const attributeObject = this.inst.getAttribute('normal');
+      let attributeObject = this.inst.getAttribute('normal');
       if (attributeObject.array.length === normalArray.length) {
         attributeObject.copyArray(normalArray);
       } else {
-        attributeObject.setAttribute('array', new Float32Array(normalArray));
+        /* itemSize / array length is different from previous..
+        recreate new Buffer and restore version */
+        const previousVersion = attributeObject.version;
+        attributeObject = new BufferAttribute(new Float32Array(normalArray), 3);
+        attributeObject.version = previousVersion;
+        this.inst.setAttribute('normal', attributeObject);
       }
       attributeObject.needsUpdate = true;
     },

@@ -109,6 +109,7 @@ describe('VglGeometry', () => {
       expected.setAttribute('position', position);
       expected.setAttribute('color', color);
       expected.setAttribute('normal', normal);
+
       expect(vm.inst).toHaveProperty('attributes', expected.attributes);
     });
   });
