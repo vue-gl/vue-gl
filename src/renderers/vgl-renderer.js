@@ -63,12 +63,12 @@ export default {
       this.cameraRef = camera;
       if (this.$el) {
         if (camera) setCameraSize(camera, this.$el.clientWidth, this.$el.clientHeight);
-        this.requestRender = camera && this.sceneRef ? 1 : -1;
+        this.requestRender(camera && this.sceneRef ? 1 : -1);
       }
     },
     setSceneRef(scene) {
       this.sceneRef = scene;
-      if (this.$el) this.requestRender = scene && this.cameraRef ? 1 : -1;
+      if (this.$el) this.requestRender(scene && this.cameraRef ? 1 : -1);
     },
     setFallbackCamera(cameras) {
       const keys = cameras.keys();
@@ -78,13 +78,12 @@ export default {
       const keys = scenes.keys();
       this.setSceneRef(keys.length === 1 ? scenes.get(keys[0]) : undefined);
     },
-  },
-  data() { return { requestRender: 0 }; },
-  watch: {
-    requestRender(request, prevRequest) {
+    requestRender(request) {
+      const prevRequest = this.reservation;
+      this.reservation = request;
       if (!request || prevRequest) return;
       this.$nextTick(() => {
-        if (this.requestRender > 0) {
+        if (this.reservation > 0) {
           this.vglNamespace.beforeRender.forEach((fn) => fn());
           this.inst.render(this.sceneRef, this.cameraRef);
         } else if (!this.cameraRef && this.vglNamespace.cameras.keys().length) {
@@ -110,14 +109,16 @@ export default {
             );
           }
         }
-        this.requestRender = 0;
+        this.reservation = 0;
       });
     },
+  },
+  watch: {
     inst(inst, oldInst) {
       if (this.$el) {
         inst.setSize(this.$el.clientWidth, this.$el.clientHeight);
         this.$el.replaceChild(inst.domElement, oldInst.domElement);
-        if (this.cameraRef && this.sceneRef) this.requestRender = 1;
+        if (this.cameraRef && this.sceneRef) this.requestRender(1);
       }
       oldInst.dispose();
     },
@@ -160,7 +161,7 @@ export default {
     this.inst.setSize(this.$el.clientWidth, this.$el.clientHeight);
     this.$el.appendChild(this.inst.domElement);
     if (this.cameraRef) setCameraSize(this.cameraRef, this.$el.clientWidth, this.$el.clientHeight);
-    this.requestRender = this.cameraRef && this.sceneRef ? 1 : -1;
+    this.requestRender(this.cameraRef && this.sceneRef ? 1 : -1);
   },
   beforeDestroy() {
     if (this.camera === undefined) {
@@ -190,7 +191,7 @@ export default {
             this.inst.setSize(this.$el.clientWidth, this.$el.clientHeight);
             if (this.cameraRef) {
               setCameraSize(this.cameraRef, this.$el.clientWidth, this.$el.clientHeight);
-              if (this.sceneRef) this.requestRender = 1;
+              if (this.sceneRef) this.requestRender(1);
             }
           }, false);
         },
