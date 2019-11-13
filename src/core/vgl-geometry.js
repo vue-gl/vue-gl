@@ -30,19 +30,19 @@ export default {
           const positionAttribute = oldInst
             ? oldInst.getAttribute('position')
             : new BufferAttribute(new Float32Array(parseArray(this.positionAttribute)), 3);
-          inst.addAttribute('position', positionAttribute);
+          inst.setAttribute('position', positionAttribute);
         }
         if (this.colorAttribute) {
           const colorAttribute = oldInst
             ? oldInst.getAttribute('color')
             : new BufferAttribute(new Float32Array(parseArray(this.colorAttribute)), 3);
-          inst.addAttribute('color', colorAttribute);
+          inst.setAttribute('color', colorAttribute);
         }
         if (this.normalAttribute) {
           const normalAttribute = oldInst
             ? oldInst.getAttribute('normal')
             : new BufferAttribute(new Float32Array(parseArray(this.normalAttribute)), 3);
-          inst.addAttribute('normal', normalAttribute);
+          inst.setAttribute('normal', normalAttribute);
         }
         if (oldInst) oldInst.dispose();
         this.vglNamespace.geometries[this.name] = inst;
@@ -60,7 +60,7 @@ export default {
       if (attributeObject.array.length === positionArray.length) {
         attributeObject.copyArray(positionArray);
       } else {
-        attributeObject.setArray(new Float32Array(positionArray));
+        attributeObject.setAttribute('array', new Float32Array(positionArray));
       }
       attributeObject.needsUpdate = true;
     },
@@ -70,7 +70,7 @@ export default {
       if (attributeObject.array.length === colorArray.length) {
         attributeObject.copyArray(colorArray);
       } else {
-        attributeObject.setArray(new Float32Array(colorArray));
+        attributeObject.setAttribute('array', new Float32Array(colorArray));
       }
       attributeObject.needsUpdate = true;
     },
@@ -80,7 +80,7 @@ export default {
       if (attributeObject.array.length === normalArray.length) {
         attributeObject.copyArray(normalArray);
       } else {
-        attributeObject.setArray(new Float32Array(normalArray));
+        attributeObject.setAttribute('array', new Float32Array(normalArray));
       }
       attributeObject.needsUpdate = true;
     },
