@@ -48,10 +48,10 @@
     "rollup-plugin-babel-minify": "^9.0.0",
     "rollup-plugin-copy": "^3.0.0",
     "vue": "^2.2.0",
-    "three": "^0.108.0"
+    "three": "^0.110.0"
   },
   "peerDependencies": {
     "vue": "^2.2.0",
-    "three": "^0.108.0"
+    "three": "^0.110.0"
   }
 }
