@@ -22,14 +22,12 @@ describe('VglLineBasicMaterial', () => {
       inject,
       propsData: {
         color: '#8aeda3',
-        lights: true,
         linewidth: '3.5',
         linecap: 'butt',
         linejoin: 'miter',
       },
     });
     expect(inst.color.getHex()).toBe(0x8aeda3);
-    expect(inst).toHaveProperty('lights', true);
     expect(inst).toHaveProperty('linewidth', 3.5);
     expect(inst).toHaveProperty('linecap', 'butt');
     expect(inst).toHaveProperty('linejoin', 'miter');
@@ -38,7 +36,6 @@ describe('VglLineBasicMaterial', () => {
     const vm = new (Vue.extend(VglLineBasicMaterial))({ inject });
     const { inst } = vm;
     vm.color = '#6751f2';
-    vm.lights = true;
     vm.linewidth = '3.5';
     vm.linecap = 'butt';
     vm.linejoin = 'miter';
@@ -48,13 +45,11 @@ describe('VglLineBasicMaterial', () => {
   test('the properties of the instance should change after props change', async () => {
     const vm = new (Vue.extend(VglLineBasicMaterial))({ inject });
     vm.color = '#6751f2';
-    vm.lights = true;
     vm.linewidth = '4.88';
     vm.linecap = 'square';
     vm.linejoin = 'bevel';
     await vm.$nextTick();
     expect(vm.inst.color.getHex()).toBe(0x6751f2);
-    expect(vm.inst).toHaveProperty('lights', true);
     expect(vm.inst).toHaveProperty('linewidth', 4.88);
     expect(vm.inst).toHaveProperty('linecap', 'square');
     expect(vm.inst).toHaveProperty('linejoin', 'bevel');
@@ -63,13 +58,11 @@ describe('VglLineBasicMaterial', () => {
     const { inst } = new (Vue.extend(VglLineBasicMaterial))({ inject });
     const {
       color,
-      lights,
       linewidth,
       linecap,
       linejoin,
     } = new LineBasicMaterial();
     expect(inst.color.getHex()).toBe(color.getHex());
-    expect(inst).toHaveProperty('lights', lights);
     expect(inst).toHaveProperty('linewidth', linewidth);
     expect(inst).toHaveProperty('linecap', linecap);
     expect(inst).toHaveProperty('linejoin', linejoin);

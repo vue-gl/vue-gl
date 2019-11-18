@@ -21,9 +21,9 @@ describe('VglGeometry', () => {
       },
     });
     const expected = new BufferGeometry();
-    expected.addAttribute('position', new BufferAttribute(new Float32Array([3, 1, 2, 2, -5, 6.3]), 3));
-    expected.addAttribute('color', new BufferAttribute(new Float32Array([0.8, 0.7, 0.9, 1, 0.1, 0.2]), 3));
-    expected.addAttribute('normal', new BufferAttribute(new Float32Array([2, 0, 0, -3, 4, 3]), 3));
+    expected.setAttribute('position', new BufferAttribute(new Float32Array([3, 1, 2, 2, -5, 6.3]), 3));
+    expected.setAttribute('color', new BufferAttribute(new Float32Array([0.8, 0.7, 0.9, 1, 0.1, 0.2]), 3));
+    expected.setAttribute('normal', new BufferAttribute(new Float32Array([2, 0, 0, -3, 4, 3]), 3));
     expect(inst).toHaveProperty('attributes', expected.attributes);
   });
   describe('the instance sould not be reinstantiated after props change', () => {
@@ -81,9 +81,9 @@ describe('VglGeometry', () => {
       color.needsUpdate = true;
       const normal = new BufferAttribute(new Float32Array([2, 0, 0, -3, 4, 3]), 3);
       normal.needsUpdate = true;
-      expected.addAttribute('position', position);
-      expected.addAttribute('color', color);
-      expected.addAttribute('normal', normal);
+      expected.setAttribute('position', position);
+      expected.setAttribute('color', color);
+      expected.setAttribute('normal', normal);
       expect(vm.inst).toHaveProperty('attributes', expected.attributes);
     });
     test('in case array lengths change', async () => {
@@ -106,9 +106,10 @@ describe('VglGeometry', () => {
       color.needsUpdate = true;
       const normal = new BufferAttribute(new Float32Array([2, 0, 0, -3, 4, 3]), 3);
       normal.needsUpdate = true;
-      expected.addAttribute('position', position);
-      expected.addAttribute('color', color);
-      expected.addAttribute('normal', normal);
+      expected.setAttribute('position', position);
+      expected.setAttribute('color', color);
+      expected.setAttribute('normal', normal);
+
       expect(vm.inst).toHaveProperty('attributes', expected.attributes);
     });
   });
