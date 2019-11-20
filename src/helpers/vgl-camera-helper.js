@@ -1,4 +1,4 @@
-import { CameraHelper } from 'three';
+import { CameraHelper, Object3D } from 'three';
 import VglObject3d from '../core/vgl-object3d';
 import { string } from '../validators';
 
@@ -16,21 +16,28 @@ export default {
     /** Name of the camera to visualize. */
     camera: string,
   },
-  methods: {
-    setHelper() {
-      if (!this.inst.children.length) {
-        this.inst.add(new CameraHelper(this.vglNamespace.cameras.get(this.camera)));
-      } else {
-        const [helper] = this.inst.children;
-        helper.camera = this.vglNamespace.cameras.get(this.camera);
-        helper.camera.updateProjectionMatrix();
-        helper.update();
-      }
+  computed: {
+    inst() {
+      const camera = this.vglNamespace.cameras.get(this.camera);
+      return camera && new CameraHelper(camera) || new Object3D();
     },
   },
-  created() { this.vglNamespace.beforeRender.push(this.setHelper); },
-  beforeDestroy() {
-    const { vglNamespace: { beforeRender }, setHelper } = this;
-    beforeRender.splice(beforeRender.indexOf(setHelper), 1);
+  watch: {
+    camera: {
+      handler(name, oldName) {
+        if (oldName !== undefined) this.vglNamespace.cameras.unlisten(oldName, this.update);
+        this.vglNamespace.cameras.listen(name, this.update);
+      },
+      immediate: true,
+    },
   },
+  methods: {
+    update(camera) {
+      if (!camera || !(this.inst instanceof CameraHelper)) return;
+      camera.updateProjectionMatrix();
+      this.inst.camera = camera;
+      this.inst.update();
+    },
+  },
+  beforeDestroy() { this.vglNamespace.cameras.unlisten(this.camera, this.update); },
 };
