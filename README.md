@@ -80,7 +80,7 @@ When you open the html above in the browser, you'll see below.
         )** - Corresponding to [THREE.DodecahedronGeometry](https://threejs.org/docs/index.html#api/geometries/DodecahedronGeometry)
   - [ ] **[VglEdgesGeometry](src/geometries/vgl-edges-geometry.js)** -
         Corresponding to [THREE.EdgesGeometry](https://threejs.org/docs/index.html#api/geometries/EdgesGeometry)
-  - [ ] **[VglExtrudeGeometry](src/geometries/vgl-extrude-geometry.js)** -
+  - [x] **[VglExtrudeGeometry](src/geometries/vgl-extrude-geometry.js)** -
         Corresponding to [THREE.ExtrudeGeometry](https://threejs.org/docs/index.html#api/geometries/ExtrudeGeometry)
   - [x] **[VglIcosahedronGeometry](src/geometries/vgl-icosahedron-geometry.js
         )** - Corresponding to [THREE.IcosahedronGeometry](https://threejs.org/docs/index.html#api/geometries/IcosahedronGeometry)
