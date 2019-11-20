@@ -1,11 +1,11 @@
 ---
 ---
 <div id="app">
-  <vgl-renderer antialias style="height: 100vh;">
+  <vgl-renderer antialias camera="view" style="height: 100vh;">
     <vgl-scene>
       <vgl-camera-helper camera="shown"></vgl-camera-helper>
     </vgl-scene>
-    <vgl-perspective-camera orbit-position="0.8 1 1" orbit-target="0 0 -0.3"></vgl-perspective-camera>
+    <vgl-perspective-camera name="view" orbit-position="0.8 1 1" orbit-target="0 0 -0.3"></vgl-perspective-camera>
     <vgl-perspective-camera name="shown" :far="far" :fov="fov" :near="near"></vgl-perspective-camera>
   </vgl-renderer>
 
