@@ -7,6 +7,7 @@ import {
   boolean,
   string,
 } from '../validators';
+import Tree from './tree';
 
 /**
  * This is the base mixin component for most object components in VueGL,
@@ -41,39 +42,37 @@ export default {
     hidden: boolean,
   },
   computed: {
+    /** The THREE.Object3D instance. */
     inst: () => new Object3D(),
-    parent() { return this.vglObject3d.inst; },
+    /** The parent THREE.Object3D instance.  */
+    parent() { return this.vglObject3d.inst(); },
   },
   inject: {
-    vglObject3d: {
-      default() {
-        const listeners = [];
-        return {
-          listen(fn) { if (!listeners.includes(fn)) listeners.push(fn); },
-          unlisten(fn) {
-            const index = listeners.indexOf(fn);
-            if (index >= 0) listeners.splice(index, 1);
-          },
-          emit() { listeners.forEach((fn) => fn()); },
-        };
-      },
-    },
+    vglObject3d: { default: () => new Tree() },
     vglNamespace: {
       default() { throw new Error('VueGL components must be wraped by VglNamespace component.'); },
     },
   },
-  provide() {
-    return { vglObject3d: Object.create(this.vglObject3d, { inst: { get: () => this.inst } }) };
+  provide() { return { vglObject3d: new Tree(this.vglObject3d, () => this.inst) }; },
+  methods: {
+    /** Emit an event in the `object3ds` namespace. */
+    emitAsObject3d() { this.vglNamespace.object3ds.emit(this.name, this.inst); },
+  },
+  created() {
+    if (this.name !== undefined) this.vglObject3d.listen(this.emitAsObject3d);
   },
   beforeDestroy() {
     if (this.inst.parent) this.inst.parent.remove(this.inst);
-    if (this.name !== undefined) this.vglNamespace.object3ds.delete(this.name, this.inst);
+    if (this.name !== undefined) {
+      this.vglObject3d.unlisten(this.emitAsObject3d);
+      this.vglNamespace.object3ds.delete(this.name, this.inst);
+    }
   },
   watch: {
     inst: {
       handler(inst, oldInst) {
         if (oldInst && oldInst.parent) oldInst.parent.remove(oldInst);
-        if (this.vglObject3d.inst) this.vglObject3d.inst.add(inst);
+        if (this.parent) this.parent.add(inst);
         if (this.position) inst.position.copy(parseVector3(this.position));
         if (this.rotation) inst.rotation.copy(parseEuler(this.rotation));
         if (this.rotationQuaternion) inst.quaternion.copy(parseQuaternion(this.rotationQuaternion));
@@ -88,26 +87,46 @@ export default {
       },
       immediate: true,
     },
-    parent(inst) { inst.add(this.inst); },
-    position(position) { this.inst.position.copy(parseVector3(position)); },
-    rotation(rotation) { this.inst.rotation.copy(parseEuler(rotation)); },
+    parent(parent) { parent.add(this.inst); },
+    name(name, oldName) {
+      if (oldName !== undefined) {
+        this.vglNamespace.object3ds.delete(oldName, this.inst);
+        if (name === undefined) this.vglObject3d.unlisten(this.emitAsObject3d);
+      }
+      if (name !== undefined) {
+        this.vglNamespace.object3ds.set(name, this.inst);
+        if (oldName === undefined) this.vglObject3d.listen(this.emitAsObject3d);
+      }
+      this.inst.name = name;
+    },
+    position(position) {
+      this.inst.position.copy(parseVector3(position));
+      this.vglObject3d.emit();
+    },
+    rotation(rotation) {
+      this.inst.rotation.copy(parseEuler(rotation));
+      this.vglObject3d.emit();
+    },
     rotationQuaternion(rotationQuaternion) {
       this.inst.quaternion.copy(parseQuaternion(rotationQuaternion));
+      this.vglObject3d.emit();
     },
-    scale(scale) { this.inst.scale.copy(parseVector3(scale)); },
-    castShadow(castShadow) { this.inst.castShadow = castShadow; },
-    receiveShadow(receiveShadow) { this.inst.receiveShadow = receiveShadow; },
-    name(name, oldName) {
-      this.inst.name = name;
-      if (oldName !== undefined) this.vglNamespace.object3ds.delete(oldName, this.inst);
-      if (name !== undefined) this.vglNamespace.object3ds.set(name, this.inst);
+    scale(scale) {
+      this.inst.scale.copy(parseVector3(scale));
+      this.vglObject3d.emit();
     },
-    hidden(hidden) { this.inst.visible = !hidden; },
+    castShadow(castShadow) {
+      this.inst.castShadow = castShadow;
+      this.vglObject3d.emit();
+    },
+    receiveShadow(receiveShadow) {
+      this.inst.receiveShadow = receiveShadow;
+      this.vglObject3d.emit();
+    },
+    hidden(hidden) {
+      this.inst.visible = !hidden;
+      this.vglObject3d.emit();
+    },
   },
-  beforeUpdate() {
-    this.vglObject3d.emit();
-    if (this.name !== undefined) this.vglNamespace.object3ds.emit(this.name, this.inst);
-  },
-  created() { this.vglObject3d.emit(); },
   render(h) { return this.$slots.default ? h('div', this.$slots.default) : undefined; },
 };
