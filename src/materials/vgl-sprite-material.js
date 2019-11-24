@@ -25,6 +25,9 @@ export default {
       handler(inst) { inst.color.setStyle(this.color); },
       immediate: true,
     },
-    color(color) { this.inst.color.setStyle(color); },
+    color(color) {
+      this.inst.color.setStyle(color);
+      this.update();
+    },
   },
 };

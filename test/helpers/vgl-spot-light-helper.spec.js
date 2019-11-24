@@ -12,8 +12,7 @@ describe('VglSpotLightHelper:', () => {
   });
   test('the inst property should be an instance of SpotLightelper', () => {
     const vm = new (Vue.extend(VglSpotLightHelper))({ inject, propsData: { light: 'testLight' } });
-    vm.vglNamespace.beforeRender[0]();
-    expect(vm.inst.children[0]).toBeInstanceOf(SpotLightHelper);
+    expect(vm.inst).toBeInstanceOf(SpotLightHelper);
   });
   test('the component should have common props with VglObject3d', () => {
     const { $props } = new (Vue.extend(VglObject3d))({ inject });
@@ -23,13 +22,12 @@ describe('VglSpotLightHelper:', () => {
   describe('the state of the inst object should be specified by props', () => {
     test('in case with default values', () => {
       const vm = new (Vue.extend(VglSpotLightHelper))({ inject, propsData: { light: 'testLight' } });
-      vm.vglNamespace.beforeRender[0]();
       const expectedLight = new SpotLight(0xe2f3b4);
       expectedLight.position.set(3.8, 2.1, -0.5);
       const expected = new SpotLightHelper(expectedLight);
-      expect(vm.inst.children[0].cone.geometry.getAttribute('position'))
+      expect(vm.inst.cone.geometry.getAttribute('position'))
         .toEqual(expected.cone.geometry.getAttribute('position'));
-      expect(vm.inst.children[0].cone.material)
+      expect(vm.inst.cone.material)
         .toHaveProperty('color', expected.cone.material.color);
     });
     test('in case props given', () => {
@@ -40,24 +38,22 @@ describe('VglSpotLightHelper:', () => {
           color: '#ddf2ee',
         },
       });
-      vm.vglNamespace.beforeRender[0]();
       const expectedLight = new SpotLight(0xe2f3b4);
       expectedLight.position.set(3.8, 2.1, -0.5);
       const expected = new SpotLightHelper(expectedLight, 0xddf2ee);
-      expect(vm.inst.children[0].cone.geometry.getAttribute('position'))
+      expect(vm.inst.cone.geometry.getAttribute('position'))
         .toEqual(expected.cone.geometry.getAttribute('position'));
-      expect(vm.inst.children[0].cone.material)
+      expect(vm.inst.cone.material)
         .toHaveProperty('color', expected.cone.material.color);
     });
-    test('in case color changes', () => {
+    test('in case color changes', async () => {
       const vm = new (Vue.extend(VglSpotLightHelper))({ inject, propsData: { light: 'testLight' } });
-      vm.vglNamespace.beforeRender[0]();
       vm.color = '#ddf2ee';
-      vm.vglNamespace.beforeRender[0]();
+      await Vue.nextTick();
       const expectedLight = new SpotLight(0xe2f3b4);
       expectedLight.position.set(3.8, 2.1, -0.5);
       const expected = new SpotLightHelper(expectedLight, 0xddf2ee);
-      expect(vm.inst.children[0].cone.material)
+      expect(vm.inst.cone.material)
         .toHaveProperty('color', expected.cone.material.color);
     });
   });

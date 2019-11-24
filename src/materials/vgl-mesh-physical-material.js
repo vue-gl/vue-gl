@@ -33,8 +33,17 @@ export default {
       },
       immediate: true,
     },
-    clearcoat(clearcoat) { this.inst.clearcoat = parseFloat(clearcoat); },
-    clearcoatRoughness(roughness) { this.inst.clearcoatRoughness = parseFloat(roughness); },
-    reflectivity(reflectivity) { this.inst.reflectivity = parseFloat(reflectivity); },
+    clearcoat(clearcoat) {
+      this.inst.clearcoat = parseFloat(clearcoat);
+      this.update();
+    },
+    clearcoatRoughness(roughness) {
+      this.inst.clearcoatRoughness = parseFloat(roughness);
+      this.update();
+    },
+    reflectivity(reflectivity) {
+      this.inst.reflectivity = parseFloat(reflectivity);
+      this.update();
+    },
   },
 };

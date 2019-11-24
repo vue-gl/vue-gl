@@ -82,7 +82,6 @@ export default {
       if (!this.reservation) {
         this.$nextTick(() => {
           if (this.reservation > 0) {
-            this.vglNamespace.beforeRender.forEach((fn) => fn());
             this.inst.render(this.sceneRef, this.cameraRef);
           } else if (!this.cameraRef && this.vglNamespace.cameras.keys().length) {
             if (this.camera === undefined) {

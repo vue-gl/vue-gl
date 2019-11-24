@@ -39,6 +39,11 @@ export default {
   computed: {
     inst: () => new Material(),
   },
+  methods: {
+    update() {
+      if (this.name !== undefined) this.vglNamespace.materials.emit(this.name, this.inst);
+    },
+  },
   watch: {
     inst: {
       handler(inst) {
@@ -55,13 +60,18 @@ export default {
       materials.delete(oldName, inst);
       materials.set(name, inst);
     },
-    side(side) { this.inst.side = sides[side]; },
-    vertexColors(colors) { this.inst.vertexColors = vertexColors[colors]; },
+    side(side) {
+      this.inst.side = sides[side];
+      this.update();
+    },
+    vertexColors(colors) {
+      this.inst.vertexColors = vertexColors[colors];
+      this.update();
+    },
   },
   beforeDestroy() {
     const { vglNamespace: { materials }, inst } = this;
     materials.delete(this.name, inst);
   },
-  beforeUpdate() { this.vglNamespace.materials.emit(this.name, this.inst); },
   render(h) { return this.$slots.default ? h('div', this.$slots.default) : undefined; },
 };

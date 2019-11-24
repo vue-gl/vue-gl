@@ -1,4 +1,4 @@
-import { DirectionalLightHelper } from 'three';
+import { DirectionalLightHelper, Object3D } from 'three';
 import VglObject3d from '../core/vgl-object3d';
 import { string, number } from '../validators';
 
@@ -19,30 +19,49 @@ export default {
     /** Name of the directional light being visualized. */
     light: string,
   },
-  data() { return { s: undefined }; },
-  methods: {
-    setHelper() {
+  data: () => ({ lightUuid: null }),
+  computed: {
+    inst() {
+      if (!this.lightUuid) return new Object3D();
       const light = this.vglNamespace.object3ds.get(this.light);
-      if (this.inst.children.length) {
-        const [helper] = this.inst.children;
-        if (helper.light === light && this.s === this.size) {
-          helper.color = this.color;
-          helper.update();
-          return;
-        }
-        this.inst.remove(helper);
-      }
-      this.s = this.size;
-      this.inst.add(new DirectionalLightHelper(
-        light,
-        parseFloat(this.size),
-        this.color,
-      ));
+      return new DirectionalLightHelper(light, parseFloat(this.size));
     },
   },
-  created() { this.vglNamespace.beforeRender.push(this.setHelper); },
+  methods: {
+    setLightUuid(light) {
+      this.lightUuid = light ? light.uuid : null;
+      this.inst.update();
+    },
+  },
   beforeDestroy() {
-    const { vglNamespace: { beforeRender }, setHelper } = this;
-    beforeRender.splice(beforeRender.indexOf(setHelper), 1);
+    if (this.light !== undefined) {
+      this.vglNamespace.object3ds.unlisten(this.light, this.setLightUuid);
+    }
+  },
+  watch: {
+    inst(inst) {
+      if (this.lightUuid && this.color !== undefined) {
+        Object.assign(inst, { color: this.color }).update();
+      }
+    },
+    light: {
+      handler(name, oldName) {
+        if (oldName !== undefined) this.vglNamespace.object3ds.unlisten(oldName, this.setLightUuid);
+        if (name !== undefined) {
+          this.vglNamespace.object3ds.listen(name, this.setLightUuid);
+          const light = this.vglNamespace.object3ds.get(this.light);
+          this.setLightUuid(light);
+        }
+      },
+      immediate: true,
+    },
+    color: {
+      handler(color) {
+        if (!this.lightUuid) return;
+        this.inst.color = color;
+        this.inst.update();
+      },
+      immediate: true,
+    },
   },
 };

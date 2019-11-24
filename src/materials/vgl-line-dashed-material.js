@@ -36,9 +36,21 @@ export default {
       },
       immediate: true,
     },
-    color(color) { this.inst.color.setStyle(color); },
-    linewidth(width) { this.inst.linewidth = parseFloat(width); },
-    dashSize(dashSize) { this.inst.dashSize = parseFloat(dashSize); },
-    gapSize(gapSize) { this.inst.gapSize = parseFloat(gapSize); },
+    color(color) {
+      this.inst.color.setStyle(color);
+      this.update();
+    },
+    linewidth(width) {
+      this.inst.linewidth = parseFloat(width);
+      this.update();
+    },
+    dashSize(dashSize) {
+      this.inst.dashSize = parseFloat(dashSize);
+      this.update();
+    },
+    gapSize(gapSize) {
+      this.inst.gapSize = parseFloat(gapSize);
+      this.update();
+    },
   },
 };

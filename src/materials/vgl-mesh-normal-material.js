@@ -23,6 +23,9 @@ export default {
       handler(inst) { Object.assign(inst, { fog: this.fog }); },
       immediate: true,
     },
-    fog(fog) { this.inst.fog = fog; },
+    fog(fog) {
+      this.inst.fog = fog;
+      this.update();
+    },
   },
 };

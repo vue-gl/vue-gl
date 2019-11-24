@@ -11,8 +11,7 @@ describe('VglCameraHelper', () => {
   });
   test('the inst property should be an instance of the CameraHelper', () => {
     const vm = new (Vue.extend(VglCameraHelper))({ inject, propsData: { camera: 'testCamera' } });
-    vm.vglNamespace.beforeRender[0]();
-    expect(vm.inst.children[0]).toBeInstanceOf(CameraHelper);
+    expect(vm.inst).toBeInstanceOf(CameraHelper);
   });
   test('the component should have common props with VglObject3d', () => {
     const { $props } = new (Vue.extend(VglObject3d))({ inject });
@@ -22,8 +21,7 @@ describe('VglCameraHelper', () => {
   test('the state of the inst object should be specified by the camera', () => {
     const vm = new (Vue.extend(VglCameraHelper))({ inject, propsData: { camera: 'testCamera' } });
     const expected = new CameraHelper(new PerspectiveCamera(52, undefined, 0.11, 2100));
-    vm.vglNamespace.beforeRender[0]();
-    expect(vm.inst.children[0].geometry.getAttribute('position'))
+    expect(vm.inst.geometry.getAttribute('position'))
       .toEqual(expected.geometry.getAttribute('position'));
   });
 });

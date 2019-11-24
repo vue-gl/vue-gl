@@ -14,9 +14,7 @@ export default {
   mixins: [VglObject3d],
   props: {
     /** the color, near and far parameters of the scene's fog */
-    fog: {
-      type: fog,
-    },
+    fog,
     /**
      * Expecting to accept a string representing a color.
      * Will be overwrited by backgroundTexture prop if both props are set
@@ -26,28 +24,37 @@ export default {
     backgroundTexture: string,
   },
   computed: {
+    /** The THREE.Scene instance. */
     inst: () => new Scene(),
   },
   methods: {
-    setBackgroundTexture() {
-      const { vglNamespace: { textures }, inst, backgroundTexture } = this;
-      if (backgroundTexture in textures.keys()) inst.background = textures.get(backgroundTexture);
+    setBackgroundTexture(texture) {
+      this.inst.background = texture || null;
+      this.vglObject3d.emit();
     },
-    emit() { this.vglNamespace.scenes.emit(this.name, this.inst); },
+    /** Emit an event in the `scenes` namespace. */
+    emitAsScene() { this.vglNamespace.scenes.emit(this.name, this.inst); },
   },
   created() {
-    const { vglNamespace: { beforeRender }, setBackgroundTexture } = this;
-    beforeRender.unshift(setBackgroundTexture);
-    this.vglObject3d.listen(this.emit);
+    this.vglObject3d.listen(this.emitAsScene);
+  },
+  beforeDestroy() {
+    if (this.backgroundTexture !== undefined) {
+      this.vglNamespace.textures.unlisten(this.backgroundTexture, this.setBackgroundTexture);
+    }
+    this.vglNamespace.scenes.delete(this.name, this.inst);
+    this.vglObject3d.unlisten(this.emitAsScene);
   },
   watch: {
     inst: {
       handler(inst) {
         this.vglNamespace.scenes.set(this.name, inst);
-        if (this.fog) this.inst.fog = parseFog(this.fog);
-        if (this.backgroundColor) this.inst.background = parseColor(this.backgroundColor);
-        if (this.backgroundTexture) {
-          this.inst.background = this.vglNamespace.textures.get(this.backgroundTexture) || null;
+        if (this.fog !== undefined) this.inst.fog = parseFog(this.fog);
+        if (this.backgroundColor !== undefined) {
+          this.inst.background = parseColor(this.backgroundColor);
+        }
+        if (this.backgroundTexture !== undefined) {
+          this.setBackgroundTexture(this.vglNamespace.textures.get(this.backgroundTexture));
         }
       },
       immediate: true,
@@ -59,18 +66,23 @@ export default {
     },
     fog(newFog) {
       this.inst.fog = parseFog(newFog);
+      this.vglObject3d.emit();
     },
     backgroundColor(color) {
       this.inst.background = parseColor(color);
+      this.vglObject3d.emit();
     },
-    backgroundTexture(name) {
-      this.inst.background = this.vglNamespace.textures.get(name) || null;
+    backgroundTexture: {
+      handler(name, oldName) {
+        if (oldName !== undefined) {
+          this.vglNamespace.textures.unlisten(oldName, this.setBackgroundTexture);
+        }
+        if (name !== undefined) {
+          this.vglNamespace.textures.listen(name, this.setBackgroundTexture);
+          this.setBackgroundTexture(this.vglNamespace.textures.get(name));
+        }
+      },
+      immediate: true,
     },
-  },
-  beforeDestroy() {
-    const { vglNamespace: { scenes, beforeRender }, inst, setBackgroundTexture } = this;
-    scenes.delete(this.name, inst);
-    beforeRender.splice(beforeRender.indexOf(setBackgroundTexture), 1);
-    this.vglObject3d.unlisten(this.emit);
   },
 };

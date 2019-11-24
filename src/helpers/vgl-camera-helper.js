@@ -14,30 +14,46 @@ export default {
   mixins: [VglObject3d],
   props: {
     /** Name of the camera to visualize. */
-    camera: string,
+    camera: { type: string, required: true },
   },
+  data: () => ({
+    /** If camera specified by the name exists or not. Do not set this data manually. */
+    exist: false,
+  }),
   computed: {
+    /**
+     * The THREE.CameraHelper instance. If any cameras specified by the name, it returns a
+     * THREE.Object3D instance.
+     */
     inst() {
+      if (!this.exist) return new Object3D();
       const camera = this.vglNamespace.cameras.get(this.camera);
-      return camera && new CameraHelper(camera) || new Object3D();
+      camera.updateProjectionMatrix();
+      return new CameraHelper(camera);
     },
   },
+  beforeDestroy() { this.vglNamespace.cameras.unlisten(this.camera, this.update); },
   watch: {
     camera: {
       handler(name, oldName) {
         if (oldName !== undefined) this.vglNamespace.cameras.unlisten(oldName, this.update);
         this.vglNamespace.cameras.listen(name, this.update);
+        this.exist = !!this.vglNamespace.cameras.get(name);
       },
       immediate: true,
     },
   },
   methods: {
     update(camera) {
-      if (!camera || !(this.inst instanceof CameraHelper)) return;
+      if (!camera) {
+        this.exist = false;
+        return;
+      }
+      this.exist = true;
       camera.updateProjectionMatrix();
       this.inst.camera = camera;
       this.inst.update();
+      this.vglObject3d.emit();
     },
   },
-  beforeDestroy() { this.vglNamespace.cameras.unlisten(this.camera, this.update); },
 };
