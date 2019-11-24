@@ -16,6 +16,7 @@ export default {
     material: string,
   },
   computed: {
+    /** The THREE.Sprite instance. */
     inst: () => new Sprite(),
   },
 };

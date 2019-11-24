@@ -10,6 +10,7 @@ import VglLight from './vgl-light';
 export default {
   mixins: [VglLight],
   computed: {
+    /** The THREE.DirectionalLight instance. */
     inst: () => new DirectionalLight(),
   },
 };

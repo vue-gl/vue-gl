@@ -29,12 +29,21 @@ export default {
     orbitPosition: spherical,
   },
   computed: {
+    /** The THREE.Camera instance. */
     inst: () => new Camera(),
+  },
+  methods: {
+    /** Emit an event in the `cameras` namespace. */
+    emitAsCamera() { this.vglNamespace.cameras.emit(this.name, this.inst); },
+  },
+  created() { this.vglObject3d.listen(this.emitAsCamera); },
+  beforeDestroy() {
+    this.vglObject3d.unlisten(this.emitAsCamera);
+    this.vglNamespace.cameras.delete(this.name, this.inst);
   },
   watch: {
     inst: {
       handler(inst) {
-        this.vglNamespace.cameras.set(this.name, inst);
         if (this.orbitPosition || this.orbitTarget) {
           let target;
           if (this.orbitTarget) target = parseVector3(this.orbitTarget);
@@ -44,13 +53,13 @@ export default {
           }
           inst.lookAt(target || new Vector3());
         }
+        this.vglNamespace.cameras.set(this.name, inst);
       },
       immediate: true,
     },
     name(name, oldName) {
-      const { vglNamespace: { cameras }, inst } = this;
-      cameras.delete(oldName, inst);
-      cameras.set(name, inst);
+      this.vglNamespace.cameras.delete(oldName, this.inst);
+      this.vglNamespace.cameras.set(name, this.inst);
     },
     orbitTarget(orbitTarget) {
       const target = parseVector3(orbitTarget);
@@ -58,6 +67,7 @@ export default {
         this.inst.position.setFromSpherical(parseSpherical(this.orbitPosition)).add(target);
       }
       this.inst.lookAt(target);
+      this.vglObject3d.emit();
     },
     orbitPosition(orbitPosition) {
       this.inst.position.setFromSpherical(parseSpherical(orbitPosition));
@@ -68,15 +78,7 @@ export default {
       } else {
         this.inst.lookAt(new Vector3());
       }
+      this.vglObject3d.emit();
     },
-  },
-  methods: {
-    emit() { this.vglNamespace.cameras.emit(this.name, this.inst); },
-  },
-  created() { this.vglObject3d.listen(this.emit); },
-  beforeDestroy() {
-    const { vglNamespace: { cameras }, inst } = this;
-    cameras.delete(this.name, inst);
-    this.vglObject3d.unlisten(this.emit);
   },
 };

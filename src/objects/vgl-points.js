@@ -18,6 +18,7 @@ export default {
     material: string,
   },
   computed: {
+    /** The THREE.Points instance. */
     inst: () => new Points(),
   },
 };

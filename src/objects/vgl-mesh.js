@@ -23,6 +23,7 @@ export default {
     material: names,
   },
   computed: {
+    /** The THREE.Mesh instance. */
     inst: () => new Mesh(),
   },
 };

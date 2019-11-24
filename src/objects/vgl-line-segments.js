@@ -11,6 +11,7 @@ import VglLine from './vgl-line';
 export default {
   mixins: [VglLine],
   computed: {
+    /** The THREE.LineSegments instance. */
     inst: () => new LineSegments(),
   },
 };

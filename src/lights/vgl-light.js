@@ -18,6 +18,7 @@ export default {
     intensity: { type: number, default: 1 },
   },
   computed: {
+    /** The THREE.Light instance. */
     inst: () => new Light(),
   },
   watch: {
@@ -28,7 +29,13 @@ export default {
       },
       immediate: true,
     },
-    color(color) { this.inst.color.setStyle(color); },
-    intensity(intensity) { this.inst.intensity = parseFloat(intensity); },
+    color(color) {
+      this.inst.color.setStyle(color);
+      this.vglObject3d.emit();
+    },
+    intensity(intensity) {
+      this.inst.intensity = parseFloat(intensity);
+      this.vglObject3d.emit();
+    },
   },
 };

@@ -12,6 +12,7 @@ import VglLight from './vgl-light';
 export default {
   mixins: [VglLight],
   computed: {
+    /** The THREE.AmbientLight instance. */
     inst: () => new AmbientLight(),
   },
 };
