@@ -1,5 +1,5 @@
 import Vue from 'vue/dist/vue';
-import { Scene } from 'three';
+import { Scene, TextureLoader } from 'three';
 import { VglScene, VglObject3d, VglNamespace } from '../../src';
 
 describe('VglScene', () => {
@@ -20,6 +20,12 @@ describe('VglScene', () => {
     const { inst } = new (Vue.extend(VglScene))({ inject, propsData: { backgroundColor: '#8aeda3' } });
     expect(inst.background.getHex()).toBe(0x8aeda3);
   });
+  test('the propertie "backgroundTexture" of the instance should be specified by props', () => {
+    const texture = new TextureLoader().load('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7');
+    inject.vglNamespace.default.textures.set('test tx', texture);
+    const { inst } = new (Vue.extend(VglScene))({ inject, propsData: { backgroundTexture: 'test tx' } });
+    expect(inst.background).toBe(texture);
+  });
   test('the propertie "fog" of the instance should be specified by props', () => {
     const { inst } = new (Vue.extend(VglScene))({ inject, propsData: { fog: '#8aeda3 10 100' } });
     expect(inst.fog.color.getHex()).toBe(0x8aeda3);
@@ -31,6 +37,24 @@ describe('VglScene', () => {
     vm.backgroundColor = '#6751f2';
     await vm.$nextTick();
     expect(vm.inst.background.getHex()).toBe(0x6751f2);
+  });
+  test('the properties "backgroundTexture" of the instance should change after props change', async () => {
+    const texture = new TextureLoader().load('data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==');
+    inject.vglNamespace.default.textures.set('test tx', texture);
+    const vm = new (Vue.extend(VglScene))({ inject });
+    vm.backgroundTexture = 'test tx';
+    await vm.$nextTick();
+    expect(vm.inst.background).toBe(texture);
+  });
+  test('the properties "backgroundTexture" of the instance should change after texture change', async () => {
+    const texture1 = new TextureLoader().load('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7');
+    const texture2 = new TextureLoader().load('data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==');
+    inject.vglNamespace.default.textures.set('test tx1', texture1);
+    inject.vglNamespace.default.textures.set('test tx2', texture2);
+    const vm = new (Vue.extend(VglScene))({ inject, propsData: { backgroundTexture: 'test tx1' } });
+    vm.backgroundTexture = 'test tx2';
+    await vm.$nextTick();
+    expect(vm.inst.background).toBe(texture2);
   });
   test('the properties "fog" of the instance should change after props change', async () => {
     const vm = new (Vue.extend(VglScene))({ inject });
