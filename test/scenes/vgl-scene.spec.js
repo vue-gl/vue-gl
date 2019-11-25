@@ -64,4 +64,23 @@ describe('VglScene', () => {
     expect(vm.inst.fog.near).toBe(parseFloat(10));
     expect(vm.inst.fog.far).toBe(parseFloat(100));
   });
+  describe('the instance should be registered to scenes namespace', () => {
+    test('after created', () => {
+      const vm = new (Vue.extend(VglScene))({ inject, propsData: { name: 'test name 1' } });
+      expect(inject.vglNamespace.default.scenes.get('test name 1')).toBe(vm.inst);
+    });
+    test('after the name prop changes', async() => {
+      const vm = new (Vue.extend(VglScene))({ inject, propsData: { name: 'test scene 1' } });
+      vm.name = 'test scene 2';
+      await Vue.nextTick();
+      expect(inject.vglNamespace.default.scenes.get('test scene 1')).toBeUndefined();
+      expect(inject.vglNamespace.default.scenes.get('test scene 2')).toBe(vm.inst);
+    });
+    test('after destroyed', async() => {
+      const vm = new (Vue.extend(VglScene))({ inject, propsData: { name: 'test name 1' } });
+      vm.$destroy();
+      await Vue.nextTick();
+      expect(inject.vglNamespace.default.scenes.get('test name 1')).toBeUndefined();
+    });
+  });
 });
