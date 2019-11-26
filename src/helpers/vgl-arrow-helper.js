@@ -45,8 +45,17 @@ export default {
       },
       immediate: true,
     },
-    dir(dir) { this.inst.setDirection(parseVector3(dir).normalize()); },
-    len(len) { this.inst.setLength(...len); },
-    color(color) { this.inst.setColor(new Color(color)); },
+    dir(dir) {
+      this.inst.setDirection(parseVector3(dir).normalize());
+      this.vglObject3d.emit();
+    },
+    len(len) {
+      this.inst.setLength(...len);
+      this.vglObject3d.emit();
+    },
+    color(color) {
+      this.inst.setColor(new Color(color));
+      this.vglObject3d.emit();
+    },
   },
 };

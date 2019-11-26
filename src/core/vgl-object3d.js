@@ -87,6 +87,7 @@ export default {
           name: this.name,
         });
         if (this.name !== undefined) this.vglNamespace.object3ds.set(this.name, inst);
+        if (oldInst) this.vglObject3d.emit();
       },
       immediate: true,
     },
