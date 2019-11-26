@@ -19,6 +19,7 @@ export default {
     map: string,
   },
   computed: {
+    /** The THREE.MeshBasicMaterial instance. */
     inst: () => new MeshBasicMaterial(),
   },
   watch: {

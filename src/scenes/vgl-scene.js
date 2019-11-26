@@ -28,6 +28,7 @@ export default {
     inst: () => new Scene(),
   },
   methods: {
+    /** Set scene's background property to given texture. */
     setBackgroundTexture(texture) {
       this.inst.background = texture || null;
       this.vglObject3d.emit();
@@ -48,7 +49,6 @@ export default {
   watch: {
     inst: {
       handler(inst) {
-        this.vglNamespace.scenes.set(this.name, inst);
         if (this.fog !== undefined) this.inst.fog = parseFog(this.fog);
         if (this.backgroundColor !== undefined) {
           this.inst.background = parseColor(this.backgroundColor);
@@ -56,13 +56,13 @@ export default {
         if (this.backgroundTexture !== undefined) {
           this.setBackgroundTexture(this.vglNamespace.textures.get(this.backgroundTexture));
         }
+        this.vglNamespace.scenes.set(this.name, inst);
       },
       immediate: true,
     },
     name(name, oldName) {
-      const { vglNamespace: { scenes }, inst } = this;
-      scenes.delete(oldName, inst);
-      scenes.set(name, inst);
+      this.vglNamespace.scenes.delete(oldName, this.inst);
+      this.vglNamespace.scenes.set(name, this.inst);
     },
     fog(newFog) {
       this.inst.fog = parseFog(newFog);

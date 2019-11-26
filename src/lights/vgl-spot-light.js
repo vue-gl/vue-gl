@@ -56,7 +56,9 @@ export default {
       },
       immediate: true,
     },
-    parent(parent) { parent.add(this.inst.target); },
+    parent(parent) {
+      parent.add(this.inst.target);
+    },
     distance(distance) {
       this.inst.distance = parseFloat(distance);
       this.vglObject3d.emit();

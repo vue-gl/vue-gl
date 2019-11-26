@@ -19,6 +19,7 @@ export default {
     map: string,
   },
   computed: {
+    /** The THREE.MeshDepthMaterial instance. */
     inst: () => new MeshDepthMaterial(),
   },
   watch: {

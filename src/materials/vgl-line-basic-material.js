@@ -22,6 +22,7 @@ export default {
     linejoin: { type: string, default: 'round' },
   },
   computed: {
+    /** The THREE.LineBasicMaterial instance. */
     inst: () => new LineBasicMaterial(),
   },
   watch: {

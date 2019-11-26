@@ -25,7 +25,9 @@ export default {
     headWidth: number,
   },
   computed: {
+    /** The THREE.ArrowHelper instance. */
     inst: () => new ArrowHelper(new Vector3(0, 1, 0), new Vector3()),
+    /** Array(3) of helper properties. Arrow length, head length, and head width. */
     len() {
       return [
         parseFloat(this.length),

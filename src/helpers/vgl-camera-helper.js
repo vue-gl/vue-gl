@@ -32,18 +32,8 @@ export default {
       return new CameraHelper(camera);
     },
   },
-  beforeDestroy() { this.vglNamespace.cameras.unlisten(this.camera, this.update); },
-  watch: {
-    camera: {
-      handler(name, oldName) {
-        if (oldName !== undefined) this.vglNamespace.cameras.unlisten(oldName, this.update);
-        this.vglNamespace.cameras.listen(name, this.update);
-        this.exist = !!this.vglNamespace.cameras.get(name);
-      },
-      immediate: true,
-    },
-  },
   methods: {
+    /** Update the helper geometry for given camera object. */
     update(camera) {
       if (!camera) {
         this.exist = false;
@@ -54,6 +44,19 @@ export default {
       this.inst.camera = camera;
       this.inst.update();
       this.vglObject3d.emit();
+    },
+  },
+  beforeDestroy() {
+    this.vglNamespace.cameras.unlisten(this.camera, this.update);
+  },
+  watch: {
+    camera: {
+      handler(name, oldName) {
+        if (oldName !== undefined) this.vglNamespace.cameras.unlisten(oldName, this.update);
+        this.vglNamespace.cameras.listen(name, this.update);
+        this.exist = !!this.vglNamespace.cameras.get(name);
+      },
+      immediate: true,
     },
   },
 };

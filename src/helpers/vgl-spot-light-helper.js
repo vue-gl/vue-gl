@@ -17,8 +17,18 @@ export default {
     /** Name of the spot light being visualized. */
     light: string,
   },
-  data: () => ({ lightUuid: null }),
+  data: () => ({
+    /**
+     * Light object's UUID. This would be null if light object is not specified by `light` prop. Do
+     * not set this data manually.
+     */
+    lightUuid: null,
+  }),
   computed: {
+    /**
+     * The THREE.SpotLightHelper instance. If any cameras specified by the name, it returns a
+     * THREE.Object3D instance.
+     */
     inst() {
       if (!this.lightUuid) return new Object3D();
       const light = this.vglNamespace.object3ds.get(this.light);
@@ -26,6 +36,7 @@ export default {
     },
   },
   methods: {
+    /** Set `lightUuid` data to given object's UUID. */
     setLightUuid(light) {
       this.lightUuid = light ? light.uuid : null;
       this.inst.update();

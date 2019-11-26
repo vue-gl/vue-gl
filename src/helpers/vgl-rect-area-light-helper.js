@@ -14,10 +14,20 @@ export default {
     /** If this is not the set the helper will take the color of the light. */
     color: { type: string },
     /** Name of the RectAreaLight being visualized. */
-    light: { type: string, required: true },
+    light: { type: string },
   },
-  data: () => ({ lightUuid: null }),
+  data: () => ({
+    /**
+     * Light object's UUID. This would be null if light object is not specified by `light` prop. Do
+     * not set this data manually.
+     */
+    lightUuid: null,
+  }),
   computed: {
+    /**
+     * The THREE.RectAreaLightHelper instance. If any cameras specified by the name, it returns a
+     * THREE.Object3D instance.
+     */
     inst() {
       if (!this.lightUuid) return new Object3D();
       const light = this.vglNamespace.object3ds.get(this.light);
@@ -25,6 +35,7 @@ export default {
     },
   },
   methods: {
+    /** Set `lightUuid` data to given object's UUID. */
     setLightUuid(light) {
       this.lightUuid = light ? light.uuid : null;
       this.inst.update();

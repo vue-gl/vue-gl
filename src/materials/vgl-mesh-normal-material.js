@@ -16,6 +16,7 @@ export default {
     fog: boolean,
   },
   computed: {
+    /** The THREE.MeshNormalMaterial instance. */
     inst: () => new MeshNormalMaterial(),
   },
   watch: {

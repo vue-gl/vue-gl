@@ -42,6 +42,7 @@ export default {
     shadowMapEnabled: boolean,
   },
   computed: {
+    /** The THREE.WebGLRenderer instance. */
     inst() {
       const inst = new WebGLRenderer({
         precision: this.precision,
@@ -59,6 +60,10 @@ export default {
     },
   },
   methods: {
+    /**
+     * Set camera for rendering the scene. If canvas is already mounted, also calculates view size
+     * or aspect ratio.
+    */
     setCameraRef(camera) {
       this.cameraRef = camera;
       if (this.$el) {
@@ -66,18 +71,25 @@ export default {
         this.requestRender(camera && this.sceneRef);
       }
     },
+    /** Set scene to be rendered. */
     setSceneRef(scene) {
       this.sceneRef = scene;
       if (this.$el) this.requestRender(scene && this.cameraRef);
     },
+    /** Set camera for rendering the scene when `camera` prop is undefined. */
     setFallbackCamera(cameras) {
       const keys = cameras.keys();
       this.setCameraRef(keys.length === 1 ? cameras.get(keys[0]) : undefined);
     },
+    /** Set scene to be rendered when `scene` prop is undefined. */
     setFallbackScene(scenes) {
       const keys = scenes.keys();
       this.setSceneRef(keys.length === 1 ? scenes.get(keys[0]) : undefined);
     },
+    /**
+     * Call render function at next tick. Even if this method was called multiple times, it will be
+     * render just once.
+     */
     requestRender(...args) {
       if (!this.reservation) {
         this.$nextTick(() => {
@@ -111,6 +123,25 @@ export default {
       }
       this.reservation = !args.length || args[0] ? 1 : -1;
     },
+  },
+  mounted() {
+    this.inst.setSize(this.$el.clientWidth, this.$el.clientHeight);
+    this.$el.appendChild(this.inst.domElement);
+    if (this.cameraRef) setCameraSize(this.cameraRef, this.$el.clientWidth, this.$el.clientHeight);
+    this.requestRender(this.cameraRef && this.sceneRef);
+  },
+  beforeDestroy() {
+    if (this.camera === undefined) {
+      this.vglNamespace.cameras.unlisten(this.setFallbackCamera);
+    } else {
+      this.vglNamespace.cameras.unlisten(this.camera, this.setCameraRef);
+    }
+    if (this.scene === undefined) {
+      this.vglNamespace.scenes.unlisten(this.setFallbackScene);
+    } else {
+      this.vglNamespace.scenes.unlisten(this.scene, this.setSceneRef);
+    }
+    this.inst.dispose();
   },
   watch: {
     inst(inst, oldInst) {
@@ -155,25 +186,6 @@ export default {
       },
       immediate: true,
     },
-  },
-  mounted() {
-    this.inst.setSize(this.$el.clientWidth, this.$el.clientHeight);
-    this.$el.appendChild(this.inst.domElement);
-    if (this.cameraRef) setCameraSize(this.cameraRef, this.$el.clientWidth, this.$el.clientHeight);
-    this.requestRender(this.cameraRef && this.sceneRef);
-  },
-  beforeDestroy() {
-    if (this.camera === undefined) {
-      this.vglNamespace.cameras.unlisten(this.setFallbackCamera);
-    } else {
-      this.vglNamespace.cameras.unlisten(this.camera, this.setCameraRef);
-    }
-    if (this.scene === undefined) {
-      this.vglNamespace.scenes.unlisten(this.setFallbackScene);
-    } else {
-      this.vglNamespace.scenes.unlisten(this.scene, this.setSceneRef);
-    }
-    this.inst.dispose();
   },
   render(h) {
     return h('div', [h('iframe', {

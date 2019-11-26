@@ -33,41 +33,34 @@ import Namespace from './namespace';
  */
 
 export default {
-  computed: {
-    vglNamespace() {
-      const {
-        vglNamespaceParent: {
-          geometries,
-          materials,
-          textures,
-          object3ds,
-        },
-      } = this;
-      return Object.create(this.vglNamespaceParent, {
+  inject: {
+    vglNamespace: {
+      default: () => ({ cameras: new Namespace(), scenes: new Namespace() }),
+    },
+  },
+  provide() {
+    const {
+      geometries, materials, textures, object3ds,
+    } = this.vglNamespace;
+    return {
+      vglNamespace: Object.create(this.vglNamespace, {
         geometries: { value: geometries ? geometries.fork() : new Namespace() },
         materials: { value: materials ? materials.fork() : new Namespace() },
         textures: { value: textures ? textures.fork() : new Namespace() },
         object3ds: { value: object3ds ? object3ds.fork() : new Namespace() },
-      });
-    },
+      }),
+    };
   },
-  inject: {
-    vglNamespaceParent: {
-      from: 'vglNamespace',
-      default() {
-        return {
-          cameras: new Namespace(),
-          scenes: new Namespace(),
-        };
-      },
-    },
-  },
-  provide() { return { vglNamespace: this.vglNamespace }; },
   beforeDestroy() {
-    this.vglNamespace.geometries.destroy();
-    this.vglNamespace.materials.destroy();
-    this.vglNamespace.textures.destroy();
-    this.vglNamespace.object3ds.destroy();
+    const {
+      geometries, materials, textures, object3ds,
+    } = this.vglNamespace;
+    if (geometries) geometries.destroy();
+    if (materials) materials.destroy();
+    if (textures) textures.destroy();
+    if (object3ds) object3ds.destroy();
   },
-  render(h) { return this.$slots.default ? h('div', this.$slots.default) : undefined; },
+  render(h) {
+    return this.$slots.default ? h('div', this.$slots.default) : undefined;
+  },
 };

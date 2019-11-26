@@ -18,10 +18,17 @@ export default {
     object: string,
   },
   computed: {
+    /** The THREE.BoxHelper instance. */
     inst() { return new BoxHelper(undefined, this.color); },
   },
   methods: {
+    /** Set the geometry of the helper box from given object. */
     setFromObject(obj) { this.inst.setFromObject(obj); },
+  },
+  beforeDestroy() {
+    if (this.object !== undefined) {
+      this.vglNamespace.object3ds.unlisten(this.object, this.setFromObject);
+    }
   },
   watch: {
     inst() {
@@ -40,10 +47,5 @@ export default {
       },
       immediate: true,
     },
-  },
-  beforeDestroy() {
-    if (this.object !== undefined) {
-      this.vglNamespace.object3ds.unlisten(this.object, this.setFromObject);
-    }
   },
 };

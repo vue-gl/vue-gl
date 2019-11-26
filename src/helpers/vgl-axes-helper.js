@@ -17,6 +17,7 @@ export default {
     size: { type: number, default: 1 },
   },
   computed: {
+    /** The THREE.AxesHelper instance. */
     inst() { return new AxesHelper(parseFloat(this.size)); },
   },
 };

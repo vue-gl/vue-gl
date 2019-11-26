@@ -36,7 +36,9 @@ export default {
     /** Emit an event in the `cameras` namespace. */
     emitAsCamera() { this.vglNamespace.cameras.emit(this.name, this.inst); },
   },
-  created() { this.vglObject3d.listen(this.emitAsCamera); },
+  created() {
+    this.vglObject3d.listen(this.emitAsCamera);
+  },
   beforeDestroy() {
     this.vglObject3d.unlisten(this.emitAsCamera);
     this.vglNamespace.cameras.delete(this.name, this.inst);

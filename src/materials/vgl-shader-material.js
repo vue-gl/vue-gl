@@ -106,6 +106,7 @@ export default {
   },
 
   computed: {
+    /** The THREE.ShaderMaterial instance. */
     inst() {
       return new ShaderMaterial({
         fog: this.fog,

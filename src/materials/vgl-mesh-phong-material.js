@@ -22,6 +22,7 @@ export default {
     shininess: { type: number, default: 30 },
   },
   computed: {
+    /** The THREE.MeshPhongMaterial instance. */
     inst: () => new MeshPhongMaterial(),
   },
   watch: {

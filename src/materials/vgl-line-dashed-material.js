@@ -22,6 +22,7 @@ export default {
     gapSize: { type: number, default: 1 },
   },
   computed: {
+    /** The THREE.LineDashedMaterial instance. */
     inst: () => new LineDashedMaterial(),
   },
   watch: {

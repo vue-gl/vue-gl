@@ -30,6 +30,7 @@ export default {
     color2: { type: string, default: '#888888' },
   },
   computed: {
+    /** The THREE.PolarGridHelper instance. */
     inst() {
       return new PolarGridHelper(
         parseFloat(this.radius),

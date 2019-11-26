@@ -124,7 +124,11 @@ const encoding = {
  */
 
 export default {
-  inject: ['vglNamespace'],
+  inject: {
+    vglNamespace: {
+      default() { throw new Error('VueGL components must be wraped by VglNamespace component.'); },
+    },
+  },
   props: {
     /** The path or URL to the file. This can also be a Data URI. */
     src: string,
@@ -146,6 +150,7 @@ export default {
     encoding: { type: string, default: 'linear' },
   },
   computed: {
+    /** The THREE.Texture instance. */
     inst() {
       return new TextureLoader().load(this.src, (texture) => {
         if (this.format) Object.assign(texture, { format: format[this.format] });
@@ -154,9 +159,13 @@ export default {
     },
   },
   methods: {
+    /** Emit an event in the `textures` namespace. */
     update() {
       if (this.name !== undefined) this.vglNamespace.textures.emit(this.name, this.inst);
     },
+  },
+  beforeDestroy() {
+    if (this.name !== undefined) this.vglNamespace.textures.delete(this.name, this.inst);
   },
   watch: {
     inst: {
@@ -245,9 +254,6 @@ export default {
       this.inst.encoding = encoding[mode];
       this.update();
     },
-  },
-  beforeDestroy() {
-    if (this.name !== undefined) this.vglNamespace.textures.delete(this.name, this.inst);
   },
   render(h) {
     return this.$slots.default ? h('div', this.$slots.default) : undefined;

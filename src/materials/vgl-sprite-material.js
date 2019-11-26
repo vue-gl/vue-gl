@@ -18,6 +18,7 @@ export default {
     map: string,
   },
   computed: {
+    /** The THREE.SpriteMaterial instance. */
     inst: () => new SpriteMaterial(),
   },
   watch: {

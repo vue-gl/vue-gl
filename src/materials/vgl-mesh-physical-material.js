@@ -20,6 +20,7 @@ export default {
     reflectivity: { type: number, default: 0.5 },
   },
   computed: {
+    /** The THREE.MeshPhysicalMaterial instance. */
     inst: () => new MeshPhysicalMaterial(),
   },
   watch: {

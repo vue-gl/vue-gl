@@ -27,7 +27,11 @@ const sides = {
  */
 
 export default {
-  inject: ['vglNamespace'],
+  inject: {
+    vglNamespace: {
+      default() { throw new Error('VueGL components must be wraped by VglNamespace component.'); },
+    },
+  },
   props: {
     /** Name of the material. */
     name: string,
@@ -37,9 +41,14 @@ export default {
     vertexColors: { type: string, default: 'no' },
   },
   computed: {
+    /** The THREE.Material instance. */
     inst: () => new Material(),
   },
   methods: {
+    /**
+     * Emit an event in `materials` namespace. Call this method after editing instance's
+     * properties.
+     */
     update() {
       if (this.name !== undefined) this.vglNamespace.materials.emit(this.name, this.inst);
     },
@@ -56,9 +65,8 @@ export default {
       immediate: true,
     },
     name(name, oldName) {
-      const { vglNamespace: { materials }, inst } = this;
-      materials.delete(oldName, inst);
-      materials.set(name, inst);
+      if (oldName !== undefined) this.vglNamespace.materials.delete(oldName, this.inst);
+      if (name !== undefined) this.vglNamespace.materials.set(name, this.inst);
     },
     side(side) {
       this.inst.side = sides[side];
@@ -70,8 +78,9 @@ export default {
     },
   },
   beforeDestroy() {
-    const { vglNamespace: { materials }, inst } = this;
-    materials.delete(this.name, inst);
+    if (this.name !== undefined) this.vglNamespace.materials.delete(this.name, this.inst);
   },
-  render(h) { return this.$slots.default ? h('div', this.$slots.default) : undefined; },
+  render(h) {
+    return this.$slots.default ? h('div', this.$slots.default) : undefined;
+  },
 };

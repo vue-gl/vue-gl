@@ -20,6 +20,7 @@ export default {
     disableSizeAttenuation: boolean,
   },
   computed: {
+    /** The THREE.PointsMaterial instance. */
     inst: () => new PointsMaterial(),
   },
   watch: {

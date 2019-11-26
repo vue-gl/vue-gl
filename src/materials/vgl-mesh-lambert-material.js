@@ -22,6 +22,7 @@ export default {
     map: string,
   },
   computed: {
+    /** The THREE.MeshLambertMaterial instance. */
     inst: () => new MeshLambertMaterial(),
   },
   watch: {

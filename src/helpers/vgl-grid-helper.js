@@ -23,6 +23,7 @@ export default {
     colorGrid: { type: string, default: '#888888' },
   },
   computed: {
+    /** The THREE.GridHelper instance. */
     inst() {
       return new GridHelper(
         parseFloat(this.size),

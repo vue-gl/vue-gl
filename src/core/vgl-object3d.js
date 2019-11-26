@@ -1,4 +1,5 @@
 import { Object3D } from 'three';
+import Tree from './tree';
 import { parseVector3, parseEuler, parseQuaternion } from '../parsers';
 import {
   vector3,
@@ -7,7 +8,6 @@ import {
   boolean,
   string,
 } from '../validators';
-import Tree from './tree';
 
 /**
  * This is the base mixin component for most object components in VueGL,
@@ -41,25 +41,28 @@ export default {
     /** Whether the object is visible. */
     hidden: boolean,
   },
+  inject: {
+    vglObject3d: {
+      default: () => new Tree(),
+    },
+    vglNamespace: {
+      default() { throw new Error('VueGL components must be wraped by VglNamespace component.'); },
+    },
+  },
+  provide() {
+    return {
+      vglObject3d: new Tree(this.vglObject3d, () => this.inst),
+    };
+  },
   computed: {
     /** The THREE.Object3D instance. */
     inst: () => new Object3D(),
     /** The parent THREE.Object3D instance.  */
     parent() { return this.vglObject3d.inst(); },
   },
-  inject: {
-    vglObject3d: { default: () => new Tree() },
-    vglNamespace: {
-      default() { throw new Error('VueGL components must be wraped by VglNamespace component.'); },
-    },
-  },
-  provide() { return { vglObject3d: new Tree(this.vglObject3d, () => this.inst) }; },
   methods: {
     /** Emit an event in the `object3ds` namespace. */
     emitAsObject3d() { this.vglNamespace.object3ds.emit(this.name, this.inst); },
-  },
-  created() {
-    if (this.name !== undefined) this.vglObject3d.listen(this.emitAsObject3d);
   },
   beforeDestroy() {
     if (this.inst.parent) this.inst.parent.remove(this.inst);
@@ -88,17 +91,22 @@ export default {
       immediate: true,
     },
     parent(parent) { parent.add(this.inst); },
-    name(name, oldName) {
-      if (oldName !== undefined) {
-        this.vglNamespace.object3ds.delete(oldName, this.inst);
-        if (name === undefined) this.vglObject3d.unlisten(this.emitAsObject3d);
-      }
-      if (name !== undefined) {
-        this.vglNamespace.object3ds.set(name, this.inst);
-        if (oldName === undefined) this.vglObject3d.listen(this.emitAsObject3d);
-      }
-      this.inst.name = name;
-    },
+    name: [
+      function handler(name) { this.inst.name = name; },
+      {
+        handler(name, oldName) {
+          if (oldName !== undefined) {
+            this.vglNamespace.object3ds.delete(oldName, this.inst);
+            if (name === undefined) this.vglObject3d.unlisten(this.emitAsObject3d);
+          }
+          if (name !== undefined) {
+            this.vglNamespace.object3ds.set(name, this.inst);
+            if (oldName === undefined) this.vglObject3d.listen(this.emitAsObject3d);
+          }
+        },
+        immediate: true,
+      },
+    ],
     position(position) {
       this.inst.position.copy(parseVector3(position));
       this.vglObject3d.emit();
@@ -128,5 +136,7 @@ export default {
       this.vglObject3d.emit();
     },
   },
-  render(h) { return this.$slots.default ? h('div', this.$slots.default) : undefined; },
+  render(h) {
+    return this.$slots.default ? h('div', this.$slots.default) : undefined;
+  },
 };
