@@ -1,0 +1,28 @@
+name: Create Pull Request for next release
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  Create Pull Request for next patch release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - run: yarn version --patch
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: New patch release
+          body: |
+            See the release draft to confirm including changes.
+            https://github.com/vue-gl/vue-gl/releases
+            Merge this PR to publish the new patch release.
+          labels: release
+          branch: release-patch
+          branch-suffix: none
