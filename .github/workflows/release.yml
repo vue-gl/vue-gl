@@ -18,10 +18,12 @@ jobs:
         uses: peter-evans/create-pull-request@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: v${{ node -pe 'require("./package.json").version' }}
           title: New patch release
           body: |
             See the release draft to confirm including changes.
             https://github.com/vue-gl/vue-gl/releases
+            
             Merge this PR to publish the new patch release.
           labels: release
           branch: release-patch
