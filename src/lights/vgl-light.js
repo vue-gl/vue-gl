@@ -6,7 +6,7 @@ import { string, number } from '../validators';
  * Abstract mixin component for lights,
  * corresponding [THREE.Light](https://threejs.org/docs/index.html#api/lights/Light).
  *
- * Properties of [VglObject3d](vgl-object3d) are also available as mixin.
+ * Properties of [VglObject3d](../core/vgl-object3d) are also available as mixin.
  */
 
 export default {
@@ -18,6 +18,7 @@ export default {
     intensity: { type: number, default: 1 },
   },
   computed: {
+    /** The THREE.Light instance. */
     inst: () => new Light(),
   },
   watch: {
@@ -28,7 +29,13 @@ export default {
       },
       immediate: true,
     },
-    color(color) { this.inst.color.setStyle(color); },
-    intensity(intensity) { this.inst.intensity = parseFloat(intensity); },
+    color(color) {
+      this.inst.color.setStyle(color);
+      this.vglObject3d.emit();
+    },
+    intensity(intensity) {
+      this.inst.intensity = parseFloat(intensity);
+      this.vglObject3d.emit();
+    },
   },
 };

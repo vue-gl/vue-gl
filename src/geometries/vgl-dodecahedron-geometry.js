@@ -6,7 +6,7 @@ import { number } from '../validators';
  * A component for generating a dodecahedron geometries,
  * corresponding [THREE.DodecahedronGeometry](https://threejs.org/docs/index.html#api/geometries/DodecahedronGeometry).
  *
- * Properties of [VglGeometry](vgl-geometry) are also available as mixin.
+ * Properties of [VglGeometry](../core/vgl-geometry) are also available as mixin.
  */
 
 export default {

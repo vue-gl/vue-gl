@@ -22,6 +22,7 @@ export default {
     linejoin: { type: string, default: 'round' },
   },
   computed: {
+    /** The THREE.LineBasicMaterial instance. */
     inst: () => new LineBasicMaterial(),
   },
   watch: {
@@ -36,9 +37,21 @@ export default {
       },
       immediate: true,
     },
-    color(color) { this.inst.color.setStyle(color); },
-    linewidth(width) { this.inst.linewidth = parseFloat(width); },
-    linecap(cap) { this.inst.linecap = cap; },
-    linejoin(join) { this.inst.linejoin = join; },
+    color(color) {
+      this.inst.color.setStyle(color);
+      this.update();
+    },
+    linewidth(width) {
+      this.inst.linewidth = parseFloat(width);
+      this.update();
+    },
+    linecap(cap) {
+      this.inst.linecap = cap;
+      this.update();
+    },
+    linejoin(join) {
+      this.inst.linejoin = join;
+      this.update();
+    },
   },
 };

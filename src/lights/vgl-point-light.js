@@ -23,6 +23,7 @@ export default {
     decay: { type: number, default: 1 },
   },
   computed: {
+    /** The THREE.PointLight instance. */
     inst: () => new PointLight(),
   },
   watch: {
@@ -35,7 +36,13 @@ export default {
       },
       immediate: true,
     },
-    distance(distance) { this.inst.distance = parseFloat(distance); },
-    decay(decay) { this.inst.decay = parseFloat(decay); },
+    distance(distance) {
+      this.inst.distance = parseFloat(distance);
+      this.vglObject3d.emit();
+    },
+    decay(decay) {
+      this.inst.decay = parseFloat(decay);
+      this.vglObject3d.emit();
+    },
   },
 };

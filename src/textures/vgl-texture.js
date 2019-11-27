@@ -124,7 +124,11 @@ const encoding = {
  */
 
 export default {
-  inject: ['vglNamespace'],
+  inject: {
+    vglNamespace: {
+      default() { throw new Error('VueGL components must be wraped by VglNamespace component.'); },
+    },
+  },
   props: {
     /** The path or URL to the file. This can also be a Data URI. */
     src: string,
@@ -146,17 +150,26 @@ export default {
     encoding: { type: string, default: 'linear' },
   },
   computed: {
+    /** The THREE.Texture instance. */
     inst() {
       return new TextureLoader().load(this.src, (texture) => {
         if (this.format) Object.assign(texture, { format: format[this.format] });
-        this.vglNamespace.update();
+        this.update();
       });
     },
+  },
+  methods: {
+    /** Emit an event in the `textures` namespace. */
+    update() {
+      if (this.name !== undefined) this.vglNamespace.textures.emit(this.name, this.inst);
+    },
+  },
+  beforeDestroy() {
+    if (this.name !== undefined) this.vglNamespace.textures.delete(this.name, this.inst);
   },
   watch: {
     inst: {
       handler(inst) {
-        this.vglNamespace.textures[this.name] = inst;
         Object.assign(inst, {
           mapping: mapping[this.mapping],
           wrapS: wrapping[this.wrapS],
@@ -173,37 +186,74 @@ export default {
         if (this.offset) inst.offset.copy(parseVector2(this.offset));
         if (this.repeat) inst.repeat.copy(parseVector2(this.repeat));
         if (this.center) inst.center.copy(parseVector2(this.center));
+        if (this.name !== undefined) this.vglNamespace.textures.set(this.name, inst);
       },
       immediate: true,
     },
     name(name, oldName) {
-      const { vglNamespace: { textures }, inst } = this;
-      if (textures[oldName] === inst) delete textures[oldName];
-      textures[name] = inst;
+      if (oldName !== undefined) this.vglNamespace.textures.delete(oldName, this.inst);
+      if (name !== undefined) this.vglNamespace.textures.set(name, this.inst);
     },
-    mapping(mode) { this.inst.mapping = mapping[mode]; },
-    wrapS(mode) { this.inst.wrapS = wrapping[mode]; },
-    wrapT(mode) { this.inst.wrapT = wrapping[mode]; },
-    magFilter(mode) { this.inst.magFilter = filter[mode]; },
-    minFilter(mode) { this.inst.minFilter = filter[mode]; },
-    anisotropy(anisotropy) { this.inst.anisotropy = parseInt(anisotropy, 10); },
-    format(mode) { this.inst.format = format[mode]; },
-    type(mode) { this.inst.type = type[mode]; },
-    offset(offset) { this.inst.offset.copy(parseVector2(offset)); },
-    repeat(repeat) { this.inst.repeat.copy(parseVector2(repeat)); },
-    rotation(rotation) { this.inst.rotation = parseFloat(rotation); },
-    center(center) { this.inst.center.copy(parseVector2(center)); },
-    premultiplyAlpha(premultiplyAlpha) { this.inst.premultiplyAlpha = premultiplyAlpha; },
-    unpackAlignment(unpackAlignment) { this.inst.unpackAlignment = parseInt(unpackAlignment, 10); },
-    encoding(mode) { this.inst.encoding = encoding[mode]; },
-  },
-  beforeDestroy() {
-    const { vglNamespace: { textures }, inst, name } = this;
-    if (textures[name] === inst) delete textures[name];
-  },
-  beforeUpdate() {
-    this.inst.needsUpdate = true;
-    this.vglNamespace.update();
+    mapping(mode) {
+      this.inst.mapping = mapping[mode];
+      this.update();
+    },
+    wrapS(mode) {
+      this.inst.wrapS = wrapping[mode];
+      this.update();
+    },
+    wrapT(mode) {
+      this.inst.wrapT = wrapping[mode];
+      this.update();
+    },
+    magFilter(mode) {
+      this.inst.magFilter = filter[mode];
+      this.update();
+    },
+    minFilter(mode) {
+      this.inst.minFilter = filter[mode];
+      this.update();
+    },
+    anisotropy(anisotropy) {
+      this.inst.anisotropy = parseInt(anisotropy, 10);
+      this.update();
+    },
+    format(mode) {
+      this.inst.format = format[mode];
+      this.update();
+    },
+    type(mode) {
+      this.inst.type = type[mode];
+      this.update();
+    },
+    offset(offset) {
+      this.inst.offset.copy(parseVector2(offset));
+      this.update();
+    },
+    repeat(repeat) {
+      this.inst.repeat.copy(parseVector2(repeat));
+      this.update();
+    },
+    rotation(rotation) {
+      this.inst.rotation = parseFloat(rotation);
+      this.update();
+    },
+    center(center) {
+      this.inst.center.copy(parseVector2(center));
+      this.update();
+    },
+    premultiplyAlpha(premultiplyAlpha) {
+      this.inst.premultiplyAlpha = premultiplyAlpha;
+      this.update();
+    },
+    unpackAlignment(unpackAlignment) {
+      this.inst.unpackAlignment = parseInt(unpackAlignment, 10);
+      this.update();
+    },
+    encoding(mode) {
+      this.inst.encoding = encoding[mode];
+      this.update();
+    },
   },
   render(h) {
     return this.$slots.default ? h('div', this.$slots.default) : undefined;

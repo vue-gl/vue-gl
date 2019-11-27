@@ -6,7 +6,7 @@ import { number } from '../validators';
  * This is the quadrilateral primitive geometry component,
  * corresponding [THREE.BoxGeometry](https://threejs.org/docs/index.html#api/geometries/BoxGeometry).
  *
- * Properties of [VglGeometry](vgl-geometry) are also available as mixin.
+ * Properties of [VglGeometry](../core/vgl-geometry) are also available as mixin.
  */
 
 export default {

@@ -7,7 +7,7 @@ import { number, string, vector3 } from '../validators';
  * An 3D arrow object for visualizing directions,
  * corresponding [THREE.ArrowHelper](https://threejs.org/docs/index.html#api/helpers/ArrowHelper).
  *
- * Properties of [VglObject3d](vgl-object3d) are also available as mixin.
+ * Properties of [VglObject3d](../core/vgl-object3d) are also available as mixin.
  */
 
 export default {
@@ -25,7 +25,9 @@ export default {
     headWidth: number,
   },
   computed: {
+    /** The THREE.ArrowHelper instance. */
     inst: () => new ArrowHelper(new Vector3(0, 1, 0), new Vector3()),
+    /** Array(3) of helper properties. Arrow length, head length, and head width. */
     len() {
       return [
         parseFloat(this.length),
@@ -43,8 +45,17 @@ export default {
       },
       immediate: true,
     },
-    dir(dir) { this.inst.setDirection(parseVector3(dir).normalize()); },
-    len(len) { this.inst.setLength(...len); },
-    color(color) { this.inst.setColor(new Color(color)); },
+    dir(dir) {
+      this.inst.setDirection(parseVector3(dir).normalize());
+      this.vglObject3d.emit();
+    },
+    len(len) {
+      this.inst.setLength(...len);
+      this.vglObject3d.emit();
+    },
+    color(color) {
+      this.inst.setColor(new Color(color));
+      this.vglObject3d.emit();
+    },
   },
 };

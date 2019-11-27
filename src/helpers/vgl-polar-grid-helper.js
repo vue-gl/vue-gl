@@ -7,7 +7,7 @@ import { number, string } from '../validators';
  * correcponding [THREE.PolarGridHelper](https://threejs.org/docs/index.html#api/helpers/PolarGridHelper).
  * Grids are two-dimensional arrays of lines.
  *
- * Properties of [VglObject3d](vgl-object3d) are also available as mixin.
+ * Properties of [VglObject3d](../core/vgl-object3d) are also available as mixin.
  */
 
 export default {
@@ -30,6 +30,7 @@ export default {
     color2: { type: string, default: '#888888' },
   },
   computed: {
+    /** The THREE.PolarGridHelper instance. */
     inst() {
       return new PolarGridHelper(
         parseFloat(this.radius),

@@ -96,7 +96,7 @@
             {% endif %}
           {% endfor %}
           {% for p in page_list %}
-            {% if p.title %}
+            {% if p.title and p.title != 'Components' %}
               <h1{% if p.url == page.url %} class="cur"{% endif %}><a href="{{ p.url | relative_url }}">{{ p.title }}</a></h1>
               {% if p.toc %}
                 {% for topic in p.toc %}

@@ -22,6 +22,7 @@ export default {
     shininess: { type: number, default: 30 },
   },
   computed: {
+    /** The THREE.MeshPhongMaterial instance. */
     inst: () => new MeshPhongMaterial(),
   },
   watch: {
@@ -35,8 +36,17 @@ export default {
       },
       immediate: true,
     },
-    color(color) { this.inst.color.setStyle(color); },
-    specular(specular) { this.inst.specular.setStyle(specular); },
-    shininess(shininess) { this.inst.shininess = parseFloat(shininess); },
+    color(color) {
+      this.inst.color.setStyle(color);
+      this.update();
+    },
+    specular(specular) {
+      this.inst.specular.setStyle(specular);
+      this.update();
+    },
+    shininess(shininess) {
+      this.inst.shininess = parseFloat(shininess);
+      this.update();
+    },
   },
 };

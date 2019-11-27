@@ -6,7 +6,7 @@ import { string } from '../validators';
  * A helper component to show the world-axis-aligned bounding box around its parent,
  * corresponding [THREE.BoxHelper](https://threejs.org/docs/index.html#api/helpers/BoxHelper).
  *
- * Properties of [VglObject3d](vgl-object3d) are also available as mixin.
+ * Properties of [VglObject3d](../core/vgl-object3d) are also available as mixin.
  */
 
 export default {
@@ -18,14 +18,34 @@ export default {
     object: string,
   },
   computed: {
+    /** The THREE.BoxHelper instance. */
     inst() { return new BoxHelper(undefined, this.color); },
   },
   methods: {
-    setFromObject() { this.inst.setFromObject(this.vglNamespace.object3ds[this.object]); },
+    /** Set the geometry of the helper box from given object. */
+    setFromObject(obj) { this.inst.setFromObject(obj); },
   },
-  created() { this.vglNamespace.beforeRender.push(this.setFromObject); },
   beforeDestroy() {
-    const { vglNamespace: { beforeRender }, setFromObject } = this;
-    beforeRender.splice(beforeRender.indexOf(setFromObject), 1);
+    if (this.object !== undefined) {
+      this.vglNamespace.object3ds.unlisten(this.object, this.setFromObject);
+    }
+  },
+  watch: {
+    inst() {
+      if (this.object !== undefined) {
+        this.setFromObject(this.vglNamespace.object3ds.get(this.object));
+      }
+    },
+    object: {
+      handler(name, oldName) {
+        const { vglNamespace: { object3ds }, setFromObject } = this;
+        if (oldName !== undefined) object3ds.unlisten(oldName, setFromObject);
+        if (name !== undefined) {
+          object3ds.listen(name, setFromObject);
+          setFromObject(this.vglNamespace.object3ds.get(name));
+        }
+      },
+      immediate: true,
+    },
   },
 };

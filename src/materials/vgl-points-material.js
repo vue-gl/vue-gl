@@ -20,6 +20,7 @@ export default {
     disableSizeAttenuation: boolean,
   },
   computed: {
+    /** The THREE.PointsMaterial instance. */
     inst: () => new PointsMaterial(),
   },
   watch: {
@@ -33,8 +34,17 @@ export default {
       },
       immediate: true,
     },
-    color(color) { this.inst.color.setStyle(color); },
-    size(size) { this.inst.size = parseFloat(size); },
-    disableSizeAttenuation(disabled) { this.inst.sizeAttenuation = !disabled; },
+    color(color) {
+      this.inst.color.setStyle(color);
+      this.update();
+    },
+    size(size) {
+      this.inst.size = parseFloat(size);
+      this.update();
+    },
+    disableSizeAttenuation(disabled) {
+      this.inst.sizeAttenuation = !disabled;
+      this.update();
+    },
   },
 };

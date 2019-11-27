@@ -4,35 +4,85 @@ import VglObject3d from './core/vgl-object3d';
 export const VglObject3dWithMatarial = {
   mixins: [VglObject3d],
   methods: {
-    setMaterial() {
-      const { vglNamespace: { materials }, material, inst } = this;
-      if (Array.isArray(material)) {
-        inst.material = material.reduce(
-          (acc, current) => (materials[current] ? [...acc, materials[current]] : acc), [],
+    setMaterial(material) {
+      const { vglNamespace: { materials }, inst } = this;
+      if (Array.isArray(this.material)) {
+        inst.material = this.material.reduce(
+          (acc, current) => (materials.get(current) ? [...acc, materials.get(current)] : acc), [],
         );
-      } else if (materials[material]) inst.material = materials[material];
+      } else if (material) inst.material = material;
+      this.vglObject3d.emit();
     },
   },
-  created() { this.vglNamespace.beforeRender.unshift(this.setMaterial); },
+  watch: {
+    inst() {
+      if (this.material !== undefined) {
+        this.setMaterial(this.vglNamespace.materials.get(this.material));
+      }
+    },
+    material: {
+      handler(material, oldMaterial) {
+        const { vglNamespace: { materials }, setMaterial } = this;
+        if (oldMaterial !== undefined) {
+          if (Array.isArray(oldMaterial)) {
+            oldMaterial.forEach((oldName) => materials.unlisten(oldName, setMaterial));
+          } else {
+            materials.unlisten(oldMaterial, setMaterial);
+          }
+        }
+        if (material !== undefined) {
+          if (Array.isArray(material)) {
+            material.forEach((name) => materials.listen(name, setMaterial));
+            setMaterial();
+          } else {
+            materials.listen(material, setMaterial);
+            setMaterial(materials.get(material));
+          }
+        }
+      },
+      immediate: true,
+    },
+  },
   beforeDestroy() {
-    const { vglNamespace: { beforeRender }, setMaterial } = this;
-    beforeRender.splice(beforeRender.indexOf(setMaterial), 1);
+    const { vglNamespace: { materials }, material, setMaterial } = this;
+    if (Array.isArray(material)) {
+      material.forEach((name) => materials.unlisten(name, setMaterial));
+    } else {
+      materials.unlisten(material, setMaterial);
+    }
   },
 };
 
 export const VglObject3dWithMatarialAndGeometry = {
   mixins: [VglObject3dWithMatarial],
   methods: {
-    setGeometry() {
-      const { vglNamespace: { geometries }, geometry, inst } = this;
-      if (geometries[geometry]) inst.geometry = geometries[geometry];
+    setGeometry(geometry) {
+      if (geometry) {
+        this.inst.geometry = geometry;
+        this.vglObject3d.emit();
+        if (this.name !== undefined) this.vglNamespace.object3ds.emit(this.name, this.inst);
+      }
     },
   },
-  created() { this.vglNamespace.beforeRender.unshift(this.setGeometry); },
-  beforeDestroy() {
-    const { vglNamespace: { beforeRender }, setGeometry } = this;
-    beforeRender.splice(beforeRender.indexOf(setGeometry), 1);
+  watch: {
+    inst() {
+      if (this.geometry !== undefined) {
+        this.setGeometry(this.vglNamespace.geometries.get(this.geometry));
+      }
+    },
+    geometry: {
+      handler(geometry, oldGeometry) {
+        const { vglNamespace: { geometries }, setGeometry } = this;
+        if (oldGeometry !== undefined) geometries.unlisten(oldGeometry, setGeometry);
+        if (geometry !== undefined) {
+          geometries.listen(geometry, setGeometry);
+          setGeometry(geometries.get(geometry));
+        }
+      },
+      immediate: true,
+    },
   },
+  beforeDestroy() { this.vglNamespace.geometries.unlisten(this.geometry, this.setGeometry); },
 };
 
 export const VglMaterialWithMap = {
@@ -40,12 +90,25 @@ export const VglMaterialWithMap = {
   methods: {
     setMap() {
       const { vglNamespace: { textures }, inst, map } = this;
-      if (map in textures) inst.map = textures[map];
+      if (textures.keys().includes(map)) inst.map = textures.get(map);
+      this.vglNamespace.materials.emit(this.name, inst);
     },
   },
-  created() { this.vglNamespace.beforeRender.unshift(this.setMap); },
-  beforeDestroy() {
-    const { vglNamespace: { beforeRender }, setMap } = this;
-    beforeRender.splice(beforeRender.indexOf(setMap), 1);
+  watch: {
+    inst() {
+      if (this.map !== undefined) this.setMap(this.vglNamespace.textures.get(this.map));
+    },
+    map: {
+      handler(map, oldMap) {
+        const { vglNamespace: { textures }, setMap } = this;
+        if (oldMap !== undefined) textures.unlisten(oldMap, setMap);
+        if (map !== undefined) {
+          textures.listen(map, setMap);
+          setMap(textures.get(map));
+        }
+      },
+      immediate: true,
+    },
   },
+  beforeDestroy() { this.vglNamespace.textures.unlisten(this.map, this.setMap); },
 };

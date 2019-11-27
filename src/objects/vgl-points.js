@@ -6,7 +6,7 @@ import { string } from '../validators';
  * A component for displaying points,
  * corresponding [THREE.Points](https://threejs.org/docs/index.html#api/objects/Points).
  *
- * Properties of [VglObject3d](vgl-object3d) are also available as mixin.
+ * Properties of [VglObject3d](../core/vgl-object3d) are also available as mixin.
  */
 
 export default {
@@ -18,6 +18,7 @@ export default {
     material: string,
   },
   computed: {
+    /** The THREE.Points instance. */
     inst: () => new Points(),
   },
 };

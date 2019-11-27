@@ -6,7 +6,7 @@ import { string, names } from '../validators';
  * A component representing triangular polygon mesh based objects,
  * corresponding [THREE.Mesh](https://threejs.org/docs/index.html#api/objects/Mesh).
  *
- * Properties of [VglObject3d](vgl-object3d) are also available as mixin.
+ * Properties of [VglObject3d](../core/vgl-object3d) are also available as mixin.
  */
 
 export default {
@@ -23,6 +23,7 @@ export default {
     material: names,
   },
   computed: {
+    /** The THREE.Mesh instance. */
     inst: () => new Mesh(),
   },
 };

@@ -6,7 +6,7 @@ import { string } from '../validators';
  * A sprite component corresponding [THREE.Sprite](https://threejs.org/docs/index.html#api/objects/Sprite).
  * It is a plane that always faces towards the camera.
  *
- * Properties of [VglObject3d](vgl-object3d) are also available as mixin.
+ * Properties of [VglObject3d](../core/vgl-object3d) are also available as mixin.
  */
 
 export default {
@@ -16,6 +16,7 @@ export default {
     material: string,
   },
   computed: {
+    /** The THREE.Sprite instance. */
     inst: () => new Sprite(),
   },
 };

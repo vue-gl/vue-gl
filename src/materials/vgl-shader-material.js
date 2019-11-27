@@ -106,6 +106,7 @@ export default {
   },
 
   computed: {
+    /** The THREE.ShaderMaterial instance. */
     inst() {
       return new ShaderMaterial({
         fog: this.fog,
@@ -135,36 +136,40 @@ export default {
     defines: {
       handler(defines) {
         this.inst.defines = defines;
-        this.inst.needsUpdate = true;
+        this.update();
       },
       deep: true,
     },
     fragmentShader(fragmentShader) {
       this.inst.fragmentShader = fragmentShader;
-      this.inst.needsUpdate = true;
+      this.update();
     },
     linewidth(linewidth) {
       this.inst.linewidth = parseFloat(linewidth);
+      this.update();
     },
     flatShading(flatShading) {
       this.inst.flatShading = flatShading;
-      this.inst.needsUpdate = true;
+      this.update();
     },
     uniforms: {
       handler(uniforms) {
         this.inst.uniforms = uniforms;
+        this.update();
       },
       deep: true,
     },
     vertexShader(vertexShader) {
       this.inst.vertexShader = vertexShader;
-      this.inst.needsUpdate = true;
+      this.update();
     },
     wireframe(wireframe) {
       this.inst.wireframe = wireframe;
+      this.update();
     },
     wireframeLinewidth(wireframeLinewidth) {
       this.inst.wireframeLinewidth = parseFloat(wireframeLinewidth);
+      this.update();
     },
   },
 };

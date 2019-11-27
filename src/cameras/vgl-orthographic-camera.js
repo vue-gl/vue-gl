@@ -21,6 +21,7 @@ export default {
     far: { type: number, default: 2000 },
   },
   computed: {
+    /** The THREE.OrthographicCamera instance. */
     inst: () => new OrthographicCamera(),
   },
   watch: {
@@ -31,12 +32,20 @@ export default {
           near: parseFloat(this.near),
           far: parseFloat(this.far),
         });
-        inst.updateProjectionMatrix();
       },
       immediate: true,
     },
-    zoom(zoom) { this.inst.zoom = parseFloat(zoom); this.inst.updateProjectionMatrix(); },
-    near(near) { this.inst.near = parseFloat(near); this.inst.updateProjectionMatrix(); },
-    far(far) { this.inst.far = parseFloat(far); this.inst.updateProjectionMatrix(); },
+    zoom(zoom) {
+      this.inst.zoom = parseFloat(zoom);
+      this.vglObject3d.emit();
+    },
+    near(near) {
+      this.inst.near = parseFloat(near);
+      this.vglObject3d.emit();
+    },
+    far(far) {
+      this.inst.far = parseFloat(far);
+      this.vglObject3d.emit();
+    },
   },
 };

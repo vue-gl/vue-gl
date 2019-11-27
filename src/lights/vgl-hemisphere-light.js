@@ -13,9 +13,11 @@ import { string } from '../validators';
 export default {
   mixins: [VglLight],
   props: {
+    /** The light's ground color */
     groundColor: { type: string, default: '#fff' },
   },
   computed: {
+    /** The THREE.HemisphereLight instance. */
     inst: () => new HemisphereLight(),
   },
   watch: {
@@ -23,6 +25,9 @@ export default {
       handler(inst) { inst.groundColor.setStyle(this.groundColor); },
       immediate: true,
     },
-    groundColor(groundColor) { this.inst.groundColor.setStyle(groundColor); },
+    groundColor(groundColor) {
+      this.inst.groundColor.setStyle(groundColor);
+      this.vglObject3d.emit();
+    },
   },
 };

@@ -19,6 +19,7 @@ export default {
     map: string,
   },
   computed: {
+    /** The THREE.MeshBasicMaterial instance. */
     inst: () => new MeshBasicMaterial(),
   },
   watch: {
@@ -26,6 +27,9 @@ export default {
       handler(inst) { inst.color.setStyle(this.color); },
       immediate: true,
     },
-    color(color) { this.inst.color.setStyle(color); },
+    color(color) {
+      this.inst.color.setStyle(color);
+      this.update();
+    },
   },
 };

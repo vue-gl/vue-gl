@@ -27,7 +27,11 @@ const sides = {
  */
 
 export default {
-  inject: ['vglNamespace'],
+  inject: {
+    vglNamespace: {
+      default() { throw new Error('VueGL components must be wraped by VglNamespace component.'); },
+    },
+  },
   props: {
     /** Name of the material. */
     name: string,
@@ -37,7 +41,17 @@ export default {
     vertexColors: { type: string, default: 'no' },
   },
   computed: {
+    /** The THREE.Material instance. */
     inst: () => new Material(),
+  },
+  methods: {
+    /**
+     * Emit an event in `materials` namespace. Call this method after editing instance's
+     * properties.
+     */
+    update() {
+      if (this.name !== undefined) this.vglNamespace.materials.emit(this.name, this.inst);
+    },
   },
   watch: {
     inst: {
@@ -46,23 +60,27 @@ export default {
           side: sides[this.side],
           vertexColors: vertexColors[this.vertexColors],
         });
-        this.vglNamespace.materials[this.name] = inst;
+        this.vglNamespace.materials.set(this.name, inst);
       },
       immediate: true,
     },
     name(name, oldName) {
-      const { vglNamespace: { materials }, inst } = this;
-      if (materials[oldName] === inst) delete materials[oldName];
-      materials[name] = inst;
+      if (oldName !== undefined) this.vglNamespace.materials.delete(oldName, this.inst);
+      if (name !== undefined) this.vglNamespace.materials.set(name, this.inst);
     },
-    side(side) { this.inst.side = sides[side]; },
-    vertexColors(colors) { this.inst.vertexColors = vertexColors[colors]; },
+    side(side) {
+      this.inst.side = sides[side];
+      this.update();
+    },
+    vertexColors(colors) {
+      this.inst.vertexColors = vertexColors[colors];
+      this.update();
+    },
   },
   beforeDestroy() {
-    const { vglNamespace: { materials }, inst } = this;
-    if (materials[this.name] === inst) delete materials[this.name];
+    if (this.name !== undefined) this.vglNamespace.materials.delete(this.name, this.inst);
   },
-  created() { this.vglNamespace.update(); },
-  beforeUpdate() { this.vglNamespace.update(); },
-  render(h) { return this.$slots.default ? h('div', this.$slots.default) : undefined; },
+  render(h) {
+    return this.$slots.default ? h('div', this.$slots.default) : undefined;
+  },
 };

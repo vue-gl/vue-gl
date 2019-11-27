@@ -9,7 +9,11 @@ import { parseArray } from '../parsers';
  */
 
 export default {
-  inject: ['vglNamespace'],
+  inject: {
+    vglNamespace: {
+      default() { throw new Error('VueGL components must be wraped by VglNamespace component.'); },
+    },
+  },
   props: {
     /** Name of the component. */
     name: string,
@@ -21,7 +25,21 @@ export default {
     normalAttribute: floatArray,
   },
   computed: {
+    /** The THREE.BufferGeometry instance. */
     inst: () => new BufferGeometry(),
+  },
+  methods: {
+    /**
+     * Emit an event in `geometries` namespace. Call this method after editing instance's
+     * properties.
+     */
+    update() {
+      if (this.name !== undefined) this.vglNamespace.geometries.emit(this.name, this.inst);
+    },
+  },
+  beforeDestroy() {
+    if (this.name !== undefined) this.vglNamespace.geometries.delete(this.name, this.inst);
+    this.inst.dispose();
   },
   watch: {
     inst: {
@@ -45,14 +63,13 @@ export default {
           inst.setAttribute('normal', normalAttribute);
         }
         if (oldInst) oldInst.dispose();
-        this.vglNamespace.geometries[this.name] = inst;
+        this.vglNamespace.geometries.set(this.name, inst);
       },
       immediate: true,
     },
     name(name, oldName) {
-      const { vglNamespace: { geometries }, inst } = this;
-      if (geometries[oldName] === inst) delete geometries[oldName];
-      geometries[name] = inst;
+      if (oldName !== undefined) this.vglNamespace.geometries.delete(oldName, this.inst);
+      if (name !== undefined) this.vglNamespace.geometries.set(name, this.inst);
     },
     positionAttribute(positionAttribute) {
       const positionArray = parseArray(positionAttribute);
@@ -68,6 +85,7 @@ export default {
         this.inst.setAttribute('position', attributeObject);
       }
       attributeObject.needsUpdate = true;
+      this.update();
     },
     colorAttribute(colorAttribute) {
       const colorArray = parseArray(colorAttribute);
@@ -83,6 +101,7 @@ export default {
         this.inst.setAttribute('color', attributeObject);
       }
       attributeObject.needsUpdate = true;
+      this.update();
     },
     normalAttribute(normalAttribute) {
       const normalArray = parseArray(normalAttribute);
@@ -98,14 +117,10 @@ export default {
         this.inst.setAttribute('normal', attributeObject);
       }
       attributeObject.needsUpdate = true;
+      this.update();
     },
   },
-  beforeDestroy() {
-    const { vglNamespace: { geometries }, inst } = this;
-    if (geometries[this.name] === inst) delete geometries[this.name];
-    inst.dispose();
+  render(h) {
+    return this.$slots.default ? h('div', this.$slots.default) : undefined;
   },
-  created() { this.vglNamespace.update(); },
-  beforeUpdate() { this.vglNamespace.update(); },
-  render(h) { return this.$slots.default ? h('div', this.$slots.default) : undefined; },
 };

@@ -1,13 +1,13 @@
 import { WebGLRenderer } from 'three';
 import VglNamespace from '../core/vgl-namespace';
 import { boolean, string } from '../validators';
-import { cameraPropRequiredMessage, scenePropRequiredMessage, cameraTypeUnknownMessage } from '../messages';
+import { setCameraSize } from './utilities';
 
 /**
  * This component creates a canvas that have WebGL context.
  * Options are corresponding [THREE.WebGLRenderer](https://threejs.org/docs/index.html#api/core/Object3D).
  *
- * Properties of [VglNamespace](vgl-namespace) are also available as mixin.
+ * Properties of [VglNamespace](../core/vgl-namespace) are also available as mixin.
  */
 
 export default {
@@ -42,6 +42,7 @@ export default {
     shadowMapEnabled: boolean,
   },
   computed: {
+    /** The THREE.WebGLRenderer instance. */
     inst() {
       const inst = new WebGLRenderer({
         precision: this.precision,
@@ -57,75 +58,134 @@ export default {
       inst.shadowMap.enabled = this.shadowMapEnabled;
       return inst;
     },
-    cameraInst() {
-      if (this.camera !== undefined) return this.vglNamespace.cameras[this.camera];
-      let camera;
-      // eslint-disable-next-line guard-for-in, no-restricted-syntax
-      for (const key in this.vglNamespace.cameras) {
-        if (camera) throw new ReferenceError(cameraPropRequiredMessage);
-        camera = this.vglNamespace.cameras[key];
-      }
-      return camera;
-    },
-    sceneInst() {
-      if (this.scene !== undefined) return this.vglNamespace.scenes[this.scene];
-      let scene;
-      // eslint-disable-next-line guard-for-in, no-restricted-syntax
-      for (const key in this.vglNamespace.scenes) {
-        if (scene) throw new ReferenceError(scenePropRequiredMessage);
-        scene = this.vglNamespace.scenes[key];
-      }
-      return scene;
-    },
   },
   methods: {
-    render() {
-      const { inst, cameraInst, sceneInst } = this;
-      if (cameraInst && sceneInst) {
-        if (cameraInst.isPerspectiveCamera) {
-          const aspect = this.$el.clientWidth / this.$el.clientHeight;
-          if (cameraInst.aspect !== aspect) {
-            cameraInst.aspect = aspect;
-            cameraInst.updateProjectionMatrix();
-          }
-        } else if (cameraInst.isOrthographicCamera) {
-          const width = this.$el.clientWidth / 2;
-          const height = this.$el.clientHeight / 2;
-          if (cameraInst.right !== width || cameraInst.top !== height) {
-            cameraInst.left = -width;
-            cameraInst.right = width;
-            cameraInst.top = height;
-            cameraInst.bottom = -height;
-            cameraInst.updateProjectionMatrix();
-          }
-        } else {
-          throw new TypeError(cameraTypeUnknownMessage);
-        }
-        inst.render(sceneInst, cameraInst);
+    /**
+     * Set camera for rendering the scene. If canvas is already mounted, also calculates view size
+     * or aspect ratio.
+    */
+    setCameraRef(camera) {
+      this.cameraRef = camera;
+      if (this.$el) {
+        if (camera) setCameraSize(camera, this.$el.clientWidth, this.$el.clientHeight);
+        this.requestRender(camera && this.sceneRef);
       }
     },
+    /** Set scene to be rendered. */
+    setSceneRef(scene) {
+      this.sceneRef = scene;
+      if (this.$el) this.requestRender(scene && this.cameraRef);
+    },
+    /** Set camera for rendering the scene when `camera` prop is undefined. */
+    setFallbackCamera(cameras) {
+      const keys = cameras.keys();
+      this.setCameraRef(keys.length === 1 ? cameras.get(keys[0]) : undefined);
+    },
+    /** Set scene to be rendered when `scene` prop is undefined. */
+    setFallbackScene(scenes) {
+      const keys = scenes.keys();
+      this.setSceneRef(keys.length === 1 ? scenes.get(keys[0]) : undefined);
+    },
+    /**
+     * Call render function at next tick. Even if this method was called multiple times, it will be
+     * render just once.
+     */
+    requestRender(...args) {
+      if (!this.reservation) {
+        this.$nextTick(() => {
+          if (this.reservation > 0) {
+            this.inst.render(this.sceneRef, this.cameraRef);
+          } else if (!this.cameraRef && this.vglNamespace.cameras.keys().length) {
+            if (this.camera === undefined) {
+              const { length } = this.vglNamespace.cameras.keys();
+              throw new ReferenceError(
+                `Cannot identify the camera. Multiple(${length}) cameras are defined but camera prop is not given.`,
+              );
+            } else {
+              throw new ReferenceError(
+                `Cannot identify the camera. The camera named ${this.camera} is not defined.`,
+              );
+            }
+          } else if (!this.sceneRef && this.vglNamespace.scenes.keys().length) {
+            if (this.scene === undefined) {
+              const { length } = this.vglNamespace.cameras.keys();
+              throw new ReferenceError(
+                `Cannot identify the scene. Multiple(${length}) scenes are defined but scene prop is not given.`,
+              );
+            } else {
+              throw new ReferenceError(
+                `Cannot identify the scene. The scene named ${this.scene} is not defined.`,
+              );
+            }
+          }
+          this.reservation = 0;
+        });
+      }
+      this.reservation = !args.length || args[0] ? 1 : -1;
+    },
+  },
+  mounted() {
+    this.inst.setSize(this.$el.clientWidth, this.$el.clientHeight);
+    this.$el.appendChild(this.inst.domElement);
+    if (this.cameraRef) setCameraSize(this.cameraRef, this.$el.clientWidth, this.$el.clientHeight);
+    this.requestRender(this.cameraRef && this.sceneRef);
+  },
+  beforeDestroy() {
+    if (this.camera === undefined) {
+      this.vglNamespace.cameras.unlisten(this.setFallbackCamera);
+    } else {
+      this.vglNamespace.cameras.unlisten(this.camera, this.setCameraRef);
+    }
+    if (this.scene === undefined) {
+      this.vglNamespace.scenes.unlisten(this.setFallbackScene);
+    } else {
+      this.vglNamespace.scenes.unlisten(this.scene, this.setSceneRef);
+    }
+    this.inst.dispose();
   },
   watch: {
     inst(inst, oldInst) {
       if (this.$el) {
         inst.setSize(this.$el.clientWidth, this.$el.clientHeight);
         this.$el.replaceChild(inst.domElement, oldInst.domElement);
-        this.vglNamespace.update();
+        if (this.cameraRef && this.sceneRef) this.requestRender();
       }
       oldInst.dispose();
     },
-  },
-  created() {
-    this.vglNamespace.renderers.push(this);
-  },
-  mounted() {
-    this.inst.setSize(this.$el.clientWidth, this.$el.clientHeight);
-    this.$el.appendChild(this.inst.domElement);
-    this.vglNamespace.update();
-  },
-  beforeDestroy() {
-    this.vglNamespace.renderers.splice(this.vglNamespace.renderers.indexOf(this), 1);
-    this.inst.dispose();
+    camera: {
+      handler(camera, oldCamera) {
+        if (oldCamera === undefined) {
+          this.vglNamespace.cameras.unlisten(this.setFallbackCamera);
+        } else {
+          this.vglNamespace.cameras.unlisten(oldCamera, this.setCameraRef);
+        }
+        if (camera === undefined) {
+          this.vglNamespace.cameras.listen(this.setFallbackCamera);
+          this.setFallbackCamera(this.vglNamespace.cameras);
+        } else {
+          this.vglNamespace.cameras.listen(camera, this.setCameraRef);
+          this.setCameraRef(this.vglNamespace.cameras.get(camera));
+        }
+      },
+      immediate: true,
+    },
+    scene: {
+      handler(scene, oldScene) {
+        if (oldScene === undefined) {
+          this.vglNamespace.scenes.unlisten(this.setFallbackScene);
+        } else {
+          this.vglNamespace.scenes.unlisten(oldScene, this.setSceneRef);
+        }
+        if (scene === undefined) {
+          this.vglNamespace.scenes.listen(this.setFallbackScene);
+          this.setFallbackScene(this.vglNamespace.scenes);
+        } else {
+          this.vglNamespace.scenes.listen(scene, this.setSceneRef);
+          this.setSceneRef(this.vglNamespace.scenes.get(scene));
+        }
+      },
+      immediate: true,
+    },
   },
   render(h) {
     return h('div', [h('iframe', {
@@ -140,7 +200,10 @@ export default {
         load: (event) => {
           event.target.contentWindow.addEventListener('resize', () => {
             this.inst.setSize(this.$el.clientWidth, this.$el.clientHeight);
-            this.vglNamespace.update();
+            if (this.cameraRef) {
+              setCameraSize(this.cameraRef, this.$el.clientWidth, this.$el.clientHeight);
+              if (this.sceneRef) this.requestRender();
+            }
           }, false);
         },
       },

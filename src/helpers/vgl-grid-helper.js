@@ -7,7 +7,7 @@ import { number, string } from '../validators';
  * corresponding [THREE.GridHelper](https://threejs.org/docs/index.html#api/helpers/GridHelper).
  * Grids are two-dimensional arrays of lines.
  *
- * Properties of [VglObject3d](vgl-object3d) are also available as mixin.
+ * Properties of [VglObject3d](../core/vgl-object3d) are also available as mixin.
  */
 
 export default {
@@ -23,6 +23,7 @@ export default {
     colorGrid: { type: string, default: '#888888' },
   },
   computed: {
+    /** The THREE.GridHelper instance. */
     inst() {
       return new GridHelper(
         parseFloat(this.size),

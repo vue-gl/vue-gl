@@ -36,6 +36,7 @@ export default {
     target: vector3,
   },
   computed: {
+    /** The THREE.SpotLight instance. */
     inst: () => new SpotLight(),
   },
   beforeDestroy() {
@@ -51,15 +52,32 @@ export default {
           penumbra: parseFloat(this.penumbra),
         });
         if (this.target) inst.target.position.copy(parseVector3(this.target));
-        if (this.vglObject3d.inst) this.vglObject3d.inst.add(inst.target);
+        if (this.parent) this.parent.add(inst.target);
       },
       immediate: true,
     },
-    'vglObject3d.inst': function parentInst(inst) { inst.add(this.inst.target); },
-    distance(distance) { this.inst.distance = parseFloat(distance); },
-    decay(decay) { this.inst.decay = parseFloat(decay); },
-    angle(angle) { this.inst.angle = parseFloat(angle); },
-    penumbra(penumbra) { this.inst.penumbra = parseFloat(penumbra); },
-    target(target) { this.inst.target.position.copy(parseVector3(target)); },
+    parent(parent) {
+      parent.add(this.inst.target);
+    },
+    distance(distance) {
+      this.inst.distance = parseFloat(distance);
+      this.vglObject3d.emit();
+    },
+    decay(decay) {
+      this.inst.decay = parseFloat(decay);
+      this.vglObject3d.emit();
+    },
+    angle(angle) {
+      this.inst.angle = parseFloat(angle);
+      this.vglObject3d.emit();
+    },
+    penumbra(penumbra) {
+      this.inst.penumbra = parseFloat(penumbra);
+      this.vglObject3d.emit();
+    },
+    target(target) {
+      this.inst.target.position.copy(parseVector3(target));
+      this.vglObject3d.emit();
+    },
   },
 };

@@ -23,6 +23,7 @@ export default {
     fov: { type: number, default: 50 },
   },
   computed: {
+    /** The THREE.PerspectiveCamera instance. */
     inst: () => new PerspectiveCamera(),
   },
   watch: {
@@ -34,13 +35,24 @@ export default {
           far: parseFloat(this.far),
           fov: parseFloat(this.fov),
         });
-        inst.updateProjectionMatrix();
       },
       immediate: true,
     },
-    zoom(zoom) { this.inst.zoom = parseFloat(zoom); this.inst.updateProjectionMatrix(); },
-    near(near) { this.inst.near = parseFloat(near); this.inst.updateProjectionMatrix(); },
-    far(far) { this.inst.far = parseFloat(far); this.inst.updateProjectionMatrix(); },
-    fov(fov) { this.inst.fov = parseFloat(fov); this.inst.updateProjectionMatrix(); },
+    zoom(zoom) {
+      this.inst.zoom = parseFloat(zoom);
+      this.vglObject3d.emit();
+    },
+    near(near) {
+      this.inst.near = parseFloat(near);
+      this.vglObject3d.emit();
+    },
+    far(far) {
+      this.inst.far = parseFloat(far);
+      this.vglObject3d.emit();
+    },
+    fov(fov) {
+      this.inst.fov = parseFloat(fov);
+      this.vglObject3d.emit();
+    },
   },
 };

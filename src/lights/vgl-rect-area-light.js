@@ -20,6 +20,7 @@ export default {
     height: { type: number, default: 10 },
   },
   computed: {
+    /** The THREE.RectAreaLight instance. */
     inst: () => new RectAreaLight(),
   },
   watch: {
@@ -32,7 +33,13 @@ export default {
       },
       immediate: true,
     },
-    width(width) { this.inst.width = parseFloat(width); },
-    height(height) { this.inst.height = parseFloat(height); },
+    width(width) {
+      this.inst.width = parseFloat(width);
+      this.vglObject3d.emit();
+    },
+    height(height) {
+      this.inst.height = parseFloat(height);
+      this.vglObject3d.emit();
+    },
   },
 };
