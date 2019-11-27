@@ -13,7 +13,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
-      - run: yarn version --patch
+      - run: yarn version --patch --no-git-tag-version
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v1
         with:
