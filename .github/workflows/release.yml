@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  Create Pull Request for next patch release:
+  patch:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
