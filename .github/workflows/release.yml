@@ -15,7 +15,7 @@ jobs:
           node-version: 12
       - run: yarn version --patch --no-git-tag-version
       - id: version
-        run: echo "::set-output name=version::v$(node -pe require('./package.json').version)"
+        run: echo "::set-output name=version::v$(node -pe require\(\"./package.json\"\).version)"
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v1
         with:
@@ -40,7 +40,7 @@ jobs:
           node-version: 12
       - run: yarn version --minor --no-git-tag-version
       - id: version
-        run: echo "::set-output name=version::v$(node -pe require('./package.json').version)"
+        run: echo "::set-output name=version::v$(node -pe require\(\"./package.json\"\).version)"
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v1
         with:
@@ -65,7 +65,7 @@ jobs:
           node-version: 12
       - run: yarn version --major --no-git-tag-version
       - id: version
-        run: echo "::set-output name=version::v$(node -pe require('./package.json').version)"
+        run: echo "::set-output name=version::v$(node -pe require\(\"./package.json\"\).version)"
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v1
         with:
