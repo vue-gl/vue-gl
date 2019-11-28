@@ -18,3 +18,8 @@ jobs:
       - run: yarn publish --non-interactive
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+
+  publish-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - u
