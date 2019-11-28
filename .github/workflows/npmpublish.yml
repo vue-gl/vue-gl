@@ -30,13 +30,16 @@ jobs:
       - run: yarn
       - run: |
           $(yarn bin rollup) -c docs/rollup.config.js
+          rm .gitignore
           for d in src/*/
           do
             mkdir -p docs/components/`basename $d`
             $(yarn bin vuedoc.md) ${d}vgl-*.js --output docs/components/`basename $d` --level 2 --ignore-name --ignore-computed --ignore-data
           done
-          mv .gitignore .gitignore.disabled
       - name: GitHub Push
         uses: ad-m/github-push-action@v0.5.0
         with:
           github_token: ${{ secrets.gh_pages_token }}
+          directory: docs
+          repository: vue-gl/vue-gl.github.io
+          force: true
