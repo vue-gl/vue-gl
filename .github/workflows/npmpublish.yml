@@ -26,4 +26,4 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           nod-version: 12
-          regis:  
+          registry-url: h
