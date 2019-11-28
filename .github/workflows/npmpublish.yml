@@ -29,9 +29,11 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - run: yarn
       - run: |
-          yarn bin rollup -c docs/rollup.config.js
+          $(yarn bin rollup) -c docs/rollup.config.js
           for d in src/*/
           do
-            mkdir -p docs/components/`basename $d` && vuedoc.md ${d}vgl-*.js --output docs/components/`basename $d` --level 2 --ignore-name --ignore-computed --ignore-data
+            mkdir -p docs/components/`basename $d`
+            $(yarn bin vuedoc.md) ${d}vgl-*.js --output docs/components/`basename $d` --level 2 --ignore-name --ignore-computed --ignore-data
           done
           mv .gitignore .gitignore.disabled
+      - s
