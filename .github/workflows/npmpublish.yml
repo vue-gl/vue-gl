@@ -22,4 +22,5 @@ jobs:
   publish-docs:
     runs-on: ubuntu-latest
     steps:
-      - uses: aci
+      - uses: actions/checkout@v1
+      - s
