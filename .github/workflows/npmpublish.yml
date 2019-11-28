@@ -22,4 +22,4 @@ jobs:
   publish-docs:
     runs-on: ubuntu-latest
     steps:
-      - u
+      - uses: aci
