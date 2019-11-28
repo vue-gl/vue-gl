@@ -36,4 +36,6 @@ jobs:
             $(yarn bin vuedoc.md) ${d}vgl-*.js --output docs/components/`basename $d` --level 2 --ignore-name --ignore-computed --ignore-data
           done
           mv .gitignore .gitignore.disabled
-      - s
+      - name: GitHub Push
+        uses: ad-m/github-push-action@v0.5.0
+        with:
