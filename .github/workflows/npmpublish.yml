@@ -26,4 +26,5 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           nod-version: 12
-          registry-url: h
+          registry-url: https://registry.npmjs.org/
+      - r
