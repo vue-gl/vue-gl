@@ -27,4 +27,5 @@ jobs:
         with:
           nod-version: 12
           registry-url: https://registry.npmjs.org/
-      - r
+      - run: yarn
+      - run: 
