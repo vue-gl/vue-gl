@@ -30,3 +30,53 @@ jobs:
           labels: release
           branch: release-patch
           branch-suffix: none
+
+  minor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - run: yarn version --minor --no-git-tag-version
+      - id: version
+        run: echo "::set-output name=version::v$(node -pe 'require(\"./package.json\").version')"
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: ${{ steps.version.outputs.version }}
+          title: New minor release
+          body: |
+            See the release draft to confirm including changes.
+            https://github.com/vue-gl/vue-gl/releases
+            
+            Merge this PR to publish the new minor release.
+          labels: release
+          branch: release-minor
+          branch-suffix: none
+
+  major:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - run: yarn version --major --no-git-tag-version
+      - id: version
+        run: echo "::set-output name=version::v$(node -pe 'require(\"./package.json\").version')"
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: ${{ steps.version.outputs.version }}
+          title: New major release
+          body: |
+            See the release draft to confirm including changes.
+            https://github.com/vue-gl/vue-gl/releases
+            
+            Merge this PR to publish the new major release.
+          labels: release
+          branch: release-major
+          branch-suffix: none
