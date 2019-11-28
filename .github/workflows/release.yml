@@ -15,7 +15,7 @@ jobs:
           node-version: 12
       - run: yarn version --patch --no-git-tag-version
       - id: version
-        run: echo "::set-output name=version::$(node -pe require(\"./package.json\").version)"
+        run: echo "::set-output name=version::$(node -pe 'require(\"./package.json\").version')"
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v1
         with:
