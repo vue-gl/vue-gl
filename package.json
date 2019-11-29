@@ -1,6 +1,6 @@
 {
   "name": "vue-gl",
-  "version": "0.16.0",
+  "version": "0.17.0",
   "description": "Vue.js components rendering 3D graphics reactively via three.js",
   "keywords": [
     "Vue",
@@ -28,8 +28,7 @@
     "lint:md": "markdownlint \"**/*.md\" --ignore node_modules --ignore docs/components --ignore _site",
     "test": "jest",
     "start": "rollup -c docs/rollup.config.js && for d in src/*/ ; do mkdir -p docs/components/`basename $d` && vuedoc.md ${d}vgl-*.js --output docs/components/`basename $d` --level 2 --ignore-name --ignore-computed --ignore-data ; done && bundle exec jekyll serve --source docs",
-    "prepare": "rollup -c",
-    "publish": "rollup -c docs/rollup.config.js && for d in src/*/ ; do mkdir -p docs/components/`basename $d` && vuedoc.md ${d}vgl-*.js --output docs/components/`basename $d` --level 2 --ignore-name --ignore-computed --ignore-data ; done && mv .gitignore .gitignore.disabled && (gh-pages --dist docs; mv .gitignore.disabled .gitignore)"
+    "prepare": "rollup -c"
   },
   "devDependencies": {
     "@babel/core": "^7.3.3",
@@ -47,11 +46,11 @@
     "rollup-plugin-babel": "^4.0.2",
     "rollup-plugin-babel-minify": "^9.0.0",
     "rollup-plugin-copy": "^3.0.0",
-    "three": "^0.110.0",
+    "three": "^0.111.0",
     "vue": "^2.2.0"
   },
   "peerDependencies": {
-    "three": "^0.110.0",
+    "three": "^0.111.0",
     "vue": "^2.2.0"
   }
 }
