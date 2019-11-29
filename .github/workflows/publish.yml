@@ -41,7 +41,7 @@ jobs:
         run: |
           rm .gitignore
           git add .
-          git commit -m "v$(node -pe require\(\"./package.json\"\).version)" --author=$GIT_USER
+          git commit -m "v$(node -pe require\(\"./package.json\"\).version)" --author="$GIT_USER"
         env:
           GIT_USER: ${{ secrets.git_user }}
       - name: Filter
