@@ -41,7 +41,9 @@ jobs:
         run: |
           rm .gitignore
           git add .
-          git commit -m "v$(node -pe require\(\"./package.json\"\).version)" --author=$GITHUB_ACTOR
+          git commit -m "v$(node -pe require\(\"./package.json\"\).version)" --author=$GIT_USER
+        env:
+          GIT_USER: ${{ secrets.git_user }}
       - name: Filter
         run: git filter-branch --prune-empty --subdirectory-filter docs $GITHUB_REF
       - name: GitHub Push
