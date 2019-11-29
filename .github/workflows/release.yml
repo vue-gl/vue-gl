@@ -26,7 +26,7 @@ jobs:
             See the release draft to confirm including changes.
             https://github.com/vue-gl/vue-gl/releases
             
-            Merge this PR to publish the new patch release.
+            Merge this PR before publishing the new patch release.
           labels: release
           branch: release-patch
           branch-suffix: none
@@ -51,7 +51,7 @@ jobs:
             See the release draft to confirm including changes.
             https://github.com/vue-gl/vue-gl/releases
             
-            Merge this PR to publish the new minor release.
+            Merge this PR before publishing the new minor release.
           labels: release
           branch: release-minor
           branch-suffix: none
@@ -76,7 +76,7 @@ jobs:
             See the release draft to confirm including changes.
             https://github.com/vue-gl/vue-gl/releases
             
-            Merge this PR to publish the new major release.
+            Merge this PR before publishing the new major release.
           labels: release
           branch: release-major
           branch-suffix: none
