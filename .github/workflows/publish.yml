@@ -1,0 +1,52 @@
+name: Node.js Package
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  publish-npm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+          registry-url: https://registry.npmjs.org/
+      - run: yarn install --frozen-lockfile
+      - run: yarn publish --non-interactive
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.npm_token }}
+
+  publish-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          nod-version: 12
+          registry-url: https://registry.npmjs.org/
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Build
+        run: |
+          $(yarn bin rollup) -c docs/rollup.config.js
+          for d in src/*/
+          do
+            mkdir -p docs/components/`basename $d`
+            $(yarn bin vuedoc.md) ${d}vgl-*.js --output docs/components/`basename $d` --level 2 --ignore-name --ignore-computed --ignore-data
+          done
+      - name: Commit
+        run: |
+          rm .gitignore
+          git add .
+          git commit -m "v$(node -pe require\(\"./package.json\"\).version)" --author=$GITHUB_ACTOR
+      - name: Filter
+        run: git filter-branch --prune-empty --subdirectory-filter docs $GITHUB_REF
+      - name: GitHub Push
+        uses: ad-m/github-push-action@v0.5.0
+        with:
+          github_token: ${{ secrets.gh_pages_token }}
+          repository: vue-gl/vue-gl.github.io
+          force: true
