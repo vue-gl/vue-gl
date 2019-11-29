@@ -12,7 +12,7 @@ export default {
     /** The THREE.Path instance. */
     inst() {
       const path = new Path();
-      path.setFromPoints(parseVector2Array(this.path));
+      if (this.path !== undefined) path.setFromPoints(parseVector2Array(this.path));
       return path;
     },
   },

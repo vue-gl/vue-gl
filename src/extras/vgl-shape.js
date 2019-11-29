@@ -7,7 +7,7 @@ export default {
   computed: {
     inst() {
       const shape = new Shape();
-      shape.setFromPoints(parseVector2Array(this.path));
+      if (this.path !== undefined) shape.setFromPoints(parseVector2Array(this.path));
       return shape;
     },
   },
