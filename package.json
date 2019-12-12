@@ -25,7 +25,7 @@
   "types": "src/index.d.ts",
   "scripts": {
     "lint": "eslint .",
-    "lint:md": "markdownlint \"**/*.md\" --ignore node_modules --ignore docs/components --ignore _site",
+    "lint:md": "markdownlint \"**/*.md\" -c markdownlint.config.yml --ignore node_modules --ignore docs/components --ignore _site",
     "test": "jest",
     "start": "rollup -c docs/rollup.config.js && bundle exec jekyll serve --source docs",
     "prepare": "rollup -c"
