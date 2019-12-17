@@ -1,6 +1,6 @@
 import { PointsMaterial } from 'three';
 import VglMaterial from './vgl-material';
-import { string, number, boolean } from '../validators';
+import { string, number, boolean } from '../types';
 
 /**
  * The default material used by [VglPoints](vgl-points),

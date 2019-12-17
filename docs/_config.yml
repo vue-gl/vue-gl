@@ -1,16 +1,23 @@
-theme: jekyll-theme-architect
-google_analytics: UA-23493957-4
+remote_theme: pmarsceill/just-the-docs
+logo: assets/img/logo.svg
+ga_tracking: UA-23493957-4
+ga_publisher: pub-3600741293730423
+ga_search: '6643788418'
 title: VueGL
+description: Vue.js components rendering 3D graphics reactively via Three.js
+aux_links:
+  View project on GitHub: //github.com/vue-gl/vue-gl
 plugins:
+  - jekyll-seo-tag
   - jekyll-sitemap
 defaults:
   - scope:
       path: examples
     values:
       layout: example
-  - scope:
-      path: components
-    values:
-      layout: component
+      search_enabled: false
+      nav_exclude: true
 exclude:
   - rollup.config.js
+  - .gitignore
+  - rollup-plugins

@@ -22,8 +22,8 @@ describe('VglScene', () => {
   });
   test('the propertie "backgroundTexture" of the instance should be specified by props', () => {
     const texture = new TextureLoader().load('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7');
-    inject.vglNamespace.default.textures.set('test tx', texture);
-    const { inst } = new (Vue.extend(VglScene))({ inject, propsData: { backgroundTexture: 'test tx' } });
+    inject.vglNamespace.default.textures.set('testTx', texture);
+    const { inst } = new (Vue.extend(VglScene))({ inject, propsData: { backgroundTexture: 'testTx' } });
     expect(inst.background).toBe(texture);
   });
   test('the propertie "fog" of the instance should be specified by props', () => {
@@ -40,19 +40,19 @@ describe('VglScene', () => {
   });
   test('the properties "backgroundTexture" of the instance should change after props change', async () => {
     const texture = new TextureLoader().load('data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==');
-    inject.vglNamespace.default.textures.set('test tx', texture);
+    inject.vglNamespace.default.textures.set('test-tx', texture);
     const vm = new (Vue.extend(VglScene))({ inject });
-    vm.backgroundTexture = 'test tx';
+    vm.backgroundTexture = 'test-tx';
     await vm.$nextTick();
     expect(vm.inst.background).toBe(texture);
   });
   test('the properties "backgroundTexture" of the instance should change after texture change', async () => {
     const texture1 = new TextureLoader().load('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7');
     const texture2 = new TextureLoader().load('data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==');
-    inject.vglNamespace.default.textures.set('test tx1', texture1);
-    inject.vglNamespace.default.textures.set('test tx2', texture2);
-    const vm = new (Vue.extend(VglScene))({ inject, propsData: { backgroundTexture: 'test tx1' } });
-    vm.backgroundTexture = 'test tx2';
+    inject.vglNamespace.default.textures.set('test-tx1', texture1);
+    inject.vglNamespace.default.textures.set('test-tx2', texture2);
+    const vm = new (Vue.extend(VglScene))({ inject, propsData: { backgroundTexture: 'test-tx1' } });
+    vm.backgroundTexture = 'test-tx2';
     await vm.$nextTick();
     expect(vm.inst.background).toBe(texture2);
   });
@@ -66,21 +66,21 @@ describe('VglScene', () => {
   });
   describe('the instance should be registered to scenes namespace', () => {
     test('after created', () => {
-      const vm = new (Vue.extend(VglScene))({ inject, propsData: { name: 'test name 1' } });
-      expect(inject.vglNamespace.default.scenes.get('test name 1')).toBe(vm.inst);
+      const vm = new (Vue.extend(VglScene))({ inject, propsData: { name: 'test_name1' } });
+      expect(inject.vglNamespace.default.scenes.get('test_name1')).toBe(vm.inst);
     });
     test('after the name prop changes', async () => {
-      const vm = new (Vue.extend(VglScene))({ inject, propsData: { name: 'test scene 1' } });
-      vm.name = 'test scene 2';
+      const vm = new (Vue.extend(VglScene))({ inject, propsData: { name: 'test_scene1' } });
+      vm.name = 'test_scene2';
       await Vue.nextTick();
-      expect(inject.vglNamespace.default.scenes.get('test scene 1')).toBeUndefined();
-      expect(inject.vglNamespace.default.scenes.get('test scene 2')).toBe(vm.inst);
+      expect(inject.vglNamespace.default.scenes.get('test_scene1')).toBeUndefined();
+      expect(inject.vglNamespace.default.scenes.get('test_scene2')).toBe(vm.inst);
     });
     test('after destroyed', async () => {
-      const vm = new (Vue.extend(VglScene))({ inject, propsData: { name: 'test name 1' } });
+      const vm = new (Vue.extend(VglScene))({ inject, propsData: { name: 'testName1' } });
       vm.$destroy();
       await Vue.nextTick();
-      expect(inject.vglNamespace.default.scenes.get('test name 1')).toBeUndefined();
+      expect(inject.vglNamespace.default.scenes.get('testName1')).toBeUndefined();
     });
   });
 });

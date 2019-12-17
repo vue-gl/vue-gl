@@ -1,6 +1,6 @@
 import { SpotLightHelper, Object3D } from 'three';
 import VglObject3d from '../core/vgl-object3d';
-import { string } from '../validators';
+import { string } from '../types';
 
 /**
  * This component displays a cone shaped helper object for a SpotLight,

@@ -1,5 +1,5 @@
 import Vue from 'vue/dist/vue';
-import { ExtrudeBufferGeometry, Shape, Vector2 } from 'three';
+import { ExtrudeBufferGeometry, Shape } from 'three';
 import { VglExtrudeGeometry, VglGeometry, VglNamespace } from '../../src';
 
 describe('VglExtrudeGeometry', () => {
@@ -51,64 +51,29 @@ describe('VglExtrudeGeometry', () => {
     expect(bevelSegments).toStrictEqual(3);
   });
   test('the shape of the instance should be specified by props', () => {
-    const points = [[350, 0], [350, 1181], [0, 1181], [0, 79], [15, 79], [15, 0]];
-    const virtualShape = new Shape(points.map((e) => new Vector2(...e)));
+    const shape = new Shape();
+    inject.vglNamespace.default.curves.set('testShape', shape);
     const { inst } = new (Vue.extend(VglExtrudeGeometry))({
       inject,
       propsData: {
-        shapes: points,
+        shapes: 'testShape',
       },
     });
     const { shapes } = inst.parameters;
-    expect(shapes.type).toStrictEqual('Shape');
-    expect(virtualShape.currentPoint.equals(shapes.currentPoint)).toStrictEqual(true);
-    expect(JSON.stringify(shapes.extractPoints()))
-      .toStrictEqual(JSON.stringify(virtualShape.extractPoints()));
+    expect(shapes).toStrictEqual([shape]);
   });
-  test('the shapes props as an Array of string', () => {
-    const points = [[350, 0], [350, 1181], [0, 1181], [0, 79], [15, 79], [15, 0]];
-    const virtualShape = new Shape(points.map((e) => new Vector2(...e)));
+  test('the shapes props as an array of string', () => {
+    const shape1 = new Shape();
+    const shape2 = new Shape();
+    inject.vglNamespace.default.curves.set('shape1', shape1);
+    inject.vglNamespace.default.curves.set('shape2', shape2);
     const { inst } = new (Vue.extend(VglExtrudeGeometry))({
       inject,
       propsData: {
-        shapes: points.map((e) => e.join(' ')),
+        shapes: 'shape1 shape2',
       },
     });
     const { shapes } = inst.parameters;
-    expect(shapes.type).toStrictEqual('Shape');
-    expect(virtualShape.currentPoint.equals(shapes.currentPoint)).toStrictEqual(true);
-    expect(JSON.stringify(shapes.extractPoints()))
-      .toStrictEqual(JSON.stringify(virtualShape.extractPoints()));
-  });
-  test('the shapes props as an Array of Vector2', () => {
-    const points = [[350, 0], [350, 1181], [0, 1181], [0, 79], [15, 79], [15, 0]];
-    const virtualShape = new Shape(points.map((e) => new Vector2(...e)));
-    const { inst } = new (Vue.extend(VglExtrudeGeometry))({
-      inject,
-      propsData: {
-        shapes: points.map((e) => new Vector2(...e)),
-      },
-    });
-    const { shapes } = inst.parameters;
-    expect(shapes.type).toStrictEqual('Shape');
-    expect(virtualShape.currentPoint.equals(shapes.currentPoint)).toStrictEqual(true);
-    expect(JSON.stringify(shapes.extractPoints()))
-      .toStrictEqual(JSON.stringify(virtualShape.extractPoints()));
-  });
-  test('the shapes props as a THREE.Shape', () => {
-    const points = [[350, 0], [350, 1181], [0, 1181], [0, 79], [15, 79], [15, 0]];
-    const virtualShape = new Shape(points.map((e) => new Vector2(...e)));
-    const propShapes = virtualShape.clone();
-    const { inst } = new (Vue.extend(VglExtrudeGeometry))({
-      inject,
-      propsData: {
-        shapes: propShapes,
-      },
-    });
-    const { shapes } = inst.parameters;
-    expect(shapes.type).toStrictEqual('Shape');
-    expect(virtualShape.currentPoint.equals(shapes.currentPoint)).toStrictEqual(true);
-    expect(JSON.stringify(shapes.extractPoints()))
-      .toStrictEqual(JSON.stringify(virtualShape.extractPoints()));
+    expect(shapes).toStrictEqual([shape1, shape2]);
   });
 });

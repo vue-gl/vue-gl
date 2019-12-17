@@ -6,7 +6,6 @@ import {
   Quaternion,
   Fog,
   Color,
-  Shape,
 } from 'three';
 
 /**
@@ -77,9 +76,8 @@ export function parseColor(str) {
 }
 
 /**
- * Return a parsed Shape
+ * Return a parsed name array
  */
-export function parseShape(str) {
-  if (!str) return new Shape();
-  return (str.type && str.type === 'Shape') ? str : new Shape(parseVector2Array(str));
+export function parseNames(str) {
+  return Array.isArray(str) ? str : str.split(' ');
 }

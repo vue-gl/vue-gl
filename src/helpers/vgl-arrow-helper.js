@@ -1,7 +1,7 @@
 import { ArrowHelper, Color, Vector3 } from 'three';
 import VglObject3d from '../core/vgl-object3d';
 import { parseVector3 } from '../parsers';
-import { number, string, vector3 } from '../validators';
+import { number, string, vector3 } from '../types';
 
 /**
  * An 3D arrow object for visualizing directions,

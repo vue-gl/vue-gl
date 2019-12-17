@@ -1,43 +1,34 @@
 import VglMaterial from './materials/vgl-material';
 import VglObject3d from './core/vgl-object3d';
+import { parseNames } from './parsers';
 
 export const VglObject3dWithMatarial = {
   mixins: [VglObject3d],
   methods: {
-    setMaterial(material) {
+    setMaterial() {
       const { vglNamespace: { materials }, inst } = this;
-      if (Array.isArray(this.material)) {
-        inst.material = this.material.reduce(
-          (acc, current) => (materials.get(current) ? [...acc, materials.get(current)] : acc), [],
-        );
-      } else if (material) inst.material = material;
+      const parsedMaterials = parseNames(this.material).reduce(
+        (acc, current) => (materials.get(current) ? [...acc, materials.get(current)] : acc), [],
+      );
+      inst.material = parsedMaterials.length === 1 ? parsedMaterials[0] : parsedMaterials;
       this.vglObject3d.emit();
     },
   },
   watch: {
     inst() {
       if (this.material !== undefined) {
-        this.setMaterial(this.vglNamespace.materials.get(this.material));
+        this.setMaterial();
       }
     },
     material: {
       handler(material, oldMaterial) {
         const { vglNamespace: { materials }, setMaterial } = this;
         if (oldMaterial !== undefined) {
-          if (Array.isArray(oldMaterial)) {
-            oldMaterial.forEach((oldName) => materials.unlisten(oldName, setMaterial));
-          } else {
-            materials.unlisten(oldMaterial, setMaterial);
-          }
+          parseNames(oldMaterial).forEach((oldName) => materials.unlisten(oldName, setMaterial));
         }
         if (material !== undefined) {
-          if (Array.isArray(material)) {
-            material.forEach((name) => materials.listen(name, setMaterial));
-            setMaterial();
-          } else {
-            materials.listen(material, setMaterial);
-            setMaterial(materials.get(material));
-          }
+          parseNames(material).forEach((name) => materials.listen(name, setMaterial));
+          setMaterial();
         }
       },
       immediate: true,
@@ -45,11 +36,7 @@ export const VglObject3dWithMatarial = {
   },
   beforeDestroy() {
     const { vglNamespace: { materials }, material, setMaterial } = this;
-    if (Array.isArray(material)) {
-      material.forEach((name) => materials.unlisten(name, setMaterial));
-    } else {
-      materials.unlisten(material, setMaterial);
-    }
+    parseNames(material).forEach((name) => materials.unlisten(name, setMaterial));
   },
 };
 

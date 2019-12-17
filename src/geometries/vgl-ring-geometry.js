@@ -1,6 +1,6 @@
 import { RingBufferGeometry } from 'three';
 import VglGeometry from '../core/vgl-geometry';
-import { number } from '../validators';
+import { number } from '../types';
 
 /**
  * This is a simple shape component of Euclidean geometry,

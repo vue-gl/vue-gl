@@ -30,18 +30,14 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Build
-        run: |
-          $(yarn bin rollup) -c docs/rollup.config.js
-          for d in src/*/
-          do
-            mkdir -p docs/components/`basename $d`
-            $(yarn bin vuedoc.md) ${d}vgl-*.js --output docs/components/`basename $d` --level 2 --ignore-name --ignore-computed --ignore-data
-          done
+        run: $(yarn bin rollup) -c docs/rollup.config.js
       - name: Commit
         run: |
-          rm .gitignore
+          rm docs/.gitignore
           git add .
-          git commit -m "v$(node -pe require\(\"./package.json\"\).version)" --author=$GITHUB_ACTOR
+          git commit -m "v$(node -pe require\(\"./package.json\"\).version)" --author="$GIT_USER"
+        env:
+          GIT_USER: ${{ secrets.git_user }}
       - name: Filter
         run: git filter-branch --prune-empty --subdirectory-filter docs $GITHUB_REF
       - name: GitHub Push

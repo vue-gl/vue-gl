@@ -137,7 +137,7 @@ When you open the html above in the browser, you'll see below.
         Corresponding to [THREE.RectAreaLightHelper](https://threejs.org/docs/index.html#api/helpers/RectAreaLightHelper)
   - [ ] **[VglSkeletonHelper](src/helpers/vgl-skeleton-helper.js)** -
         Corresponding to [THREE.SkeletonHelper](https://threejs.org/docs/index.html#api/helpers/SkeletonHelper)
-  - [ ] **[VglSpotLightHelper](src/helpers/vgl-spot-light-helper.js)** -
+  - [x] **[VglSpotLightHelper](src/helpers/vgl-spot-light-helper.js)** -
         Corresponding to [THREE.SpotLightHelper](https://threejs.org/docs/index.html#api/helpers/SpotLightHelper)
   - [ ] **[VglVertexNormalsHelper](src/helpers/vgl-vertex-normals-helper.js)** -
         Corresponding to [THREE.VertexNormalsHelper](https://threejs.org/docs/index.html#api/helpers/VertexNormalsHelper)
