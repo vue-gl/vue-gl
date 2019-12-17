@@ -44,7 +44,12 @@ async function replaceFileContent(filePath, oldString, newString) {
 }
 
 async function md({ filename, output }) {
-  await mkdir(path.dirname(output), { recursive: true });
+  const outputDir = path.dirname(output);
+  try {
+    await mkdir(outputDir, { recursive: true });
+  } catch (e) {
+    if (e.syscall !== 'mkdir' || e.code !== 'EEXIST' || e.path !== outputDir) throw e;
+  }
   await vuedoc.md({ filename, stream: fs.createWriteStream(output) });
 }
 
@@ -73,7 +78,7 @@ function toPascalCase(input) {
 function introContent({ groupName, navOrder }) {
   return `---
 parent: ${groupName}
-grand_parent: Components
+grand_parent: Components (API)
 nav_order: ${navOrder}
 ---
 `;
@@ -99,7 +104,7 @@ async function outroContent({ dest, examplePath }) {
 
 function groupIndexContent({ groupName, navOrder }) {
   return `---
-parent: Components
+parent: Components (API)
 has_children: true
 nav_order: ${navOrder}
 ---
@@ -114,7 +119,7 @@ has_children: true
 nav_order: 3
 ---
 
-# Components
+# Components (API)
 `;
 }
 
