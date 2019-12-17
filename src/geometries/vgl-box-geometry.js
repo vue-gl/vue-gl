@@ -1,6 +1,6 @@
 import { BoxBufferGeometry } from 'three';
 import VglGeometry from '../core/vgl-geometry';
-import { number } from '../validators';
+import { number } from '../types';
 
 /**
  * This is the quadrilateral primitive geometry component,

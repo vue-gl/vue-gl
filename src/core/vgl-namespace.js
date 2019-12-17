@@ -10,6 +10,7 @@ import Namespace from './namespace';
  * - `vglNamespace.geometries`
  * - `vglNamespace.materials`
  * - `vglNamespace.textures`
+ * - `vglNamespace.curves`
  * - `vglNamespace.object3ds`
  *
  * Each namespace internally has a map of strings and objects, and has methods to access them.
@@ -40,7 +41,7 @@ export default {
   },
   provide() {
     const {
-      geometries, materials, textures, object3ds,
+      geometries, materials, textures, object3ds, curves,
     } = this.vglNamespace;
     return {
       vglNamespace: Object.create(this.vglNamespace, {
@@ -48,17 +49,19 @@ export default {
         materials: { value: materials ? materials.fork() : new Namespace() },
         textures: { value: textures ? textures.fork() : new Namespace() },
         object3ds: { value: object3ds ? object3ds.fork() : new Namespace() },
+        curves: { value: curves ? curves.fork() : new Namespace() },
       }),
     };
   },
   beforeDestroy() {
     const {
-      geometries, materials, textures, object3ds,
+      geometries, materials, textures, object3ds, curves,
     } = this.vglNamespace;
     if (geometries) geometries.destroy();
     if (materials) materials.destroy();
     if (textures) textures.destroy();
     if (object3ds) object3ds.destroy();
+    if (curves) curves.destroy();
   },
   render(h) {
     return this.$slots.default ? h('div', this.$slots.default) : undefined;

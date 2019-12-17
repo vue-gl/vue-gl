@@ -1,6 +1,7 @@
 import { Mesh } from 'three';
 import { VglObject3dWithMatarialAndGeometry } from '../mixins';
-import { string, names } from '../validators';
+import { name, names } from '../types';
+import { nameValidator, namesValidator } from '../validators';
 
 /**
  * A component representing triangular polygon mesh based objects,
@@ -13,14 +14,14 @@ export default {
   mixins: [VglObject3dWithMatarialAndGeometry],
   props: {
     /** Name of the geometry, defining the object's structure. */
-    geometry: string,
+    geometry: { type: name, validator: nameValidator },
     /**
      * A Material name or an array of Material name, defining the object's appearance.
      *
      * A single material will apply the material to all object's faces meanwhile
      * an array of material will apply each material to the matching index object's face
      */
-    material: names,
+    material: { type: names, validator: namesValidator },
   },
   computed: {
     /** The THREE.Mesh instance. */

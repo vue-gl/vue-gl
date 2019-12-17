@@ -1,6 +1,6 @@
 import { ConeBufferGeometry } from 'three';
 import VglCylinderGeometry from './vgl-cylinder-geometry';
-import { number } from '../validators';
+import { number } from '../types';
 
 /**
  * This is a component for generating cone geometries,

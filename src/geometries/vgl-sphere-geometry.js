@@ -1,6 +1,6 @@
 import { SphereBufferGeometry } from 'three';
 import VglGeometry from '../core/vgl-geometry';
-import { number } from '../validators';
+import { number } from '../types';
 
 /**
  * This is a component for generating sphere geometries,

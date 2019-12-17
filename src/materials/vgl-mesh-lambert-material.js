@@ -1,6 +1,6 @@
 import { MeshLambertMaterial } from 'three';
 import { VglMaterialWithMap } from '../mixins';
-import { string } from '../validators';
+import { string } from '../types';
 
 /**
  * A material for non-shiny surfaces, without specular highlights,

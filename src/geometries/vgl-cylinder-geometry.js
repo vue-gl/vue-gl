@@ -1,6 +1,6 @@
 import { CylinderBufferGeometry } from 'three';
 import VglGeometry from '../core/vgl-geometry';
-import { number, boolean } from '../validators';
+import { number, boolean } from '../types';
 
 /**
  * This is a component for generating cylinder geometries,

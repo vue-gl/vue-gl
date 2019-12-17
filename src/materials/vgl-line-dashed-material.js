@@ -1,6 +1,6 @@
 import { LineDashedMaterial } from 'three';
 import VglMaterial from './vgl-material';
-import { string, number } from '../validators';
+import { string, number } from '../types';
 
 /**
  * A material for drawing wireframe-style geometries,

@@ -1,6 +1,7 @@
 import { Points } from 'three';
 import { VglObject3dWithMatarialAndGeometry } from '../mixins';
-import { string } from '../validators';
+import { name } from '../types';
+import { nameValidator } from '../validators';
 
 /**
  * A component for displaying points,
@@ -13,9 +14,9 @@ export default {
   mixins: [VglObject3dWithMatarialAndGeometry],
   props: {
     /** Name of the geometry, defining the object's structure. */
-    geometry: string,
+    geometry: { type: name, validator: nameValidator },
     /** Name of the material, defining the object's appearance. */
-    material: string,
+    material: { type: name, validator: nameValidator },
   },
   computed: {
     /** The THREE.Points instance. */

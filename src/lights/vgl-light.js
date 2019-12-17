@@ -1,6 +1,6 @@
 import { Light } from 'three';
 import VglObject3d from '../core/vgl-object3d';
-import { string, number } from '../validators';
+import { string, number } from '../types';
 
 /**
  * Abstract mixin component for lights,

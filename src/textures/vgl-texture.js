@@ -49,9 +49,10 @@ import {
   RGBADepthPacking,
 } from 'three';
 import {
-  string, number, vector2, boolean,
-} from '../validators';
+  string, number, vector2, boolean, name,
+} from '../types';
 import { parseVector2 } from '../parsers';
+import { nameValidator } from '../validators';
 
 const mapping = {
   uv: UVMapping,
@@ -132,7 +133,7 @@ export default {
   props: {
     /** The path or URL to the file. This can also be a Data URI. */
     src: string,
-    name: string,
+    name: { type: name, validator: nameValidator },
     mapping: { type: string, default: 'uv' },
     wrapS: { type: string, default: 'clamp-to-edge' },
     wrapT: { type: string, default: 'clamp-to-edge' },
@@ -190,9 +191,9 @@ export default {
       },
       immediate: true,
     },
-    name(name, oldName) {
+    name(newName, oldName) {
       if (oldName !== undefined) this.vglNamespace.textures.delete(oldName, this.inst);
-      if (name !== undefined) this.vglNamespace.textures.set(name, this.inst);
+      if (newName !== undefined) this.vglNamespace.textures.set(newName, this.inst);
     },
     mapping(mode) {
       this.inst.mapping = mapping[mode];

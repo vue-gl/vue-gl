@@ -1,6 +1,7 @@
 import { SpriteMaterial } from 'three';
 import { VglMaterialWithMap } from '../mixins';
-import { string } from '../validators';
+import { string, name } from '../types';
+import { nameValidator } from '../validators';
 
 /**
  * A material for a use with a [VglSprite](vgl-sprite) component,
@@ -15,7 +16,7 @@ export default {
     /** CSS style color of the material. */
     color: { type: string, default: '#fff' },
     /** The texture map of the material. */
-    map: string,
+    map: { type: name, validator: nameValidator },
   },
   computed: {
     /** The THREE.SpriteMaterial instance. */

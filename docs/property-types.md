@@ -71,10 +71,7 @@ Following list shows all property types and parsing schemas.
   Parsed as an array of vector2s.
 - ***fog***
   Space-separated paramaters as color, near and far, corresponding [THREE.Fog](https://threejs.org/docs/#api/en/scenes/Fog)
+- ***name***
+  A string representing the component name. It must not contain any spaces.
 - ***names***
-  A string or an array of string.
-- ***shapes***
-  An array of vector2s or an array of
-  [THREE.Shape](https://threejs.org/docs/#api/en/extras/core/Shape),
-  corresponding to
-  [THREE.ExtrudeBufferGeometry](https://threejs.org/docs/#api/en/geometries/ExtrudeBufferGeometry)
+  Space separated strings or an array of string.
