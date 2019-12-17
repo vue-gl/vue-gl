@@ -1,6 +1,6 @@
 import { TorusBufferGeometry } from 'three';
 import VglGeometry from '../core/vgl-geometry';
-import { number } from '../validators';
+import { number } from '../types';
 
 /**
  * A component for generating torus geometries,

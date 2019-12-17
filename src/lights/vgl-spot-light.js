@@ -1,7 +1,7 @@
 import { SpotLight } from 'three';
 import VglLight from './vgl-light';
 import { parseVector3 } from '../parsers';
-import { number, vector3 } from '../validators';
+import { number, vector3 } from '../types';
 
 /**
  * This light gets emitted from a single point in one direction, along a cone that increases in size the further from the light it gets. Corresponding [THREE.SpotLight](https://threejs.org/docs/index.html#api/lights/SpotLight). This light can cast shadows.

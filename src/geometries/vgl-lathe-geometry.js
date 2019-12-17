@@ -1,7 +1,7 @@
 import { LatheBufferGeometry } from 'three';
 import VglGeometry from '../core/vgl-geometry';
 import { parseVector2Array } from '../parsers';
-import { vector2Array, number } from '../validators';
+import { vector2Array, number } from '../types';
 
 /**
  * A component for creating extruded geometry from a path shape,

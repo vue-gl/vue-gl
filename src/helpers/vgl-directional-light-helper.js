@@ -1,6 +1,6 @@
 import { DirectionalLightHelper, Object3D } from 'three';
 import VglObject3d from '../core/vgl-object3d';
-import { string, number } from '../validators';
+import { string, number } from '../types';
 
 /**
  * A helper component to assist with visualizing a DirectionalLight's effect on the scene,

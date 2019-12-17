@@ -1,7 +1,7 @@
 import { Camera, Vector3 } from 'three';
 import VglObject3d from '../core/vgl-object3d';
 import { parseVector3, parseSpherical } from '../parsers';
-import { vector3, spherical } from '../validators';
+import { vector3, spherical } from '../types';
 
 /**
  * This is abstract base component for cameras,

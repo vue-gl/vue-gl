@@ -1,6 +1,6 @@
 import { HemisphereLight } from 'three';
 import VglLight from './vgl-light';
-import { string } from '../validators';
+import { string } from '../types';
 
 /**
  * A light source positioned directly above the scene, with color fading from the sky color to the

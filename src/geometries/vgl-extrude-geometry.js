@@ -1,7 +1,8 @@
 import { ExtrudeBufferGeometry } from 'three';
-import { boolean, number, string } from '../validators';
+import { boolean, number, names } from '../types';
 import VglGeometry from '../core/vgl-geometry';
-import { parseArray } from '../parsers';
+import { parseNames } from '../parsers';
+import { namesValidator } from '../validators';
 
 /**
  * A component for creating extruded geometry from a path shape,
@@ -14,7 +15,7 @@ export default {
   mixins: [VglGeometry],
   props: {
     /** The Shape names */
-    shapes: string,
+    shapes: { type: names, validator: namesValidator },
     /** int. Number of points on the curves */
     curveSegments: number,
     /** int. Number of points used for subdividing segments
@@ -76,27 +77,34 @@ export default {
   methods: {
     /** Update the array of Shape names and Shape UUIDs and emit an event. */
     setShapeNames() {
-      const names = parseArray(this.shapes);
-      this.shapeNames = names.map((name) => [name, this.vglNamespace.curves.get(name).uuid]);
+      const shapeNames = parseNames(this.shapes);
+      this.shapeNames = shapeNames
+        .map((shapeName) => [shapeName, this.vglNamespace.curves.get(shapeName).uuid]);
       this.update();
     },
   },
   beforeDestroy() {
     if (this.shapes !== undefined) {
-      const names = parseArray(this.shapes);
-      names.forEach((name) => this.vglNamespace.curves.unlisten(name, this.setShapeUuids));
+      const shapeNames = parseNames(this.shapes);
+      shapeNames.forEach((shapeName) => {
+        this.vglNamespace.curves.unlisten(shapeName, this.setShapeUuids);
+      });
     }
   },
   watch: {
     shapes: {
       handler(shapes, oldShapes) {
-        const oldNames = oldShapes === undefined ? [] : parseArray(oldShapes);
-        const names = shapes === undefined ? [] : parseArray(shapes);
-        oldNames.forEach((name) => {
-          if (!names.includes(name)) this.vglNamespace.curves.unlisten(name, this.setShapeNames);
+        const oldNames = oldShapes === undefined ? [] : parseNames(oldShapes);
+        const newNames = shapes === undefined ? [] : parseNames(shapes);
+        oldNames.forEach((shapeName) => {
+          if (!newNames.includes(shapeName)) {
+            this.vglNamespace.curves.unlisten(shapeName, this.setShapeNames);
+          }
         });
-        names.forEach((name) => {
-          if (!oldNames.includes(name)) this.vglNamespace.curves.listen(name, this.setShapeNames);
+        names.forEach((shapeName) => {
+          if (!oldNames.includes(shapeName)) {
+            this.vglNamespace.curves.listen(shapeName, this.setShapeNames);
+          }
         });
         if (shapes !== undefined) this.setShapeNames();
       },

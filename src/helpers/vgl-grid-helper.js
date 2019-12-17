@@ -1,6 +1,6 @@
 import { GridHelper } from 'three';
 import VglObject3d from '../core/vgl-object3d';
-import { number, string } from '../validators';
+import { number, string } from '../types';
 
 /**
  * A component to define grids,

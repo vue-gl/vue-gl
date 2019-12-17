@@ -1,6 +1,6 @@
 import { RectAreaLight } from 'three';
 import VglLight from './vgl-light';
-import { number } from '../validators';
+import { number } from '../types';
 
 /**
  * RectAreaLight emits light uniformly across the face a rectangular plane. See

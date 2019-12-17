@@ -10,6 +10,7 @@ import Namespace from './namespace';
  * - `vglNamespace.geometries`
  * - `vglNamespace.materials`
  * - `vglNamespace.textures`
+ * - `vglNamespace.curves`
  * - `vglNamespace.object3ds`
  *
  * Each namespace internally has a map of strings and objects, and has methods to access them.

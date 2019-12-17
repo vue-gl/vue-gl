@@ -1,7 +1,7 @@
 import { Scene } from 'three';
 import VglObject3d from '../core/vgl-object3d';
 import { parseFog, parseColor } from '../parsers';
-import { string, fog } from '../validators';
+import { string, fog } from '../types';
 
 /**
  * This is where you place objects,

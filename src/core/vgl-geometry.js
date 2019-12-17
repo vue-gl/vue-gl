@@ -1,5 +1,6 @@
 import { BufferGeometry, BufferAttribute } from 'three';
-import { string, floatArray } from '../validators';
+import { name, floatArray } from '../types';
+import { nameValidator } from '../validators';
 import { parseArray } from '../parsers';
 
 /**
@@ -16,7 +17,7 @@ export default {
   },
   props: {
     /** Name of the component. */
-    name: string,
+    name: { type: name, validator: nameValidator },
     /** The x, y, and z coordinates of each vertex in this geometry. */
     positionAttribute: floatArray,
     /** The red, green, and blue channels of vertex color of each vertex in this geometry. */
@@ -67,9 +68,9 @@ export default {
       },
       immediate: true,
     },
-    name(name, oldName) {
+    name(newName, oldName) {
       if (oldName !== undefined) this.vglNamespace.geometries.delete(oldName, this.inst);
-      if (name !== undefined) this.vglNamespace.geometries.set(name, this.inst);
+      if (newName !== undefined) this.vglNamespace.geometries.set(newName, this.inst);
     },
     positionAttribute(positionAttribute) {
       const positionArray = parseArray(positionAttribute);

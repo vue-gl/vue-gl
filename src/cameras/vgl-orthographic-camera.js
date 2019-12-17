@@ -1,6 +1,6 @@
 import { OrthographicCamera } from 'three';
 import VglCamera from './vgl-camera';
-import { number } from '../validators';
+import { number } from '../types';
 
 /**
  * Camera that uses orthographic projection,

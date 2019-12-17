@@ -1,6 +1,6 @@
 import { PointLight } from 'three';
 import VglLight from './vgl-light';
-import { number } from '../validators';
+import { number } from '../types';
 
 /**
  * A light that gets emitted from a single point in all directions, corresponding [THREE.PointLight](https://threejs.org/docs/index.html#api/lights/PointLight). A common use case for this is to replicate the light emitted from a bare lightbulb. This light can cast shadows.

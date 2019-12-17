@@ -1,6 +1,6 @@
 import { ShaderMaterial } from 'three';
 import { VglMaterialWithMap } from '../mixins';
-import { boolean, number, string } from '../validators';
+import { boolean, number, string } from '../types';
 
 /**
  * A material for drawing geometries with custom vertex or fragment shaders, corresponding to

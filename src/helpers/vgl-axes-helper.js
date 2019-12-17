@@ -1,6 +1,6 @@
 import { AxesHelper } from 'three';
 import VglObject3d from '../core/vgl-object3d';
-import { number } from '../validators';
+import { number } from '../types';
 
 /**
  * An axis object to visualize the the 3 axes in a simple way,

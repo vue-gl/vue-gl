@@ -7,7 +7,8 @@ import {
   BackSide,
   DoubleSide,
 } from 'three';
-import { string } from '../validators';
+import { string, name } from '../types';
+import { nameValidator } from '../validators';
 
 const vertexColors = {
   no: NoColors,
@@ -34,7 +35,7 @@ export default {
   },
   props: {
     /** Name of the material. */
-    name: string,
+    name: { type: name, validator: nameValidator },
     /** Defines which side of faces will be rendered. front, back or double. */
     side: { type: string, default: 'front' },
     /** Defines whether vertex coloring is used. Other options are 'vertex' and 'face'. */
@@ -64,9 +65,9 @@ export default {
       },
       immediate: true,
     },
-    name(name, oldName) {
+    name(newName, oldName) {
       if (oldName !== undefined) this.vglNamespace.materials.delete(oldName, this.inst);
-      if (name !== undefined) this.vglNamespace.materials.set(name, this.inst);
+      if (newName !== undefined) this.vglNamespace.materials.set(newName, this.inst);
     },
     side(side) {
       this.inst.side = sides[side];

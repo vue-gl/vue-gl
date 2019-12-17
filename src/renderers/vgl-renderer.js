@@ -1,6 +1,7 @@
 import { WebGLRenderer } from 'three';
 import VglNamespace from '../core/vgl-namespace';
-import { boolean, string } from '../validators';
+import { boolean, string, name } from '../types';
+import { nameValidator } from '../validators';
 import { setCameraSize } from './utilities';
 
 /**
@@ -35,9 +36,9 @@ export default {
     /** Whether to use a logarithmic depth buffer. */
     logarithmicDepthBuffer: boolean,
     /** Name of the using camera. */
-    camera: string,
+    camera: { type: name, validator: nameValidator },
     /** Name of the target scene. */
-    scene: string,
+    scene: { type: name, validator: nameValidator },
     /** If set, use shadow maps in the scene. */
     shadowMapEnabled: boolean,
   },

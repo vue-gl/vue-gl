@@ -70,7 +70,7 @@ describe('VglExtrudeGeometry', () => {
     const { inst } = new (Vue.extend(VglExtrudeGeometry))({
       inject,
       propsData: {
-        shapes: 'shape1,shape2',
+        shapes: 'shape1 shape2',
       },
     });
     const { shapes } = inst.parameters;

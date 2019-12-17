@@ -1,6 +1,6 @@
 import { MeshDepthMaterial } from 'three';
 import { VglMaterialWithMap } from '../mixins';
-import { string, boolean } from '../validators';
+import { string, boolean } from '../types';
 
 /**
  * A material for drawing geometry by depth,

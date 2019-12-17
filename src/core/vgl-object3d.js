@@ -6,8 +6,9 @@ import {
   euler,
   quaternion,
   boolean,
-  string,
-} from '../validators';
+  name,
+} from '../types';
+import { nameValidator } from '../validators';
 
 /**
  * This is the base mixin component for most object components in VueGL,
@@ -37,7 +38,7 @@ export default {
     /** Whether the material receives shadows. */
     receiveShadow: boolean,
     /** Optional name of the object. */
-    name: string,
+    name: { type: name, validator: nameValidator },
     /** Whether the object is visible. */
     hidden: boolean,
   },
@@ -93,15 +94,15 @@ export default {
     },
     parent(parent) { parent.add(this.inst); },
     name: [
-      function handler(name) { this.inst.name = name; },
+      function handler(newName) { this.inst.name = newName; },
       {
-        handler(name, oldName) {
+        handler(newName, oldName) {
           if (oldName !== undefined) {
             this.vglNamespace.object3ds.delete(oldName, this.inst);
-            if (name === undefined) this.vglObject3d.unlisten(this.emitAsObject3d);
+            if (newName === undefined) this.vglObject3d.unlisten(this.emitAsObject3d);
           }
-          if (name !== undefined) {
-            this.vglNamespace.object3ds.set(name, this.inst);
+          if (newName !== undefined) {
+            this.vglNamespace.object3ds.set(newName, this.inst);
             if (oldName === undefined) this.vglObject3d.listen(this.emitAsObject3d);
           }
         },
