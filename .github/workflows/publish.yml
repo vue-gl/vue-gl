@@ -39,7 +39,8 @@ jobs:
           git add .
           git commit -m "v$(node -pe require\(\"./package.json\"\).version)"
         env:
-          GIT_USER: ${{ secrets.git_user }}
+          GIT_USER_NAME: ${{ secrets.git_user_name }}
+          GIT_USER_EMAIL: ${{ secrets.git_user_email }}
       - name: Filter
         run: git filter-branch --prune-empty --subdirectory-filter docs $GITHUB_REF
       - name: GitHub Push
