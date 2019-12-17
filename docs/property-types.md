@@ -1,9 +1,11 @@
 ---
-toc:
-  - Overview
-  - Types
+nav_order: 2
 ---
 # Property types
+{: .no_toc}
+
+1. Table of contents
+{:toc}
 
 ## Overview
 
