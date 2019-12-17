@@ -25,9 +25,9 @@
   "types": "src/index.d.ts",
   "scripts": {
     "lint": "eslint .",
-    "lint:md": "markdownlint \"**/*.md\" --ignore node_modules --ignore docs/components --ignore _site",
+    "lint:md": "markdownlint \"**/*.md\" -c markdownlint.config.yml --ignore node_modules --ignore docs/components --ignore _site",
     "test": "jest",
-    "start": "rollup -c docs/rollup.config.js && for d in src/*/ ; do mkdir -p docs/components/`basename $d` && vuedoc.md ${d}vgl-*.js --output docs/components/`basename $d` --level 2 --ignore-name --ignore-computed --ignore-data ; done && bundle exec jekyll serve --source docs",
+    "start": "rollup -c docs/rollup.config.js && bundle exec jekyll serve --source docs",
     "prepare": "rollup -c"
   },
   "devDependencies": {
@@ -39,6 +39,7 @@
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-jest": "^23.0.0",
     "gh-pages": "^2.0.0",
+    "glob": "^7.1.6",
     "jest": "^24.1.0",
     "markdownlint-cli": "^0.19.0",
     "nise": "^1.4.8",

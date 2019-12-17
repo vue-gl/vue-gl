@@ -1,11 +1,11 @@
 ---
-toc:
-  - Overview
-  - Getting started
-  - Reactive rendering
-  - Supported browsers
+nav_order: 1
 ---
 # Introduction
+{: .no_toc}
+
+1. Table of contents
+{:toc}
 
 ## Overview
 
