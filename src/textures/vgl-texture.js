@@ -49,7 +49,7 @@ import {
   RGBADepthPacking,
 } from 'three';
 import {
-  string, number, vector2, boolean, name,
+  string, vector2, boolean, name, int, float,
 } from '../types';
 import { parseVector2 } from '../parsers';
 import { nameValidator } from '../validators';
@@ -139,15 +139,15 @@ export default {
     wrapT: { type: string, default: 'clamp-to-edge' },
     magFilter: { type: string, default: 'linear' },
     minFilter: { type: string, default: 'linear-mip-map-linear' },
-    anisotropy: { type: number, default: 1 },
+    anisotropy: { type: int, default: 1 },
     format: string,
     type: { type: string, default: 'unsigned-byte' },
     offset: vector2,
     repeat: vector2,
-    rotation: { type: number, default: 0 },
+    rotation: { type: float, default: 0 },
     center: vector2,
     premultiplyAlpha: boolean,
-    unpackAlignment: { type: number, default: 4 },
+    unpackAlignment: { type: int, default: 4 },
     encoding: { type: string, default: 'linear' },
   },
   computed: {

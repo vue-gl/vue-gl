@@ -1,6 +1,6 @@
 import { PlaneBufferGeometry } from 'three';
 import VglGeometry from '../core/vgl-geometry';
-import { number } from '../types';
+import { float, int } from '../types';
 
 /**
  * A component for generating plane geometries,
@@ -13,13 +13,13 @@ export default {
   mixins: [VglGeometry],
   props: {
     /** Width along the X axis. */
-    width: { type: number, default: 1 },
+    width: { type: float, default: 1 },
     /** Height along the Y axis. */
-    height: { type: number, default: 1 },
+    height: { type: float, default: 1 },
     /** Number of segments along the X axis. */
-    widthSegments: { type: number, default: 1 },
+    widthSegments: { type: int, default: 1 },
     /** Number of segments along the Y axis. */
-    heightSegments: { type: number, default: 1 },
+    heightSegments: { type: int, default: 1 },
   },
   computed: {
     inst() {

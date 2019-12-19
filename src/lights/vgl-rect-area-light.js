@@ -1,6 +1,6 @@
 import { RectAreaLight } from 'three';
 import VglLight from './vgl-light';
-import { number } from '../types';
+import { float } from '../types';
 
 /**
  * RectAreaLight emits light uniformly across the face a rectangular plane. See
@@ -15,9 +15,9 @@ export default {
   mixins: [VglLight],
   props: {
     /** Width of the light. */
-    width: { type: number, default: 10 },
+    width: { type: float, default: 10 },
     /** Height of the light. */
-    height: { type: number, default: 10 },
+    height: { type: float, default: 10 },
   },
   computed: {
     /** The THREE.RectAreaLight instance. */

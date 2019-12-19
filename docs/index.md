@@ -4,7 +4,12 @@ nav_order: 1
 # Introduction
 {: .no_toc}
 
-1. Table of contents
+---
+
+## Table of contents
+{: .text-delta .no_toc}
+
+* toc
 {:toc}
 
 ## Overview

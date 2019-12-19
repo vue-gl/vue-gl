@@ -1,5 +1,7 @@
 import { ExtrudeBufferGeometry } from 'three';
-import { boolean, number, names } from '../types';
+import {
+  boolean, float, int, names,
+} from '../types';
 import VglGeometry from '../core/vgl-geometry';
 import { parseNames } from '../parsers';
 import { namesValidator } from '../validators';
@@ -17,23 +19,23 @@ export default {
     /** The Shape names */
     shapes: { type: names, validator: namesValidator },
     /** int. Number of points on the curves */
-    curveSegments: number,
+    curveSegments: int,
     /** int. Number of points used for subdividing segments
      * along the depth of the extruded spline
      */
-    steps: number,
+    steps: int,
     /** float. Depth to extrude the shape */
-    depth: number,
+    depth: float,
     /** Apply beveling to the shape */
     bevelEnabled: boolean,
     /** float. How deep into the original shape the bevel goes */
-    bevelThickness: number,
+    bevelThickness: float,
     /** float. Distance from the shape outline that the bevel extends */
-    bevelSize: number,
+    bevelSize: float,
     /** float. Distance from the shape outline that the bevel starts */
-    bevelOffset: number,
+    bevelOffset: float,
     /** int. Number of bevel layers */
-    bevelSegments: number,
+    bevelSegments: int,
     /** THREE.Curve. A 3D spline path along which the shape should be extruded */
     extrudePath: Object,
     /**  Object that provides UV generator functions */

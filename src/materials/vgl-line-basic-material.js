@@ -1,6 +1,6 @@
 import { LineBasicMaterial } from 'three';
 import VglMaterial from './vgl-material';
-import { string, number } from '../types';
+import { string, color, float } from '../types';
 
 /**
  * A material for drawing wireframe-style geometries,
@@ -13,9 +13,9 @@ export default {
   mixins: [VglMaterial],
   props: {
     /** CSS style color of the material. */
-    color: { type: string, default: '#fff' },
+    color: { type: color, default: '#fff' },
     /** The line thickness. */
-    linewidth: { type: number, default: 1 },
+    linewidth: { type: float, default: 1 },
     /** Define appearance of line ends. Possible values are "butt", "round" and "square". */
     linecap: { type: string, default: 'round' },
     /** Define appearance of line joints. Possible values are "round", "bevel" and "miter". */
@@ -37,8 +37,8 @@ export default {
       },
       immediate: true,
     },
-    color(color) {
-      this.inst.color.setStyle(color);
+    color(newColor) {
+      this.inst.color.setStyle(newColor);
       this.update();
     },
     linewidth(width) {

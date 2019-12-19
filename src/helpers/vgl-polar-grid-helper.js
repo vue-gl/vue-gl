@@ -1,6 +1,6 @@
 import { PolarGridHelper } from 'three';
 import VglObject3d from '../core/vgl-object3d';
-import { number, string } from '../types';
+import { float, int, color } from '../types';
 
 /**
  * A component to define polar grids,
@@ -14,20 +14,20 @@ export default {
   mixins: [VglObject3d],
   props: {
     /** The radius of the polar grid. This can be any positive number. */
-    radius: { type: number, default: 10 },
+    radius: { type: float, default: 10 },
     /** The number of radial lines. This can be any positive integer. */
-    radials: { type: number, default: 16 },
+    radials: { type: int, default: 16 },
     /** The number of circles. This can be any positive integer. */
-    circles: { type: number, default: 8 },
+    circles: { type: int, default: 8 },
     /**
      * The number of line segments used for each circle.
      * This can be any positive integer that is 3 or greater.
      */
-    divisions: { type: number, default: 64 },
+    divisions: { type: int, default: 64 },
     /** The first color used for grid elements. */
-    color1: { type: string, default: '#444444' },
+    color1: { type: color, default: '#444444' },
     /** The second color used for grid elements. */
-    color2: { type: string, default: '#888888' },
+    color2: { type: color, default: '#888888' },
   },
   computed: {
     /** The THREE.PolarGridHelper instance. */

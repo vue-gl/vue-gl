@@ -1,6 +1,6 @@
 import { SpotLightHelper, Object3D } from 'three';
 import VglObject3d from '../core/vgl-object3d';
-import { string } from '../types';
+import { color, name } from '../types';
 
 /**
  * This component displays a cone shaped helper object for a SpotLight,
@@ -13,9 +13,9 @@ export default {
   mixins: [VglObject3d],
   props: {
     /** If this is not the set the helper will take the color of the light. */
-    color: { type: string },
+    color: { type: color },
     /** Name of the spot light being visualized. */
-    light: string,
+    light: name,
   },
   data: () => ({
     /**
@@ -54,10 +54,10 @@ export default {
       }
     },
     light: {
-      handler(name, oldName) {
+      handler(newName, oldName) {
         if (oldName !== undefined) this.vglNamespace.object3ds.unlisten(oldName, this.setLightUuid);
-        if (name !== undefined) {
-          this.vglNamespace.object3ds.listen(name, this.setLightUuid);
+        if (newName !== undefined) {
+          this.vglNamespace.object3ds.listen(newName, this.setLightUuid);
           const light = this.vglNamespace.object3ds.get(this.light);
           this.setLightUuid(light);
         }
@@ -65,9 +65,9 @@ export default {
       immediate: true,
     },
     color: {
-      handler(color) {
+      handler(newColor) {
         if (!this.lightUuid) return;
-        this.inst.color = color;
+        this.inst.color = newColor;
         this.inst.update();
       },
       immediate: true,

@@ -1,6 +1,6 @@
 import { AxesHelper } from 'three';
 import VglObject3d from '../core/vgl-object3d';
-import { number } from '../types';
+import { float } from '../types';
 
 /**
  * An axis object to visualize the the 3 axes in a simple way,
@@ -14,7 +14,7 @@ export default {
   mixins: [VglObject3d],
   props: {
     /** Size of the lines representing the axes. */
-    size: { type: number, default: 1 },
+    size: { type: float, default: 1 },
   },
   computed: {
     /** The THREE.AxesHelper instance. */

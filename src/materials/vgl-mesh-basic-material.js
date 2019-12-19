@@ -1,6 +1,6 @@
 import { MeshBasicMaterial } from 'three';
 import { VglMaterialWithMap } from '../mixins';
-import { string } from '../types';
+import { name, color } from '../types';
 
 /**
  * A material for drawing geometries in a simple shaded (flat or wireframe) way,
@@ -14,9 +14,9 @@ export default {
   mixins: [VglMaterialWithMap],
   props: {
     /** CSS style color of the material. */
-    color: { type: string, default: '#fff' },
+    color: { type: color, default: '#fff' },
     /** The color map of the material. */
-    map: string,
+    map: name,
   },
   computed: {
     /** The THREE.MeshBasicMaterial instance. */
@@ -27,8 +27,8 @@ export default {
       handler(inst) { inst.color.setStyle(this.color); },
       immediate: true,
     },
-    color(color) {
-      this.inst.color.setStyle(color);
+    color(newColor) {
+      this.inst.color.setStyle(newColor);
       this.update();
     },
   },
