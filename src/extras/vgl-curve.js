@@ -1,6 +1,6 @@
 import { Curve } from 'three';
 import { name } from '../types';
-import { nameValidator } from '../validators';
+import { validateName } from '../validators';
 
 /**
  * An abstract base component for representing a curve, corresponding
@@ -14,7 +14,7 @@ export default {
   },
   props: {
     /** Name of the component. */
-    name: { type: name, validator: nameValidator },
+    name: { type: name, validator: validateName },
   },
   computed: {
     /** The THREE.Curve instance. */

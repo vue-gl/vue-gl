@@ -1,7 +1,7 @@
 import { Sprite } from 'three';
 import { VglObject3dWithMatarial } from '../mixins';
 import { name } from '../types';
-import { nameValidator } from '../validators';
+import { validateName } from '../validators';
 
 /**
  * A sprite component corresponding [THREE.Sprite](https://threejs.org/docs/index.html#api/objects/Sprite).
@@ -14,7 +14,7 @@ export default {
   mixins: [VglObject3dWithMatarial],
   props: {
     /** Name of the material, defining the object's appearance. */
-    material: { type: name, validator: nameValidator },
+    material: { type: name, validator: validateName },
   },
   computed: {
     /** The THREE.Sprite instance. */

@@ -17,9 +17,9 @@ export default {
     /** The line thickness. */
     linewidth: { type: float, default: 1 },
     /** Define appearance of line ends. Possible values are "butt", "round" and "square". */
-    linecap: { type: string, default: 'round' },
+    linecap: { type: string, default: 'round', validator: (v) => /^(butt|round|square)$/.test(v) },
     /** Define appearance of line joints. Possible values are "round", "bevel" and "miter". */
-    linejoin: { type: string, default: 'round' },
+    linejoin: { type: string, default: 'round', validator: (v) => /^(round|bevel|miter)$/.test(v) },
   },
   computed: {
     /** The THREE.LineBasicMaterial instance. */

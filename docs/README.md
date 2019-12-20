@@ -13,12 +13,11 @@ nav_order: 1
 {:toc}
 
 ## Overview
-
 [Vue.js](https://vuejs.org) components for reactive 3D rendering. Depends on [three.js](https://threejs.org/).
 
-You can render 3D components on canvas by coding custom html tags.
-It's not only for integration with other Vue.js applications,
-but also for drawing 3D graphics more easier!
+You can render 3D components on canvas by coding custom html tags. It's useful not
+only for integration with other Vue.js applications, but also for drawing 3D graphics
+more easier!
 
 ## Getting started
 

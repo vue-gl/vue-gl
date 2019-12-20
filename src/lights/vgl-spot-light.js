@@ -2,6 +2,7 @@ import { SpotLight } from 'three';
 import VglLight from './vgl-light';
 import { parseVector3 } from '../parsers';
 import { vector3, float } from '../types';
+import { validateVector3 } from '../validators';
 
 /**
  * This light gets emitted from a single point in one direction, along a cone that increases in size the further from the light it gets. Corresponding [THREE.SpotLight](https://threejs.org/docs/index.html#api/lights/SpotLight). This light can cast shadows.
@@ -33,7 +34,7 @@ export default {
      */
     penumbra: { type: float, default: 0 },
     /** The spotlight's pointing position. */
-    target: vector3,
+    target: { type: vector3, validator: validateVector3 },
   },
   computed: {
     /** The THREE.SpotLight instance. */

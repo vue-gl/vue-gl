@@ -1,6 +1,7 @@
 import { SpotLightHelper, Object3D } from 'three';
 import VglObject3d from '../core/vgl-object3d';
 import { color, name } from '../types';
+import { validateName } from '../validators';
 
 /**
  * This component displays a cone shaped helper object for a SpotLight,
@@ -13,9 +14,9 @@ export default {
   mixins: [VglObject3d],
   props: {
     /** If this is not the set the helper will take the color of the light. */
-    color: { type: color },
+    color,
     /** Name of the spot light being visualized. */
-    light: name,
+    light: { type: name, validator: validateName },
   },
   data: () => ({
     /**

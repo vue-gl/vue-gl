@@ -1,6 +1,7 @@
 import { MeshPhongMaterial } from 'three';
 import { VglMaterialWithMap } from '../mixins';
 import { color, name, float } from '../types';
+import { validateName } from '../validators';
 
 /**
  * A material for shiny surfaces with specular highlights,
@@ -15,7 +16,7 @@ export default {
     /** CSS style color of the material. */
     color: { type: color, default: '#fff' },
     /** The color map of the material. */
-    map: name,
+    map: { type: name, validator: validateName },
     /** Specular color of the material. */
     specular: { type: color, default: '#111111' },
     /** How shiny the specular highlight is. A higher value gives a sharper highlight. */

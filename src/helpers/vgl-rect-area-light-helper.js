@@ -1,6 +1,7 @@
 import { RectAreaLightHelper, Object3D } from 'three';
 import VglObject3d from '../core/vgl-object3d';
 import { name, color } from '../types';
+import { validateName } from '../validators';
 
 /**
  * Creates a visual aid for a RectAreaLight, corresponding [THREE.RectAreaLightHelper](https://threejs.org/docs/#api/en/helpers/RectAreaLightHelper).
@@ -12,9 +13,9 @@ export default {
   mixins: [VglObject3d],
   props: {
     /** If this is not the set the helper will take the color of the light. */
-    color: { type: color },
+    color,
     /** Name of the RectAreaLight being visualized. */
-    light: { type: name },
+    light: { type: name, validator: validateName },
   },
   data: () => ({
     /**

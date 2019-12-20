@@ -1,6 +1,7 @@
 import { MeshStandardMaterial } from 'three';
 import { VglMaterialWithMap } from '../mixins';
 import { color, name } from '../types';
+import { validateName } from '../validators';
 
 /**
  * A standard physically based material,
@@ -16,7 +17,7 @@ export default {
     /** CSS style color of the material. */
     color: { type: color, default: '#fff' },
     /** The color map of the material. */
-    map: name,
+    map: { type: name, validator: validateName },
   },
   computed: {
     /** The THREE.MeshStandardMaterial instance. */

@@ -2,13 +2,11 @@ import { Object3D } from 'three';
 import Tree from './tree';
 import { parseVector3, parseEuler, parseQuaternion } from '../parsers';
 import {
-  vector3,
-  euler,
-  quaternion,
-  boolean,
-  name,
+  vector3, euler, quaternion, boolean, name,
 } from '../types';
-import { nameValidator } from '../validators';
+import {
+  validateName, validateVector3, validateEuler, validateQuaternion,
+} from '../validators';
 
 /**
  * This is the base mixin component for most object components in VueGL,
@@ -22,23 +20,23 @@ import { nameValidator } from '../validators';
 export default {
   props: {
     /** The object's local position as a 3D vector. */
-    position: vector3,
+    position: { type: vector3, validator: validateVector3 },
     /** The object's local rotation as a euler angle. */
-    rotation: euler,
+    rotation: { type: euler, validator: validateEuler },
     /**
      * The object's local rotation as a quaternion (specified in x, y, z, w order).
      * Do not use in conjunction with the rotation prop, since they both control the same property
      * of the underlying THREE.Object3D object.
      */
-    rotationQuaternion: quaternion,
+    rotationQuaternion: { type: quaternion, validator: validateQuaternion },
     /** The object's local scale as a 3D vector. */
-    scale: vector3,
+    scale: { type: vector3, validator: validateVector3 },
     /** Whether the object gets rendered into shadow map. */
     castShadow: boolean,
     /** Whether the material receives shadows. */
     receiveShadow: boolean,
     /** Optional name of the object. */
-    name: { type: name, validator: nameValidator },
+    name: { type: name, validator: validateName },
     /** Whether the object is visible. */
     hidden: boolean,
   },

@@ -1,6 +1,7 @@
 import { DirectionalLightHelper, Object3D } from 'three';
 import VglObject3d from '../core/vgl-object3d';
 import { name, float, color } from '../types';
+import { validateName } from '../validators';
 
 /**
  * A helper component to assist with visualizing a DirectionalLight's effect on the scene,
@@ -13,11 +14,11 @@ export default {
   mixins: [VglObject3d],
   props: {
     /** If this is not the set the helper will take the color of the light. */
-    color: { type: color },
+    color,
     /** Dimensions of the plane. */
     size: { type: float, default: 1 },
     /** Name of the directional light being visualized. */
-    light: name,
+    light: { type: name, validator: validateName },
   },
   data: () => ({
     /**

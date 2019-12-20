@@ -1,6 +1,7 @@
 import { MeshDepthMaterial } from 'three';
 import { VglMaterialWithMap } from '../mixins';
 import { name, boolean } from '../types';
+import { validateName } from '../validators';
 
 /**
  * A material for drawing geometry by depth,
@@ -16,7 +17,7 @@ export default {
     /** Whether the material is affected by fog. */
     fog: boolean,
     /** The color map of the material. */
-    map: name,
+    map: { type: name, validator: validateName },
   },
   computed: {
     /** The THREE.MeshDepthMaterial instance. */

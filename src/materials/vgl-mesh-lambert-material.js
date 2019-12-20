@@ -1,6 +1,7 @@
 import { MeshLambertMaterial } from 'three';
 import { VglMaterialWithMap } from '../mixins';
 import { name, color } from '../types';
+import { validateName } from '../validators';
 
 /**
  * A material for non-shiny surfaces, without specular highlights,
@@ -19,7 +20,7 @@ export default {
     /** CSS style color of the material. */
     color: { type: color, default: '#fff' },
     /** The color map of the material. */
-    map: name,
+    map: { type: name, validator: validateName },
   },
   computed: {
     /** The THREE.MeshLambertMaterial instance. */

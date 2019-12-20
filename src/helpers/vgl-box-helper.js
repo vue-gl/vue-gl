@@ -1,7 +1,7 @@
 import { BoxHelper } from 'three';
 import VglObject3d from '../core/vgl-object3d';
 import { name, color } from '../types';
-import { nameValidator } from '../validators';
+import { validateName } from '../validators';
 
 /**
  * A helper component to show the world-axis-aligned bounding box around its parent,
@@ -16,7 +16,7 @@ export default {
     /** Size of the lines representing the axes. */
     color: { type: color, default: '#ff0' },
     /** Name of the object to show the world-axis-aligned boundingbox. */
-    object: { type: name, validator: nameValidator },
+    object: { type: name, validator: validateName },
   },
   computed: {
     /** The THREE.BoxHelper instance. */

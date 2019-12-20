@@ -2,6 +2,7 @@ import { ArrowHelper, Color, Vector3 } from 'three';
 import VglObject3d from '../core/vgl-object3d';
 import { parseVector3 } from '../parsers';
 import { float, color, vector3 } from '../types';
+import { validateVector3 } from '../validators';
 
 /**
  * An 3D arrow object for visualizing directions,
@@ -14,7 +15,7 @@ export default {
   mixins: [VglObject3d],
   props: {
     /** Direction from origin. */
-    dir: vector3,
+    dir: { type: vector3, validator: validateVector3 },
     /** Length of the arrow. */
     length: { type: float, default: 1 },
     /** Color of the arrow. */

@@ -2,6 +2,7 @@ import { Camera, Vector3 } from 'three';
 import VglObject3d from '../core/vgl-object3d';
 import { parseVector3, parseSpherical } from '../parsers';
 import { vector3, spherical } from '../types';
+import { validateVector3, validateSpherical } from '../validators';
 
 /**
  * This is abstract base component for cameras,
@@ -20,13 +21,13 @@ export default {
      * Position in 3D space for the camera to point towards.
      * This property overwrite rotation property when both defined.
      */
-    orbitTarget: vector3,
+    orbitTarget: { type: vector3, validator: validateVector3 },
     /**
      * Spherical position around orbitTarget.
      * This property overwrite position and rotation properties.
      * If orbitTarget is not defined, automatically set to (0, 0, 0).
      */
-    orbitPosition: spherical,
+    orbitPosition: { type: spherical, validator: validateSpherical },
   },
   computed: {
     /** The THREE.Camera instance. */
