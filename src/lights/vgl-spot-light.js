@@ -1,7 +1,8 @@
 import { SpotLight } from 'three';
 import VglLight from './vgl-light';
 import { parseVector3 } from '../parsers';
-import { number, vector3 } from '../validators';
+import { vector3, float } from '../types';
+import { validateVector3 } from '../validators';
 
 /**
  * This light gets emitted from a single point in one direction, along a cone that increases in size the further from the light it gets. Corresponding [THREE.SpotLight](https://threejs.org/docs/index.html#api/lights/SpotLight). This light can cast shadows.
@@ -16,24 +17,24 @@ export default {
      * The distance from the light where the intensity is 0.
      * When set to 0, then the light never stops.
      */
-    distance: { type: number, default: 0 },
+    distance: { type: float, default: 0 },
     /**
      * The amount the light dims along the distance of the light.
      * For physically correct lighting, set this to 2.
      */
-    decay: { type: number, default: 1 },
+    decay: { type: float, default: 1 },
     /**
      * Maximum extent of the spotlight, in radians, from its direction.
      * Should be no more than Math.PI/2.
      */
-    angle: { type: number, default: Math.PI / 3 },
+    angle: { type: float, default: Math.PI / 3 },
     /**
      * Percent of the spotlight cone that is attenuated due to penumbra.
      * Takes values between zero and 1.
      */
-    penumbra: { type: number, default: 0 },
+    penumbra: { type: float, default: 0 },
     /** The spotlight's pointing position. */
-    target: vector3,
+    target: { type: vector3, validator: validateVector3 },
   },
   computed: {
     /** The THREE.SpotLight instance. */

@@ -1,6 +1,6 @@
 import { ConeBufferGeometry } from 'three';
 import VglCylinderGeometry from './vgl-cylinder-geometry';
-import { number } from '../validators';
+import { float } from '../types';
 
 /**
  * This is a component for generating cone geometries,
@@ -13,7 +13,7 @@ export default {
   mixins: [VglCylinderGeometry],
   props: {
     /** Radius of the cone at the base. */
-    radius: { type: number, default: 1 },
+    radius: { type: float, default: 1 },
   },
   computed: {
     inst() {

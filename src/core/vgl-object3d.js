@@ -2,11 +2,10 @@ import { Object3D } from 'three';
 import Tree from './tree';
 import { parseVector3, parseEuler, parseQuaternion } from '../parsers';
 import {
-  vector3,
-  euler,
-  quaternion,
-  boolean,
-  string,
+  vector3, euler, quaternion, boolean, name,
+} from '../types';
+import {
+  validateName, validateVector3, validateEuler, validateQuaternion,
 } from '../validators';
 
 /**
@@ -21,23 +20,23 @@ import {
 export default {
   props: {
     /** The object's local position as a 3D vector. */
-    position: vector3,
+    position: { type: vector3, validator: validateVector3 },
     /** The object's local rotation as a euler angle. */
-    rotation: euler,
+    rotation: { type: euler, validator: validateEuler },
     /**
      * The object's local rotation as a quaternion (specified in x, y, z, w order).
      * Do not use in conjunction with the rotation prop, since they both control the same property
      * of the underlying THREE.Object3D object.
      */
-    rotationQuaternion: quaternion,
+    rotationQuaternion: { type: quaternion, validator: validateQuaternion },
     /** The object's local scale as a 3D vector. */
-    scale: vector3,
+    scale: { type: vector3, validator: validateVector3 },
     /** Whether the object gets rendered into shadow map. */
     castShadow: boolean,
     /** Whether the material receives shadows. */
     receiveShadow: boolean,
     /** Optional name of the object. */
-    name: string,
+    name: { type: name, validator: validateName },
     /** Whether the object is visible. */
     hidden: boolean,
   },
@@ -93,15 +92,15 @@ export default {
     },
     parent(parent) { parent.add(this.inst); },
     name: [
-      function handler(name) { this.inst.name = name; },
+      function handler(newName) { this.inst.name = newName; },
       {
-        handler(name, oldName) {
+        handler(newName, oldName) {
           if (oldName !== undefined) {
             this.vglNamespace.object3ds.delete(oldName, this.inst);
-            if (name === undefined) this.vglObject3d.unlisten(this.emitAsObject3d);
+            if (newName === undefined) this.vglObject3d.unlisten(this.emitAsObject3d);
           }
-          if (name !== undefined) {
-            this.vglNamespace.object3ds.set(name, this.inst);
+          if (newName !== undefined) {
+            this.vglNamespace.object3ds.set(newName, this.inst);
             if (oldName === undefined) this.vglObject3d.listen(this.emitAsObject3d);
           }
         },

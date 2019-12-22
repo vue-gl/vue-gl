@@ -30,23 +30,22 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Build
-        run: |
-          $(yarn bin rollup) -c docs/rollup.config.js
-          for d in src/*/
-          do
-            mkdir -p docs/components/`basename $d`
-            $(yarn bin vuedoc.md) ${d}vgl-*.js --output docs/components/`basename $d` --level 2 --ignore-name --ignore-computed --ignore-data
-          done
+        run: $(yarn bin rollup) -c docs/rollup.config.js
       - name: Commit
         run: |
-          rm .gitignore
+          rm docs/.gitignore
+          git config user.name "$GIT_USER_NAME"
+          git config user.email "$GIT_USER_EMAIL"
           git add .
-          git commit -m "v$(node -pe require\(\"./package.json\"\).version)" --author=$GITHUB_ACTOR
+          git commit -m "v$(node -pe require\(\"./package.json\"\).version)"
+        env:
+          GIT_USER_NAME: ${{ secrets.git_user_name }}
+          GIT_USER_EMAIL: ${{ secrets.git_user_email }}
       - name: Filter
-        run: git filter-branch --prune-empty --subdirectory-filter docs $GITHUB_REF
-      - name: GitHub Push
-        uses: ad-m/github-push-action@v0.5.0
-        with:
-          github_token: ${{ secrets.gh_pages_token }}
-          repository: vue-gl/vue-gl.github.io
-          force: true
+        run: git filter-branch --prune-empty --subdirectory-filter docs HEAD
+      - name: Push
+        run: git push --force https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GH_PAGES_REPOSITORY}.git HEAD:${GH_PAGES_BRANCH}
+        env:
+          GITHUB_TOKEN: ${{ secrets.gh_pages_token }}
+          GH_PAGES_REPOSITORY: ${{ secrets.gh_pages_repository }}
+          GH_PAGES_BRANCH: master

@@ -1,6 +1,6 @@
 import { RingBufferGeometry } from 'three';
 import VglGeometry from '../core/vgl-geometry';
-import { number } from '../validators';
+import { float, int } from '../types';
 
 /**
  * This is a simple shape component of Euclidean geometry,
@@ -18,17 +18,17 @@ export default {
   mixins: [VglGeometry],
   props: {
     /** Inner radius of the ring. */
-    innerRadius: { type: number, default: 0.5 },
+    innerRadius: { type: float, default: 0.5 },
     /** Outer radius of the ring. */
-    outerRadius: { type: number, default: 1 },
+    outerRadius: { type: float, default: 1 },
     /** Number of segments along to the tangential direction. */
-    thetaSegments: { type: number, default: 8 },
+    thetaSegments: { type: int, default: 8 },
     /** Number of segments along to the radial direction. */
-    phiSegments: { type: number, default: 1 },
+    phiSegments: { type: int, default: 1 },
     /** The starting angle. */
-    thetaStart: { type: number, default: 0 },
+    thetaStart: { type: float, default: 0 },
     /** The central angle. */
-    thetaLength: { type: number, default: Math.PI * 2 },
+    thetaLength: { type: float, default: Math.PI * 2 },
   },
   computed: {
     inst() {

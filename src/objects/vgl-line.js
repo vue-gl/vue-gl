@@ -1,6 +1,7 @@
 import { Line } from 'three';
 import { VglObject3dWithMatarialAndGeometry } from '../mixins';
-import { string } from '../validators';
+import { name } from '../types';
+import { validateName } from '../validators';
 
 /**
  * A continuous line component,
@@ -13,9 +14,9 @@ export default {
   mixins: [VglObject3dWithMatarialAndGeometry],
   props: {
     /** Name of the geometry, representing the line segment(s). */
-    geometry: string,
+    geometry: { type: name, validator: validateName },
     /** Name of the material for the line. */
-    material: string,
+    material: { type: name, validator: validateName },
   },
   computed: {
     /** The THREE.Line instance. */

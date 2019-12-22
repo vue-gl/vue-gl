@@ -1,7 +1,8 @@
 import { ArrowHelper, Color, Vector3 } from 'three';
 import VglObject3d from '../core/vgl-object3d';
 import { parseVector3 } from '../parsers';
-import { number, string, vector3 } from '../validators';
+import { float, color, vector3 } from '../types';
+import { validateVector3 } from '../validators';
 
 /**
  * An 3D arrow object for visualizing directions,
@@ -14,15 +15,15 @@ export default {
   mixins: [VglObject3d],
   props: {
     /** Direction from origin. */
-    dir: vector3,
+    dir: { type: vector3, validator: validateVector3 },
     /** Length of the arrow. */
-    length: { type: number, default: 1 },
+    length: { type: float, default: 1 },
     /** Color of the arrow. */
-    color: { type: string, default: '#ff0' },
+    color: { type: color, default: '#ff0' },
     /** The length of the head of the arrow. */
-    headLength: number,
+    headLength: float,
     /** The width of the head of the arrow. */
-    headWidth: number,
+    headWidth: float,
   },
   computed: {
     /** The THREE.ArrowHelper instance. */
@@ -53,8 +54,8 @@ export default {
       this.inst.setLength(...len);
       this.vglObject3d.emit();
     },
-    color(color) {
-      this.inst.setColor(new Color(color));
+    color(newColor) {
+      this.inst.setColor(new Color(newColor));
       this.vglObject3d.emit();
     },
   },

@@ -1,57 +1,21 @@
 import {
-  TextureLoader,
-  UVMapping,
-  CubeReflectionMapping,
-  CubeRefractionMapping,
-  EquirectangularReflectionMapping,
-  EquirectangularRefractionMapping,
-  SphericalReflectionMapping,
-  CubeUVReflectionMapping,
-  CubeUVRefractionMapping,
-  RepeatWrapping,
-  ClampToEdgeWrapping,
-  MirroredRepeatWrapping,
-  NearestFilter,
-  LinearFilter,
-  NearestMipMapNearestFilter,
-  NearestMipMapLinearFilter,
-  LinearMipMapNearestFilter,
-  LinearMipMapLinearFilter,
-  AlphaFormat,
-  RGBFormat,
-  RGBAFormat,
-  LuminanceFormat,
-  LuminanceAlphaFormat,
-  RGBEFormat,
-  DepthFormat,
-  DepthStencilFormat,
-  UnsignedByteType,
-  ByteType,
-  ShortType,
-  UnsignedShortType,
-  IntType,
-  UnsignedIntType,
-  FloatType,
-  HalfFloatType,
-  UnsignedShort4444Type,
-  UnsignedShort5551Type,
-  UnsignedShort565Type,
-  UnsignedInt248Type,
-  LinearEncoding,
-  sRGBEncoding,
-  GammaEncoding,
-  RGBEEncoding,
-  LogLuvEncoding,
-  RGBM7Encoding,
-  RGBM16Encoding,
-  RGBDEncoding,
-  BasicDepthPacking,
+  TextureLoader, UVMapping, CubeReflectionMapping, CubeRefractionMapping,
+  EquirectangularReflectionMapping, EquirectangularRefractionMapping, SphericalReflectionMapping,
+  CubeUVReflectionMapping, CubeUVRefractionMapping, RepeatWrapping, ClampToEdgeWrapping,
+  MirroredRepeatWrapping, NearestFilter, LinearFilter, NearestMipMapNearestFilter,
+  NearestMipMapLinearFilter, LinearMipMapNearestFilter, LinearMipMapLinearFilter, AlphaFormat,
+  RGBFormat, RGBAFormat, LuminanceFormat, LuminanceAlphaFormat, RGBEFormat, DepthFormat,
+  DepthStencilFormat, UnsignedByteType, ByteType, ShortType, UnsignedShortType, IntType,
+  UnsignedIntType, FloatType, HalfFloatType, UnsignedShort4444Type, UnsignedShort5551Type,
+  UnsignedShort565Type, UnsignedInt248Type, LinearEncoding, sRGBEncoding, GammaEncoding,
+  RGBEEncoding, LogLuvEncoding, RGBM7Encoding, RGBM16Encoding, RGBDEncoding, BasicDepthPacking,
   RGBADepthPacking,
 } from 'three';
 import {
-  string, number, vector2, boolean,
-} from '../validators';
+  string, vector2, boolean, name, int, float,
+} from '../types';
 import { parseVector2 } from '../parsers';
+import { validateName, validateVector2 } from '../validators';
 
 const mapping = {
   uv: UVMapping,
@@ -132,21 +96,21 @@ export default {
   props: {
     /** The path or URL to the file. This can also be a Data URI. */
     src: string,
-    name: string,
+    name: { type: name, required: true, validator: validateName },
     mapping: { type: string, default: 'uv' },
     wrapS: { type: string, default: 'clamp-to-edge' },
     wrapT: { type: string, default: 'clamp-to-edge' },
     magFilter: { type: string, default: 'linear' },
     minFilter: { type: string, default: 'linear-mip-map-linear' },
-    anisotropy: { type: number, default: 1 },
+    anisotropy: { type: int, default: 1 },
     format: string,
     type: { type: string, default: 'unsigned-byte' },
-    offset: vector2,
-    repeat: vector2,
-    rotation: { type: number, default: 0 },
-    center: vector2,
+    offset: { type: vector2, validator: validateVector2 },
+    repeat: { type: vector2, validator: validateVector2 },
+    rotation: { type: float, default: 0 },
+    center: { type: vector2, validator: validateVector2 },
     premultiplyAlpha: boolean,
-    unpackAlignment: { type: number, default: 4 },
+    unpackAlignment: { type: int, default: 4 },
     encoding: { type: string, default: 'linear' },
   },
   computed: {
@@ -190,9 +154,9 @@ export default {
       },
       immediate: true,
     },
-    name(name, oldName) {
+    name(newName, oldName) {
       if (oldName !== undefined) this.vglNamespace.textures.delete(oldName, this.inst);
-      if (name !== undefined) this.vglNamespace.textures.set(name, this.inst);
+      if (newName !== undefined) this.vglNamespace.textures.set(newName, this.inst);
     },
     mapping(mode) {
       this.inst.mapping = mapping[mode];

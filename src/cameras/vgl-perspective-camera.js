@@ -1,6 +1,6 @@
 import { PerspectiveCamera } from 'three';
 import VglCamera from './vgl-camera';
-import { number } from '../validators';
+import { float } from '../types';
 
 /**
  * Camera that uses perspective projection,
@@ -14,13 +14,13 @@ export default {
   mixins: [VglCamera],
   props: {
     /** Zoom factor of the camera. */
-    zoom: { type: number, default: 1 },
+    zoom: { type: float, default: 1 },
     /** Camera frustum near plane. */
-    near: { type: number, default: 0.1 },
+    near: { type: float, default: 0.1 },
     /** Camera frustum far plane. */
-    far: { type: number, default: 2000 },
+    far: { type: float, default: 2000 },
     /** Camera frustum vertical field of view, from bottom to top of view, in degrees. */
-    fov: { type: number, default: 50 },
+    fov: { type: float, default: 50 },
   },
   computed: {
     /** The THREE.PerspectiveCamera instance. */

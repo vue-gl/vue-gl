@@ -1,0 +1,57 @@
+body.example {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+
+  .control-panel {
+    background: #fff;
+    left: 1ex;
+    margin: 0;
+    max-height: calc(100vh - 4ex);
+    opacity: 0.85;
+    overflow: auto;
+    padding: 1ex;
+    position: fixed;
+    top: 1ex;
+
+    h3 {
+      font-size: 1rem;
+      margin: 0;
+    }
+    
+    label {
+      display: block;
+      text-align: center;
+    }
+
+    input:not([type=checkbox]) {
+      display: block;
+    }
+  }
+}
+
+div.example {
+  position: relative;
+  width: 100%;
+
+  &::before {
+    padding-top: 61.8034%;
+    content:"";
+    display: block;
+  }
+  
+  iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+  
+  a {
+    position: absolute;
+    top: 1ex;
+    right: 1ex;
+  }
+}

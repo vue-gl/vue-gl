@@ -1,7 +1,8 @@
 import { LatheBufferGeometry } from 'three';
 import VglGeometry from '../core/vgl-geometry';
 import { parseVector2Array } from '../parsers';
-import { vector2Array, number } from '../validators';
+import { vector2Array, float, int } from '../types';
+import { validateVector2Array } from '../validators';
 
 /**
  * A component for creating extruded geometry from a path shape,
@@ -14,13 +15,13 @@ export default {
   mixins: [VglGeometry],
   props: {
     /** Array of Vector2s. The x-coordinate of each point must be greater than zero. */
-    points: { type: vector2Array, required: true },
+    points: { type: vector2Array, required: true, validator: validateVector2Array },
     /** The number of circumference segments to generate. */
-    segments: { type: number, default: 12 },
+    segments: { type: int, default: 12 },
     /** The starting angle in radians. */
-    phiStart: { type: number, default: 0 },
+    phiStart: { type: float, default: 0 },
     /** The radian (0 to 2PI) range of the lathed section. */
-    phiLength: { type: number, default: Math.PI * 2 },
+    phiLength: { type: float, default: Math.PI * 2 },
   },
   computed: {
     inst() {

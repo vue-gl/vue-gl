@@ -1,6 +1,6 @@
 import { BoxBufferGeometry } from 'three';
 import VglGeometry from '../core/vgl-geometry';
-import { number } from '../validators';
+import { float, int } from '../types';
 
 /**
  * This is the quadrilateral primitive geometry component,
@@ -13,17 +13,17 @@ export default {
   mixins: [VglGeometry],
   props: {
     /** Width of the sides on the X axis. */
-    width: { type: number, default: 1 },
+    width: { type: float, default: 1 },
     /** Height of the sides on the Y axis. */
-    height: { type: number, default: 1 },
+    height: { type: float, default: 1 },
     /** Depth of the sides on the Z axis. */
-    depth: { type: number, default: 1 },
+    depth: { type: float, default: 1 },
     /** Number of segmented faces along the width of the sides. */
-    widthSegments: { type: number, default: 1 },
+    widthSegments: { type: int, default: 1 },
     /** Number of segmented faces along the height of the sides. */
-    heightSegments: { type: number, default: 1 },
+    heightSegments: { type: int, default: 1 },
     /** Number of segmented faces along the depth of the sides. */
-    depthSegments: { type: number, default: 1 },
+    depthSegments: { type: int, default: 1 },
   },
   computed: {
     inst() {

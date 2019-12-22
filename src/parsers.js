@@ -1,65 +1,107 @@
 import {
-  Vector2,
-  Vector3,
-  Euler,
-  Spherical,
-  Quaternion,
-  Fog,
-  Color,
-  Shape,
+  Vector2, Vector3, Euler, Quaternion, Spherical, Color, Fog,
 } from 'three';
 
 /**
- * Returns a parsed quaternion object.
+ * Parses a prop value as names type.
+ *
+ * @param {string|string[]} names - Prop value.
+ * @return {string[]} Parsed array of names.
  */
-export function parseQuaternion(str) {
-  return str.isQuaternion ? str : new Quaternion(...str.trim().split(/\s+/).map((elm) => parseFloat(elm)));
+export function parseNames(names) {
+  return Array.isArray(names) ? names : names.trim().split(/\s+/);
 }
 
 /**
- * Returns a parsed vector3 object.
+ * Parses a prop value as color type.
+ *
+ * @param {string|number|Color} color - Prop value.
+ * @return {Color} Parsed THREE.Color instance.
  */
-export function parseVector3(str) {
-  return str.isVector3 ? str : new Vector3(...str.trim().split(/\s+/).map((elm) => parseFloat(elm)));
+export function parseColor(color) {
+  return color.isColor ? color : new Color(color);
 }
 
 /**
- * Returns a parsed vector2 object.
+ * Parses a prop value as vector2 type.
+ *
+ * @param {string|(string|number)[]|Vector2} vector - Prop value.
+ * @return {Vector2} Parsed THREE.Vector2 instance.
  */
-export function parseVector2(str) {
-  if (str.isVector2) return str;
-  if (Array.isArray(str)) {
-    return new Vector2(...(str.map((e) => parseFloat(e))));
-  }
-  return new Vector2(...str.trim().split(/\s+/).map((elm) => parseFloat(elm)));
+export function parseVector2(vector) {
+  if (vector.isVector2) return vector;
+  const coods = Array.isArray(vector) ? vector : vector.trim().split(/\s+/);
+  return new Vector2(...coods.map(parseFloat));
 }
 
 /**
- * Returns a parsed euler object.
+ * Parses a prop value as vector3 type.
+ *
+ * @param {string|(string|number)[]|Vector3} vector - Prop value.
+ * @return {Vector3} Parsed THREE.Vector3 instance.
  */
-export function parseEuler(str) {
-  return str.isEuler ? str : new Euler(...str.trim().split(/\s+/).map((elm, i) => (i === 3 ? elm : parseFloat(elm))));
+export function parseVector3(vector) {
+  if (vector.isVector3) return vector;
+  const coods = Array.isArray(vector) ? vector : vector.trim().split(/\s+/);
+  return new Vector3(...coods.map(parseFloat));
 }
 
 /**
- * Returns a parsed spherical object.
+ * Parses a prop value as euler type.
+ *
+ * @param {string|(string|number)[]|Euler} euler - Prop value.
+ * @return {Euler} Parsed THREE.Euler instance.
  */
-export function parseSpherical(str) {
-  return str.isSpherical ? str : new Spherical(...str.trim().split(/\s+/).map((elm) => parseFloat(elm))).makeSafe();
+export function parseEuler(euler) {
+  if (euler.isEuler) return euler;
+  const coods = Array.isArray(euler) ? euler : euler.trim().split(/\s+/);
+  return new Euler(...coods.slice(0, 3).map(parseFloat), coods[3]);
 }
 
 /**
- * Returns a parsed array.
+ * Parses a prop value as quaternion type.
+ *
+ * @param {string|(string|number)[]|Quaternion} quaternion - Prop value.
+ * @return {Quaternion} Parsed THREE.Quaternion instance.
  */
-export function parseArray(str) {
-  return Array.isArray(str) ? str : str.split(',');
+export function parseQuaternion(quaternion) {
+  if (quaternion.isQuaternion) return quaternion;
+  const coods = Array.isArray(quaternion) ? quaternion : quaternion.trim().split(/\s+/);
+  return new Quaternion(...coods.map(parseFloat));
 }
 
 /**
- * Returns a parsed array of vector2.
+ * Parses a prop value as spherical type.
+ *
+ * @param {string|(string|number)[]|Spherical} spherical - Prop value.
+ * @return {Spherical} Parsed THREE.Spherical instance.
  */
-export function parseVector2Array(str) {
-  return parseArray(str).map((elm) => parseVector2(elm));
+export function parseSpherical(spherical) {
+  if (spherical instanceof Spherical) return spherical;
+  const coods = Array.isArray(spherical) ? spherical : spherical.trim().split(/\s+/);
+  return new Spherical(...coods.map(parseFloat)).makeSafe();
+}
+
+/**
+ * Parses a prop value as generic array type.
+ *
+ * @param {string|*[]} array - Prop value.
+ * @return {*[]} Parsed array.
+ */
+export function parseArray(array) {
+  return Array.isArray(array) ? array : array.split(',');
+}
+
+/**
+ * Parses a prop value as vector2array type.
+ *
+ * @param {string|(string|Vector2)[]} array - Prop value.
+ * @return {Vector2[]} Parsed array of THREE.Vector2 instances.
+ */
+export function parseVector2Array(array) {
+  const isArray = Array.isArray(array);
+  if (isArray && array.every((v) => v.isVector2)) return array;
+  return (isArray ? array : array.split(',')).map(parseVector2);
 }
 
 /**
@@ -67,19 +109,4 @@ export function parseVector2Array(str) {
  */
 export function parseFog(str) {
   return str.isFog ? str : new Fog(...str.trim().split(/\s+/).map((elm, i) => (i === 0 ? elm : parseFloat(elm))));
-}
-
-/**
- * Returns a parsed Color object
- */
-export function parseColor(str) {
-  return str.isColor ? str : new Color(str);
-}
-
-/**
- * Return a parsed Shape
- */
-export function parseShape(str) {
-  if (!str) return new Shape();
-  return (str.type && str.type === 'Shape') ? str : new Shape(parseVector2Array(str));
 }

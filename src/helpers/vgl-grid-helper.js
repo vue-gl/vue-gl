@@ -1,6 +1,6 @@
 import { GridHelper } from 'three';
 import VglObject3d from '../core/vgl-object3d';
-import { number, string } from '../validators';
+import { float, int, color } from '../types';
 
 /**
  * A component to define grids,
@@ -14,13 +14,13 @@ export default {
   mixins: [VglObject3d],
   props: {
     /** The size of the grid. */
-    size: { type: number, default: 10 },
+    size: { type: float, default: 10 },
     /** The number of divisions across the grid. */
-    divisions: { type: number, default: 10 },
+    divisions: { type: int, default: 10 },
     /** The color of the centerline. */
-    colorCenterLine: { type: string, default: '#444444' },
+    colorCenterLine: { type: color, default: '#444444' },
     /** The color of the lines of the grid. */
-    colorGrid: { type: string, default: '#888888' },
+    colorGrid: { type: color, default: '#888888' },
   },
   computed: {
     /** The THREE.GridHelper instance. */

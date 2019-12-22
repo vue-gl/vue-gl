@@ -1,6 +1,6 @@
 import { LineDashedMaterial } from 'three';
 import VglMaterial from './vgl-material';
-import { string, number } from '../validators';
+import { color, float } from '../types';
 
 /**
  * A material for drawing wireframe-style geometries,
@@ -13,13 +13,13 @@ export default {
   mixins: [VglMaterial],
   props: {
     /** CSS style color of the material. */
-    color: { type: string, default: '#fff' },
+    color: { type: color, default: '#fff' },
     /** The line thickness. */
-    linewidth: { type: number, default: 1 },
+    linewidth: { type: float, default: 1 },
     /** The size of the dash. This is both the gap with the stroke. */
-    dashSize: { type: number, default: 3 },
+    dashSize: { type: float, default: 3 },
     /** The size of the gap. */
-    gapSize: { type: number, default: 1 },
+    gapSize: { type: float, default: 1 },
   },
   computed: {
     /** The THREE.LineDashedMaterial instance. */
@@ -37,8 +37,8 @@ export default {
       },
       immediate: true,
     },
-    color(color) {
-      this.inst.color.setStyle(color);
+    color(newColor) {
+      this.inst.color.setStyle(newColor);
       this.update();
     },
     linewidth(width) {

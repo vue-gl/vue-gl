@@ -1,6 +1,6 @@
 import { MeshPhysicalMaterial } from 'three';
 import VglMeshStandardMaterial from './vgl-mesh-standard-material';
-import { number } from '../validators';
+import { float } from '../types';
 
 /**
  * An extension of the mesh standard material that allows for greater control over reflectivity,
@@ -13,11 +13,11 @@ export default {
   mixins: [VglMeshStandardMaterial],
   props: {
     /** ClearCoat level, from 0.0 to 1.0. */
-    clearcoat: { type: number, default: 0 },
+    clearcoat: { type: float, default: 0 },
     /** How rough the clearCoat appears, from 0.0 to 1.0. */
-    clearcoatRoughness: { type: number, default: 0 },
+    clearcoatRoughness: { type: float, default: 0 },
     /** Degree of reflectivity, from 0.0 to 1.0. */
-    reflectivity: { type: number, default: 0.5 },
+    reflectivity: { type: float, default: 0.5 },
   },
   computed: {
     /** The THREE.MeshPhysicalMaterial instance. */

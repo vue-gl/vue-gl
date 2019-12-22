@@ -1,6 +1,7 @@
 import { CameraHelper, Object3D } from 'three';
 import VglObject3d from '../core/vgl-object3d';
-import { string } from '../validators';
+import { name } from '../types';
+import { validateName } from '../validators';
 
 /**
  * This helps with visualizing what a camera contains in its frustum,
@@ -14,7 +15,7 @@ export default {
   mixins: [VglObject3d],
   props: {
     /** Name of the camera to visualize. */
-    camera: { type: string, required: true },
+    camera: { type: name, required: true, validator: validateName },
   },
   data: () => ({
     /** If camera specified by the name exists or not. Do not set this data manually. */
@@ -51,10 +52,10 @@ export default {
   },
   watch: {
     camera: {
-      handler(name, oldName) {
+      handler(newName, oldName) {
         if (oldName !== undefined) this.vglNamespace.cameras.unlisten(oldName, this.update);
-        this.vglNamespace.cameras.listen(name, this.update);
-        this.exist = !!this.vglNamespace.cameras.get(name);
+        this.vglNamespace.cameras.listen(newName, this.update);
+        this.exist = !!this.vglNamespace.cameras.get(newName);
       },
       immediate: true,
     },

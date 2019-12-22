@@ -61,6 +61,10 @@ import VglLatheGeometry from './geometries/vgl-lathe-geometry';
 import VglSpotLightHelper from './helpers/vgl-spot-light-helper';
 import VglHemisphereLight from './lights/vgl-hemisphere-light';
 import VglRectAreaLight from './lights/vgl-rect-area-light';
+import VglShape from './extras/vgl-shape';
+import VglPath from './extras/vgl-path';
+import VglCurvePath from './extras/vgl-curve-path';
+import VglCurve from './extras/vgl-curve';
 
 export {
   VglNamespace,
@@ -126,4 +130,8 @@ export {
   VglSpotLightHelper,
   VglHemisphereLight,
   VglRectAreaLight,
+  VglShape,
+  VglCurve,
+  VglCurvePath,
+  VglPath,
 };

@@ -1,6 +1,6 @@
 import { ShaderMaterial } from 'three';
 import { VglMaterialWithMap } from '../mixins';
-import { boolean, number, string } from '../validators';
+import { boolean, string, float } from '../types';
 
 /**
  * A material for drawing geometries with custom vertex or fragment shaders, corresponding to
@@ -72,7 +72,7 @@ export default {
      * Controls wireframe thickness. Due to limitations of the OpenGL Core Profile with the WebGL
      * renderer on most platforms `linewidth` will always be 1 regardless of the set value.
      */
-    linewidth: { type: number, default: 1.0 },
+    linewidth: { type: float, default: 1.0 },
     /** Define whether the material is rendered with flat shading. */
     flatShading: { type: boolean, default: false },
     /**
@@ -102,7 +102,7 @@ export default {
      * Controls wireframe thickness. Due to limitations of the OpenGL Core Profile with the WebGL
      * renderer on most platforms `linewidth` will always be 1 regardless of the set value.
      */
-    wireframeLinewidth: { type: number, default: 1.0 },
+    wireframeLinewidth: { type: float, default: 1.0 },
   },
 
   computed: {

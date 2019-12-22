@@ -1,6 +1,8 @@
 import { TextBufferGeometry, BufferGeometry, FontLoader } from 'three';
 import VglExtrudeGeometry from './vgl-extrude-geometry';
-import { number, string, boolean } from '../validators';
+import {
+  float, int, string, boolean,
+} from '../types';
 
 const fonts = Object.create(null);
 
@@ -19,19 +21,19 @@ export default {
     /** The path or URL to the facetype json file. This can also be a Data URI. */
     font: string,
     /** Size of the text. */
-    size: { type: number, default: 100 },
+    size: { type: float, default: 100 },
     /** Thickness to extrude text. */
-    height: { type: number, default: 50 },
+    height: { type: float, default: 50 },
     /** Number of points on the curves. */
-    curveSegments: { type: number, default: 12 },
+    curveSegments: { type: int, default: 12 },
     /** Turn on bevel. */
     bevelEnabled: boolean,
     /** How deep into text bevel goes. */
-    bevelThickness: { type: number, default: 10 },
+    bevelThickness: { type: float, default: 10 },
     /** How far from text outline is bevel. */
-    bevelSize: { type: number, default: 8 },
+    bevelSize: { type: float, default: 8 },
     /** Number of bevel segments. */
-    bevelSegments: { type: number, default: 3 },
+    bevelSegments: { type: int, default: 3 },
   },
   data() { return { f: undefined }; },
   computed: {

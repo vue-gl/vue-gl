@@ -1,6 +1,6 @@
 import { PointLight } from 'three';
 import VglLight from './vgl-light';
-import { number } from '../validators';
+import { float } from '../types';
 
 /**
  * A light that gets emitted from a single point in all directions, corresponding [THREE.PointLight](https://threejs.org/docs/index.html#api/lights/PointLight). A common use case for this is to replicate the light emitted from a bare lightbulb. This light can cast shadows.
@@ -15,12 +15,12 @@ export default {
      * The distance from the light where the intensity is 0.
      * When set to 0, then the light never stops.
      */
-    distance: { type: number, default: 0 },
+    distance: { type: float, default: 0 },
     /**
      * The amount the light dims along the distance of the light.
      * For physically correct lighting, set this to 2.
      */
-    decay: { type: number, default: 1 },
+    decay: { type: float, default: 1 },
   },
   computed: {
     /** The THREE.PointLight instance. */

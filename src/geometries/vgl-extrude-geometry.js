@@ -1,7 +1,10 @@
 import { ExtrudeBufferGeometry } from 'three';
-import { boolean, number, shapes } from '../validators';
+import {
+  boolean, float, int, names,
+} from '../types';
 import VglGeometry from '../core/vgl-geometry';
-import { parseShape } from '../parsers';
+import { parseNames } from '../parsers';
+import { validateNames } from '../validators';
 
 /**
  * A component for creating extruded geometry from a path shape,
@@ -13,36 +16,34 @@ import { parseShape } from '../parsers';
 export default {
   mixins: [VglGeometry],
   props: {
-    /** The Shape (or an Array of Shape)
-     * Accepts an array of points to internally create the shape.
-     * Points can either be String ("12 2"), Number ([12, 2]) or THREE.Vector2.
-     *
-     * For an array of shapes, please pass directly an Array of THREE.Shape
-     */
-    shapes,
+    /** The Shape names */
+    shapes: { type: names, validator: validateNames },
     /** int. Number of points on the curves */
-    curveSegments: number,
+    curveSegments: int,
     /** int. Number of points used for subdividing segments
      * along the depth of the extruded spline
      */
-    steps: number,
+    steps: int,
     /** float. Depth to extrude the shape */
-    depth: number,
+    depth: float,
     /** Apply beveling to the shape */
     bevelEnabled: boolean,
     /** float. How deep into the original shape the bevel goes */
-    bevelThickness: number,
+    bevelThickness: float,
     /** float. Distance from the shape outline that the bevel extends */
-    bevelSize: number,
+    bevelSize: float,
     /** float. Distance from the shape outline that the bevel starts */
-    bevelOffset: number,
+    bevelOffset: float,
     /** int. Number of bevel layers */
-    bevelSegments: number,
+    bevelSegments: int,
     /** THREE.Curve. A 3D spline path along which the shape should be extruded */
     extrudePath: Object,
     /**  Object that provides UV generator functions */
-    UVGenerator: Object,
+    uvGenerator: Object,
   },
+  data: () => ({
+    shapeNames: [],
+  }),
   computed: {
     options() {
       const {
@@ -55,7 +56,7 @@ export default {
         bevelOffset,
         bevelSegments,
         extrudePath,
-        UVGenerator,
+        uvGenerator,
       } = this;
       return {
         ...(curveSegments != null && { curveSegments: parseInt(curveSegments, 10) }),
@@ -67,14 +68,49 @@ export default {
         ...(bevelOffset != null && { bevelOffset: parseFloat(bevelOffset) }),
         ...(bevelSegments != null && { bevelSegments: parseInt(bevelSegments, 10) }),
         ...(extrudePath != null && { extrudePath }),
-        ...(UVGenerator != null && { UVGenerator }),
+        ...(uvGenerator != null && { UVGenerator: uvGenerator }),
       };
     },
     inst() {
-      return new ExtrudeBufferGeometry(
-        parseShape(this.shapes),
-        this.options,
-      );
+      const shapes = this.shapeNames.map(([name]) => this.vglNamespace.curves.get(name));
+      return new ExtrudeBufferGeometry(shapes, this.options);
+    },
+  },
+  methods: {
+    /** Update the array of Shape names and Shape UUIDs and emit an event. */
+    setShapeNames() {
+      const shapeNames = parseNames(this.shapes);
+      this.shapeNames = shapeNames
+        .map((shapeName) => [shapeName, this.vglNamespace.curves.get(shapeName).uuid]);
+      this.update();
+    },
+  },
+  beforeDestroy() {
+    if (this.shapes !== undefined) {
+      const shapeNames = parseNames(this.shapes);
+      shapeNames.forEach((shapeName) => {
+        this.vglNamespace.curves.unlisten(shapeName, this.setShapeUuids);
+      });
+    }
+  },
+  watch: {
+    shapes: {
+      handler(shapes, oldShapes) {
+        const oldNames = oldShapes === undefined ? [] : parseNames(oldShapes);
+        const newNames = shapes === undefined ? [] : parseNames(shapes);
+        oldNames.forEach((shapeName) => {
+          if (!newNames.includes(shapeName)) {
+            this.vglNamespace.curves.unlisten(shapeName, this.setShapeNames);
+          }
+        });
+        names.forEach((shapeName) => {
+          if (!oldNames.includes(shapeName)) {
+            this.vglNamespace.curves.listen(shapeName, this.setShapeNames);
+          }
+        });
+        if (shapes !== undefined) this.setShapeNames();
+      },
+      immediate: true,
     },
   },
 };

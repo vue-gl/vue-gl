@@ -1,6 +1,6 @@
 import { CylinderBufferGeometry } from 'three';
 import VglGeometry from '../core/vgl-geometry';
-import { number, boolean } from '../validators';
+import { float, int, boolean } from '../types';
 
 /**
  * This is a component for generating cylinder geometries,
@@ -13,21 +13,21 @@ export default {
   mixins: [VglGeometry],
   props: {
     /** Radius of the cylinder at the top. */
-    radiusTop: { type: number, default: 1 },
+    radiusTop: { type: float, default: 1 },
     /** Radius of the cylinder at the bottom. */
-    radiusBottom: { type: number, default: 1 },
+    radiusBottom: { type: float, default: 1 },
     /** Height of the cylinder. */
-    height: { type: number, default: 1 },
+    height: { type: float, default: 1 },
     /** Number of segmented faces around the circumference of the cylinder. */
-    radialSegments: { type: number, default: 8 },
+    radialSegments: { type: int, default: 8 },
     /** Number of rows of faces along the height of the cylinder. */
-    heightSegments: { type: number, default: 1 },
+    heightSegments: { type: int, default: 1 },
     /** A Boolean indicating whether the ends of the cylinder are open or capped. */
     openEnded: boolean,
     /** Start angle for first segment. */
-    thetaStart: { type: number, default: 0 },
+    thetaStart: { type: float, default: 0 },
     /** The central angle of the circular sector. */
-    thetaLength: { type: number, default: Math.PI * 2 },
+    thetaLength: { type: float, default: Math.PI * 2 },
   },
   computed: {
     inst() {

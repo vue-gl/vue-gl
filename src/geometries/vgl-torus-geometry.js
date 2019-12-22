@@ -1,6 +1,6 @@
 import { TorusBufferGeometry } from 'three';
 import VglGeometry from '../core/vgl-geometry';
-import { number } from '../validators';
+import { float, int } from '../types';
 
 /**
  * A component for generating torus geometries,
@@ -13,15 +13,15 @@ export default {
   mixins: [VglGeometry],
   props: {
     /** Radius of the torus. */
-    radius: { type: number, default: 1 },
+    radius: { type: float, default: 1 },
     /** Diamiter of the tube. */
-    tube: { type: number, default: 0.4 },
+    tube: { type: float, default: 0.4 },
     /** Number of segments of the tube's section. */
-    radialSegments: { type: number, default: 8 },
+    radialSegments: { type: int, default: 8 },
     /** Number of segments along to the tube length direction. */
-    tubularSegments: { type: number, default: 6 },
+    tubularSegments: { type: int, default: 6 },
     /** The central angle. */
-    arc: { type: number, default: Math.PI * 2 },
+    arc: { type: float, default: Math.PI * 2 },
   },
   computed: {
     inst() {
