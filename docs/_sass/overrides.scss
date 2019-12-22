@@ -3,6 +3,19 @@ body.example {
   padding: 0;
   overflow: hidden;
 
+  .side-bar, .page-header {
+    display: none;
+  }
+
+  .main-content {
+    margin: 0;
+    max-width: initial;
+
+    .page {
+      padding: 0;
+    }
+  }
+
   .control-panel {
     background: #fff;
     left: 1ex;

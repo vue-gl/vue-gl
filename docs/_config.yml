@@ -15,7 +15,6 @@ defaults:
       path: examples
     values:
       layout: example
-      search_enabled: false
       nav_exclude: true
 exclude:
   - rollup.config.js
