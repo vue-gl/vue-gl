@@ -42,7 +42,7 @@
     "glob": "^7.1.6",
     "jest": "^24.1.0",
     "markdownlint-cli": "^0.20.0",
-    "nise": "^2.0.0",
+    "nise": "^3.0.0",
     "rollup": "^1.1.2",
     "rollup-plugin-babel": "^4.0.2",
     "rollup-plugin-babel-minify": "^9.0.0",
