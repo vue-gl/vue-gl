@@ -1,6 +1,7 @@
 import { DirectionalLightHelper, Object3D } from 'three';
 import VglObject3d from '../core/vgl-object3d';
-import { string, number } from '../types';
+import { name, float, color } from '../types';
+import { validateName } from '../validators';
 
 /**
  * A helper component to assist with visualizing a DirectionalLight's effect on the scene,
@@ -13,11 +14,11 @@ export default {
   mixins: [VglObject3d],
   props: {
     /** If this is not the set the helper will take the color of the light. */
-    color: { type: string },
+    color,
     /** Dimensions of the plane. */
-    size: { type: number, default: 1 },
+    size: { type: float, default: 1 },
     /** Name of the directional light being visualized. */
-    light: string,
+    light: { type: name, required: true, validator: validateName },
   },
   data: () => ({
     /**
@@ -56,10 +57,10 @@ export default {
       }
     },
     light: {
-      handler(name, oldName) {
+      handler(newName, oldName) {
         if (oldName !== undefined) this.vglNamespace.object3ds.unlisten(oldName, this.setLightUuid);
-        if (name !== undefined) {
-          this.vglNamespace.object3ds.listen(name, this.setLightUuid);
+        if (newName !== undefined) {
+          this.vglNamespace.object3ds.listen(newName, this.setLightUuid);
           const light = this.vglNamespace.object3ds.get(this.light);
           this.setLightUuid(light);
         }
@@ -67,9 +68,9 @@ export default {
       immediate: true,
     },
     color: {
-      handler(color) {
+      handler(newColor) {
         if (!this.lightUuid) return;
-        this.inst.color = color;
+        this.inst.color = newColor;
         this.inst.update();
       },
       immediate: true,

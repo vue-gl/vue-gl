@@ -1,6 +1,6 @@
 import { Light } from 'three';
 import VglObject3d from '../core/vgl-object3d';
-import { string, number } from '../types';
+import { color, float } from '../types';
 
 /**
  * Abstract mixin component for lights,
@@ -13,9 +13,9 @@ export default {
   mixins: [VglObject3d],
   props: {
     /** CSS style color of the light. */
-    color: { type: string, default: '#fff' },
+    color: { type: color, default: '#fff' },
     /** Numeric value of the light's strength/intensity. */
-    intensity: { type: number, default: 1 },
+    intensity: { type: float, default: 1 },
   },
   computed: {
     /** The THREE.Light instance. */
@@ -29,8 +29,8 @@ export default {
       },
       immediate: true,
     },
-    color(color) {
-      this.inst.color.setStyle(color);
+    color(newColor) {
+      this.inst.color.setStyle(newColor);
       this.vglObject3d.emit();
     },
     intensity(intensity) {

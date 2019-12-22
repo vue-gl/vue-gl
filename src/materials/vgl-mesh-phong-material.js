@@ -1,6 +1,7 @@
 import { MeshPhongMaterial } from 'three';
 import { VglMaterialWithMap } from '../mixins';
-import { string, number } from '../types';
+import { color, name, float } from '../types';
+import { validateName } from '../validators';
 
 /**
  * A material for shiny surfaces with specular highlights,
@@ -13,13 +14,13 @@ export default {
   mixins: [VglMaterialWithMap],
   props: {
     /** CSS style color of the material. */
-    color: { type: string, default: '#fff' },
+    color: { type: color, default: '#fff' },
     /** The color map of the material. */
-    map: string,
+    map: { type: name, validator: validateName },
     /** Specular color of the material. */
-    specular: { type: string, default: '#111111' },
+    specular: { type: color, default: '#111111' },
     /** How shiny the specular highlight is. A higher value gives a sharper highlight. */
-    shininess: { type: number, default: 30 },
+    shininess: { type: float, default: 30 },
   },
   computed: {
     /** The THREE.MeshPhongMaterial instance. */
@@ -36,8 +37,8 @@ export default {
       },
       immediate: true,
     },
-    color(color) {
-      this.inst.color.setStyle(color);
+    color(newColor) {
+      this.inst.color.setStyle(newColor);
       this.update();
     },
     specular(specular) {

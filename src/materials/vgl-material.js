@@ -1,14 +1,8 @@
 import {
-  Material,
-  NoColors,
-  VertexColors,
-  FaceColors,
-  FrontSide,
-  BackSide,
-  DoubleSide,
+  Material, NoColors, VertexColors, FaceColors, FrontSide, BackSide, DoubleSide,
 } from 'three';
 import { string, name } from '../types';
-import { nameValidator } from '../validators';
+import { validateName } from '../validators';
 
 const vertexColors = {
   no: NoColors,
@@ -35,7 +29,7 @@ export default {
   },
   props: {
     /** Name of the material. */
-    name: { type: name, validator: nameValidator },
+    name: { type: name, required: true, validator: validateName },
     /** Defines which side of faces will be rendered. front, back or double. */
     side: { type: string, default: 'front' },
     /** Defines whether vertex coloring is used. Other options are 'vertex' and 'face'. */

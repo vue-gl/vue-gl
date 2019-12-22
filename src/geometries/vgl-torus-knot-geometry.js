@@ -1,6 +1,6 @@
 import { TorusKnotBufferGeometry } from 'three';
 import VglGeometry from '../core/vgl-geometry';
-import { number } from '../types';
+import { float, int } from '../types';
 
 /**
  * A component for generating torus knot geometries,
@@ -13,23 +13,23 @@ export default {
   mixins: [VglGeometry],
   props: {
     /** Radius of the torus. */
-    radius: { type: number, default: 1 },
+    radius: { type: float, default: 1 },
     /** Diamiter of the tube. */
-    tube: { type: number, default: 0.4 },
+    tube: { type: float, default: 0.4 },
     /** Number of segments of the tube's section. */
-    radialSegments: { type: number, default: 8 },
+    radialSegments: { type: int, default: 8 },
     /** Number of segments along to the tube length direction. */
-    tubularSegments: { type: number, default: 64 },
+    tubularSegments: { type: int, default: 64 },
     /**
      * This value determines how many times the geometry winds
      * around its axis of rotational symmetry.
      */
-    p: { type: number, default: 2 },
+    p: { type: int, default: 2 },
     /**
      * This value determines how many times the geometry winds
      * around a circle in the interior of the torus.
      */
-    q: { type: number, default: 3 },
+    q: { type: int, default: 3 },
   },
   computed: {
     inst() {

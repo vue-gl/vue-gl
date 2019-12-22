@@ -1,6 +1,6 @@
 import { BufferGeometry, BufferAttribute } from 'three';
 import { name, floatArray } from '../types';
-import { nameValidator } from '../validators';
+import { validateName, validateFloatArray } from '../validators';
 import { parseArray } from '../parsers';
 
 /**
@@ -17,13 +17,13 @@ export default {
   },
   props: {
     /** Name of the component. */
-    name: { type: name, validator: nameValidator },
+    name: { type: name, required: true, validator: validateName },
     /** The x, y, and z coordinates of each vertex in this geometry. */
-    positionAttribute: floatArray,
+    positionAttribute: { type: floatArray, validator: validateFloatArray },
     /** The red, green, and blue channels of vertex color of each vertex in this geometry. */
-    colorAttribute: floatArray,
+    colorAttribute: { type: floatArray, validator: validateFloatArray },
     /** The x, y, and z components of the vertex normal vector of each vertex in this geometry. */
-    normalAttribute: floatArray,
+    normalAttribute: { type: floatArray, validator: validateFloatArray },
   },
   computed: {
     /** The THREE.BufferGeometry instance. */

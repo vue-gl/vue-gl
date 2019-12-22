@@ -1,6 +1,6 @@
 import { SphereBufferGeometry } from 'three';
 import VglGeometry from '../core/vgl-geometry';
-import { number } from '../types';
+import { float, int } from '../types';
 
 /**
  * This is a component for generating sphere geometries,
@@ -13,19 +13,19 @@ export default {
   mixins: [VglGeometry],
   props: {
     /** Sphere radius. */
-    radius: { type: number, default: 1 },
+    radius: { type: float, default: 1 },
     /** Number of horizontal segments. */
-    widthSegments: { type: number, default: 8 },
+    widthSegments: { type: int, default: 8 },
     /** Number of vertical segments. */
-    heightSegments: { type: number, default: 6 },
+    heightSegments: { type: int, default: 6 },
     /** Specify horizontal starting angle. */
-    phiStart: { type: number, default: 0 },
+    phiStart: { type: float, default: 0 },
     /** Specify horizontal sweep angle size. */
-    phiLength: { type: number, default: Math.PI * 2 },
+    phiLength: { type: float, default: Math.PI * 2 },
     /** Specify vertical starting angle. */
-    thetaStart: { type: number, default: 0 },
+    thetaStart: { type: float, default: 0 },
     /** Specify vertical sweep angle size. */
-    thetaLength: { type: number, default: Math.PI },
+    thetaLength: { type: float, default: Math.PI },
   },
   computed: {
     inst() {
