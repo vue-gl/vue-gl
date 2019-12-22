@@ -29,7 +29,7 @@ export default {
   },
   props: {
     /** Name of the material. */
-    name: { type: name, validator: validateName },
+    name: { type: name, required: true, validator: validateName },
     /** Defines which side of faces will be rendered. front, back or double. */
     side: { type: string, default: 'front' },
     /** Defines whether vertex coloring is used. Other options are 'vertex' and 'face'. */

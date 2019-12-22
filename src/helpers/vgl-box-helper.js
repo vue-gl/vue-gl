@@ -16,7 +16,7 @@ export default {
     /** Size of the lines representing the axes. */
     color: { type: color, default: '#ff0' },
     /** Name of the object to show the world-axis-aligned boundingbox. */
-    object: { type: name, validator: validateName },
+    object: { type: name, required: true, validator: validateName },
   },
   computed: {
     /** The THREE.BoxHelper instance. */

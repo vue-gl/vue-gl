@@ -96,7 +96,7 @@ export default {
   props: {
     /** The path or URL to the file. This can also be a Data URI. */
     src: string,
-    name: { type: name, validator: validateName },
+    name: { type: name, required: true, validator: validateName },
     mapping: { type: string, default: 'uv' },
     wrapS: { type: string, default: 'clamp-to-edge' },
     wrapT: { type: string, default: 'clamp-to-edge' },

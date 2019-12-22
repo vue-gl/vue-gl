@@ -17,7 +17,7 @@ export default {
   },
   props: {
     /** Name of the component. */
-    name: { type: name, validator: validateName },
+    name: { type: name, required: true, validator: validateName },
     /** The x, y, and z coordinates of each vertex in this geometry. */
     positionAttribute: { type: floatArray, validator: validateFloatArray },
     /** The red, green, and blue channels of vertex color of each vertex in this geometry. */

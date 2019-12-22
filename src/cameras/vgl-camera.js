@@ -1,8 +1,8 @@
 import { Camera, Vector3 } from 'three';
 import VglObject3d from '../core/vgl-object3d';
 import { parseVector3, parseSpherical } from '../parsers';
-import { vector3, spherical } from '../types';
-import { validateVector3, validateSpherical } from '../validators';
+import { vector3, spherical, name } from '../types';
+import { validateVector3, validateSpherical, validateName } from '../validators';
 
 /**
  * This is abstract base component for cameras,
@@ -28,6 +28,8 @@ export default {
      * If orbitTarget is not defined, automatically set to (0, 0, 0).
      */
     orbitPosition: { type: spherical, validator: validateSpherical },
+    /** Name of the camera */
+    name: { type: name, required: true, validator: validateName },
   },
   computed: {
     /** The THREE.Camera instance. */
@@ -60,9 +62,9 @@ export default {
       },
       immediate: true,
     },
-    name(name, oldName) {
+    name(newName, oldName) {
       this.vglNamespace.cameras.delete(oldName, this.inst);
-      this.vglNamespace.cameras.set(name, this.inst);
+      this.vglNamespace.cameras.set(newName, this.inst);
     },
     orbitTarget(orbitTarget) {
       const target = parseVector3(orbitTarget);

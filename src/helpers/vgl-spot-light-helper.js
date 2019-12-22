@@ -16,7 +16,7 @@ export default {
     /** If this is not the set the helper will take the color of the light. */
     color,
     /** Name of the spot light being visualized. */
-    light: { type: name, validator: validateName },
+    light: { type: name, required: true, validator: validateName },
   },
   data: () => ({
     /**

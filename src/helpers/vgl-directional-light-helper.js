@@ -18,7 +18,7 @@ export default {
     /** Dimensions of the plane. */
     size: { type: float, default: 1 },
     /** Name of the directional light being visualized. */
-    light: { type: name, validator: validateName },
+    light: { type: name, required: true, validator: validateName },
   },
   data: () => ({
     /**

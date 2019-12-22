@@ -14,7 +14,7 @@ export default {
   },
   props: {
     /** Name of the component. */
-    name: { type: name, validator: validateName },
+    name: { type: name, required: true, validator: validateName },
   },
   computed: {
     /** The THREE.Curve instance. */

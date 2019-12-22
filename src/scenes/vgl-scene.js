@@ -23,6 +23,8 @@ export default {
     backgroundColor: string,
     /** Expecting to accept a string representing a texture name. */
     backgroundTexture: { type: name, validator: validateName },
+    /** Name of the scene. */
+    name: { type: name, required: true, validator: validateName },
   },
   computed: {
     /** The THREE.Scene instance. */
