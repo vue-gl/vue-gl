@@ -16,6 +16,7 @@ defaults:
     values:
       layout: example
       nav_exclude: true
+      no_ads: true
 exclude:
   - rollup.config.js
   - .gitignore
