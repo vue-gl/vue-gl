@@ -2,3 +2,6 @@ MD013:
   code_blocks: false
 MD022:
   lines_below: 0
+MD026:
+  punctuation: ;,:。，；：！？
+MD033: false

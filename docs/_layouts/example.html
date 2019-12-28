@@ -1,14 +1,6 @@
 ---
 layout: default
 ---
-<script src="{{ '/js/vue.min.js' | relative_url }}"></script>
-<script src="{{ '/js/three.min.js' | relative_url }}"></script>
-<script src="{{ '/js/vue-gl.js' | relative_url }}"></script>
-<script type="text/javascript">
-  Object.keys(VueGL).forEach((key) => {
-    Vue.component(key, VueGL[key]);
-  });
-</script>
 <script type="text/javascript">
   document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.add('example');
