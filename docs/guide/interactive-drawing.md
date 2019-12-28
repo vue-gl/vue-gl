@@ -71,7 +71,6 @@ The mesh moves following the slider input value.
   <!-- User can handles zCoordinate via this range input. -->
   <input type="range" v-model="zCoordinate" min="-5" max="5">
 </div>
-
 <script>
   new Vue({
     el: '#ex-2',
