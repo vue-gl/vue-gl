@@ -76,6 +76,7 @@ export default {
     if (this.name !== undefined) this.vglNamespace.materials.delete(this.name, this.inst);
   },
   render(h) {
-    return this.$slots.default ? h('div', this.$slots.default) : undefined;
+    if (!this.$slots.default) return undefined;
+    return h('div', { style: { display: 'none' } }, this.$slots.default);
   },
 };
