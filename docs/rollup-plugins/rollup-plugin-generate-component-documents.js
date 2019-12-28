@@ -78,7 +78,7 @@ function toPascalCase(input) {
 function introContent({ groupName, navOrder }) {
   return `---
 parent: ${groupName}
-grand_parent: Components (API)
+grand_parent: API / Components
 nav_order: ${navOrder}
 ---
 `;
@@ -104,7 +104,7 @@ async function outroContent({ dest, examplePath }) {
 
 function groupIndexContent({ groupName, navOrder }) {
   return `---
-parent: Components (API)
+parent: API / Components
 has_children: true
 nav_order: ${navOrder}
 ---
@@ -117,9 +117,11 @@ function rootIndexContent() {
   return `---
 has_children: true
 nav_order: 3
+redirect_from:
+  - /vue-gl/components
 ---
 
-# Components (API)
+# API / Components
 `;
 }
 
@@ -144,7 +146,7 @@ export default function generateComponentDocuments({ dest, src }) {
       const groups = groupByDirname(outputFilenames);
       await map(groups, async ([dirname, basenames], i) => {
         const groupName = toPascalCase(path.basename(dirname));
-        await writeFile(path.resolve(dirname, 'README.md'), groupIndexContent({ groupName, navOrder: i }));
+        await writeFile(path.resolve(dirname, 'index.md'), groupIndexContent({ groupName, navOrder: i }));
         await map(basenames, async (basename, j) => {
           const filePath = path.resolve(dirname, basename);
           await replaceFileContent(filePath, /^#\s+\S+\s*$/m, `# ${toPascalCase(path.basename(basename, '.md'))}\n`);
@@ -153,7 +155,7 @@ export default function generateComponentDocuments({ dest, src }) {
           await appendFile(filePath, await outroContent({ dest, examplePath }));
         });
       });
-      await writeFile(path.resolve(dest, 'README.md'), rootIndexContent());
+      await writeFile(path.resolve(dest, 'index.md'), rootIndexContent());
     },
   };
 }

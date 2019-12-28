@@ -1,16 +1,19 @@
-{% for page_data in site.pages %}
-  {% if page_data.url == include.url %}
-    {% capture content %}
-```html
-{{ page_data.content }}
-```
-    {% endcapture %}
-  {% endif %}
-{% endfor %}
+{%- for page_data in site.pages -%}
+  {%- if page_data.url == include.url -%}
+    {%- capture content -%}
+      {{ page_data.content }}
+    {%- endcapture -%}
+  {%- endif -%}
+{%- endfor -%}
 
-{{ content | markdownify }}
-
-<div class="example">
-  <iframe src="{{ include.url | relative_url }}"></iframe>
-  <a href="{{ include.url | relative_url }}">View on single page >></a>
+<div class="code-example">
+  <div class="max-width-1-2">
+    <div class="aspect-1618-1000 external-example">
+      <iframe src="{{ include.url | relative_url }}"></iframe>
+      <a href="{{ include.url | relative_url }}">View on single page >></a>
+    </div>
+  </div>
 </div>
+```html
+{{ content | replace: "(window.vueOpts = window.vueOpts || []).push", "new Vue" }}
+```
