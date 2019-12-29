@@ -1,8 +1,6 @@
 ---
 nav_order: 2
 has_children: true
-redirect_from:
-  - vue-gl/property-types
 ---
 
 # API / Prop types
