@@ -1,7 +1,5 @@
 ---
 nav_exclude: true
-redirect_from: 
-  - /vue-gl/index
 ---
 # Easy way to handle WebGL.
 {: .fs-10 .transform-skew .shadow}

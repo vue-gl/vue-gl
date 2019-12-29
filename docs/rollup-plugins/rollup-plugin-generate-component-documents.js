@@ -117,8 +117,6 @@ function rootIndexContent() {
   return `---
 has_children: true
 nav_order: 3
-redirect_from:
-  - /vue-gl/components
 ---
 
 # API / Components
