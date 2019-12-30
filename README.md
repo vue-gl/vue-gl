@@ -9,7 +9,9 @@ See the [documents](https://vue-gl.github.io/vue-gl/) for more details.
 )  
 [![CircleCI](https://circleci.com/gh/vue-gl/vue-gl.svg?style=svg)](https://circleci.com/gh/vue-gl/vue-gl
 )  
-[![Financial Contributors on Open Collective](https://opencollective.com/vue-gl/all/badge.svg?label=financial+contributors)](https://opencollective.com/vue-gl) [![codecov](https://codecov.io/gh/vue-gl/vue-gl/branch/master/graph/badge.svg)](https://codecov.io/gh/vue-gl/vue-gl
+[![codecov](https://codecov.io/gh/vue-gl/vue-gl/branch/master/graph/badge.svg)](https://codecov.io/gh/vue-gl/vue-gl
+)  
+[![Financial Contributors on Open Collective](https://opencollective.com/vue-gl/all/badge.svg?label=financial+contributors)](https://opencollective.com/vue-gl)
 )
 
 ## Usage
@@ -227,8 +229,6 @@ When you open the html above in the browser, you'll see below.
 Are you interested in enhance this product?
 We're really glad and thanks a lot!  
 See [Contributing guidelines](CONTRIBUTING.md) to get started.
-
-## Contributors
 
 ### Code Contributors
 
