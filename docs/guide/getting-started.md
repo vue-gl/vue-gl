@@ -73,12 +73,9 @@ copy and save the whole HTML below, then load it on a modern web browser.
 <div class="code-example">
   <div class="max-width-1-2">
     <div class="aspect-1618-1000">
-      <vgl-renderer id="getting-started-1"></vgl-renderer>
+      <vgl-renderer></vgl-renderer>
     </div>
   </div>
-  <script>
-    (window.vueOpts = window.vueOpts || []).push({ el: '#getting-started-1' });
-  </script>
 </div>
 ```html
 <!DOCTYPE html>
@@ -128,9 +125,6 @@ Definition of scene and camera is like below.
       </vgl-renderer>
     </div>
   </div>
-  <script>
-    (window.vueOpts = window.vueOpts || []).push({ el: '#getting-started-2' });
-  </script>
 </div>
 ```html
 <vgl-renderer class="getting-started">

@@ -104,9 +104,6 @@ the projection matrix of the camera is set from the canvas size.
       </vgl-namespace>
     </div>
   </div>
-  <script>
-    (window.vueOpts = window.vueOpts || []).push({ el: '#multiple-renderer' });
-  </script>
 </div>
 ```html
 <vgl-namespace>
