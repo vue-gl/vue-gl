@@ -2,5 +2,5 @@
 /* global Vue, VueGL */
 window.jtd.onReady(() => {
   Object.keys(VueGL).forEach((key) => Vue.component(key, VueGL[key]));
-  if (window.vueOpts) window.vueOpts.forEach((opt) => new Vue(opt));
+  document.querySelectorAll('.code-example').forEach((el) => new Vue({ el }));
 });

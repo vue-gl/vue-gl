@@ -19,5 +19,3 @@ defaults:
       no_ads: true
 exclude:
   - rollup.config.js
-  - .gitignore
-  - rollup-plugins

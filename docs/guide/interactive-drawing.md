@@ -39,22 +39,23 @@ blow handles user input as `zCoordinate` and bind it to the `VglMesh` component.
 The mesh moves following the slider input value.
 
 <div class="code-example">
-  <div id="ex-2" class="max-width-1-2">
-    <div class="aspect-1618-1000">
-      <vgl-renderer>
-        <vgl-sphere-geometry name="sphere"></vgl-sphere-geometry>
-        <vgl-scene>
-          <vgl-mesh :position="`0 0 ${zCoordinate}`" geometry="sphere"></vgl-mesh>
-        </vgl-scene>
-        <vgl-perspective-camera orbit-position="10 0 0"></vgl-perspective-camera>
-      </vgl-renderer>
+  <code-example2 inline-template>
+    <div class="max-width-1-2">
+      <div class="aspect-1618-1000">
+        <vgl-renderer>
+          <vgl-sphere-geometry name="sphere"></vgl-sphere-geometry>
+          <vgl-scene>
+            <vgl-mesh :position="`0 0 ${zCoordinate}`" geometry="sphere"></vgl-mesh>
+          </vgl-scene>
+          <vgl-perspective-camera orbit-position="10 0 0"></vgl-perspective-camera>
+        </vgl-renderer>
+      </div>
+      <input type="range" v-model="zCoordinate" min="-5" max="5">
     </div>
-    <input type="range" v-model="zCoordinate" min="-5" max="5">
-  </div>
+  </code-example2>
   <script>
-    (window.vueOpts = window.vueOpts || []).push({
-      el: '#ex-2',
-      data: { zCoordinate: 0 },
+    Vue.component('CodeExample2', {
+      data: () => ({ zCoordinate: 0 }),
     });
   </script>
 </div>
