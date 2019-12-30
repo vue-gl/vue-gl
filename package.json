@@ -1,6 +1,6 @@
 {
   "name": "vue-gl",
-  "version": "0.18.1",
+  "version": "0.18.2",
   "description": "Vue.js components rendering 3D graphics reactively via three.js",
   "keywords": [
     "Vue",
@@ -12,7 +12,7 @@
     "Graphics",
     "Canvas"
   ],
-  "homepage": "https://vue-gl.github.io/vue-gl/",
+  "homepage": "https://vue-gl.github.io/",
   "repository": {
     "type": "git",
     "url": "https://github.com/vue-gl/vue-gl.git"
@@ -24,7 +24,7 @@
   "main": "dist/vue-gl.js",
   "types": "src/index.d.ts",
   "scripts": {
-    "lint": "eslint .",
+    "lint": "eslint . --ext .js,.vue",
     "lint:md": "markdownlint \"**/*.md\" -c markdownlint.config.yml --ignore node_modules --ignore docs/components --ignore _site",
     "test": "jest",
     "start": "rollup -c docs/rollup.config.js && bundle exec jekyll serve --source docs",
@@ -38,6 +38,7 @@
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-jest": "^23.0.0",
+    "eslint-plugin-vue": "^6.1.1",
     "gh-pages": "^2.0.0",
     "glob": "^7.1.6",
     "jest": "^24.1.0",
@@ -46,9 +47,14 @@
     "rollup": "^1.1.2",
     "rollup-plugin-babel": "^4.0.2",
     "rollup-plugin-babel-minify": "^9.0.0",
+    "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-copy": "^3.0.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-vue": "^5.1.4",
     "three": "^0.111.0",
-    "vue": "^2.2.0"
+    "vue": "^2.2.0",
+    "vue-runtime-helpers": "^1.1.2",
+    "vue-template-compiler": "^2.6.11"
   },
   "peerDependencies": {
     "three": "^0.111.0",

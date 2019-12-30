@@ -1,8 +1,7 @@
 remote_theme: pmarsceill/just-the-docs
-logo: assets/img/logo.svg
+logo: img/logo.svg
 ga_tracking: UA-23493957-4
 ga_publisher: pub-3600741293730423
-ga_search: '6643788418'
 title: VueGL
 description: Vue.js components rendering 3D graphics reactively via Three.js
 aux_links:
@@ -10,14 +9,13 @@ aux_links:
 plugins:
   - jekyll-seo-tag
   - jekyll-sitemap
+  - jekyll-redirect-from
 defaults:
   - scope:
       path: examples
     values:
       layout: example
-      search_enabled: false
       nav_exclude: true
+      no_ads: true
 exclude:
   - rollup.config.js
-  - .gitignore
-  - rollup-plugins
