@@ -233,7 +233,7 @@ See [Contributing guidelines](CONTRIBUTING.md) to get started.
 
 This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
 <a href="https://github.com/vue-gl/vue-gl/graphs/contributors">
-  <img src="https://opencollective.com/vue-gl/contributors.svg?width=890&button=false" />
+  <img src="https://opencollective.com/vue-gl/contributors.svg?width=890&button=false">
 </a>
 
 ### Financial Contributors
@@ -246,8 +246,8 @@ Become a financial contributor and help us sustain our community. [[Contribute](
 
 #### Organizations
 
-Support this project with your organization. Your logo will show up here with a link to your website.
-[[Contribute](https://opencollective.com/vue-gl/contribute)]
+Support this project with your organization. Your logo will show up here with a
+link to your website. [[Contribute](https://opencollective.com/vue-gl/contribute)]
 
 <a href="https://opencollective.com/vue-gl/organization/0/website"><img src="https://opencollective.com/vue-gl/organization/0/avatar.svg"></a>
 <a href="https://opencollective.com/vue-gl/organization/1/website"><img src="https://opencollective.com/vue-gl/organization/1/avatar.svg"></a>
