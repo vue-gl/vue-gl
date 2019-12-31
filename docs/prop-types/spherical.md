@@ -17,3 +17,10 @@ Examples below set the `orbit-position` prop to
 ```html
 <vgl-perspective-camera :orbit-position="new THREE.Spherical(123.4, 0.23, 0.34)" />
 ```
+
+---
+
+## List of prop types
+{: .text-delta}
+
+{% include toc_siblings.html %}

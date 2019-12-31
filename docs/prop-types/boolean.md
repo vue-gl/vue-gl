@@ -17,3 +17,10 @@ Examples below set the `antialias` prop to `true`.
 ```html
 <vgl-renderer :antialias="true" />
 ```
+
+---
+
+## List of prop types
+{: .text-delta}
+
+{% include toc_siblings.html %}

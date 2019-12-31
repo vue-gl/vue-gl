@@ -16,3 +16,10 @@ Examples below set the `fov` prop to `63.35`.
 ```html
 <vgl-perspective-camera :fov="63.35" />
 ```
+
+---
+
+## List of prop types
+{: .text-delta}
+
+{% include toc_siblings.html %}
