@@ -16,3 +16,10 @@ Examples below set the `offset` prop to `(x, y) = (12.34, 56.78)`.
 ```html
 <vgl-texture :offset="new THREE.Vector2(12.34, 56.78)">
 ```
+
+---
+
+## List of prop types
+{: .text-delta}
+
+{% include toc_siblings.html %}

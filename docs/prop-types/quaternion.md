@@ -17,3 +17,10 @@ Examples below set the `rotationQuaternion` prop to
 ```html
 <vgl-group :rotation-quaternion="new THREE.Quaternion(0.91, 0.23, 0.34, 0.88)" />
 ```
+
+---
+
+## List of prop types
+{: .text-delta}
+
+{% include toc_siblings.html %}

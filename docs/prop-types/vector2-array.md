@@ -23,3 +23,10 @@ Examples below set the `points` prop to
 ```html
 <vgl-lathe-geometry :points="[new THREE.Vector2(-1.2, 0), new THREE.Vector2(1, 2.5)]" />
 ```
+
+---
+
+## List of prop types
+{: .text-delta}
+
+{% include toc_siblings.html %}

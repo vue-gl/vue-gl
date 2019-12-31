@@ -17,3 +17,10 @@ Examples below set the `rotation` prop to
 ```html
 <vgl-group :rotation="new THREE.Euler(0.12, 0.23, 0.34, 'ZYX')" />
 ```
+
+---
+
+## List of prop types
+{: .text-delta}
+
+{% include toc_siblings.html %}

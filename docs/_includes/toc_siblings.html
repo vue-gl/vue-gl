@@ -1,0 +1,6 @@
+<ul>
+  {% assign pages = site.html_pages | where: "parent", page.parent | sort: "nav_order" -%}
+  {%- for node in pages -%}
+    <li><a href="{{ node.url }}">{{ node.title }}</a></li>
+  {%- endfor -%}
+</ul>

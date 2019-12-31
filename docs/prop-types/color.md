@@ -28,3 +28,10 @@ Examples below set the light color to `0x4ef3a7`.
 ```html
 <vgl-ambient-light :color="new THREE.Color(0x4ef3a7)" />
 ```
+
+---
+
+## List of prop types
+{: .text-delta}
+
+{% include toc_siblings.html %}

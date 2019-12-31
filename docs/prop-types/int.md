@@ -16,3 +16,10 @@ Examples below set the `radial-segments` prop to `12`.
 ```html
 <vgl-cylinder-geometry :radial-segments="12" />
 ```
+
+---
+
+## List of prop types
+{: .text-delta}
+
+{% include toc_siblings.html %}
