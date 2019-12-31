@@ -49,7 +49,6 @@ export const VglShadowMaterial: object;
 export const VglCameraHelper: object;
 export const VglDirectionalLightHelper: object;
 export const VglPolarGridHelper: object;
-export const VglRectAreaLightHelper: object;
 export const VglMeshBasicMaterial: object;
 export const VglMeshDepthMaterial: object;
 export const VglMeshLambertMaterial: object;
