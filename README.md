@@ -1,7 +1,7 @@
 # VueGL
 
-[Vue.js](https://vuejs.org/) components rendering 3D graphics reactively via [three.js](https://threejs.org/).
-See the [documents](https://vue-gl.github.io/vue-gl/) for more details.
+[Vue.js](https://vuejs.org/) components rendering 3D WebGL graphics reactively with
+[three.js](https://threejs.org/).
 
 [![NPM](https://nodei.co/npm/vue-gl.png?compact=true)](https://nodei.co/npm/vue-gl/
 )  
@@ -15,44 +15,29 @@ See the [documents](https://vue-gl.github.io/vue-gl/) for more details.
 
 ## Usage
 
-Define objects by tags.  
-Save the following code as a html file, and open in any modern browser.
-
 ```html
-<!-- dependencies -->
+<!-- Load scripts -->
 <script src="https://unpkg.com/vue"></script>
 <script src="https://unpkg.com/three"></script>
-
-<!-- load components -->
 <script src="https://unpkg.com/vue-gl"></script>
 
-<!-- define objects -->
-<vgl-renderer id="vgl-canvas" style="width: 300px; height: 150px;">
+<!-- Define canvas and objects -->
+<vgl-renderer id="vgl-canvas">
+  <vgl-sphere-geometry name="sphere"></vgl-sphere-geometry>
   <vgl-scene>
-    <vgl-sphere-geometry></vgl-sphere-geometry>
-    <vgl-mesh-standard-material></vgl-mesh-standard-material>
-    <vgl-mesh></vgl-mesh>
-    <vgl-ambient-light></vgl-ambient-light>
-    <vgl-directional-light position="2 0 1"></vgl-directional-light>
+    <vgl-mesh geometry="sphere"></vgl-mesh>
   </vgl-scene>
-  <vgl-perspective-camera orbit-position="200 1 1"></vgl-perspective-camera>
+  <vgl-perspective-camera orbit-position="5 0 0"></vgl-perspective-camera>
 </vgl-renderer>
 
-<!-- register components and start vue -->
+<!-- Register components and start vue -->
 <script>
-  Object.keys(VueGL).forEach(name => {
-    Vue.component(name, VueGL[name]);
-  });
-  new Vue({
-    el: "#vgl-canvas"
-  });
+Object.keys(VueGL).forEach(name => Vue.component(name, VueGL[name]));
+new Vue({ el: "#vgl-canvas" });
 </script>
 ```
 
-When you open the html above in the browser, you'll see below.  
-![VueGL example](https://www.evernote.com/shard/s42/sh/475e146b-d187-4abb-8793-09bf0561a295/c581691f3ea3f0f1603fdfb5467bf485/res/67489a93-c191-4da5-a353-a15d0120230c/2017-09-21-iloveimg-cropped.png?resizeSmall&width=832)
-
-> Note that IE9 needs a polyfill for the TypedArray class, like the [js-polyfills/typedarray.js](https://github.com/inexorabletash/polyfill/blob/master/typedarray.js).
+[See the documentation](//vue-gl.github.io) for more information.
 
 ## Components
 
