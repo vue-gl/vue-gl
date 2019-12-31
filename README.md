@@ -37,7 +37,7 @@ new Vue({ el: "#vgl-canvas" });
 </script>
 ```
 
-[See the documentation](https://vue-gl.github.io/vue-gl/) for more information.
+[See the documentation](//vue-gl.github.io) for more information.
 
 ## Components
 
