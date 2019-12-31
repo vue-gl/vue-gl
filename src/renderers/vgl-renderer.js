@@ -1,7 +1,7 @@
 import { WebGLRenderer } from 'three';
 import VglNamespace from '../core/vgl-namespace';
 import { boolean, string, name } from '../types';
-import { nameValidator } from '../validators';
+import { validateName } from '../validators';
 import { setCameraSize } from './utilities';
 
 /**
@@ -14,8 +14,10 @@ import { setCameraSize } from './utilities';
 export default {
   mixins: [VglNamespace],
   props: {
-    /** Shader precision. Can be "highp", "mediump" or "lowp". */
-    precision: string,
+    /** Name of the using camera. */
+    camera: { type: name, required: true, validator: validateName },
+    /** Name of the target scene. */
+    scene: { type: name, required: true, validator: validateName },
     /** Whether the canvas contains an alpha (transparency) buffer or not. */
     alpha: boolean,
     /** Whether the renderer will assume that colors have premultiplied alpha. */
@@ -24,23 +26,27 @@ export default {
     antialias: boolean,
     /** Whether the drawing buffer has a stencil buffer of at least 8 bits. */
     disableStencil: boolean,
-    /**
-     * A hint to the user agent indicating what configuration of GPU is suitable
-     * for this WebGL context. Can be "high-performance", "low-power" or "default".
-     */
-    powerPreference: string,
     /** Whether to preserve the buffers until manually cleared or overwritten. */
     preserveDrawingBuffer: boolean,
     /** Whether the drawing buffer has a depth buffer of at least 16 bits. */
     disableDepth: boolean,
     /** Whether to use a logarithmic depth buffer. */
     logarithmicDepthBuffer: boolean,
-    /** Name of the using camera. */
-    camera: { type: name, validator: nameValidator },
-    /** Name of the target scene. */
-    scene: { type: name, validator: nameValidator },
     /** If set, use shadow maps in the scene. */
     shadowMapEnabled: boolean,
+    /** Shader precision. Can be "highp", "mediump" or "lowp". */
+    precision: {
+      type: string,
+      validator: (v) => /^(highp|mediump|lowp)$/.test(v),
+    },
+    /**
+     * A hint to the user agent indicating what configuration of GPU is suitable
+     * for this WebGL context. Can be "high-performance", "low-power" or "default".
+     */
+    powerPreference: {
+      type: string,
+      validator: (v) => /^(high-performance|low-power|default)$/.test(v),
+    },
   },
   computed: {
     /** The THREE.WebGLRenderer instance. */

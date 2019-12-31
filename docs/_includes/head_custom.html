@@ -1,13 +1,12 @@
-{% if site.ga_publisher != nil %}
+{% if site.ga_publisher != nil and page.no_ads != true %}
   <script
     async
     data-ad-client="ca-{{ site.ga_publisher }}"
     src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
   ></script>
-  {% if site.ga_search != nil %}
-    <script
-      async
-      src="https://cse.google.com/cse.js?cx=partner-{{ site.ga_publisher }}:{{ site.ga_search }}"
-    ></script>
-  {% endif %}
 {% endif %}
+
+<script src="{{ '/js/vue.min.js' | relative_url }}"></script>
+<script src="{{ '/js/three.min.js' | relative_url }}"></script>
+<script src="{{ '/js/vue-gl.js' | relative_url }}"></script>
+<script src="{{ '/js/examples.js' | relative_url }}"></script>

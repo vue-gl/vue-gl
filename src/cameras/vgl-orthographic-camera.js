@@ -1,6 +1,6 @@
 import { OrthographicCamera } from 'three';
 import VglCamera from './vgl-camera';
-import { number } from '../types';
+import { float } from '../types';
 
 /**
  * Camera that uses orthographic projection,
@@ -14,11 +14,11 @@ export default {
   mixins: [VglCamera],
   props: {
     /** Zoom factor of the camera. */
-    zoom: { type: number, default: 1 },
+    zoom: { type: float, default: 1 },
     /** Camera frustum near plane. */
-    near: { type: number, default: 0.1 },
+    near: { type: float, default: 0.1 },
     /** Camera frustum far plane. */
-    far: { type: number, default: 2000 },
+    far: { type: float, default: 2000 },
   },
   computed: {
     /** The THREE.OrthographicCamera instance. */

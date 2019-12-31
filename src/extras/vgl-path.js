@@ -2,6 +2,7 @@ import { Path } from 'three';
 import VglCurvePath from './vgl-curve-path';
 import { vector2Array } from '../types';
 import { parseVector2Array } from '../parsers';
+import { validateVector2Array } from '../validators';
 
 /**
  * A 2D path representation, Corresponding
@@ -14,7 +15,7 @@ export default {
   mixins: [VglCurvePath],
   props: {
     /** The array of points as a LineCurve. */
-    path: vector2Array,
+    path: { type: vector2Array, validator: validateVector2Array },
   },
   computed: {
     /** The THREE.Path instance. */

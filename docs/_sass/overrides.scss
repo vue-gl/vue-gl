@@ -1,21 +1,68 @@
-body.example {
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
+.transform-skew {
+  transform: skew(0, 4.274deg);
+}
 
+.shadow {
+  text-shadow: 2px 2px 4px #888;
+}
+
+.aspect-1618-1000 {
+  position: relative;
+  padding-top: 61.8%;
+
+  > * {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+}
+
+.max-width-1-2 {
+  max-width: $content-width / 2;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.flex-1 {
+  flex-grow: 1;
+}
+
+.prepend-empty::before {
+  content: '';
+}
+
+.nav-next {
+  &::before {
+    content: 'Next: ';
+  }
+  &::after {
+    content: ' »';
+  }
+}
+
+.nav-prev {
+  &::before {
+    content: '« Prev: ';
+  }
+}
+
+.code-example {
   .control-panel {
     background: #fff;
+    top: 1ex;
     left: 1ex;
-    margin: 0;
-    max-height: calc(100vh - 4ex);
+    right: auto;
+    bottom: auto;
+    max-height: calc(100% - 2ex);
     opacity: 0.85;
     overflow: auto;
     padding: 1ex;
-    position: fixed;
-    top: 1ex;
 
     h3 {
-      font-size: 1rem;
       margin: 0;
     }
     
@@ -27,31 +74,5 @@ body.example {
     input:not([type=checkbox]) {
       display: block;
     }
-  }
-}
-
-div.example {
-  position: relative;
-  width: 100%;
-
-  &::before {
-    padding-top: 61.8034%;
-    content:"";
-    display: block;
-  }
-  
-  iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
-  }
-  
-  a {
-    position: absolute;
-    top: 1ex;
-    right: 1ex;
   }
 }

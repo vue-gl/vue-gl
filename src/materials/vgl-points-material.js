@@ -1,6 +1,6 @@
 import { PointsMaterial } from 'three';
 import VglMaterial from './vgl-material';
-import { string, number, boolean } from '../types';
+import { boolean, color, float } from '../types';
 
 /**
  * The default material used by [VglPoints](vgl-points),
@@ -13,9 +13,9 @@ export default {
   mixins: [VglMaterial],
   props: {
     /** CSS style color of the material. */
-    color: { type: string, default: '#fff' },
+    color: { type: color, default: '#fff' },
     /** The size of the points. */
-    size: { type: number, default: 1 },
+    size: { type: float, default: 1 },
     /** Specify whether points' size will get smaller with the distance. */
     disableSizeAttenuation: boolean,
   },
@@ -34,8 +34,8 @@ export default {
       },
       immediate: true,
     },
-    color(color) {
-      this.inst.color.setStyle(color);
+    color(newColor) {
+      this.inst.color.setStyle(newColor);
       this.update();
     },
     size(size) {

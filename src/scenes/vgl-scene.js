@@ -1,7 +1,8 @@
 import { Scene } from 'three';
 import VglObject3d from '../core/vgl-object3d';
 import { parseFog, parseColor } from '../parsers';
-import { string, fog } from '../types';
+import { string, fog, name } from '../types';
+import { validateName } from '../validators';
 
 /**
  * This is where you place objects,
@@ -21,7 +22,9 @@ export default {
     */
     backgroundColor: string,
     /** Expecting to accept a string representing a texture name. */
-    backgroundTexture: string,
+    backgroundTexture: { type: name, validator: validateName },
+    /** Name of the scene. */
+    name: { type: name, required: true, validator: validateName },
   },
   computed: {
     /** The THREE.Scene instance. */
@@ -60,9 +63,9 @@ export default {
       },
       immediate: true,
     },
-    name(name, oldName) {
+    name(newName, oldName) {
       this.vglNamespace.scenes.delete(oldName, this.inst);
-      this.vglNamespace.scenes.set(name, this.inst);
+      this.vglNamespace.scenes.set(newName, this.inst);
     },
     fog(newFog) {
       this.inst.fog = parseFog(newFog);
@@ -73,13 +76,13 @@ export default {
       this.vglObject3d.emit();
     },
     backgroundTexture: {
-      handler(name, oldName) {
+      handler(newName, oldName) {
         if (oldName !== undefined) {
           this.vglNamespace.textures.unlisten(oldName, this.setBackgroundTexture);
         }
-        if (name !== undefined) {
-          this.vglNamespace.textures.listen(name, this.setBackgroundTexture);
-          this.setBackgroundTexture(this.vglNamespace.textures.get(name));
+        if (newName !== undefined) {
+          this.vglNamespace.textures.listen(newName, this.setBackgroundTexture);
+          this.setBackgroundTexture(this.vglNamespace.textures.get(newName));
         }
       },
       immediate: true,

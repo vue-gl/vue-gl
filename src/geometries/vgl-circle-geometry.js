@@ -1,6 +1,6 @@
 import { CircleBufferGeometry } from 'three';
 import VglGeometry from '../core/vgl-geometry';
-import { number } from '../types';
+import { float, int } from '../types';
 
 /**
  * This is a simple shape component of Euclidean geometry,
@@ -18,13 +18,13 @@ export default {
   mixins: [VglGeometry],
   props: {
     /** Radius of the circle. */
-    radius: { type: number, default: 1 },
+    radius: { type: float, default: 1 },
     /** Number of segments (triangles). */
-    segments: { type: number, default: 8 },
+    segments: { type: int, default: 8 },
     /** Start angle for first segment. */
-    thetaStart: { type: number, default: 0 },
+    thetaStart: { type: float, default: 0 },
     /** The central angle of the circular sector. */
-    thetaLength: { type: number, default: Math.PI * 2 },
+    thetaLength: { type: float, default: Math.PI * 2 },
   },
   computed: {
     inst() {
