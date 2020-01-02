@@ -11,4 +11,4 @@ To use them, load scripts directly with `<script>` element after loading VueGL o
 import with module bundlers.
 
 When load scripts directly, the component will be injected under the `VueGL` namespace.
-Resister `VueGL.<ComponentName>` to `Vue` before instantiating the components. 
+Resister `VueGL.<ComponentName>` to `Vue` before instantiating the components.

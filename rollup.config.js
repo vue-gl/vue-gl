@@ -89,11 +89,12 @@ async function rollup() {
     external: (id, parent) => {
       if (!id.length) return false;
       const externalDirectory = dirname(require.resolve('three'));
-      if (/^[\.\/]/.test(id)) return dirname(join(dirname(parent), id)) === externalDirectory;
+      if (/^[./]/.test(id)) return dirname(join(dirname(parent), id)) === externalDirectory;
       return dirname(require.resolve(id)) === externalDirectory;
     },
     output: {
-      file: `dist/${path}`, format: 'umd',
+      file: `dist/${path}`,
+      format: 'umd',
       globals: { [require.resolve('three/build/three.module')]: 'THREE', three: 'THREE' },
       name: `VueGL.${componentName(name)}`,
     },
@@ -102,7 +103,7 @@ async function rollup() {
       resolve(),
       terser({ mangle: { reserved: ['ObjectManipulator'] } }),
       doc({
-        test: /(^|\/)examples(\/[^\/]+)*\/vgl-[^\/]+$/,
+        test: /(^|\/)examples(\/[^/]+)*\/vgl-[^/]+$/,
         intro: ({ id }) => `---
           \ngrand_parent: API / Example Components
           \nparent: Example ${componentCategory(id)}
