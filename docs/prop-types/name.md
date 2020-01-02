@@ -1,6 +1,6 @@
 ---
 parent: API / Prop types
-nav_order: 5
+nav_order: E
 ---
 
 # name

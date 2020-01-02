@@ -1,6 +1,6 @@
 ---
 parent: API / Prop types
-nav_order: 9
+nav_order: I
 ---
 
 # vector3

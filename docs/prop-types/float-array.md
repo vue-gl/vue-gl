@@ -1,6 +1,6 @@
 ---
 parent: API / Prop types
-nav_order: 13
+nav_order: M
 ---
 
 # floatArray

@@ -1,6 +1,6 @@
 ---
 parent: API / Prop types
-nav_order: 1
+nav_order: A
 ---
 
 # boolean
