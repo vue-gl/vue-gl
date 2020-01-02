@@ -109,8 +109,6 @@ new Vue({ el: "#vgl-canvas" });
         Corresponding to [THREE.CameraHelper](https://threejs.org/docs/index.html#api/helpers/CameraHelper)
   - [x] **[VglDirectionalLightHelper](src/helpers/vgl-directional-light-helper.js
         )** - Corresponding to [THREE.DirectionalLightHelper](https://threejs.org/docs/index.html#api/helpers/DirectionalLightHelper)
-  - [ ] **[VglFaceNormalsHelper](src/helpers/vgl-face-normals-helper.js)** -
-        Corresponding to [THREE.FaceNormalsHelper](https://threejs.org/docs/index.html#api/helpers/FaceNormalsHelper)
   - [x] **[VglGridHelper](src/helpers/vgl-grid-helper.js)** -
         Corresponding to [THREE.GridHelper](https://threejs.org/docs/index.html#api/helpers/GridHelper)
   - [x] **[VglPolarGridHelper](src/helpers/vgl-polar-grid-helper.js)** -
@@ -119,14 +117,10 @@ new Vue({ el: "#vgl-canvas" });
         )** - Corresponding to [THREE.HemisphereLightHelper](https://threejs.org/docs/index.html#api/helpers/HemisphereLightHelper)
   - [ ] **[VglPointLightHelper](src/helpers/vgl-point-light-helper.js)** -
         Corresponding to [THREE.PointLightHelper](https://threejs.org/docs/index.html#api/helpers/PointLightHelper)
-  - [x] **[VglRectAreaLightHelper](src/helpers/vgl-rect-area-light-helper.js)** -
-        Corresponding to [THREE.RectAreaLightHelper](https://threejs.org/docs/index.html#api/helpers/RectAreaLightHelper)
   - [ ] **[VglSkeletonHelper](src/helpers/vgl-skeleton-helper.js)** -
         Corresponding to [THREE.SkeletonHelper](https://threejs.org/docs/index.html#api/helpers/SkeletonHelper)
   - [x] **[VglSpotLightHelper](src/helpers/vgl-spot-light-helper.js)** -
         Corresponding to [THREE.SpotLightHelper](https://threejs.org/docs/index.html#api/helpers/SpotLightHelper)
-  - [ ] **[VglVertexNormalsHelper](src/helpers/vgl-vertex-normals-helper.js)** -
-        Corresponding to [THREE.VertexNormalsHelper](https://threejs.org/docs/index.html#api/helpers/VertexNormalsHelper)
 - Lights
   - [x] **[VglAmbientLight](src/lights/vgl-ambient-light.js)** -
         Corresponding to [THREE.AmbientLight](https://threejs.org/docs/index.html#api/lights/AmbientLight)
