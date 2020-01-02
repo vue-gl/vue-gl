@@ -1,6 +1,6 @@
 ---
 parent: Guide
-nav_order: 5
+nav_order: E
 ---
 
 # Supporting old browsers

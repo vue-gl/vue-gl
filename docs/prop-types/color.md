@@ -1,6 +1,6 @@
 ---
 parent: API / Prop types
-nav_order: 7
+nav_order: G
 ---
 
 # color

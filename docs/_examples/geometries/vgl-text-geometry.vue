@@ -4,7 +4,7 @@
       <vgl-scene>
         <vgl-text-geometry
           name="text"
-          font="/js/helvetiker_regular.typeface.json"
+          font="/js/vendor/helvetiker_regular.typeface.json"
           :text="text"
         />
         <vgl-mesh-standard-material name="std" />

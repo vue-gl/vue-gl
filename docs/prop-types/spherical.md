@@ -1,6 +1,6 @@
 ---
 parent: API / Prop types
-nav_order: 12
+nav_order: L
 ---
 
 # spherical
