@@ -1,6 +1,6 @@
 ---
 parent: API / Prop types
-nav_order: 3
+nav_order: C
 ---
 
 # float

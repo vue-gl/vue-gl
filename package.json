@@ -24,9 +24,7 @@
   "main": "dist/vue-gl.js",
   "types": "src/index.d.ts",
   "module": "dist/vue-gl.esm.js",
-  "files": [
-    "/dist/"
-  ],
+  "files": ["/dist/"],
   "scripts": {
     "lint": "eslint . --ext .js,.vue",
     "lint:md": "markdownlint \"**/*.md\" -c markdownlint.config.yml --ignore node_modules --ignore docs/components --ignore _site --ignore docs/examples/*/",
