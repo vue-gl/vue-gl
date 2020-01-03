@@ -26,7 +26,6 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           nod-version: 12
-          registry-url: https://registry.npmjs.org/
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Commit
