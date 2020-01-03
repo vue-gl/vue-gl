@@ -1,7 +1,7 @@
 {
   "name": "vue-gl",
   "version": "0.20.0",
-  "description": "Vue.js components rendering 3D graphics reactively via three.js",
+  "description": "Vue.js components rendering 3D WebGL graphics reactively with three.js",
   "keywords": [
     "Vue",
     "Vuejs",
@@ -24,7 +24,10 @@
   "main": "dist/vue-gl.js",
   "types": "src/index.d.ts",
   "module": "dist/vue-gl.esm.js",
-  "files": ["/dist/"],
+  "files": [
+    "/dist/",
+    "/src/"
+  ],
   "scripts": {
     "lint": "eslint . --ext .js,.vue",
     "lint:md": "markdownlint \"**/*.md\" -c markdownlint.config.yml --ignore node_modules --ignore docs/components --ignore _site --ignore docs/examples/*/",
