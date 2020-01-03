@@ -14,9 +14,8 @@ can be merged.
 
 ## Ground Rules
 
-* Strive to ensure cross-browser compatibility. At least IE >= 9, Edge, Chrome,
-  Firefox, Safari.
-* Categorize and design VueGL components to correspond classes in [three.js](https://threejs.org).
+* Strive to ensure cross-browser compatibility. At least latest modern browsers.
+* Categorize and design VueGL components to correspond classes in [three.js](//threejs.org).
 * Be welcoming to newcomers and encourage diverse new contributors from all backgrounds.
   See [Code of Conduct](CODE_OF_CONDUCT.md).
 
@@ -30,7 +29,7 @@ If you unsure where to begin contributing, how about starting with following?
   pull request.
 
 Working on your first pull request? You can learn how from this free series, [How
-to Contribute to an Open Source Project on GitHub](https://egghead.io/series/how-to-contribute-to-an-open-source-project-on-github).
+to Contribute to an Open Source Project on GitHub](//egghead.io/series/how-to-contribute-to-an-open-source-project-on-github).
 
 Feel free to ask for help. Everyone is a beginner at first.
 
@@ -38,8 +37,8 @@ Feel free to ask for help. Everyone is a beginner at first.
 
 1. Create your own fork of the code.
 2. Do the changes in your fork.
-3. Be sure all tests have passed. (Run `npm test` or `yarn test`.)
-4. Be sure following the code style for the project. (Run `npm lint` or `yarn lint`.)
+3. Be sure all tests have passed.
+4. Be sure following the code style for the project.
 5. Send a pull request.
 
 ## How to report a bug
@@ -47,7 +46,7 @@ Feel free to ask for help. Everyone is a beginner at first.
 **If you find a security vulnerability, do NOT open an issue. [Email us](<mailto:ikeda_hiroki@icloud.com>)
 instead.**
 
-When [filing an issue](https://github.com/vue-gl/vue-gl/issues/new/choose), make
+When [filing an issue](/vue-gl/vue-gl/issues/new/choose), make
 sure the following points.
 
 * What version of VueGL you are using.
@@ -65,7 +64,7 @@ adopt advanced functions for handling WebGL and 3D graphics easier.
 If you find yourself wishing for a feature that doesn't exist in VueGL, you are
 probably not alone! There are bound to be others out there with similar needs. If
 you think that the enhancement is small enough and you can write codes yourself,
-feel free to send a pull request directly. Otherwise, [open an issue](https://github.com/vue-gl/vue-gl/issues/new/choose)
+feel free to send a pull request directly. Otherwise, [open an issue](/vue-gl/vue-gl/issues/new/choose)
 which describes the feature you would like to see, why you need it, and how it should
 work.
 
@@ -74,25 +73,25 @@ work.
 Before you submit a pull request, consider the following points.
 
 * Include appropriate test case.
-* Be sure all tests have passed. (By running `npm test` or `yarn test`.)
+* Be sure all tests have passed. (By running `yarn test`.)
 * Be sure following the code style.  
   * Javascript codes should follow [airbnb style guide](/airbnb/javascript). Run
-    `npm lint` or `yarn lint` to lint them.
+    `yarn lint` to lint them.
   * Markdown files should follow default rules of [markdownlint](/DavidAnson/markdownlint).
-    Run `npm lint:md` or `yarn lint:md` to lint them.
+    Run `yarn lint:md` to lint them.
 * Check your fixes at documentation examples.
-  1. Run `npm start` or `yarn start`.
+  1. Run `yarn start`.
   2. After jekyll server started, open the address displayed on the terminal.
 
-> You need [Node.js and npm](https://nodejs.org) to build, test, and lint
-> VueGL.  
-> You need [Ruby](https://www.ruby-lang.org) and [Bundler](http://bundler.io) to
-> see documentation locally.
+> You need [Node.js](//nodejs.org) and [Yarn](//yarnpkg.com) to build, test, and
+> lint VueGL.  
+> You need [Ruby](//www.ruby-lang.org) and [Bundler](//bundler.io) to see documentation
+> locally.
 
 ## Code review process
 
 After sending a pull request, make sure all required checks have passed. If not,
-you should fix them first.
+you should fix them.
 > You can ignore the failed checks those are not required, although we refer them.
 
 We look at pull requests within roughly two weeks. If we found anything to be fixed
