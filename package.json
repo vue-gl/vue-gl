@@ -42,7 +42,6 @@
     "eslint-plugin-jest": "^23.0.0",
     "eslint-plugin-vue": "^6.1.1",
     "fast-glob": "^3.1.1",
-    "gh-pages": "^2.0.0",
     "jest": "^24.1.0",
     "markdownlint-cli": "^0.21.0",
     "nise": "^3.0.0",
