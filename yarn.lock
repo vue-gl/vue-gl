@@ -6000,9 +6000,9 @@ rollup-plugin-babel@^4.0.2:
     rollup-pluginutils "^2.8.1"
 
 rollup-plugin-copy@^3.0.0:
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-copy/-/rollup-plugin-copy-3.2.1.tgz#2942b2328ba700b559ceb22583394e0880928986"
-  integrity sha512-HuMrwIBAJUpy0MCCdRJLbxLJVyha+HrHbJCLyXm5gilSKplDDLOHpue4dyQS2xFDtxg278DlZtK26BlhDXvd3w==
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-copy/-/rollup-plugin-copy-3.3.0.tgz#5ba230047f86b9f703a29288f242948a5580e7b9"
+  integrity sha512-euDjCUSBXZa06nqnwCNADbkAcYDfzwowfZQkto9K/TFhiH+QG7I4PUsEMwM9tDgomGWJc//z7KLW8t+tZwxADA==
   dependencies:
     "@types/fs-extra" "^8.0.1"
     colorette "^1.1.0"
