@@ -5874,9 +5874,9 @@ rollup-plugin-copy@^3.0.0:
     is-plain-object "^3.0.0"
 
 rollup-plugin-delete@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-delete/-/rollup-plugin-delete-1.1.0.tgz#f627432c587b8049f1ef5c646a6198aa29a94ffc"
-  integrity sha512-OnqtYhA+LQGOsn42mE6RSipiiEB/C4gLPmQoL9RxkxbLX0i2jLGpQTiZacLNmc2DtmCP/qAy6K23Hf6/8wYuYQ==
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-delete/-/rollup-plugin-delete-1.2.0.tgz#a7e45ca4c5480308fa355d11de622f22e7075e12"
+  integrity sha512-k2vHnECLSVpT1OqK2wblt+ZIxJ7dmnaaYdb6AsBRpl4Ilpy10ibSnXVD7nJTRaB7KRP02XDRt0SCZ8vWi+VPdQ==
   dependencies:
     del "^4.1.1"
 
