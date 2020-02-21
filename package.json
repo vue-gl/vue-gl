@@ -45,7 +45,7 @@
     "gh-pages": "^2.0.0",
     "jest": "^25.1.0",
     "markdownlint-cli": "^0.22.0",
-    "nise": "^3.0.0",
+    "nise": "^4.0.2",
     "pascalcase": "^1.0.0",
     "postcss": "^7.0.26",
     "rollup": "^1.1.2",
