@@ -1,7 +1,7 @@
 {
   "name": "vue-gl",
-  "version": "0.20.0",
-  "description": "Vue.js components rendering 3D WebGL graphics reactively with three.js",
+  "version": "0.21.0",
+  "description": "Vue.js components rendering 3D graphics reactively via three.js",
   "keywords": [
     "Vue",
     "Vuejs",
