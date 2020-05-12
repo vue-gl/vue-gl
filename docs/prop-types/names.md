@@ -22,4 +22,4 @@ Examples below set materials named `mat1` and `mat2` to the mesh object.
 ## List of prop types
 {: .text-delta}
 
-{% include toc_siblings.html %}
+{% include toc/siblings.html %}
