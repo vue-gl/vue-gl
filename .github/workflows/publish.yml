@@ -26,11 +26,8 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           nod-version: 12
-          registry-url: https://registry.npmjs.org/
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-      - name: Build
-        run: $(yarn bin rollup) -c docs/rollup.config.js
       - name: Commit
         run: |
           rm docs/.gitignore
