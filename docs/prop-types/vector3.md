@@ -22,4 +22,4 @@ Examples below set the `position` prop to `(x, y, z) = (1.23, 3.45, 4.56)`.
 ## List of prop types
 {: .text-delta}
 
-{% include toc_siblings.html %}
+{% include toc/siblings.html %}

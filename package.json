@@ -25,7 +25,8 @@
   "types": "src/index.d.ts",
   "module": "dist/vue-gl.esm.js",
   "files": [
-    "/dist/"
+    "/dist/",
+    "/src/"
   ],
   "scripts": {
     "lint": "eslint . --ext .js,.vue",
