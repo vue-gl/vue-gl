@@ -1,14 +1,8 @@
 import {
-  Material, NoColors, VertexColors, FaceColors, FrontSide, BackSide, DoubleSide,
+  Material, FrontSide, BackSide, DoubleSide,
 } from 'three';
-import { string, name } from '../types';
+import { string, name, boolean } from '../types';
 import { validateName } from '../validators';
-
-const vertexColors = {
-  no: NoColors,
-  vertex: VertexColors,
-  face: FaceColors,
-};
 
 const sides = {
   front: FrontSide,
@@ -33,7 +27,7 @@ export default {
     /** Defines which side of faces will be rendered. front, back or double. */
     side: { type: string, default: 'front' },
     /** Defines whether vertex coloring is used. Other options are 'vertex' and 'face'. */
-    vertexColors: { type: string, default: 'no' },
+    vertexColors: { type: boolean },
   },
   computed: {
     /** The THREE.Material instance. */
@@ -53,7 +47,7 @@ export default {
       handler(inst) {
         inst.setValues({
           side: sides[this.side],
-          vertexColors: vertexColors[this.vertexColors],
+          vertexColors: this.vertexColors,
         });
         this.vglNamespace.materials.set(this.name, inst);
       },
@@ -67,8 +61,8 @@ export default {
       this.inst.side = sides[side];
       this.update();
     },
-    vertexColors(colors) {
-      this.inst.vertexColors = vertexColors[colors];
+    vertexColors(vertexColors) {
+      this.inst.vertexColors = vertexColors;
       this.update();
     },
   },
