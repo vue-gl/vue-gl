@@ -1,98 +1,43 @@
-version: 2
-jobs:
-  checkout:
-    docker:
-      - image: circleci/node:lts
+version: 2.1
+commands:
+  prepare:
     steps:
       - checkout
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .
-  dependencies:
-    docker:
-      - image: circleci/node:lts
-    steps:
-      - attach_workspace:
-          at: .
       - restore_cache:
           keys:
-            - yarn-{{ checksum "yarn.lock" }}
-      - run:
-          name: Install dependencies
-          command: yarn
+            - yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - yarn-packages-{{ .Branch }}
+            - yarn-packages
+      - run: yarn --frozen-lockfile --cache-folder ~/.cache/yarn
       - save_cache:
-          key: yarn-{{ checksum "yarn.lock" }}
+          key: yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .
+jobs:
   lint:
     docker:
       - image: circleci/node:lts
     steps:
-      - attach_workspace:
-          at: .
-      - run:
-          name: Lint
-          command: yarn lint
-  lint_md:
+      - prepare
+      - run: yarn lint
+  markdown_lint:
     docker:
       - image: circleci/node:lts
     steps:
-      - attach_workspace:
-          at: .
-      - run:
-          name: Lint documents
-          command: yarn lint:md
-  unit_test:
+      - prepare
+      - run: yarn lint:md
+  test:
     docker:
       - image: circleci/node:lts
     steps:
-      - attach_workspace:
-          at: .
-      - run:
-          name: Run unit tests
-          command: yarn test --coverage --coverage-directory=coverage --max-workers=2
-      - persist_to_workspace:
-          root: .
-          paths:
-            - coverage
-  report_coverage:
-    docker:
-      - image: circleci/node:lts
-    steps:
-      - attach_workspace:
-          at: .
-      - run:
-          name: Install reporting tool
-          command: npm install codecov
-      - run:
-          name: Report coverage
-          command: $(npm bin)/codecov
+      - prepare
+      - run: yarn test --coverage --coverage-directory=coverage --max-workers=2
+      - run: bash <(curl -s https://codecov.io/bash)
 workflows:
-  version: 2
-  before_merge:
+  lint:
     jobs:
-      - checkout:
-          filters:
-            branches:
-              ignore:
-                - gh-pages
-      - dependencies:
-          requires:
-            - checkout
-      - lint:
-          requires:
-            - dependencies
-      - lint_md:
-          requires:
-            - dependencies
-      - unit_test:
-          requires:
-            - dependencies
-      - report_coverage:
-          requires:
-            - unit_test
+      - lint
+      - markdown_lint
+  test:
+    jobs:
+      - test
