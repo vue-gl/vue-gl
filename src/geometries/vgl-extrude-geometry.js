@@ -2,9 +2,8 @@ import { ExtrudeBufferGeometry } from 'three';
 import {
   boolean, float, int, names,
 } from '../types';
-import VglGeometry from '../core/vgl-geometry';
-import { parseNames } from '../parsers';
 import { validateNames } from '../validators';
+import { VglGeometryWithShapes } from '../mixins';
 
 /**
  * A component for creating extruded geometry from a path shape,
@@ -14,7 +13,7 @@ import { validateNames } from '../validators';
  */
 
 export default {
-  mixins: [VglGeometry],
+  mixins: [VglGeometryWithShapes],
   props: {
     /** The Shape names */
     shapes: { type: names, validator: validateNames },
@@ -41,10 +40,8 @@ export default {
     /**  Object that provides UV generator functions */
     uvGenerator: Object,
   },
-  data: () => ({
-    shapeNames: [],
-  }),
   computed: {
+    /** The object containing the parameters to be passed to ExtrudeBufferGeometry constructor */
     options() {
       const {
         curveSegments,
@@ -71,46 +68,9 @@ export default {
         ...(uvGenerator != null && { UVGenerator: uvGenerator }),
       };
     },
+    /** The THREE.ExtrudeBufferGeometry instance */
     inst() {
-      const shapes = this.shapeNames.map(([name]) => this.vglNamespace.curves.get(name));
-      return new ExtrudeBufferGeometry(shapes, this.options);
-    },
-  },
-  methods: {
-    /** Update the array of Shape names and Shape UUIDs and emit an event. */
-    setShapeNames() {
-      const shapeNames = parseNames(this.shapes);
-      this.shapeNames = shapeNames
-        .map((shapeName) => [shapeName, this.vglNamespace.curves.get(shapeName).uuid]);
-      this.update();
-    },
-  },
-  beforeDestroy() {
-    if (this.shapes !== undefined) {
-      const shapeNames = parseNames(this.shapes);
-      shapeNames.forEach((shapeName) => {
-        this.vglNamespace.curves.unlisten(shapeName, this.setShapeUuids);
-      });
-    }
-  },
-  watch: {
-    shapes: {
-      handler(shapes, oldShapes) {
-        const oldNames = oldShapes === undefined ? [] : parseNames(oldShapes);
-        const newNames = shapes === undefined ? [] : parseNames(shapes);
-        oldNames.forEach((shapeName) => {
-          if (!newNames.includes(shapeName)) {
-            this.vglNamespace.curves.unlisten(shapeName, this.setShapeNames);
-          }
-        });
-        names.forEach((shapeName) => {
-          if (!oldNames.includes(shapeName)) {
-            this.vglNamespace.curves.listen(shapeName, this.setShapeNames);
-          }
-        });
-        if (shapes !== undefined) this.setShapeNames();
-      },
-      immediate: true,
+      return new ExtrudeBufferGeometry(this.shapeObjects, this.options);
     },
   },
 };
