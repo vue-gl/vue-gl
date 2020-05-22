@@ -1250,10 +1250,10 @@
   optionalDependencies:
     prettier "^1.18.2"
 
-"@vue/component-compiler@^4.2.1":
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/@vue/component-compiler/-/component-compiler-4.2.1.tgz#7708915f0e336726e4deea85ae7a0321c80fb680"
-  integrity sha512-HcvvAOuiwdVlPr94ocsn7AynSv6LAX9VctCgkeRzm+jy0N8GC9rEzGLCQgIRahk+IOoj9DwijGc+JC8/czvhkQ==
+"@vue/component-compiler@^4.2.3":
+  version "4.2.3"
+  resolved "https://registry.yarnpkg.com/@vue/component-compiler/-/component-compiler-4.2.3.tgz#052855aea0f9a00eb0eb9786bdf447d29292ae37"
+  integrity sha512-B221AV3T/6PF37WnkoqUKIxBeHXmGuZsi/8pby89MAVSj9zmDdLCEZ7LDT8+DJWbElFrPELgnSvEadXxDRcrJQ==
   dependencies:
     "@vue/component-compiler-utils" "^3.0.0"
     clean-css "^4.1.11"
@@ -6011,19 +6011,19 @@ rollup-plugin-terser@^5.1.3:
     terser "^4.6.2"
 
 rollup-plugin-vue@^5.1.4:
-  version "5.1.7"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-vue/-/rollup-plugin-vue-5.1.7.tgz#1093c105de1edffa20030cc87abc805b0af88285"
-  integrity sha512-6/in3vg23ZcGxn9AoxUoFINOC+gR4ufL0UQlHtOaDRD4k6ebqnHM5JMROu3RQROYZ8OyaxlRoUf4n2HlgaQb5w==
+  version "5.1.9"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-vue/-/rollup-plugin-vue-5.1.9.tgz#8769cfdac5531c2d1970222b7887b883db37b866"
+  integrity sha512-DXzrBUD2j68Y6nls4MmuJsFL1SrQDpdgjxvhk/oy04LzJmXJoX1x31yLEBFkkmvpbon6Q885WJLvEMiMyT+3rA==
   dependencies:
-    "@vue/component-compiler" "^4.2.1"
+    "@vue/component-compiler" "^4.2.3"
     "@vue/component-compiler-utils" "^3.1.2"
     debug "^4.1.1"
     hash-sum "^1.0.2"
     magic-string "^0.25.7"
     querystring "^0.2.0"
-    rollup-pluginutils "^2.4.1"
+    rollup-pluginutils "^2.8.2"
     source-map "0.7.3"
-    vue-runtime-helpers "^1.1.1"
+    vue-runtime-helpers "^1.1.2"
 
 rollup-plugin-vuedoc@^0.3.0:
   version "0.3.0"
@@ -6032,7 +6032,7 @@ rollup-plugin-vuedoc@^0.3.0:
   dependencies:
     "@vuedoc/md" "^1.6.0"
 
-rollup-pluginutils@^2.4.1, rollup-pluginutils@^2.8.1, rollup-pluginutils@^2.8.2:
+rollup-pluginutils@^2.8.1, rollup-pluginutils@^2.8.2:
   version "2.8.2"
   resolved "https://registry.yarnpkg.com/rollup-pluginutils/-/rollup-pluginutils-2.8.2.tgz#72f2af0748b592364dbd3389e600e5a9444a351e"
   integrity sha512-EEp9NhnUkwY8aif6bxgovPHMoMoNr2FulJziTndpt5H9RdwC47GSGuII9XxpSdzVGM0GWrNPHV6ie1LTNJPaLQ==
@@ -7046,7 +7046,7 @@ vue-eslint-parser@^7.0.0:
     esquery "^1.0.1"
     lodash "^4.17.15"
 
-vue-runtime-helpers@^1.1.1, vue-runtime-helpers@^1.1.2:
+vue-runtime-helpers@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/vue-runtime-helpers/-/vue-runtime-helpers-1.1.2.tgz#446b7b820888ab0c5264d2c3a32468e72e4100f3"
   integrity sha512-pZfGp+PW/IXEOyETE09xQHR1CKkR9HfHZdnMD/FVLUNI+HxYTa82evx5WrF6Kz4s82qtqHvMZ8MZpbk2zT2E1Q==
