@@ -93,6 +93,26 @@ export function parseArray(array) {
 }
 
 /**
+ * Parses a prop value as integer array type.
+ *
+ * @param {string|*[]} array - Prop value.
+ * @return {number[]} Parsed array of integers.
+ */
+export function parseIntArray(array) {
+  return parseArray(array).map((i) => parseInt(i, 10));
+}
+
+/**
+ * Parses a prop value as float array type.
+ *
+ * @param {string|*[]} array - Prop value.
+ * @return {number[]} Parsed array of floats.
+ */
+export function parseFloatArray(array) {
+  return parseArray(array).map(parseFloat);
+}
+
+/**
  * Parses a prop value as vector2array type.
  *
  * @param {string|(string|Vector2)[]} array - Prop value.

@@ -13,6 +13,7 @@ import VglIcosahedronGeometryExample from './geometries/vgl-icosahedron-geometry
 import VglLatheGeometryExample from './geometries/vgl-lathe-geometry.vue';
 import VglOctahedronGeometryExample from './geometries/vgl-octahedron-geometry.vue';
 import VglPlaneGeometryExample from './geometries/vgl-plane-geometry.vue';
+import VglPolyhedronGeometryExample from './geometries/vgl-polyhedron-geometry.vue';
 import VglRingGeometryExample from './geometries/vgl-ring-geometry.vue';
 import VglShapeGeometryExample from './geometries/vgl-shape-geometry.vue';
 import VglSphereGeometryExample from './geometries/vgl-sphere-geometry.vue';
@@ -63,6 +64,7 @@ const examples = {
   VglLatheGeometryExample,
   VglOctahedronGeometryExample,
   VglPlaneGeometryExample,
+  VglPolyhedronGeometryExample,
   VglRingGeometryExample,
   VglShapeGeometryExample,
   VglSphereGeometryExample,

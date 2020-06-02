@@ -258,6 +258,23 @@ describe('Validator functions', () => {
       expect(validateSpherical(['1.1', 'abc', '4.1'])).toBe(false);
     });
   });
+  describe('validateIntArray()', () => {
+    test('should return true for comma separated numbers string', () => {
+      expect(validateFloatArray('1, 2, 3, 4')).toBe(true);
+    });
+    test('should return true for an array of parsable strings', () => {
+      expect(validateFloatArray(['1', '2', '3', '4'])).toBe(true);
+    });
+    test('should return true for an array of numbers', () => {
+      expect(validateFloatArray([1, 2, 3, 4])).toBe(true);
+    });
+    test('should return false for a string contains non-parsable coodinates', () => {
+      expect(validateFloatArray('1, abc, 3, 4')).toBe(false);
+    });
+    test('should return false for an array contains non-parsable coodinate string', () => {
+      expect(validateFloatArray(['1', 'abc', '3', '4'])).toBe(false);
+    });
+  });
   describe('validateFloatArray()', () => {
     test('should return true for comma separated numbers string', () => {
       expect(validateFloatArray('1.1, 2.1, 3.1, 4.1')).toBe(true);
