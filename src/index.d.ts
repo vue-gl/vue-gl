@@ -62,3 +62,4 @@ export const VglLatheGeometry: object;
 export const VglSpotLightHelper: object;
 export const VglHemisphereLight: object;
 export const VglRectAreaLight: object;
+export const VglPolyhedronGeometry: object;

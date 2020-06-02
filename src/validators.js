@@ -6,6 +6,10 @@ function isFloat(value) {
   return !Number.isNaN(parseFloat(value));
 }
 
+function isInt(value) {
+  return !Number.isNaN(parseInt(value, 10));
+}
+
 /**
  * Validates a name type prop.
  *
@@ -84,6 +88,16 @@ export function validateSpherical(spherical) {
   if (spherical instanceof Spherical) return true;
   const s = Array.isArray(spherical) ? spherical : spherical.trim().split(/\s+/);
   return s.length === 3 && s.every(isFloat);
+}
+
+/**
+ * Validates a intArray type prop.
+ *
+ * @param {string|(string|number)[]} array - The prop value.
+ * @return {boolean} Wheter value is valid or not.
+ */
+export function validateIntArray(array) {
+  return (Array.isArray(array) ? array : array.split(',')).every(isInt);
 }
 
 /**

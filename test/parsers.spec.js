@@ -3,7 +3,7 @@ import {
 } from 'three';
 import {
   parseNames, parseColor, parseVector2, parseVector3, parseEuler, parseQuaternion, parseSpherical,
-  parseVector2Array,
+  parseVector2Array, parseIntArray, parseFloatArray,
 } from '../src/parsers';
 
 describe('Parser functions', () => {
@@ -256,6 +256,42 @@ describe('Parser functions', () => {
     test('should return original array of Vector2 instances', () => {
       const array = [new Vector2(31.2, 45.6), new Vector2(12.3, 67.8)];
       expect(parseVector2Array(array)).toBe(array);
+    });
+  });
+  describe('parseIntArray()', () => {
+    test('should parse a comma separated string', () => {
+      const parsed = parseIntArray('31, 45, 12, 67');
+      expect(parsed).toEqual([31, 45, 12, 67]);
+    });
+    test('should parse a comma separated string with leading and trailing spaces', () => {
+      const parsed = parseIntArray(' 31 , 45 ,12 ,  67   ');
+      expect(parsed).toEqual([31, 45, 12, 67]);
+    });
+    test('should parse an array contains strings', () => {
+      const parsed = parseIntArray(['31', '45', '12', '67']);
+      expect(parsed).toEqual([31, 45, 12, 67]);
+    });
+    test('should parse an array contains numbers', () => {
+      const parsed = parseIntArray([31, 45, 12, 67]);
+      expect(parsed).toEqual([31, 45, 12, 67]);
+    });
+  });
+  describe('parseFloatArray()', () => {
+    test('should parse a comma separated string', () => {
+      const parsed = parseFloatArray('31.2, 45.6, 12.3, 67.8');
+      expect(parsed).toEqual([31.2, 45.6, 12.3, 67.8]);
+    });
+    test('should parse a comma separated string with leading and trailing spaces', () => {
+      const parsed = parseFloatArray(' 31.2 , 45.6 ,12.3 ,  67.8   ');
+      expect(parsed).toEqual([31.2, 45.6, 12.3, 67.8]);
+    });
+    test('should parse an array contains strings', () => {
+      const parsed = parseFloatArray(['31.2', '45.6', '12.3', '67.8']);
+      expect(parsed).toEqual([31.2, 45.6, 12.3, 67.8]);
+    });
+    test('should parse an array contains numbers', () => {
+      const parsed = parseFloatArray([31.2, 45.6, 12.3, 67.8]);
+      expect(parsed).toEqual([31.2, 45.6, 12.3, 67.8]);
     });
   });
 });

@@ -15,5 +15,6 @@ export const euler = [String, Euler];
 export const quaternion = [String, Quaternion];
 export const spherical = [String, Spherical];
 export const floatArray = [String, Array];
+export const intArray = [String, Array];
 export const vector2Array = [String, Array];
 export const fog = [String, Fog];
