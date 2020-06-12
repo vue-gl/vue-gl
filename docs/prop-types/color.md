@@ -34,4 +34,4 @@ Examples below set the light color to `0x4ef3a7`.
 ## List of prop types
 {: .text-delta}
 
-{% include toc_siblings.html %}
+{% include toc/siblings.html %}

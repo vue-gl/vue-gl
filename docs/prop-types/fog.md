@@ -11,4 +11,4 @@ Space-separated paramaters as color, near and far, corresponding [THREE.Fog](htt
 ## List of prop types
 {: .text-delta}
 
-{% include toc_siblings.html %}
+{% include toc/siblings.html %}
