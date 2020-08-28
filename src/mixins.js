@@ -37,7 +37,9 @@ export const VglObject3dWithMatarial = {
   },
   beforeDestroy() {
     const { vglNamespace: { materials }, material, setMaterial } = this;
-    if (material !== undefined) parseNames(material).forEach((name) => materials.unlisten(name, setMaterial));
+    if (material !== undefined) {
+      parseNames(material).forEach((name) => materials.unlisten(name, setMaterial));
+    }
   },
 };
 

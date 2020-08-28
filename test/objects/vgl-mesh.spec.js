@@ -17,12 +17,11 @@ describe('VglMesh', () => {
       .toEqual(expect.arrayContaining(Object.keys($props)));
   });
   // #977
-  test('the parsing names should not be called when the material prop is not defined', () => {
-    return new Promise((resolve, reject) => {
-      Vue.config.errorHandler = (err) => reject(err);
-      const vm = new (Vue.extend(VglMesh))({ inject });
-      vm.$destroy();
-      return vm.$nextTick().then(resolve);
-    });
+  test('the parsing names should not be called when the material prop is not defined', async () => {
+    Vue.config.errorHandler = jest.fn();
+    const vm = new (Vue.extend(VglMesh))({ inject });
+    vm.$destroy();
+    await vm.$nextTick();
+    expect(Vue.config.errorHandler).not.toHaveBeenCalled();
   });
 });
