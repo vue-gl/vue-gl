@@ -21,38 +21,26 @@ describe('VglMeshToonMaterial', () => {
       inject,
       propsData: {
         color: '#8aeda3',
-        specular: '#18283e',
-        shininess: '44',
       },
     });
     expect(inst.color.getHex()).toBe(0x8aeda3);
-    expect(inst.specular.getHex()).toBe(0x18283e);
-    expect(inst).toHaveProperty('shininess', 44);
   });
   test('the instance sould not be reinstantiated after props change', async () => {
     const vm = new (Vue.extend(VglMeshToonMaterial))({ inject });
     const { inst } = vm;
     vm.color = '#6751f2';
-    vm.specular = '#18283e';
-    vm.shininess = '44';
     await vm.$nextTick();
     expect(inst).toBe(vm.inst);
   });
   test('the properties of the instance should change after props change', async () => {
     const vm = new (Vue.extend(VglMeshToonMaterial))({ inject });
     vm.color = '#6751f2';
-    vm.specular = '#18283e';
-    vm.shininess = '44';
     await vm.$nextTick();
     expect(vm.inst.color.getHex()).toBe(0x6751f2);
-    expect(vm.inst.specular.getHex()).toBe(0x18283e);
-    expect(vm.inst).toHaveProperty('shininess', 44);
   });
   test('the properties of the instance should be defaults without props', () => {
     const { inst } = new (Vue.extend(VglMeshToonMaterial))({ inject });
-    const { color, specular, shininess } = new MeshToonMaterial();
+    const { color } = new MeshToonMaterial();
     expect(inst.color.getHex()).toBe(color.getHex());
-    expect(inst.specular.getHex()).toBe(specular.getHex());
-    expect(inst).toHaveProperty('shininess', shininess);
   });
 });
