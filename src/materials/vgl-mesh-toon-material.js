@@ -1,5 +1,7 @@
 import { MeshToonMaterial } from 'three';
-import VglMeshPhongMaterial from './vgl-mesh-phong-material';
+import { VglMaterialWithMap } from '../mixins';
+import { color, name } from '../types';
+import { validateName } from '../validators';
 
 /**
  * An extension of the mesh phong material with toon shading,
@@ -9,9 +11,27 @@ import VglMeshPhongMaterial from './vgl-mesh-phong-material';
  */
 
 export default {
-  mixins: [VglMeshPhongMaterial],
+  mixins: [VglMaterialWithMap],
+  props: {
+    /** CSS style color of the material. */
+    color: { type: color, default: '#fff' },
+    /** The color map of the material. */
+    map: { type: name, validator: validateName },
+  },
   computed: {
     /** The THREE.MeshToonMaterial instance. */
     inst: () => new MeshToonMaterial(),
+  },
+  watch: {
+    inst: {
+      handler(inst) {
+        inst.color.setStyle(this.color);
+      },
+      immediate: true,
+    },
+    color(newColor) {
+      this.inst.color.setStyle(newColor);
+      this.update();
+    },
   },
 };
