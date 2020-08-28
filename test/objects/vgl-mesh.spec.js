@@ -16,4 +16,13 @@ describe('VglMesh', () => {
     expect(Object.keys(new (Vue.extend(VglMesh))({ inject }).$props))
       .toEqual(expect.arrayContaining(Object.keys($props)));
   });
+  // #977
+  test('the parsing names should not be called when the material prop is not defined', () => {
+    return new Promise((resolve, reject) => {
+      Vue.config.errorHandler = (err) => reject(err);
+      const vm = new (Vue.extend(VglMesh))({ inject });
+      vm.$destroy();
+      return vm.$nextTick().then(resolve);
+    });
+  });
 });
