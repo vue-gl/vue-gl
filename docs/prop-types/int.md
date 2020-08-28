@@ -22,4 +22,4 @@ Examples below set the `radial-segments` prop to `12`.
 ## List of prop types
 {: .text-delta}
 
-{% include toc_siblings.html %}
+{% include toc/siblings.html %}

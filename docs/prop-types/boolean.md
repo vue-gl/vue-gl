@@ -23,4 +23,4 @@ Examples below set the `antialias` prop to `true`.
 ## List of prop types
 {: .text-delta}
 
-{% include toc_siblings.html %}
+{% include toc/siblings.html %}

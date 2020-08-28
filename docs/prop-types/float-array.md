@@ -26,4 +26,4 @@ Examples below set the `position-attribute` prop to `[1.1, 1.2, 1.3, 3.1, 3.2, 3
 ## List of prop types
 {: .text-delta}
 
-{% include toc_siblings.html %}
+{% include toc/siblings.html %}

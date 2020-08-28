@@ -96,6 +96,7 @@ async function rollup() {
       file: `dist/${path}`,
       format: 'umd',
       globals: { [require.resolve('three/build/three.module')]: 'THREE', three: 'THREE' },
+      paths: { [require.resolve('three/build/three.module')]: 'three' },
       name: `VueGL.${componentName(name)}`,
     },
     plugins: [

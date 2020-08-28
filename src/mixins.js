@@ -1,3 +1,4 @@
+import VglGeometry from './core/vgl-geometry';
 import VglMaterial from './materials/vgl-material';
 import VglObject3d from './core/vgl-object3d';
 import { parseNames } from './parsers';
@@ -36,7 +37,9 @@ export const VglObject3dWithMatarial = {
   },
   beforeDestroy() {
     const { vglNamespace: { materials }, material, setMaterial } = this;
-    parseNames(material).forEach((name) => materials.unlisten(name, setMaterial));
+    if (material !== undefined) {
+      parseNames(material).forEach((name) => materials.unlisten(name, setMaterial));
+    }
   },
 };
 
@@ -98,4 +101,53 @@ export const VglMaterialWithMap = {
     },
   },
   beforeDestroy() { this.vglNamespace.textures.unlisten(this.map, this.setMap); },
+};
+
+export const VglGeometryWithShapes = {
+  mixins: [VglGeometry],
+  data: () => ({
+    shapeNames: [],
+  }),
+  computed: {
+    shapeObjects() {
+      return this.shapeNames.map(([name]) => this.vglNamespace.curves.get(name));
+    },
+  },
+  methods: {
+    /** Update the array of Shape names and Shape UUIDs and emit an event. */
+    setShapeNames() {
+      const shapeNames = parseNames(this.shapes);
+      this.shapeNames = shapeNames
+        .map((shapeName) => [shapeName, this.vglNamespace.curves.get(shapeName).uuid]);
+      this.update();
+    },
+  },
+  beforeDestroy() {
+    if (this.shapes !== undefined) {
+      const shapeNames = parseNames(this.shapes);
+      shapeNames.forEach((shapeName) => {
+        this.vglNamespace.curves.unlisten(shapeName, this.setShapeUuids);
+      });
+    }
+  },
+  watch: {
+    shapes: {
+      handler(shapes, oldShapes) {
+        const oldNames = oldShapes === undefined ? [] : parseNames(oldShapes);
+        const newNames = shapes === undefined ? [] : parseNames(shapes);
+        oldNames.forEach((shapeName) => {
+          if (!newNames.includes(shapeName)) {
+            this.vglNamespace.curves.unlisten(shapeName, this.setShapeNames);
+          }
+        });
+        newNames.forEach((shapeName) => {
+          if (!oldNames.includes(shapeName)) {
+            this.vglNamespace.curves.listen(shapeName, this.setShapeNames);
+          }
+        });
+        if (shapes !== undefined) this.setShapeNames();
+      },
+      immediate: true,
+    },
+  },
 };

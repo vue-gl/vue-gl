@@ -1,5 +1,5 @@
 import Vue from 'vue/dist/vue';
-import { Material, VertexColors, BackSide } from 'three';
+import { Material, BackSide } from 'three';
 import { VglMaterial, VglNamespace } from '../../src';
 
 describe('VglMaterial', () => {
@@ -12,8 +12,8 @@ describe('VglMaterial', () => {
     expect(new (Vue.extend(VglMaterial))({ inject }).inst).toBeInstanceOf(Material);
   });
   test('the properties of the instance should be specified by props', () => {
-    const { inst } = new (Vue.extend(VglMaterial))({ inject, propsData: { vertexColors: 'vertex', side: 'back' } });
-    expect(inst).toHaveProperty('vertexColors', VertexColors);
+    const { inst } = new (Vue.extend(VglMaterial))({ inject, propsData: { vertexColors: true, side: 'back' } });
+    expect(inst).toHaveProperty('vertexColors', true);
     expect(inst).toHaveProperty('side', BackSide);
   });
   test('the instance sould not be reinstantiated after props change', async () => {
@@ -26,10 +26,10 @@ describe('VglMaterial', () => {
   });
   test('the properties of the instance should change after props change', async () => {
     const vm = new (Vue.extend(VglMaterial))({ inject });
-    vm.vertexColors = 'vertex';
+    vm.vertexColors = true;
     vm.side = 'back';
     await vm.$nextTick();
-    expect(vm.inst).toHaveProperty('vertexColors', VertexColors);
+    expect(vm.inst).toHaveProperty('vertexColors', true);
     expect(vm.inst).toHaveProperty('side', BackSide);
   });
   test('the properties of the instance should be defaults without props', () => {
