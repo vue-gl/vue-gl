@@ -38,6 +38,7 @@ To handle user inputs, bind datas to both forms and VueGL components. The exampl
 blow handles user input as `zCoordinate` and bind it to the `VglMesh` component.
 The mesh moves following the slider input value.
 
+{:nomarkdown}
 <div class="code-example">
   <code-example2 inline-template>
     <div class="max-width-1-2">
@@ -59,6 +60,7 @@ The mesh moves following the slider input value.
     });
   </script>
 </div>
+{:/}
 ```html
 <div id="ex-2">
   <vgl-renderer>
