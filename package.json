@@ -43,7 +43,7 @@
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-jest": "^24.0.0",
-    "eslint-plugin-vue": "^6.1.1",
+    "eslint-plugin-vue": "^7.0.0",
     "fast-glob": "^3.1.1",
     "jest": "^26.0.0",
     "markdownlint-cli": "^0.23.0",
