@@ -1,4 +1,4 @@
 source "https://rubygems.org"
 
 # Added at 2017-09-22 05:46:57 +0000 by ubuntu:
-gem "github-pages", "~> 208", :group => [:jekyll_plugins]
+gem "github-pages", "~> 209", :group => [:jekyll_plugins]
