@@ -11,6 +11,33 @@ import { setCameraSize } from './utilities';
  * Properties of [VglNamespace](../core/vgl-namespace) are also available as mixin.
  */
 
+let resizeObserver;
+const observedInstances = [];
+function resizeObserverCallback(entries) {
+  entries.forEach(({ target, contentBoxSize, contentRect }) => {
+    const [blockSize, inlineSize] = contentBoxSize
+      ? [contentBoxSize.blockSize, contentBoxSize.inlineSize]
+      : [contentRect.height, contentRect.width];
+    const vm = observedInstances.find(({ $el }) => $el === target);
+    vm.inst.setSize(inlineSize, blockSize);
+    if (vm.cameraRef) {
+      setCameraSize(vm.cameraRef, inlineSize, blockSize);
+      if (vm.sceneRef) vm.requestRender();
+    }
+  });
+}
+function observeResize(vm) {
+  if (window.ResizeObserver === undefined) return;
+  resizeObserver = resizeObserver || new ResizeObserver(resizeObserverCallback);
+  observedInstances.push(vm);
+  resizeObserver.observe(vm.$el);
+}
+function unobserveResize(vm) {
+  if (!resizeObserver) return;
+  resizeObserver.unobserve(vm.$el);
+  observedInstances.splice(observedInstances.indexOf(vm), 1);
+}
+
 export default {
   mixins: [VglNamespace],
   props: {
@@ -63,6 +90,7 @@ export default {
         powerPreference: this.powerPreference,
       });
       inst.shadowMap.enabled = this.shadowMapEnabled;
+      inst.domElement.style.display = 'block';
       return inst;
     },
   },
@@ -133,6 +161,7 @@ export default {
   },
   mounted() {
     this.inst.setSize(this.$el.clientWidth, this.$el.clientHeight);
+    observeResize(this);
     this.$el.appendChild(this.inst.domElement);
     if (this.cameraRef) setCameraSize(this.cameraRef, this.$el.clientWidth, this.$el.clientHeight);
     this.requestRender(this.cameraRef && this.sceneRef);
@@ -148,6 +177,7 @@ export default {
     } else {
       this.vglNamespace.scenes.unlisten(this.scene, this.setSceneRef);
     }
+    unobserveResize(this);
     this.inst.dispose();
   },
   watch: {
@@ -195,25 +225,8 @@ export default {
     },
   },
   render(h) {
-    return h('div', [h('iframe', {
-      style: {
-        visibility: 'hidden',
-        width: '100%',
-        height: '100%',
-        marginRight: '-100%',
-        border: 'none',
-      },
-      on: {
-        load: (event) => {
-          event.target.contentWindow.addEventListener('resize', () => {
-            this.inst.setSize(this.$el.clientWidth, this.$el.clientHeight);
-            if (this.cameraRef) {
-              setCameraSize(this.cameraRef, this.$el.clientWidth, this.$el.clientHeight);
-              if (this.sceneRef) this.requestRender();
-            }
-          }, false);
-        },
-      },
+    return h('div', [h('div', {
+      style: { display: 'none' },
     }, this.$slots.default)]);
   },
 };
