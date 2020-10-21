@@ -4,8 +4,10 @@
       antialias
       shadow-map-enabled
       alpha
+      camera="camera"
+      scene="scene"
     >
-      <vgl-scene>
+      <vgl-scene name="scene">
         <vgl-box-geometry
           name="box"
           width="1"
@@ -43,6 +45,7 @@
       <vgl-perspective-camera
         orbit-position="3 1 0.7"
         orbit-target="0 0.5 0"
+        name="camera"
       />
     </vgl-renderer>
 

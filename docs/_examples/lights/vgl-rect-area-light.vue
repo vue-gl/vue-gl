@@ -3,8 +3,10 @@
     <vgl-renderer
       antialias
       shadow-map-enabled
+      camera="camera"
+      scene="scene"
     >
-      <vgl-scene>
+      <vgl-scene name="scene">
         <vgl-sphere-geometry name="sphere" />
         <vgl-box-geometry name="box" />
         <vgl-plane-geometry name="plane" />
@@ -43,7 +45,10 @@
           />
         </vgl-rect-area-light>
       </vgl-scene>
-      <vgl-perspective-camera orbit-position="10 1 1" />
+      <vgl-perspective-camera
+        orbit-position="10 1 1"
+        name="camera"
+      />
     </vgl-renderer>
     <aside class="control-panel">
       <section>

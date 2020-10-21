@@ -42,32 +42,32 @@ The mesh moves following the slider input value.
   <code-example2 inline-template>
     <div class="max-width-1-2">
       <div class="aspect-1618-1000">
-        <vgl-renderer>
+        <vgl-renderer camera="camera" scene="scene">
           <vgl-sphere-geometry name="sphere"></vgl-sphere-geometry>
-          <vgl-scene>
-            <vgl-mesh :position="`0 0 ${zCoordinate}`" geometry="sphere"></vgl-mesh>
+          <vgl-scene name="scene">
+            <vgl-mesh v-bind:position="`0 0 ${zCoordinate}`" geometry="sphere"></vgl-mesh>
           </vgl-scene>
-          <vgl-perspective-camera orbit-position="10 0 0"></vgl-perspective-camera>
+          <vgl-perspective-camera orbit-position="10 0 0" name="camera"></vgl-perspective-camera>
         </vgl-renderer>
       </div>
       <input type="range" v-model="zCoordinate" min="-5" max="5">
     </div>
   </code-example2>
-  <script>
-    Vue.component('CodeExample2', {
-      data: () => ({ zCoordinate: 0 }),
-    });
-  </script>
 </div>
+<script>
+  Vue.component('CodeExample2', {
+    data: () => ({ zCoordinate: 0 }),
+  });
+</script>
 ```html
 <div id="ex-2">
-  <vgl-renderer>
+  <vgl-renderer camera="camera" scene="scene">
     <vgl-sphere-geometry name="sphere"></vgl-sphere-geometry>
-    <vgl-scene>
+    <vgl-scene name="scene">
       <!-- Re-rendering will be triggered when zCoordinate changes. -->
       <vgl-mesh :position="`0 0 ${zCoordinate}`" geometry="sphere"></vgl-mesh>
     </vgl-scene>
-    <vgl-perspective-camera orbit-position="10 0 0"></vgl-perspective-camera>
+    <vgl-perspective-camera orbit-position="10 0 0" name="camera"></vgl-perspective-camera>
   </vgl-renderer>
   <!-- User can handles zCoordinate via this range input. -->
   <input type="range" v-model="zCoordinate" min="-5" max="5">

@@ -1,7 +1,11 @@
 <template>
   <div>
-    <vgl-renderer antialias>
-      <vgl-scene>
+    <vgl-renderer
+      antialias
+      camera="camera"
+      scene="scene"
+    >
+      <vgl-scene name="scene">
         <vgl-box-geometry
           name="box"
           width="7.5"
@@ -19,7 +23,10 @@
           material="pts"
         />
       </vgl-scene>
-      <vgl-perspective-camera orbit-position="20 1 1" />
+      <vgl-perspective-camera
+        orbit-position="20 1 1"
+        name="camera"
+      />
     </vgl-renderer>
 
     <aside class="control-panel">

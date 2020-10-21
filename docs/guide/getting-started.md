@@ -44,12 +44,23 @@ Object.keys(VueGL).forEach((name) => Vue.component(name, VueGL[name]));
 and is responsively resized to container size. To avoid unstable behaviors, apply
 size constraints enough to the wrapper `<div>` element.
 
-Following template and CSS create a canvas with specific size.
+The `VglRenderer` component requires a `camera` and a `scene` props. These props
+represent names of [`VglCamera`](/components/cameras/vgl-camera) and [`VglScene`](/components/scenes/vgl-scene)
+instances. You can define them as child components of the `VglRenderer`.
+
+Note that `VglCamera` is an abstract component, so that you should use one of concrete
+components such as [`VglPerspectiveCamera`](/components/cameras/vgl-perspective-camera).
+
+Following template and CSS create a canvas with specific size and renders an empty
+scene.
 
 HTML
 
 ```html
-<vgl-renderer class="getting-started"></vgl-renderer>
+<vgl-renderer class="getting-started" camera="camera" scene="scene">
+  <vgl-perspective-camera name="camera"></vgl-perspective-camera>
+  <vgl-scene name="scene"></vgl-scene>
+</vgl-renderer>
 ```
 
 CSS
@@ -73,7 +84,10 @@ copy and save the whole HTML below, then load it on a modern web browser.
 <div class="code-example">
   <div class="max-width-1-2">
     <div class="aspect-1618-1000">
-      <vgl-renderer></vgl-renderer>
+      <vgl-renderer camera="camera" scene="scene">
+        <vgl-perspective-camera name="camera"></vgl-perspective-camera>
+        <vgl-scene name="scene"></vgl-scene>
+      </vgl-renderer>
     </div>
   </div>
 </div>
@@ -89,7 +103,10 @@ copy and save the whole HTML below, then load it on a modern web browser.
   </style>
 </head>
 <body>
-  <vgl-renderer class="getting-started"></vgl-renderer>
+  <vgl-renderer class="getting-started">
+    <vgl-perspective-camera name="camera"></vgl-perspective-camera>
+    <vgl-scene name="scene"></vgl-scene>
+  </vgl-renderer>
   <script src="https://unpkg.com/vue"></script>
   <script src="https://unpkg.com/three"></script>
   <script src="https://unpkg.com/vue-gl"></script>
@@ -116,23 +133,23 @@ Definition of scene and camera is like below.
 <div class="code-example">
   <div class="max-width-1-2">
     <div class="aspect-1618-1000">
-      <vgl-renderer id="getting-started-2">
+      <vgl-renderer id="getting-started-2" camera="camera" scene="scene">
         <vgl-box-geometry name="box"></vgl-box-geometry>
-        <vgl-scene>
+        <vgl-scene name="scene">
           <vgl-mesh geometry="box"></vgl-mesh>
         </vgl-scene>
-        <vgl-perspective-camera orbit-position="3 1 0.5"></vgl-perspective-camera>
+        <vgl-perspective-camera orbit-position="3 1 0.5" name="camera"></vgl-perspective-camera>
       </vgl-renderer>
     </div>
   </div>
 </div>
 ```html
-<vgl-renderer class="getting-started">
+<vgl-renderer class="getting-started" camera="camera" scene="scene">
   <vgl-box-geometry name="box"></vgl-box-geometry>
-  <vgl-scene>
+  <vgl-scene name="scene">
     <vgl-mesh geometry="box"></vgl-mesh>
   </vgl-scene>
-  <vgl-perspective-camera orbit-position="3 1 0.5"></vgl-perspective-camera>
+  <vgl-perspective-camera orbit-position="3 1 0.5" name="camera"></vgl-perspective-camera>
 </vgl-renderer>
 ```
 

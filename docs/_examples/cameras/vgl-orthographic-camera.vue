@@ -1,7 +1,11 @@
 <template>
   <div>
-    <vgl-renderer antialias>
-      <vgl-scene>
+    <vgl-renderer
+      antialias
+      camera="ortho"
+      scene="scene"
+    >
+      <vgl-scene name="scene">
         <vgl-box-geometry
           name="box"
           width="7.5"
@@ -19,6 +23,7 @@
       <vgl-orthographic-camera
         orbit-position="20 1 1"
         :zoom="zoom"
+        name="ortho"
       />
     </vgl-renderer>
 

@@ -1,7 +1,11 @@
 <template>
   <div>
-    <vgl-renderer antialias>
-      <vgl-scene>
+    <vgl-renderer
+      antialias
+      camera="camera"
+      scene="scene"
+    >
+      <vgl-scene name="scene">
         <vgl-torus-knot-geometry name="geo" />
         <vgl-mesh-lambert-material
           name="mat"
@@ -17,7 +21,10 @@
           intensity="0.5"
         />
       </vgl-scene>
-      <vgl-perspective-camera orbit-position="5 1 0.5" />
+      <vgl-perspective-camera
+        orbit-position="5 1 0.5"
+        name="camera"
+      />
     </vgl-renderer>
 
     <aside class="control-panel">
