@@ -1,7 +1,11 @@
 <template>
   <div>
-    <vgl-renderer antialias>
-      <vgl-scene>
+    <vgl-renderer
+      antialias
+      camera="camera"
+      scene="scene"
+    >
+      <vgl-scene name="scene">
         <vgl-spot-light
           name="light"
           :position="`${px} ${py} ${pz}`"
@@ -12,7 +16,10 @@
         />
         <vgl-spot-light-helper light="light" />
       </vgl-scene>
-      <vgl-perspective-camera orbit-position="100 1.8 0.5" />
+      <vgl-perspective-camera
+        orbit-position="100 1.8 0.5"
+        name="camera"
+      />
     </vgl-renderer>
 
     <aside class="control-panel">

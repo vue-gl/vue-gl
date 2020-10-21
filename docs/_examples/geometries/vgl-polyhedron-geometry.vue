@@ -1,7 +1,11 @@
 <template>
   <div>
-    <vgl-renderer antialias>
-      <vgl-scene>
+    <vgl-renderer
+      antialias
+      camera="camera"
+      scene="scene"
+    >
+      <vgl-scene name="scene">
         <vgl-polyhedron-geometry
           name="geo"
           vertices="1, 1, 1, -1, -0.5, 1, -0.5, -1, 1, 0, 0, -1"
@@ -17,7 +21,10 @@
         <vgl-ambient-light color="#ffeecc" />
         <vgl-directional-light position="0 0.5 -2" />
       </vgl-scene>
-      <vgl-perspective-camera orbit-position="100 0.5 0" />
+      <vgl-perspective-camera
+        orbit-position="100 0.5 0"
+        name="camera"
+      />
     </vgl-renderer>
     <aside class="control-panel">
       <label>Radius<input

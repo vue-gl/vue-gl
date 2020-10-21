@@ -1,7 +1,11 @@
 <template>
   <div>
-    <vgl-renderer antialias>
-      <vgl-scene>
+    <vgl-renderer
+      antialias
+      camera="camera"
+      scene="scene"
+    >
+      <vgl-scene name="scene">
         <vgl-shape
           name="shape"
           path="0 0, 10 10, -10 10, -20 -30, 30 -40"
@@ -22,6 +26,7 @@
       <vgl-perspective-camera
         orbit-position="100 1 0.5"
         orbit-target="0 0 50"
+        name="camera"
       />
     </vgl-renderer>
 

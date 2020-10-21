@@ -3,8 +3,9 @@
     <vgl-renderer
       antialias
       camera="view"
+      scene="scene"
     >
-      <vgl-scene>
+      <vgl-scene name="scene">
         <vgl-camera-helper camera="shown" />
       </vgl-scene>
       <vgl-perspective-camera

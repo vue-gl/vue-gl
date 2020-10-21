@@ -1,7 +1,11 @@
 <template>
   <div>
-    <vgl-renderer antialias>
-      <vgl-scene>
+    <vgl-renderer
+      antialias
+      camera="camera"
+      scene="scene"
+    >
+      <vgl-scene name="scene">
         <vgl-arrow-helper
           :color="`rgb(${r}, ${g}, ${b})`"
           :dir="`${x} ${y} ${z}`"
@@ -11,7 +15,10 @@
         />
         <vgl-axes-helper size="10" />
       </vgl-scene>
-      <vgl-perspective-camera orbit-position="5 1 -0.5" />
+      <vgl-perspective-camera
+        orbit-position="5 1 -0.5"
+        name="camera"
+      />
     </vgl-renderer>
 
     <aside class="control-panel">

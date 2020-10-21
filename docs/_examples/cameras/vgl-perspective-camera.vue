@@ -1,7 +1,11 @@
 <template>
   <div>
-    <vgl-renderer antialias>
-      <vgl-scene>
+    <vgl-renderer
+      antialias
+      camera="pers"
+      scene="scene"
+    >
+      <vgl-scene name="scene">
         <vgl-box-geometry
           name="box"
           width="7.5"
@@ -20,6 +24,7 @@
         orbit-position="20 1 1"
         :fov="fov"
         :zoom="zoom"
+        name="pers"
       />
     </vgl-renderer>
 
