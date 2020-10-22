@@ -1,4 +1,5 @@
 import Namespace from './namespace';
+import { string } from '../types';
 
 /**
  * This component provides maps for managing objects by name (string), and also provides utility
@@ -34,6 +35,10 @@ import Namespace from './namespace';
  */
 
 export default {
+  props: {
+    /** What element should be rendered. */
+    tag: { type: string, default: 'div' },
+  },
   inject: {
     vglNamespace: {
       default: () => ({ cameras: new Namespace(), scenes: new Namespace() }),
@@ -64,6 +69,6 @@ export default {
     if (curves) curves.destroy();
   },
   render(h) {
-    return this.$slots.default ? h('div', this.$slots.default) : undefined;
+    return h(this.tag, this.$slots.default);
   },
 };
