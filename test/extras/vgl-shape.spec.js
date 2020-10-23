@@ -56,4 +56,19 @@ describe('VglShape', () => {
     delete expected.uuid;
     expect(inst).toStrictEqual(expected);
   });
+  describe('rendered real DOM', () => {
+    test('is nothing when the component has no children', () => {
+      const vm = new (Vue.extend(VglShape))({ inject }).$mount();
+      expect(vm.$el).toBeInstanceOf(Comment);
+    });
+    test('is template element when the component has children', () => {
+      const vm = new Vue({
+        components: { VglShape, VglNamespace },
+        render(h) {
+          return h('vgl-namespace', [h('vgl-shape', { ref: 'examin' }, ['child text'])]);
+        },
+      }).$mount();
+      expect(vm.$refs.examin.$el.tagName.toLowerCase()).toBe('template');
+    });
+  });
 });
