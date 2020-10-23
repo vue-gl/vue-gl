@@ -142,4 +142,19 @@ describe('VglObject3d', () => {
     await vm.$nextTick();
     expect(vm.inst.name).toBe('newName');
   });
+  describe('rendered real DOM', () => {
+    test('is nothing when the component has no children', () => {
+      const vm = new (Vue.extend(VglObject3d))({ inject }).$mount();
+      expect(vm.$el).toBeInstanceOf(Comment);
+    });
+    test('is template element when the component has children', () => {
+      const vm = new Vue({
+        components: { VglObject3d, VglNamespace },
+        render(h) {
+          return h('vgl-namespace', [h('vgl-object3d', { ref: 'examin' }, ['child text'])]);
+        },
+      }).$mount();
+      expect(vm.$refs.examin.$el.tagName.toLowerCase()).toBe('template');
+    });
+  });
 });
