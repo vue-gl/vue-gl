@@ -1,7 +1,11 @@
 <template>
   <div>
-    <vgl-renderer antialias>
-      <vgl-scene>
+    <vgl-renderer
+      antialias
+      camera="camera"
+      scene="scene"
+    >
+      <vgl-scene name="scene">
         <vgl-directional-light
           name="light"
           :position="`${x} ${y} ${z}`"
@@ -12,7 +16,10 @@
           :size="size"
         />
       </vgl-scene>
-      <vgl-perspective-camera orbit-position="20 1.8 0.5" />
+      <vgl-perspective-camera
+        orbit-position="20 1.8 0.5"
+        name="camera"
+      />
     </vgl-renderer>
 
     <aside class="control-panel">

@@ -1,7 +1,11 @@
 <template>
   <div>
-    <vgl-renderer antialias>
-      <vgl-scene>
+    <vgl-renderer
+      antialias
+      camera="camera"
+      scene="scene"
+    >
+      <vgl-scene name="scene">
         <vgl-polar-grid-helper
           :radius="radius"
           :radials="radials"
@@ -14,6 +18,7 @@
       <vgl-perspective-camera
         orbit-position="15 1 0.5"
         orbit-target="0 -0.5 0"
+        name="camera"
       />
     </vgl-renderer>
 

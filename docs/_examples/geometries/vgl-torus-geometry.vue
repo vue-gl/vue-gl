@@ -1,7 +1,11 @@
 <template>
   <div>
-    <vgl-renderer antialias>
-      <vgl-scene>
+    <vgl-renderer
+      antialias
+      camera="camera"
+      scene="scene"
+    >
+      <vgl-scene name="scene">
         <vgl-torus-geometry
           name="torus"
           :radius="radius"
@@ -17,7 +21,10 @@
         <vgl-ambient-light color="#ffeecc" />
         <vgl-directional-light position="0 1 2" />
       </vgl-scene>
-      <vgl-perspective-camera orbit-position="100 1 0.5" />
+      <vgl-perspective-camera
+        orbit-position="100 1 0.5"
+        name="camera"
+      />
     </vgl-renderer>
 
     <aside class="control-panel">

@@ -1,20 +1,32 @@
-import { OBJLoader2Parallel } from 'three/examples/jsm/loaders/OBJLoader2Parallel';
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 import { Object3D } from 'three';
 import { VglObject3d } from '../../src/index';
 import { string } from '../../src/types';
+
+const loader = new OBJLoader();
 
 export default {
   mixins: [VglObject3d],
   props: {
     src: string,
   },
+  data: () => ({
+    objUuid: null,
+  }),
   computed: {
     inst() {
-      const object = new Object3D();
-      const loader = new OBJLoader2Parallel();
-      loader.setBaseObject3d(object);
-      loader.load(this.src, () => { this.vglObject3d.emit(); });
-      return object;
+      return this.objUuid ? this.obj : new Object3D();
+    },
+  },
+  watch: {
+    src: {
+      handler(src) {
+        loader.load(src, (obj) => {
+          this.obj = obj;
+          this.objUuid = obj.uuid;
+        });
+      },
+      immediate: true,
     },
   },
 };

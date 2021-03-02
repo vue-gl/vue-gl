@@ -1,7 +1,11 @@
 <template>
   <div>
-    <vgl-renderer antialias>
-      <vgl-scene>
+    <vgl-renderer
+      antialias
+      camera="camera"
+      scene="scene"
+    >
+      <vgl-scene name="scene">
         <vgl-cone-geometry
           name="cone"
           :radius="radius"
@@ -15,7 +19,10 @@
         <vgl-ambient-light color="#ffeecc" />
         <vgl-directional-light position="0 1 2" />
       </vgl-scene>
-      <vgl-perspective-camera orbit-position="200 1 0.5" />
+      <vgl-perspective-camera
+        orbit-position="200 1 0.5"
+        name="camera"
+      />
     </vgl-renderer>
 
     <aside class="control-panel">

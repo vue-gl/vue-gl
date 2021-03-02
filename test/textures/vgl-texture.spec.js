@@ -230,4 +230,19 @@ describe('VglTexture', () => {
     expect(inst.center).toHaveProperty('x', center.x);
     expect(inst.center).toHaveProperty('y', center.y);
   });
+  describe('rendered real DOM', () => {
+    test('is nothing when the component has no children', () => {
+      const vm = new (Vue.extend(VglTexture))({ inject }).$mount();
+      expect(vm.$el).toBeInstanceOf(Comment);
+    });
+    test('is template element when the component has children', () => {
+      const vm = new Vue({
+        components: { VglTexture, VglNamespace },
+        render(h) {
+          return h('vgl-namespace', [h('vgl-texture', { ref: 'examin' }, ['child text'])]);
+        },
+      }).$mount();
+      expect(vm.$refs.examin.$el.tagName.toLowerCase()).toBe('template');
+    });
+  });
 });

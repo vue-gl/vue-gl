@@ -1,7 +1,11 @@
 <template>
   <div>
-    <vgl-renderer antialias>
-      <vgl-scene>
+    <vgl-renderer
+      antialias
+      camera="camera"
+      scene="scene"
+    >
+      <vgl-scene name="scene">
         <vgl-lathe-geometry
           name="geo"
           points="1 -5, 2 -4, 3 -2, 3.5 0, 4 3, 3.5 5"
@@ -19,7 +23,10 @@
         <vgl-ambient-light />
         <vgl-directional-light position="0 1 2" />
       </vgl-scene>
-      <vgl-perspective-camera orbit-position="15 1 -0.5" />
+      <vgl-perspective-camera
+        orbit-position="15 1 -0.5"
+        name="camera"
+      />
     </vgl-renderer>
 
     <aside class="control-panel">
