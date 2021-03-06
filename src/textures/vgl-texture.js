@@ -1,6 +1,6 @@
 import {
   TextureLoader, UVMapping, CubeReflectionMapping, CubeRefractionMapping,
-  EquirectangularReflectionMapping, EquirectangularRefractionMapping, SphericalReflectionMapping,
+  EquirectangularReflectionMapping, EquirectangularRefractionMapping,
   CubeUVReflectionMapping, CubeUVRefractionMapping, RepeatWrapping, ClampToEdgeWrapping,
   MirroredRepeatWrapping, NearestFilter, LinearFilter, NearestMipMapNearestFilter,
   NearestMipMapLinearFilter, LinearMipMapNearestFilter, LinearMipMapLinearFilter, AlphaFormat,
@@ -23,7 +23,6 @@ const mapping = {
   'cube-refraction': CubeRefractionMapping,
   'equirectangular-reflection': EquirectangularReflectionMapping,
   'equirectangular-refraction': EquirectangularRefractionMapping,
-  'spherical-reflection': SphericalReflectionMapping,
   'cube-uv-reflection': CubeUVReflectionMapping,
   'cube-uv-refraction': CubeUVRefractionMapping,
 };
