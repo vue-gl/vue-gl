@@ -6,8 +6,13 @@
   ></script>
 {% endif %}
 
-<script src="{{ '/js/vendor/vue.min.js' | relative_url }}"></script>
-<script src="{{ '/js/vendor/three.min.js' | relative_url }}"></script>
+{% if jekyll.environment == "development" %}
+  <script src="{{ '/js/vendor/vue.js' | relative_url }}"></script>
+  <script src="{{ '/js/vendor/three.js' | relative_url }}"></script>
+{% else %}
+  <script src="{{ '/js/vendor/vue.min.js' | relative_url }}"></script>
+  <script src="{{ '/js/vendor/three.min.js' | relative_url }}"></script>
+{% endif %}
 <script src="{{ '/js/vue-gl.js' | relative_url }}"></script>
 <script src="{{ '/js/examples.js' | relative_url }}"></script>
 <script src="{{ '/js/examples-ex.js' | relative_url }}"></script>

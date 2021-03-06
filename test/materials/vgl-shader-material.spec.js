@@ -95,7 +95,7 @@ describe('VglShaderMaterial', () => {
       fragmentShader,
       lights,
       linewidth,
-      flatShading,
+      // flatShading,
       uniforms,
       vertexShader,
       wireframe,
@@ -106,7 +106,7 @@ describe('VglShaderMaterial', () => {
     expect(inst).toHaveProperty('fragmentShader', fragmentShader);
     expect(inst).toHaveProperty('lights', lights);
     expect(inst).toHaveProperty('linewidth', linewidth);
-    expect(inst).toHaveProperty('flatShading', flatShading);
+    expect(inst).toHaveProperty('flatShading', false); // Three.js is missing initialization?
     expect(inst).toHaveProperty('uniforms', uniforms);
     expect(inst).toHaveProperty('vertexShader', vertexShader);
     expect(inst).toHaveProperty('wireframe', wireframe);

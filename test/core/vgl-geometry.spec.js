@@ -113,4 +113,19 @@ describe('VglGeometry', () => {
       expect(vm.inst).toHaveProperty('attributes', expected.attributes);
     });
   });
+  describe('rendered real DOM', () => {
+    test('is nothing when the component has no children', () => {
+      const vm = new (Vue.extend(VglGeometry))({ inject }).$mount();
+      expect(vm.$el).toBeInstanceOf(Comment);
+    });
+    test('is template element when the component has children', () => {
+      const vm = new Vue({
+        components: { VglGeometry, VglNamespace },
+        render(h) {
+          return h('vgl-namespace', [h('vgl-geometry', { ref: 'examin' }, ['child text'])]);
+        },
+      }).$mount();
+      expect(vm.$refs.examin.$el.tagName.toLowerCase()).toBe('template');
+    });
+  });
 });

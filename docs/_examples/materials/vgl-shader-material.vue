@@ -1,7 +1,11 @@
 <template>
   <div>
-    <vgl-renderer antialias>
-      <vgl-scene>
+    <vgl-renderer
+      antialias
+      camera="camera"
+      scene="scene"
+    >
+      <vgl-scene name="scene">
         <vgl-icosahedron-geometry
           name="geo"
           radius="1"
@@ -21,7 +25,10 @@
           material="mat"
         />
       </vgl-scene>
-      <vgl-perspective-camera orbit-position="5 0.8 0.2" />
+      <vgl-perspective-camera
+        orbit-position="5 0.8 0.2"
+        name="camera"
+      />
     </vgl-renderer>
 
     <aside class="control-panel">
