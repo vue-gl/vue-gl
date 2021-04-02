@@ -47,7 +47,7 @@
     "fast-glob": "^3.1.1",
     "jest": "^26.0.0",
     "markdownlint-cli": "^0.27.1",
-    "nise": "^4.0.2",
+    "nise": "^5.0.0",
     "pascalcase": "^1.0.0",
     "postcss": "^8.0.3",
     "rollup": "^2.26.6",
