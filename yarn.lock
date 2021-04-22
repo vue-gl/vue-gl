@@ -5612,9 +5612,9 @@ postcss@^7.0.14:
     supports-color "^6.1.0"
 
 postcss@^8.0.3:
-  version "8.2.10"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.2.10.tgz#ca7a042aa8aff494b334d0ff3e9e77079f6f702b"
-  integrity sha512-b/h7CPV7QEdrqIxtAf2j31U5ef05uBDuvoXv6L51Q4rcS1jdlXAVKJv+atCFdUXYl9dyTHGyoMzIepwowRJjFw==
+  version "8.2.11"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.2.11.tgz#22c80ececdb6f263d1144399afeb9ed8fcb52701"
+  integrity sha512-8nXGYWAEzBGsGtPkwpbh576KY6Ya5aSi19VZcYiaomCBqkjvLG/bJx2UjULrH4dNKv540pq/qGvSFu0Yfuf6ZA==
   dependencies:
     colorette "^1.2.2"
     nanoid "^3.1.22"
