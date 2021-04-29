@@ -1,0 +1,32 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  versioning-strategy: widen
+  ignore:
+  - dependency-name: postcss
+    versions:
+    - 8.2.11
+  - dependency-name: eslint-plugin-jest
+    versions:
+    - 24.1.4
+    - 24.1.6
+    - 24.3.0
+  - dependency-name: markdownlint-cli
+    versions:
+    - 0.27.0
+  - dependency-name: three
+    versions:
+    - 0.125.2
+    - 0.126.0
+  - dependency-name: "@babel/core"
+    versions:
+    - 7.13.0
+- package-ecosystem: bundler
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
