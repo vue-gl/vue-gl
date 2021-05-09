@@ -1,3 +1,4 @@
+/* global describe, test, beforeEach, expect */
 import Vue from 'vue/dist/vue';
 import { AmbientLight } from 'three';
 import { VglAmbientLight, VglLight, VglNamespace } from '../../src';

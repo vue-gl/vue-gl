@@ -1,3 +1,4 @@
+/* global describe, test, beforeEach, expect, jest */
 import { Object3D } from 'three';
 import Tree from '../../src/core/tree';
 

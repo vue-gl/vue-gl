@@ -1,3 +1,4 @@
+/* global describe, test, beforeEach, expect */
 import Vue from 'vue/dist/vue';
 import { OrthographicCamera } from 'three';
 import { VglOrthographicCamera, VglCamera, VglNamespace } from '../../src';

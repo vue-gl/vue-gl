@@ -1,3 +1,4 @@
+/* global describe, test, beforeEach, expect */
 import Vue from 'vue/dist/vue';
 import { OctahedronBufferGeometry } from 'three';
 import { VglOctahedronGeometry, VglGeometry, VglNamespace } from '../../src';

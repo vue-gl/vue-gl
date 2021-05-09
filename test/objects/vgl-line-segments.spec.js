@@ -1,3 +1,4 @@
+/* global describe, test, beforeEach, expect */
 import Vue from 'vue/dist/vue';
 import { LineSegments } from 'three';
 import { VglLineSegments, VglObject3d, VglNamespace } from '../../src';

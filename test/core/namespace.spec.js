@@ -1,3 +1,4 @@
+/* global describe, test, beforeEach, expect, jest */
 import Namespace from '../../src/core/namespace';
 
 describe('Namespace class', () => {

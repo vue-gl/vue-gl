@@ -32,6 +32,7 @@
     "lint": "eslint . --ext .js,.vue",
     "lint:md": "markdownlint \"**/*.md\" -c markdownlint.config.yml --ignore node_modules --ignore docs/components --ignore _site --ignore docs/examples/*/",
     "test": "jest",
+    "test:browser": "rollup -c && testcafe chrome:headless test/**/*.fixture.js",
     "start": "rollup -c && bundle exec jekyll serve --source docs",
     "prepare": "rollup -c"
   },
@@ -58,6 +59,7 @@
     "rollup-plugin-terser": "^7.0.1",
     "rollup-plugin-vue": "^5.1.4",
     "rollup-plugin-vuedoc": "^0.4.0",
+    "testcafe": "^1.14.0",
     "three": "^0.127.0",
     "vue": "^2.2.0",
     "vue-runtime-helpers": "^1.1.2",

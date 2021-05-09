@@ -1,3 +1,4 @@
+/* global describe, test, beforeEach, expect */
 import Vue from 'vue/dist/vue';
 import { TorusKnotBufferGeometry } from 'three';
 import { VglTorusKnotGeometry, VglGeometry, VglNamespace } from '../../src';

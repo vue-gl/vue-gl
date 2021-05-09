@@ -1,3 +1,4 @@
+/* global describe, test, beforeEach, expect */
 import Vue from 'vue/dist/vue';
 import { ShadowMaterial } from 'three';
 import { VglShadowMaterial, VglMaterial, VglNamespace } from '../../src';

@@ -1,3 +1,4 @@
+/* global describe, test, expect */
 import {
   Color, Vector2, Vector3, Euler, Quaternion, Spherical,
 } from 'three';

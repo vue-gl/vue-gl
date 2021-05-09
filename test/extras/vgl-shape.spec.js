@@ -1,3 +1,4 @@
+/* global describe, test, beforeEach, expect */
 import Vue from 'vue/dist/vue';
 import { Shape, Vector2 } from 'three';
 import { VglShape, VglNamespace, VglPath } from '../../src';

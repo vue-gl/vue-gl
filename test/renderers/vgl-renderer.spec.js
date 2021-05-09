@@ -1,3 +1,4 @@
+/* global describe, test, jest, expect, afterEach, beforeAll, afterAll */
 import Vue from 'vue/dist/vue';
 import { WebGLRenderer, Scene, PerspectiveCamera } from 'three';
 import { VglRenderer } from '../../src';
