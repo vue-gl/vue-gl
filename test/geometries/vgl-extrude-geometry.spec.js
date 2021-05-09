@@ -1,3 +1,4 @@
+/* global describe, test, beforeEach, expect */
 import Vue from 'vue/dist/vue';
 import { ExtrudeBufferGeometry, Shape } from 'three';
 import { VglExtrudeGeometry, VglGeometry, VglNamespace } from '../../src';

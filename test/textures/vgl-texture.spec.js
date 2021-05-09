@@ -1,3 +1,4 @@
+/* global describe, test, beforeEach, expect, beforeAll, afterAll, afterEach, jest */
 import Vue from 'vue/dist/vue';
 import {
   ImageLoader,

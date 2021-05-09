@@ -1,3 +1,4 @@
+/* global describe, test, beforeEach, expect */
 import Vue from 'vue/dist/vue';
 import { LatheBufferGeometry, Vector2 } from 'three';
 import { VglLatheGeometry, VglGeometry, VglNamespace } from '../../src';

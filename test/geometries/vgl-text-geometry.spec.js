@@ -1,3 +1,4 @@
+/* global describe, test, beforeEach, expect, afterAll */
 import Vue from 'vue/dist/vue';
 import { FontLoader, TextBufferGeometry, BufferGeometry } from 'three';
 import { readFile } from 'fs';

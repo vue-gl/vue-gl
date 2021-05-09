@@ -1,3 +1,4 @@
+/* global describe, test, beforeEach, expect */
 import Vue from 'vue/dist/vue';
 import { BoxHelper, SphereBufferGeometry, Mesh } from 'three';
 import { VglBoxHelper, VglObject3d, VglNamespace } from '../../src';

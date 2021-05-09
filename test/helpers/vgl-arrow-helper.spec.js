@@ -1,3 +1,4 @@
+/* global describe, test, beforeEach, expect */
 import Vue from 'vue/dist/vue';
 import { ArrowHelper, Vector3 } from 'three';
 import { VglArrowHelper, VglObject3d, VglNamespace } from '../../src';

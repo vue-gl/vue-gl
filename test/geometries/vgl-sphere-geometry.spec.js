@@ -1,3 +1,4 @@
+/* global describe, test, beforeEach, expect */
 import Vue from 'vue/dist/vue';
 import { SphereBufferGeometry } from 'three';
 import { VglSphereGeometry, VglGeometry, VglNamespace } from '../../src';

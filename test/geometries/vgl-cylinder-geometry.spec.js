@@ -1,3 +1,4 @@
+/* global describe, test, beforeEach, expect */
 import Vue from 'vue/dist/vue';
 import { CylinderBufferGeometry } from 'three';
 import { VglCylinderGeometry, VglGeometry, VglNamespace } from '../../src';

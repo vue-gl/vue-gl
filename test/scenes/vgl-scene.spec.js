@@ -1,3 +1,4 @@
+/* global describe, test, beforeEach, expect */
 import Vue from 'vue/dist/vue';
 import { Scene, TextureLoader } from 'three';
 import { VglScene, VglObject3d, VglNamespace } from '../../src';

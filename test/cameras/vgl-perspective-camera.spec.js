@@ -1,3 +1,4 @@
+/* global describe, test, beforeEach, expect */
 import Vue from 'vue/dist/vue';
 import { PerspectiveCamera } from 'three';
 import { VglPerspectiveCamera, VglCamera, VglNamespace } from '../../src';

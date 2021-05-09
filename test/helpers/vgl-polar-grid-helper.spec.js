@@ -1,3 +1,4 @@
+/* global describe, test, beforeEach, expect */
 import Vue from 'vue/dist/vue';
 import { PolarGridHelper } from 'three';
 import { VglPolarGridHelper, VglObject3d, VglNamespace } from '../../src';

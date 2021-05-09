@@ -1,3 +1,4 @@
+/* global describe, test, beforeEach, expect, jest */
 import Vue from 'vue/dist/vue';
 import { Mesh } from 'three';
 import {

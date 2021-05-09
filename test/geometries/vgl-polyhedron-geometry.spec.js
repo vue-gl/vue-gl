@@ -1,3 +1,4 @@
+/* global describe, test, beforeEach, expect */
 import Vue from 'vue/dist/vue';
 import { PolyhedronBufferGeometry } from 'three';
 import { VglPolyhedronGeometry, VglGeometry, VglNamespace } from '../../src';

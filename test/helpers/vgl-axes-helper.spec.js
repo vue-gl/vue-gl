@@ -1,3 +1,4 @@
+/* global describe, test, beforeEach, expect */
 import Vue from 'vue/dist/vue';
 import { AxesHelper } from 'three';
 import { VglAxesHelper, VglObject3d, VglNamespace } from '../../src';

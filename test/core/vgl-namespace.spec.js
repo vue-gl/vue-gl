@@ -1,3 +1,4 @@
+/* global describe, test, expect */
 import Vue from 'vue/dist/vue';
 import { VglNamespace } from '../../src';
 

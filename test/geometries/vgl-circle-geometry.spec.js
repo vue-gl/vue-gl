@@ -1,3 +1,4 @@
+/* global describe, test, beforeEach, expect */
 import Vue from 'vue/dist/vue';
 import { CircleBufferGeometry } from 'three';
 import { VglCircleGeometry, VglGeometry, VglNamespace } from '../../src';

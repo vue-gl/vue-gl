@@ -1,3 +1,4 @@
+/* global describe, test, beforeEach, expect */
 import Vue from 'vue/dist/vue';
 import { RectAreaLight } from 'three';
 import { VglRectAreaLight, VglLight, VglNamespace } from '../../src';

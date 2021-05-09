@@ -1,3 +1,4 @@
+/* global describe, test, beforeEach, expect */
 import Vue from 'vue/dist/vue';
 import { LineDashedMaterial } from 'three';
 import { VglLineDashedMaterial, VglMaterial, VglNamespace } from '../../src';

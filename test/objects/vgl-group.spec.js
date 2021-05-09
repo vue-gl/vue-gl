@@ -1,3 +1,4 @@
+/* global describe, test, beforeEach, expect */
 import Vue from 'vue/dist/vue';
 import { Group } from 'three';
 import { VglGroup, VglObject3d, VglNamespace } from '../../src';

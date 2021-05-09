@@ -1,3 +1,4 @@
+/* global describe, test, beforeEach, expect */
 import Vue from 'vue/dist/vue';
 import { LineLoop } from 'three';
 import { VglLineLoop, VglObject3d, VglNamespace } from '../../src';

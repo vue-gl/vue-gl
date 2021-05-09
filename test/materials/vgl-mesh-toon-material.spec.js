@@ -1,3 +1,4 @@
+/* global describe, test, beforeEach, expect */
 import Vue from 'vue/dist/vue';
 import { MeshToonMaterial } from 'three';
 import { VglMeshToonMaterial, VglMaterial, VglNamespace } from '../../src';
