@@ -5286,9 +5286,9 @@ nice-try@^1.0.4:
   integrity sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ==
 
 nise@^5.0.0:
-  version "5.0.2"
-  resolved "https://registry.yarnpkg.com/nise/-/nise-5.0.2.tgz#c6d830de045c7015159ea232f411e98bd02d7626"
-  integrity sha512-WhH6e1tpLSZ7LrXK7Kpy2k+Tkwz7wtezHSQBDFwhmcGClacZbS9svQozpd70EF7yB3SHBIwItlPSQ61KVGrpsQ==
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/nise/-/nise-5.0.3.tgz#5d8fcbc5095f68a5280bd845530a5aac76195b8c"
+  integrity sha512-j+sxUCwTkhc2h3yK1XqSFHLwM3uZqcQWHnI1wem7j7pc12LzcbYArRrcvSCKjOmMXw8liBei3Rb9D/fnjL/J+w==
   dependencies:
     "@sinonjs/commons" "^1.7.0"
     "@sinonjs/fake-timers" "^7.0.4"
