@@ -1,6 +1,10 @@
 {
   "extends": [
     "airbnb-base",
-    "plugin:vue/recommended"
-  ]
+    "plugin:markdown/recommended"
+  ],
+  "overrides": [{
+    "files": ["*.vue"],
+    "extends": ["plugin:vue/recommended"]
+  }]
 }

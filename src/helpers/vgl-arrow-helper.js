@@ -1,62 +1,50 @@
-import { ArrowHelper, Color, Vector3 } from 'three';
+import { ArrowHelper, Vector3 } from 'three';
 import VglObject3d from '../core/vgl-object3d';
-import { parseVector3 } from '../parsers';
-import { float, color, vector3 } from '../types';
-import { validateVector3 } from '../validators';
-
-/**
- * An 3D arrow object for visualizing directions,
- * corresponding [THREE.ArrowHelper](https://threejs.org/docs/index.html#api/helpers/ArrowHelper).
- *
- * Properties of [VglObject3d](../core/vgl-object3d) are also available as mixin.
- */
+import {
+  color, directionX, directionY, directionZ, headLength, headWidth, inst, length,
+} from '../constants';
 
 export default {
-  mixins: [VglObject3d],
+  extends: VglObject3d,
   props: {
-    /** Direction from origin. */
-    dir: { type: vector3, validator: validateVector3 },
-    /** Length of the arrow. */
-    length: { type: float, default: 1 },
-    /** Color of the arrow. */
-    color: { type: color, default: '#ff0' },
-    /** The length of the head of the arrow. */
-    headLength: float,
-    /** The width of the head of the arrow. */
-    headWidth: float,
+    /** x-coodinate of the arrow direction. */
+    [directionX]: { type: Number, default: 0 },
+    /** y-coodinate of the arrow direction. */
+    [directionY]: { type: Number, default: 0 },
+    /** z-coodinate of the arrow direction. */
+    [directionZ]: { type: Number, default: 1 },
+    /** The arrow length. */
+    [length]: { type: Number, default: 1 },
+    /** The arrow color. */
+    [color]: { type: [String, Number], default: 0xffff00 },
+    /** The length of the arrow head. */
+    [headLength]: Number,
+    /** The width of the arrow head. */
+    [headWidth]: Number,
   },
   computed: {
     /** The THREE.ArrowHelper instance. */
-    inst: () => new ArrowHelper(new Vector3(0, 1, 0), new Vector3()),
-    /** Array(3) of helper properties. Arrow length, head length, and head width. */
-    len() {
-      return [
-        parseFloat(this.length),
-        this.headLength !== undefined ? parseFloat(this.headLength) : undefined,
-        this.headWidth !== undefined ? parseFloat(this.headWidth) : undefined,
-      ];
-    },
+    [inst]: () => new ArrowHelper(),
   },
   watch: {
-    inst: {
-      handler(inst) {
-        if (this.dir) inst.setDirection(parseVector3(this.dir).normalize());
-        inst.setLength(...this.len);
-        inst.setColor(new Color(this.color));
+    [directionX]: {
+      handler(x) {
+        this[inst].setDirection(new Vector3(x, this[directionY], this[directionZ]).normalize());
       },
       immediate: true,
     },
-    dir(dir) {
-      this.inst.setDirection(parseVector3(dir).normalize());
-      this.vglObject3d.emit();
+    [directionY](y) {
+      this[inst].setDirection(new Vector3(this[directionX], y, this[directionZ]).normalize());
     },
-    len(len) {
-      this.inst.setLength(...len);
-      this.vglObject3d.emit();
+    [directionZ](z) {
+      this[inst].setDirection(new Vector3(this[directionX], this[directionY], z).normalize());
     },
-    color(newColor) {
-      this.inst.setColor(new Color(newColor));
-      this.vglObject3d.emit();
+    [length]: {
+      handler(len) { this[inst].setLength(len, this[headLength], this[headWidth]); },
+      immediate: true,
     },
+    [headLength](len) { this[inst].setLength(this[length], len, this[headWidth]); },
+    [headWidth](w) { this[inst].setLength(this[length], this[headLength], w); },
+    [color]: { handler(c) { this[inst].setColor(c); }, immediate: true },
   },
 };

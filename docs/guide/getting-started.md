@@ -1,19 +1,3 @@
----
-nav_order: B
-parent: Guide
----
-
-# Getting started
-{: .no_toc}
-
-## Table of contents
-{: .no_toc .text-delta}
-
-* toc
-{:toc}
-
----
-
 ## Install VueGL and dependent libraries
 See [installation guide](installation) to know various installation methods.
 
@@ -34,7 +18,7 @@ is a more convenient way.
 
 To register all VueGL components, run following script after loading libraries.
 
-```js
+```js static
 Object.keys(VueGL).forEach((name) => Vue.component(name, VueGL[name]));
 ```
 
@@ -74,23 +58,13 @@ CSS
 
 Then create a Vue instance and you will see a black canvas on browser.
 
-```js
+```js static
 new Vue({ el: '.getting-started' });
 ```
 
 Here is the result of loading codes so far. To try it in your local environment,
 copy and save the whole HTML below, then load it on a modern web browser.
 
-<div class="code-example">
-  <div class="max-width-1-2">
-    <div class="aspect-1618-1000">
-      <vgl-renderer camera="camera" scene="scene">
-        <vgl-perspective-camera name="camera"></vgl-perspective-camera>
-        <vgl-scene name="scene"></vgl-scene>
-      </vgl-renderer>
-    </div>
-  </div>
-</div>
 ```html
 <!DOCTYPE html>
 <head>
@@ -130,19 +104,6 @@ of the camera determine where in the scene space to be rendered.
 
 Definition of scene and camera is like below.
 
-<div class="code-example">
-  <div class="max-width-1-2">
-    <div class="aspect-1618-1000">
-      <vgl-renderer id="getting-started-2" camera="camera" scene="scene">
-        <vgl-box-geometry name="box"></vgl-box-geometry>
-        <vgl-scene name="scene">
-          <vgl-mesh geometry="box"></vgl-mesh>
-        </vgl-scene>
-        <vgl-perspective-camera orbit-position="3 1 0.5" name="camera"></vgl-perspective-camera>
-      </vgl-renderer>
-    </div>
-  </div>
-</div>
 ```html
 <vgl-renderer class="getting-started" camera="camera" scene="scene">
   <vgl-box-geometry name="box"></vgl-box-geometry>
@@ -168,7 +129,3 @@ string as the `orbit-position` prop. The string '3 1 0.5' is parsed as
 Then camera position is set to (radius, phi, theta) = (3, 1rad, 0.5rad) on spherical
 coordinate system. Props of VueGL components have their specific types. For more
 information, see the [prop types](/prop-types) reference.
-
-[Installation](installation){: .btn .nav-prev}
-[Namespaces](namespaces){: .btn .nav-next}
-{: .d-flex .mt-8 .justify-between}

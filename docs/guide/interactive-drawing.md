@@ -1,19 +1,3 @@
----
-parent: Guide
-nav_order: D
----
-
-# Interactive drawing
-{: .no_toc}
-
-## Table of contents
-{: .no_toc .text-delta}
-
-* toc
-{:toc}
-
----
-
 ## Data binding
 We can bind datas to component props as Vue.js' function, of course. If bound data
 is reactive (watched by Vue.js), [`VglRenderer`](/components/renderers/vgl-renderer)
@@ -38,27 +22,6 @@ To handle user inputs, bind datas to both forms and VueGL components. The exampl
 blow handles user input as `zCoordinate` and bind it to the `VglMesh` component.
 The mesh moves following the slider input value.
 
-<div class="code-example">
-  <code-example2 inline-template>
-    <div class="max-width-1-2">
-      <div class="aspect-1618-1000">
-        <vgl-renderer camera="camera" scene="scene">
-          <vgl-sphere-geometry name="sphere"></vgl-sphere-geometry>
-          <vgl-scene name="scene">
-            <vgl-mesh v-bind:position="`0 0 ${zCoordinate}`" geometry="sphere"></vgl-mesh>
-          </vgl-scene>
-          <vgl-perspective-camera orbit-position="10 0 0" name="camera"></vgl-perspective-camera>
-        </vgl-renderer>
-      </div>
-      <input type="range" v-model="zCoordinate" min="-5" max="5">
-    </div>
-  </code-example2>
-</div>
-<script>
-  Vue.component('CodeExample2', {
-    data: () => ({ zCoordinate: 0 }),
-  });
-</script>
 ```html
 <div id="ex-2">
   <vgl-renderer camera="camera" scene="scene">
@@ -81,7 +44,3 @@ The mesh moves following the slider input value.
   });
 </script>
 ```
-
-[Namespaces](namespaces){: .btn .nav-prev}
-[Supporting old browsers](supporting-old-browsers){: .btn .nav-next}
-{: .d-flex .mt-8 .justify-between}

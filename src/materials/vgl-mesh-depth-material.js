@@ -1,36 +1,24 @@
 import { MeshDepthMaterial } from 'three';
-import { VglMaterialWithMap } from '../mixins';
-import { name, boolean } from '../types';
-import { validateName } from '../validators';
-
-/**
- * A material for drawing geometry by depth,
- * corresponding [THREE.MeshDepthMaterial](https://threejs.org/docs/index.html#api/materials/MeshDepthMaterial).
- * This material is not affected by lights.
- *
- * Properties of [VglMaterial](vgl-material) are also available as mixin.
- */
+import VglMaterial from './vgl-material';
+import {
+  add, fog, inst, map, remove,
+} from '../constants';
 
 export default {
-  mixins: [VglMaterialWithMap],
+  mixins: [VglMaterial],
   props: {
     /** Whether the material is affected by fog. */
-    fog: boolean,
-    /** The color map of the material. */
-    map: { type: name, validator: validateName },
+    [fog]: Boolean,
   },
   computed: {
     /** The THREE.MeshDepthMaterial instance. */
-    inst: () => new MeshDepthMaterial(),
+    [inst]: () => new MeshDepthMaterial(),
   },
   watch: {
-    inst: {
-      handler(inst) { Object.assign(inst, { fog: this.fog }); },
-      immediate: true,
-    },
-    fog(fog) {
-      this.inst.fog = fog;
-      this.update();
-    },
+    [fog]: { handler(f) { this[inst].fog = f; }, immediate: true },
+  },
+  methods: {
+    [add](slot, obj) { if (slot === map) this[inst].map = obj; },
+    [remove](slot, obj) { if (slot === map && this[inst].map === obj) this[inst].map = null; },
   },
 };

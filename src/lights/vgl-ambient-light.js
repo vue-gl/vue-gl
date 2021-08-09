@@ -1,18 +1,11 @@
 import { AmbientLight } from 'three';
 import VglLight from './vgl-light';
-
-/**
- * A light component globally illuminates all objects in the scene equally,
- * corresponding [THREE.AmbientLight](https://threejs.org/docs/index.html#api/lights/AmbientLight).
- * This light cannot be used to cast shadows as it does not have a direction.
- *
- * Properties of [VglLight](vgl-light) are also available as mixin.
- */
+import { inst } from '../constants';
 
 export default {
-  mixins: [VglLight],
+  extends: VglLight,
   computed: {
     /** The THREE.AmbientLight instance. */
-    inst: () => new AmbientLight(),
+    [inst]: () => new AmbientLight(),
   },
 };

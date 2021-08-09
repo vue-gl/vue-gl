@@ -1,0 +1,16 @@
+Available drawing commands in `d` prop below.
+
+|Command|Parameters           |Discription                                                                                                                                                                                       |
+|-------|---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|`M`    |`(x, y)+`            |Move the current point to the end point at `{x, y}`.                                                                                                                                              |
+|`m`    |`(dx, dy)+`          |Move the current point by shifting the position.                                                                                                                                                  |
+|`L`    |`(x, y)+`            |Draw a line from the current point to the end point at `{x, y}`.                                                                                                                                  |
+|`l`    |`(dx, dy)+`          |Draw a line from the current point to the shifted end point.                                                                                                                                      |
+|`H`    |`x+`                 |Draw a horizontal line from the current point to the specified x-coordinate.                                                                                                                      |
+|`h`    |`dx+`                |Draw a horizontal line from the current point to the shifted x-coordinate.                                                                                                                        |
+|`V`    |`y+`                 |Draw a vertical line from the current point to the specified y-coordinate.                                                                                                                        |
+|`v`    |`dy+`                |Draw a vertical line from the current point to the shifted y-coordinate.                                                                                                                          |
+|`Q`    |`(x1, y1, x, y)+`    |Draw a quadratic Bézier curve from the current point to the end point at `{x, y}` with the control point at `{x1, y1}`.                                                                           |
+|`q`    |`(dx1, dy1, dx, dy)+`|Draw a quadratic Bézier curve from the current point to the end point which position is shifted by `{dx, dy}` with the control point which position is shifted by `{dx1, dy1}`.                   |
+|`T`    |`(x, y)+`            |Draw a quadratic Bézier curve from the current point to the end point at `{x, y}` with the control point which position is a reflection of the previous control point.                            |
+|`t`    |`(dx, dy)+`          |Draw a quadratic Bézier curve from the current point to the end point which position is shifted by `{dx, dy}` with the control point which position is a reflection of the previous control point.|

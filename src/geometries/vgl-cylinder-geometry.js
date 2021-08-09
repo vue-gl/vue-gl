@@ -1,45 +1,36 @@
-import { CylinderBufferGeometry } from 'three';
+import { CylinderGeometry } from 'three';
 import VglGeometry from '../core/vgl-geometry';
-import { float, int, boolean } from '../types';
-
-/**
- * This is a component for generating cylinder geometries,
- * corresponding [THREE.CylinderGeometry](https://threejs.org/docs/index.html#api/geometries/CylinderGeometry).
- *
- * Properties of [VglGeometry](../core/vgl-geometry) are also available as mixin.
- */
+import {
+  height, heightSegments, inst, openEnded, radialSegments, radiusBottom, radiusTop, thetaLength,
+  thetaStart,
+} from '../constants';
 
 export default {
-  mixins: [VglGeometry],
+  extends: VglGeometry,
   props: {
-    /** Radius of the cylinder at the top. */
-    radiusTop: { type: float, default: 1 },
-    /** Radius of the cylinder at the bottom. */
-    radiusBottom: { type: float, default: 1 },
-    /** Height of the cylinder. */
-    height: { type: float, default: 1 },
-    /** Number of segmented faces around the circumference of the cylinder. */
-    radialSegments: { type: int, default: 8 },
-    /** Number of rows of faces along the height of the cylinder. */
-    heightSegments: { type: int, default: 1 },
-    /** A Boolean indicating whether the ends of the cylinder are open or capped. */
-    openEnded: boolean,
-    /** Start angle for first segment. */
-    thetaStart: { type: float, default: 0 },
+    /** The radius of the cylinder at its top. */
+    [radiusTop]: { type: Number, default: 1 },
+    /** The radius of the cylinder at its bottom. */
+    [radiusBottom]: { type: Number, default: 1 },
+    /** The height of the cylinder. */
+    [height]: { type: Number, default: 1 },
+    /** The number of segmented faces around the circumference of the cylinder. */
+    [radialSegments]: { type: Number, default: 8, validator: Number.isInteger },
+    /** The number of segmented faces along the height of the cylinder. */
+    [heightSegments]: { type: Number, default: 1, validator: Number.isInteger },
+    /** Whether ends of the cylinder are open or capped. */
+    [openEnded]: Boolean,
+    /** The start angle for the first segment. */
+    [thetaStart]: { type: Number, default: 0 },
     /** The central angle of the circular sector. */
-    thetaLength: { type: float, default: Math.PI * 2 },
+    [thetaLength]: { type: Number, default: Math.PI * 2 },
   },
   computed: {
-    inst() {
-      return new CylinderBufferGeometry(
-        parseFloat(this.radiusTop),
-        parseFloat(this.radiusBottom),
-        parseFloat(this.height),
-        parseInt(this.radialSegments, 10),
-        parseInt(this.heightSegments, 10),
-        this.openEnded,
-        parseFloat(this.thetaStart),
-        parseFloat(this.thetaLength),
+    /** The THREE.CylinderGeometry instance. */
+    [inst]() {
+      return new CylinderGeometry(
+        this[radiusTop], this[radiusBottom], this[height], this[radialSegments],
+        this[heightSegments], this[openEnded], this[thetaStart], this[thetaLength],
       );
     },
   },

@@ -1,64 +1,35 @@
-import { Line } from 'three';
-import { VglObject3dWithMatarialAndGeometry } from '../mixins';
-import { name } from '../types';
-import { validateName } from '../validators';
-
-/**
- * A continuous line component,
- * corresponding [THREE.Line](https://threejs.org/docs/index.html#api/objects/Line).
- *
- * Properties of [VglObject3d](../core/vgl-object3d) are also available as mixin.
- */
+import { Line, LineDashedMaterial } from 'three';
+import VglObject3d from '../core/vgl-object3d';
+import { defaultGeometry, defaultLineMaterial } from './defaults';
+import {
+  add, geometry, inst, material, remove,
+} from '../constants';
 
 export default {
-  mixins: [VglObject3dWithMatarialAndGeometry],
-  props: {
-    /** Name of the geometry, representing the line segment(s). */
-    geometry: { type: name, validator: validateName },
-    /** Name of the material for the line. */
-    material: { type: name, validator: validateName },
-  },
+  mixins: [VglObject3d],
   computed: {
     /** The THREE.Line instance. */
-    inst: () => new Line(),
+    [inst]: () => new Line(),
   },
   methods: {
-    computeLineDistances() {
-      if (this.inst.material.isLineDashedMaterial) this.inst.computeLineDistances();
+    [add](slot, obj) {
+      if (slot === geometry) {
+        this[inst].geometry = obj;
+        if (this[inst].material instanceof LineDashedMaterial) this[inst].computeLineDistances();
+      } else if (slot === material) {
+        this[inst].material = obj;
+        if (obj instanceof LineDashedMaterial) this[inst].computeLineDistances();
+      } else VglObject3d.methods[add].call(this, slot, obj);
     },
-  },
-  beforeDestroy() {
-    if (this.geometry !== undefined) {
-      this.vglNamespace.geometries.unlisten(this.geometry, this.computeLineDistances);
-    }
-    if (this.material !== undefined) {
-      this.vglNamespace.materials.unlisten(this.material, this.computeLineDistances);
-    }
-  },
-  watch: {
-    geometry: {
-      handler(geometry, oldGeometry) {
-        if (oldGeometry !== undefined) {
-          this.vglNamespace.geometries.unlisten(oldGeometry, this.computeLineDistances);
+    [remove](slot, obj) {
+      if (slot === geometry) {
+        if (this[inst].geometry === obj) {
+          this[inst].geometry = defaultGeometry;
+          if (this[inst].material instanceof LineDashedMaterial) this[inst].computeLineDistances();
         }
-        if (geometry !== undefined) {
-          this.vglNamespace.geometries.listen(geometry, this.computeLineDistances);
-          this.computeLineDistances();
-        }
-      },
-      immediate: true,
-    },
-    material: {
-      handler(material, oldMaterial) {
-        if (oldMaterial !== undefined) {
-          this.vglNamespace.materials.unlisten(oldMaterial, this.computeLineDistances);
-        }
-        if (material !== undefined) {
-          this.vglNamespace.materials.listen(material, this.computeLineDistances);
-          this.computeLineDistances();
-        }
-      },
-      immediate: true,
+      } else if (slot === material && this[inst].material === obj) {
+        this[inst].material = defaultLineMaterial;
+      } else VglObject3d.methods[remove].call(this, slot, obj);
     },
   },
 };

@@ -1,18 +1,3 @@
----
-parent: Guide
-nav_order: A
----
-# Installation
-{: .no_toc}
-
-## Table of contents
-{: .no_toc .text-delta}
-
-* toc
-{:toc}
-
----
-
 ## Load with \<script\> tag
 Download and include libraries with `<script>` elements. Note that you also need
 to load Vue.js and three.js as dependencies.
@@ -34,7 +19,7 @@ Executing VueGL script exposes `VueGL` object as a global variable. To register
 VueGL components as [global components](//vuejs.org/v2/guide/components-registration.html#Global-Registration),
 run following script after loading libraries.
 
-```js
+```js static
 Object.keys(VueGL).forEach((name) => Vue.component(name, VueGL[name]));
 ```
 
@@ -72,10 +57,6 @@ npm i vue three vue-gl
 
 Then you can import VueGL components like below.
 
-```js
+```js static
 const { VglRenderer, VglScene } = require('vue-gl');
 ```
-
-[What is VueGL?](index){: .btn .nav-prev}
-[Getting started](getting-started){: .btn .nav-next}
-{: .d-flex .mt-8 .justify-between}

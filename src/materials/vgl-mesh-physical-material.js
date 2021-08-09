@@ -1,50 +1,26 @@
 import { MeshPhysicalMaterial } from 'three';
 import VglMeshStandardMaterial from './vgl-mesh-standard-material';
-import { float } from '../types';
-
-/**
- * An extension of the mesh standard material that allows for greater control over reflectivity,
- * corresponding [THREE.MeshPhysicalMaterial](https://threejs.org/docs/index.html#api/materials/MeshPhysicalMaterial).
- *
- * Properties of [VglMeshStandardMaterial](vgl-mesh-standard-material) are also available as mixin.
- */
+import {
+  clearcoat, clearcoatRoughness, inst, reflectivity,
+} from '../constants';
 
 export default {
   mixins: [VglMeshStandardMaterial],
   props: {
     /** ClearCoat level, from 0.0 to 1.0. */
-    clearcoat: { type: float, default: 0 },
+    [clearcoat]: { type: Number, default: 0, validator: (v) => v >= 0 && v <= 1 },
     /** How rough the clearCoat appears, from 0.0 to 1.0. */
-    clearcoatRoughness: { type: float, default: 0 },
+    [clearcoatRoughness]: { type: Number, default: 0, validator: (v) => v >= 0 && v <= 1 },
     /** Degree of reflectivity, from 0.0 to 1.0. */
-    reflectivity: { type: float, default: 0.5 },
+    [reflectivity]: { type: Number, default: 0.5, validator: (v) => v >= 0 && v <= 1 },
   },
   computed: {
     /** The THREE.MeshPhysicalMaterial instance. */
-    inst: () => new MeshPhysicalMaterial(),
+    [inst]: () => new MeshPhysicalMaterial(),
   },
   watch: {
-    inst: {
-      handler(inst) {
-        Object.assign(inst, {
-          clearcoat: parseFloat(this.clearcoat),
-          clearcoatRoughness: parseFloat(this.clearcoatRoughness),
-          reflectivity: parseFloat(this.reflectivity),
-        });
-      },
-      immediate: true,
-    },
-    clearcoat(clearcoat) {
-      this.inst.clearcoat = parseFloat(clearcoat);
-      this.update();
-    },
-    clearcoatRoughness(roughness) {
-      this.inst.clearcoatRoughness = parseFloat(roughness);
-      this.update();
-    },
-    reflectivity(reflectivity) {
-      this.inst.reflectivity = parseFloat(reflectivity);
-      this.update();
-    },
+    [clearcoat]: { handler(c) { this[inst].clearcoat = c; }, immediate: true },
+    [clearcoatRoughness]: { handler(r) { this[inst].clearcoatRoughness = r; }, immediate: true },
+    [reflectivity]: { handler(r) { this[inst].reflectivity = r; }, immediate: true },
   },
 };

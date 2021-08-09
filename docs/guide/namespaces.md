@@ -1,19 +1,3 @@
----
-parent: Guide
-nav_order: C
----
-
-# Namespaces
-{: .no_toc}
-
-## Table of contents
-{: .no_toc .text-delta}
-
-* toc
-{:toc}
-
----
-
 ## How namespaces work
 VueGL provides namespaces to specify named objects for used in another component.
 For example, [`VglMesh`](/components/objects/vgl-mesh) component accepts a name
@@ -85,26 +69,6 @@ angles.
 Note that canvases should be same size if the renderers share a camera because
 the projection matrix of the camera is set from the canvas size.
 
-<div class="code-example">
-  <div class="max-width-1-2">
-    <div class="aspect-1618-1000">
-      <vgl-namespace id="multiple-renderer" class="d-flex">
-        <vgl-box-geometry name="ex-geometry"></vgl-box-geometry>
-        <vgl-mesh-standard-material name="ex-material"></vgl-mesh-standard-material>
-        <vgl-scene name="ex-scene">
-          <vgl-mesh geometry="ex-geometry" material="ex-material"></vgl-mesh>
-          <vgl-directional-light position="1 2 3"></vgl-directional-light>
-        </vgl-scene>
-        <vgl-renderer scene="ex-scene" camera="ex-camera-1" class="flex-1 mr-1">
-          <vgl-perspective-camera name="ex-camera-1" orbit-position="3 1 0.5"></vgl-perspective-camera>
-        </vgl-renderer>
-        <vgl-renderer scene="ex-scene" camera="ex-camera-2" class="flex-1">
-          <vgl-perspective-camera name="ex-camera-2" orbit-position="4 1 1"></vgl-perspective-camera>
-        </vgl-renderer>
-      </vgl-namespace>
-    </div>
-  </div>
-</div>
 ```html
 <vgl-namespace>
   <vgl-box-geometry name="ex-geometry"></vgl-box-geometry>
@@ -124,7 +88,3 @@ the projection matrix of the camera is set from the canvas size.
   </vgl-renderer>
 </vgl-namespace>
 ```
-
-[Getting started](getting-started){: .btn .nav-prev}
-[Interactive drawing](interactive-drawing){: .btn .nav-next}
-{: .d-flex .mt-8 .justify-between}

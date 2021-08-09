@@ -1,42 +1,33 @@
-import { SphereBufferGeometry } from 'three';
+import { SphereGeometry } from 'three';
 import VglGeometry from '../core/vgl-geometry';
-import { float, int } from '../types';
-
-/**
- * This is a component for generating sphere geometries,
- * corresponding [THREE.SphereGeometry](https://threejs.org/docs/index.html#api/geometries/SphereGeometry).
- *
- * Properties of [VglGeometry](../core/vgl-geometry) are also available as mixin.
- */
+import {
+  heightSegments, inst, phiLength, phiStart, radius, thetaLength, thetaStart, widthSegments,
+} from '../constants';
 
 export default {
-  mixins: [VglGeometry],
+  extends: VglGeometry,
   props: {
-    /** Sphere radius. */
-    radius: { type: float, default: 1 },
-    /** Number of horizontal segments. */
-    widthSegments: { type: int, default: 8 },
-    /** Number of vertical segments. */
-    heightSegments: { type: int, default: 6 },
-    /** Specify horizontal starting angle. */
-    phiStart: { type: float, default: 0 },
-    /** Specify horizontal sweep angle size. */
-    phiLength: { type: float, default: Math.PI * 2 },
-    /** Specify vertical starting angle. */
-    thetaStart: { type: float, default: 0 },
-    /** Specify vertical sweep angle size. */
-    thetaLength: { type: float, default: Math.PI },
+    /** The radius of the sphere. */
+    [radius]: { type: Number, default: 1 },
+    /** The number of horizontal segments. */
+    [widthSegments]: { type: Number, default: 8, validator: Number.isInteger },
+    /** The number of vertical segments. */
+    [heightSegments]: { type: Number, default: 6, validator: Number.isInteger },
+    /** The horizontal starting angle. */
+    [phiStart]: { type: Number, default: 0 },
+    /** The horizontal sweep angle size. */
+    [phiLength]: { type: Number, default: Math.PI * 2 },
+    /** The vertical starting angle. */
+    [thetaStart]: { type: Number, default: 0 },
+    /** The vertical sweep angle size. */
+    [thetaLength]: { type: Number, default: Math.PI },
   },
   computed: {
-    inst() {
-      return new SphereBufferGeometry(
-        parseFloat(this.radius),
-        parseInt(this.widthSegments, 10),
-        parseInt(this.heightSegments, 10),
-        parseFloat(this.phiStart),
-        parseFloat(this.phiLength),
-        parseFloat(this.thetaStart),
-        parseFloat(this.thetaLength),
+    /** The THREE.SphereGeometry instance. */
+    [inst]() {
+      return new SphereGeometry(
+        this[radius], this[widthSegments], this[heightSegments], this[phiStart], this[phiLength],
+        this[thetaStart], this[thetaLength],
       );
     },
   },
