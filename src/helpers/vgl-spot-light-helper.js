@@ -32,8 +32,6 @@ export default {
       } else superMethod(VglObject3d, remove).call(this, slot, obj);
     },
     [change](slot) {
-      console.log('change');
-      console.log(slot);
       if (slot === light) this[inst].update();
       superMethod(VglObject3d, change).call(this, slot);
     },
