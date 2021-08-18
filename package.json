@@ -31,7 +31,8 @@
   "scripts": {
     "lint": "eslint --ignore-path .gitignore .",
     "test": "jest",
-    "start": "vue-styleguidist server",
+    "start": "vuepress dev docs",
+    "doc": "vuepress build docs",
     "prepare": "rollup -c"
   },
   "devDependencies": {
@@ -45,19 +46,17 @@
     "eslint-plugin-jest": "^24.0.0",
     "eslint-plugin-markdown": "^2.2.0",
     "eslint-plugin-vue": "^7.12.1",
-    "file-loader": "^6.2.0",
     "jest": "^26.0.0",
     "rollup": "^2.26.6",
     "rollup-plugin-terser": "^7.0.2",
     "three": "^0.130.0",
     "vue": "^2.6.0",
-    "vue-loader": "^16.3.0",
-    "vue-styleguidist": "^4.40.0",
-    "vue-template-compiler": "^2.6.14",
-    "webpack": "4"
+    "vue-docgen-api": "^4.41.0",
+    "vuepress": "^1.8.2"
   },
   "peerDependencies": {
     "three": "^0.127.0",
     "vue": "^2.6.0"
-  }
+  },
+  "dependencies": {}
 }

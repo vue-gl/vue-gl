@@ -5,6 +5,11 @@
   ],
   "overrides": [{
     "files": ["*.vue"],
-    "extends": ["plugin:vue/recommended"]
+    "extends": ["plugin:vue/recommended"],
+    "rules": {
+      "import/no-unresolved": [
+        "error", {"commonjs": true, "caseSensitive": true, "ignore": ["vue-gl"]}
+      ]
+    }
   }]
 }
