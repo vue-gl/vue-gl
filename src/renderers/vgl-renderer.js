@@ -1,3 +1,4 @@
+/* eslint-env browser */
 import { OrthographicCamera, PerspectiveCamera, WebGLRenderer } from 'three';
 import VglSlot from '../core/private/vgl-slot';
 import {
@@ -40,6 +41,19 @@ function attrs(vm, slot) {
     },
   };
 }
+
+const resizeHooks = window.ResizeObserver ? {
+  created() { this.resizeObserver = new ResizeObserver(this.render); },
+  mounted() { this.resizeObserver.observe(this.$el); },
+  updated() {
+    this.resizeObserver.disconnect();
+    this.resizeObserver.observe(this.$el);
+  },
+  beforeDestroy() {
+    this.resizeObserver.disconnect();
+    if (this[inst].renderer) this[inst].renderer.dispose();
+  },
+} : {};
 
 export default {
   props: {
@@ -157,9 +171,19 @@ export default {
   render(h) {
     const { parameters, shadowMap } = this[inst];
     return h('canvas', { key: key(parameters, shadowMap) }, [
-      h(VglSlot, attrs(this, camera), this.$slots[camera]),
-      h(VglSlot, attrs(this, scene), this.$slots[scene]),
-      h('template', this.$slots.default),
+      h(VglSlot, attrs(this, camera),
+        /** @slot The camera to project scene objects. */
+        this.$slots[camera]),
+      h(VglSlot, attrs(this, scene),
+        /** @slot The scene to be rendered. */
+        this.$slots[scene]),
+      h('template',
+        /**
+         * @slot The default slot can contain any components but they won't be rendered directly.
+         * One of relevant case is putting `<vgl-def>` components and use them in (as) the scene.
+         */
+        this.$slots.default),
     ]);
   },
+  ...resizeHooks,
 };
