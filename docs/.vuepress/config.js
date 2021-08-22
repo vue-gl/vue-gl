@@ -36,6 +36,7 @@ module.exports = {
     lineNumbers: true,
   },
   themeConfig: {
+    logo: '/assets/logo.svg',
     sidebar: [{
       title: 'Guide',
       children: [
