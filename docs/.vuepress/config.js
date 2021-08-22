@@ -35,8 +35,15 @@ module.exports = {
   markdown: {
     lineNumbers: true,
   },
+  head: [
+    ['link', { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    ['script', { src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3600741293730423', async: true, crossorigin: 'anonymous' }],
+  ],
   themeConfig: {
     logo: '/assets/logo.svg',
+    nav: [{
+      text: 'Source on GitHub', link: 'https://github.com/vue-gl/vue-gl',
+    }],
     sidebar: [{
       title: 'Guide',
       children: [
