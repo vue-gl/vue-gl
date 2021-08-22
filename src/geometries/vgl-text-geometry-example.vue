@@ -39,9 +39,12 @@
 </template>
 
 <script>
+import * as components from 'vue-gl';
+
 const typeface = require('three/examples/fonts/helvetiker_regular.typeface.json');
 
 export default {
+  components,
   data: () => ({
     font: typeface,
     text: 'Text to be displayed.',

@@ -136,22 +136,10 @@
 </template>
 
 <script>
-import {
-  VglRenderer, VglScene, VglMesh, VglBoxGeometry, VglMeshStandardMaterial, VglAmbientLight,
-  VglDirectionalLight, VglOrthographicCamera,
-} from 'vue-gl';
+import * as components from 'vue-gl';
 
 export default {
-  components: {
-    VglRenderer,
-    VglScene,
-    VglMesh,
-    VglBoxGeometry,
-    VglMeshStandardMaterial,
-    VglAmbientLight,
-    VglDirectionalLight,
-    VglOrthographicCamera,
-  },
+  components,
   data: () => ({
     zoom: 10,
     near: 10,

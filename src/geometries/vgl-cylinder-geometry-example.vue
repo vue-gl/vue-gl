@@ -50,7 +50,10 @@
 </template>
 
 <script>
+import * as components from 'vue-gl';
+
 export default {
+  components,
   data: () => ({
     radiusTop: 25,
     radiusBottom: 25,

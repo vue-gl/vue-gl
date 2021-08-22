@@ -1,3 +1,4 @@
+/* eslint-env browser */
 import VglSlotable from '../core/private/vgl-slotable';
 import { change, inst, src } from '../constants';
 
@@ -12,7 +13,7 @@ export default {
   },
   computed: {
     [inst]() {
-      const img = global.document.createElement('img');
+      const img = document.createElement('img');
       img.addEventListener('load', () => { this.$_vglSlot.$emit(change); }, false);
       return img;
     },

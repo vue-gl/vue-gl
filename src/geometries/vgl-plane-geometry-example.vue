@@ -45,7 +45,10 @@
 </template>
 
 <script>
+import * as components from 'vue-gl';
+
 export default {
+  components,
   data: () => ({
     width: 50,
     height: 50,

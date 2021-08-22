@@ -10,6 +10,7 @@
       :preserve-drawing-buffer="preserveDrawingBuffer"
       :shadow-map-enabled="shadowMapEnabled"
       :logarithmic-depth-buffer="logarithmicDepthBuffer"
+      :class="orientation"
     >
       <template #scene>
         <vgl-scene>
@@ -94,12 +95,22 @@
           <option value="lowp">Low</option>
         </select>
       </label>
+      <label>Canvas orientation
+        <select v-model="orientation">
+          <option value="landscape">Landscape</option>
+          <option value="square">Square</option>
+          <option value="portrait">Portrait</option>
+        </select>
+      </label>
     </aside>
   </div>
 </template>
 
 <script>
+import * as components from 'vue-gl';
+
 export default {
+  components,
   data: () => ({
     antialias: true,
     alpha: false,
@@ -110,6 +121,22 @@ export default {
     preserveDrawingBuffer: false,
     shadowMapEnabled: false,
     logarithmicDepthBuffer: false,
+    orientation: 'landscape',
   }),
 };
 </script>
+
+<style scoped>
+.landscape {
+  width: 300px;
+  height: 150px;
+}
+.square {
+  width: 150px;
+  height: 150px;
+}
+.portrait {
+  width: 150px;
+  height: 300px;
+}
+</style>

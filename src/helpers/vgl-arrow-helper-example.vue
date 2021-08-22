@@ -95,7 +95,10 @@
 </template>
 
 <script>
+import * as components from 'vue-gl';
+
 export default {
+  components,
   data: () => ({
     x: 1,
     y: 1,

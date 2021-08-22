@@ -44,7 +44,10 @@
 </template>
 
 <script>
+import * as components from 'vue-gl';
+
 export default {
+  components,
   data: () => ({ curveSegments: 5 }),
 };
 </script>

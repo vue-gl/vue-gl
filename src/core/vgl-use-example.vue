@@ -52,3 +52,9 @@
     </vgl-renderer>
   </div>
 </template>
+
+<script>
+import * as components from 'vue-gl';
+
+export default { components };
+</script>

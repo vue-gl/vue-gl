@@ -45,7 +45,10 @@
 </template>
 
 <script>
+import * as components from 'vue-gl';
+
 export default {
+  components,
   data: () => ({
     innerRadius: 25,
     outerRadius: 50,

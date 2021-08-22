@@ -96,7 +96,10 @@
 </template>
 
 <script>
+import * as components from 'vue-gl';
+
 export default {
+  components,
   data: () => ({
     depth: 50,
     curveSegments: 5,

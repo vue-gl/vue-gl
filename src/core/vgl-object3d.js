@@ -16,7 +16,7 @@ export default {
   props: {
     /**
      * The coodinate system to determine the object position.
-     * @values rectangular, spherical
+     * @values 'rectangular', 'spherical'
      */
     [position]: {
       type: String,
@@ -37,7 +37,7 @@ export default {
     [positionTheta]: { type: Number, default: 0 },
     /**
      * The rotation representing method.
-     * @values euler, quaternion, lookAt
+     * @values 'euler', 'quaternion', 'lookAt'
      */
     [rotation]: {
       type: String,

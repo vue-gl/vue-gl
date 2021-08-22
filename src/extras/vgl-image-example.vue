@@ -45,11 +45,13 @@
 </template>
 
 <script>
+import * as components from 'vue-gl';
 import spring from './spring.jpg';
 import summer from './summer.jpg';
 import winter from './winter.jpg';
 
 export default {
+  components,
   data: () => ({
     src: spring, spring, summer, winter,
   }),

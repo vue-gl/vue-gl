@@ -120,7 +120,10 @@
 </template>
 
 <script>
+import * as components from 'vue-gl';
+
 export default {
+  components,
   data: () => ({
     drawRangeStart: 0, drawRangeCount: 8, intensity: 1, distance: 1,
   }),

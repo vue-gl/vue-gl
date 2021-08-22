@@ -57,7 +57,10 @@
 </template>
 
 <script>
+import * as components from 'vue-gl';
+
 export default {
+  components,
   data: () => ({ rotation: 0 }),
 };
 </script>

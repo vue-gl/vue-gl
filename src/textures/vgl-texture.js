@@ -118,6 +118,7 @@ export default {
     [encoding]: { handler(e) { this[inst].encoding = encodings[e]; }, immediate: true },
   },
   /**
+   * A `<vgl-image>` component to be used as the texture image.
    * @slot image
    */
   render: undefined,

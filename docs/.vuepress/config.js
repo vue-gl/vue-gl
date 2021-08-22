@@ -10,7 +10,7 @@ function group(files) {
       else prev.push([first, [rest.join('/')]]);
     }
     return prev;
-  }, []).map((item) => Array.isArray(item) ? [item[0], group(item[1])] : item);
+  }, []).map((item) => (Array.isArray(item) ? [item[0], group(item[1])] : item));
 }
 
 function sidebarGroup(fileGroups, basePath) {
@@ -39,10 +39,9 @@ module.exports = {
       title: 'Guide',
       children: [
         '/guide/getting-started',
-        '/guide/installation',
-        '/guide/interactive-drawing',
-        '/guide/namespaces',
-        '/guide/supporting-old-browsers',
+        '/guide/reactive-drawing',
+        '/guide/re-using-resources',
+        '/guide/technical-restrictions',
       ],
     }, {
       title: 'Components',
@@ -54,7 +53,7 @@ module.exports = {
   },
   plugins: [
     ['@vuepress/register-components', { componentsDir: 'src' }],
-    [({ componentDir, outputPath }, ctx) => ({
+    [({ componentDir, outputPath }) => ({
       name: '@vuepress/plugin-docgen',
       additionalPages: async () => Promise.all(
         (await globby(['**/vgl-*.js'], { cwd: componentDir })).map(async (file) => {
@@ -73,22 +72,26 @@ ${exampleCode}
 \`\`\`
             `.trim();
           }
-          const { displayName, description, props, slots } = doc;
+          const {
+            displayName, description, props, slots,
+          } = doc;
           let propsBlock = '';
           if (props) {
-            propsBlock = props.map(({ name, type, defaultValue, description }) => `
-- \`${name}\` : ${type.name}  
-  ${description}
+            propsBlock = props.map(({
+              name, type, defaultValue, description: propDescription, values,
+            }) => `
+- \`${name}\` : ${values ? values.join(' | ') : type.name}  
+  ${propDescription}
             `.trim()).join('\n');
-            propsBlock = '## Props\n' + propsBlock;
+            propsBlock = `## Props\n${propsBlock}`;
           }
           let slotsBlock = '';
           if (slots) {
-            slotsBlock = slots.map(({ name, description, bindings }) => `
+            slotsBlock = slots.map(({ name, description: slotDescription, bindings }) => `
 - \`${name}\`  
-  ${description}
+  ${slotDescription}
             `.trim()).join('\n');
-            slotsBlock = '## Slots\n' + slotsBlock;
+            slotsBlock = `## Slots\n${slotsBlock}`;
           }
           const content = `
 # &lt;${displayName}&gt;

@@ -91,22 +91,10 @@
 </template>
 
 <script>
-import {
-  VglRenderer, VglScene, VglMesh, VglBoxGeometry, VglMeshStandardMaterial, VglAmbientLight,
-  VglDirectionalLight, VglPerspectiveCamera,
-} from 'vue-gl';
+import * as components from 'vue-gl';
 
 export default {
-  components: {
-    VglRenderer,
-    VglScene,
-    VglMesh,
-    VglBoxGeometry,
-    VglMeshStandardMaterial,
-    VglAmbientLight,
-    VglDirectionalLight,
-    VglPerspectiveCamera,
-  },
+  components,
   data: () => ({
     fov: 50, zoom: 1, near: 10, far: 30, aspect: 2, autoAspect: true,
   }),

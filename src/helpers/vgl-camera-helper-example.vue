@@ -57,7 +57,10 @@
 </template>
 
 <script>
+import * as components from 'vue-gl';
+
 export default {
+  components,
   data: () => ({
     fov: 50,
     near: 0.05,

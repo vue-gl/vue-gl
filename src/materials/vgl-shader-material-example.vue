@@ -129,6 +129,8 @@
 </template>
 
 <script>
+import * as components from 'vue-gl';
+
 const fragmentShader = `
   uniform int displayColor;
 
@@ -182,6 +184,7 @@ const vertexShader = `
 `;
 
 export default {
+  components,
   data: () => ({
     scale: 1.0,
     waveOffset: 0.0,

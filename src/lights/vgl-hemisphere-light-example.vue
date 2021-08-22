@@ -102,7 +102,10 @@
 </template>
 
 <script>
+import * as components from 'vue-gl';
+
 export default {
+  components,
   data: () => ({
     intensity: 0.5,
     r: '255',

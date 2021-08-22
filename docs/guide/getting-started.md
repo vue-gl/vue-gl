@@ -1,131 +1,162 @@
-## Install VueGL and dependent libraries
-See [installation guide](installation) to know various installation methods.
+# Getting started
+## Installation
+There are two ways to use VueGL.
 
-To load latest libraries from UNPKG, put following codes into the HTML.
+* [Loading pre-built scripts on the browser](#loading-pre-built-scripts-on-the-browser)  
+  Easy way to try using the library. You need only a text editor.
+* [Building a script to be loaded with a module bundler](#building-a-script-to-be-loaded-with-a-module-bundler)  
+  More efficient way for building products. It needs Node.js and npm (Node package manager) to be
+  installed.
+
+### Loading pre-built scripts on the browser
+Put &lt;script&gt; tags before your code using VueGL. VueGL depends on Vue.js and Three.js so that you need to load them before VueGL.
 
 ```html
+<!-- Dependency libraries has to be loaded before VueGL. -->
+<script src="path/to/vue.js"></script>
+<script src="path/to/three.js"></script>
+<!-- Loading VueGL. -->
+<script src="path/to/vue-gl.js"></script>
+```
+
+The global namespace object `VueGL` is accessible after loading VueGL. For example,
+&lt;VglRenderer&gt; component is under the `VglRenderer` property of the `VueGL`.
+
+```js
+// Registering the VglRenderer as a global component.
+Vue.component('VglRenderer', VueGL.VglRenderer);
+```
+
+#### Downloads
+VueGL and its dependency scripts can be found at following pages.
+
+* Vue.js - [Installation](https://vuejs.org/v2/guide/installation.html#Direct-lt-script-gt-Include)
+* Three.js - [Releases](https://github.com/mrdoob/three.js/releases)
+* VueGL - [Releases](https://github.com/vue-gl/vue-gl/releases)
+
+#### from CDN
+You can also load scripts from CDNs. To load them, just replace src attribute of &lt;script&gt; tags.
+
+```html
+<!-- Latest versions from UNPKG -->
 <script src="https://unpkg.com/vue"></script>
 <script src="https://unpkg.com/three"></script>
 <script src="https://unpkg.com/vue-gl"></script>
+
+<!-- Latest versions from jsDeliver -->
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src="https://cdn.jsdelivr.net/npm/three"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-gl"></script>
 ```
 
-## Register VueGL components to Vue
-Vue.js supports global and local component registration. If you are using a module
-bundler like [Webpack](//webpack.js.org) or [rollup.js](//rollupjs.org), you may
+### Building a script to be loaded with a module bundler
+VueGL and its dependencies are also available on [npm](//www.npmjs.com). If you build your app with
+a module bundler such as [Webpack](//webpack.js.org) or [rollup.js](//rollupjs.org), it is easy to integrate VueGL to your app.
+
+Note that Vue.js and Three.js are peer dependencies of VueGL, then you have to explicitly install
+them.
+
+```sh
+npm i vue three vue-gl
+```
+
+Then you can import VueGL components like below.
+
+```js
+// CommonJS
+const { VglRenderer, VglScene } = require('vue-gl');
+```
+```js
+// ECMA Script
+import { VglRenderer, VglScene } from 'vue-gl';
+```
+
+## Registering components
+Vue.js supports global and local component registration. If you are using a module bundler, you may
 prefer [local registration](//vuejs.org/v2/guide/components-registration.html#Local-Registration).
 For prototyping, [global registration](//vuejs.org/v2/guide/components-registration.html#Global-Registration)
-is a more convenient way.
+is the more convenient way.
 
-To register all VueGL components, run following script after loading libraries.
+### Global registration
+Use `Vue.component()` method to register components.
 
-```js static
-Object.keys(VueGL).forEach((name) => Vue.component(name, VueGL[name]));
+When using pre-built VueGL script, the global namespace object `VueGL` has all components as its own
+properties. For example, the script below registers the &lt;VglRenderer&gt; component.
+```html
+<script>
+  Vue.component('VglRenderer', VueGL.VglRenderer);
+</script>
+```
+The script below registers all available VueGL components globally.
+```js
+Object.entries(VueGL).forEach(([name, component]) => Vue.component(name, component));
 ```
 
-## Create a canvas with VueGL
-[`VglRenderer`](/components/renderers/vgl-renderer) is a VueGL component that initializes
-`<canvas>` element for our drawings. The canvas is created in `<div>` wrapper container
-and is responsively resized to container size. To avoid unstable behaviors, apply
-size constraints enough to the wrapper `<div>` element.
+### Local registration
+Pass components to `components` option for the Vue instance. 
 
-The `VglRenderer` component requires a `camera` and a `scene` props. These props
-represent names of [`VglCamera`](/components/cameras/vgl-camera) and [`VglScene`](/components/scenes/vgl-scene)
-instances. You can define them as child components of the `VglRenderer`.
+When using a module bundler, you can import or require only necessary components for the current module.
 
-Note that `VglCamera` is an abstract component, so that you should use one of concrete
-components such as [`VglPerspectiveCamera`](/components/cameras/vgl-perspective-camera).
+```js
+// CommonJS
+const { VglRenderer } = require('vue-gl');
 
-Following template and CSS create a canvas with specific size and renders an empty
-scene.
+module.exports = {
+  components: { VglRenderer },
+  // Other component option definitions
+};
+```
+```js
+// ECMA Script
+import { VglRenderer } from 'vue-gl';
 
-HTML
+export default {
+  components: { VglRenderer },
+  // Other component option definitions
+};
+```
 
+## Drawing a scene with VueGL
+Here is a simple example to draw a cube on the WebGL canvas.
 ```html
-<vgl-renderer class="getting-started" camera="camera" scene="scene">
-  <vgl-perspective-camera name="camera"></vgl-perspective-camera>
-  <vgl-scene name="scene"></vgl-scene>
+<script src="path/to/vue.js"></script>
+<script src="path/to/three.js"></script>
+<script src="path/to/vue-gl.js"></script>
+<vgl-renderer id="canvas">
+  <template #scene>
+    <vgl-scene>
+      <vgl-mesh>
+        <template #geometry>
+          <vgl-box-geometry />
+        </template>
+        <template #material>
+          <vgl-mesh-standard-material />
+        </template>
+      </vgl-mesh>
+      <vgl-directional-light :position-x="2" :position-y="1.5" :position-z="1" />
+    </vgl-scene>
+  </template>
+  <template #camera>
+    <vgl-perspective-camera :position-x="2" :position-y="1.5" :position-z="1" rotation="lookAt" />
+  </template>
 </vgl-renderer>
+<script>
+  new Vue({ components: VueGL, el: '#canvas' });
+</script>
 ```
+<simple-cube-example />
+&lt;VglRenderer&gt; initializes a canvas for our drawings. It requires `scene` and `camera` slots to be defined.
 
-CSS
+The example scene has a mesh object and a directional light.
 
-```css
-.getting-started {
-  width: 400px;
-  height: 247px;
-}
-```
+The mesh is configured its geometry and material via `geometry` and `material` slots. Every slot of
+VueGL components would have appropriate other VueGL components like this.
 
-Then create a Vue instance and you will see a black canvas on browser.
+The directional light is configured its position via `position-x`, `position-y` and `position-z`
+props. Usually each prop of VueGL component accepts primitive value to configure corresponding
+Three.js instance.
 
-```js static
-new Vue({ el: '.getting-started' });
-```
-
-Here is the result of loading codes so far. To try it in your local environment,
-copy and save the whole HTML below, then load it on a modern web browser.
-
-```html
-<!DOCTYPE html>
-<head>
-  <meta charset="utf-8">
-  <style>
-    .getting-started {
-      width: 400px;
-      height: 247px;
-    }
-  </style>
-</head>
-<body>
-  <vgl-renderer class="getting-started">
-    <vgl-perspective-camera name="camera"></vgl-perspective-camera>
-    <vgl-scene name="scene"></vgl-scene>
-  </vgl-renderer>
-  <script src="https://unpkg.com/vue"></script>
-  <script src="https://unpkg.com/three"></script>
-  <script src="https://unpkg.com/vue-gl"></script>
-  <script>
-    Object.keys(VueGL).forEach((name) => Vue.component(name, VueGL[name]));
-    new Vue({ el: '.getting-started' });
-  </script>
-</body>
-```
-
-## Draw 3D objects on canvas
-To render objects on the canvas, define a scene and a camera in [`VglRenderer`](/components/renderers/vgl-renderer)'s
-default [slot](//vuejs.org/v2/guide/components.html#Content-Distribution-with-Slots).
-
-A scene must be a [`VglScene`](/components/scenes/vgl-scene) component. `VglScene`
-component can have components to be rendered as its descendants. Any components
-of [objects](/components/objects) can be rendered.
-
-A camera must be one of [cameras](/components/cameras). The position and rotation
-of the camera determine where in the scene space to be rendered.
-
-Definition of scene and camera is like below.
-
-```html
-<vgl-renderer class="getting-started" camera="camera" scene="scene">
-  <vgl-box-geometry name="box"></vgl-box-geometry>
-  <vgl-scene name="scene">
-    <vgl-mesh geometry="box"></vgl-mesh>
-  </vgl-scene>
-  <vgl-perspective-camera orbit-position="3 1 0.5" name="camera"></vgl-perspective-camera>
-</vgl-renderer>
-```
-
-In the example above, the [`VglScene`](/components/scenes/vgl-scene) component has
-a [`VglMesh`](/components/objects/vgl-mesh) component as its child. So that the
-mesh object is rendered.
-
-The `VglMesh` component gets `geometry` prop as its geometry's name. Since VueGL
-provides [namespaces](namespaces) to specify objects by name under the `VglRenderer`,
-the geometry created by [`VglBoxGeometry`](/components/geometries/vgl-box-geometry)
-named 'box' is used as geometry of the mesh.
-
-The [`VglPerspectiveCamera`](/components/cameras/vgl-perspective-camera) gets a
-string as the `orbit-position` prop. The string '3 1 0.5' is parsed as
-`new THREE.Spherical(3, 1, 0.5)` because `orbit-position` prop has type of `spherical`.
-Then camera position is set to (radius, phi, theta) = (3, 1rad, 0.5rad) on spherical
-coordinate system. Props of VueGL components have their specific types. For more
-information, see the [prop types](/prop-types) reference.
+The perspective camera has `position-` props like the directional light and also `rotation` prop.
+The value of `rotation` prop represents how to determine the camera direction. When `lookAt` mode
+is selected, the camera faces to the specified position. In this case, it faces to (0, 0, 0) since
+`look-at-x`, `look-at-y` and `look-at-z` props are omitted and their default value is 0.
