@@ -14,5 +14,10 @@
         "error", {"commonjs": true, "caseSensitive": true, "ignore": ["vue-gl"]}
       ]
     }
+  }, {
+    "files": ["docs/.vuepress/config.js"],
+    "rules": {
+      "import/no-extraneous-dependencies": ["error", {"devDependencies": true}]
+    }
   }]
 }

@@ -81,13 +81,14 @@ ${exampleCode}
               name, type, defaultValue, description: propDescription, values,
             }) => `
 - \`${name}\` : ${values ? values.join(' | ') : type.name}  
-  ${propDescription}
+  ${propDescription}  
+  ${defaultValue ? `Defaults to ${defaultValue}` : ''}
             `.trim()).join('\n');
             propsBlock = `## Props\n${propsBlock}`;
           }
           let slotsBlock = '';
           if (slots) {
-            slotsBlock = slots.map(({ name, description: slotDescription, bindings }) => `
+            slotsBlock = slots.map(({ name, description: slotDescription }) => `
 - \`${name}\`  
   ${slotDescription}
             `.trim()).join('\n');
