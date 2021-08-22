@@ -52,10 +52,10 @@ module.exports = {
       ),
     }, {
       title: 'Example Components',
-      children: sidebarGroup(
+      children: ['/example-components', ...sidebarGroup(
         group(glob.sync(['**/vgl-*.js'], { cwd: 'examples' }).map((file) => file.slice(0, -3))),
         '/example-components',
-      ),
+      )],
     }],
   },
   plugins: [

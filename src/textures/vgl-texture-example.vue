@@ -19,7 +19,7 @@
                     :center-v="0.5"
                   >
                     <template #image>
-                      <vgl-image src="./docs/img/shimoguri.jpg" />
+                      <vgl-image :src="shimoguri" />
                     </template>
                   </vgl-texture>
                 </template>
@@ -58,9 +58,10 @@
 
 <script>
 import * as components from 'vue-gl';
+import shimoguri from './shimoguri.jpg';
 
 export default {
   components,
-  data: () => ({ rotation: 0 }),
+  data: () => ({ rotation: 0, shimoguri }),
 };
 </script>
