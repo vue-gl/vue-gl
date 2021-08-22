@@ -8,14 +8,14 @@
     "files": ["*.vue"],
     "extends": ["plugin:vue/recommended"]
   }, {
-    "files": ["docs/**", "src/**/*.vue"],
+    "files": ["docs/**", "src/**/*.vue", "examples/**"],
     "rules": {
       "import/no-unresolved": [
         "error", {"commonjs": true, "caseSensitive": true, "ignore": ["vue-gl"]}
       ]
     }
   }, {
-    "files": ["docs/.vuepress/config.js"],
+    "files": ["docs/.vuepress/plugin-*.js", "docs/.vuepress/config.js"],
     "rules": {
       "import/no-extraneous-dependencies": ["error", {"devDependencies": true}]
     }

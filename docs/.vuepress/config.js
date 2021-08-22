@@ -1,5 +1,6 @@
-const { parse } = require('vue-docgen-api');
-const { fs, path, globby } = require('@vuepress/shared-utils');
+const path = require('path');
+const glob = require('fast-glob');
+const docgen = require('./plugin-docgen');
 
 function group(files) {
   return files.map((file) => file.split('/')).reduce((prev, [first, ...rest]) => {
@@ -46,68 +47,23 @@ module.exports = {
     }, {
       title: 'Components',
       children: sidebarGroup(
-        group(globby.sync(['**/vgl-*.js'], { cwd: 'src' }).map((file) => file.slice(0, -3))),
+        group(glob.sync(['**/vgl-*.js'], { cwd: 'src' }).map((file) => file.slice(0, -3))),
         '/components',
+      ),
+    }, {
+      title: 'Example Components',
+      children: sidebarGroup(
+        group(glob.sync(['**/vgl-*.js'], { cwd: 'examples' }).map((file) => file.slice(0, -3))),
+        '/example-components',
       ),
     }],
   },
   plugins: [
-    ['@vuepress/register-components', { componentsDir: 'src' }],
-    [({ componentDir, outputPath }) => ({
-      name: '@vuepress/plugin-docgen',
-      additionalPages: async () => Promise.all(
-        (await globby(['**/vgl-*.js'], { cwd: componentDir })).map(async (file) => {
-          const doc = await parse(path.resolve(componentDir, file));
-          const exampleFile = file.replace(/\.js$/, '-example.vue');
-          const examplePath = path.resolve(componentDir, exampleFile);
-          let exampleBlock = '';
-          if (fs.existsSync(examplePath)) {
-            const exampleCode = fs.readFileSync(examplePath);
-            const exampleComponent = exampleFile.replace(/\/|\\/g, '-').slice(0, -4);
-            exampleBlock = `
-## Example Usage
-<ClientOnly><${exampleComponent} /></ClientOnly>
-\`\`\`vue
-${exampleCode}
-\`\`\`
-            `.trim();
-          }
-          const {
-            displayName, description, props, slots,
-          } = doc;
-          let propsBlock = '';
-          if (props) {
-            propsBlock = props.map(({
-              name, type, defaultValue, description: propDescription, values,
-            }) => `
-- \`${name}\` : ${values ? values.join(' | ') : type.name}  
-  ${propDescription}  
-  ${defaultValue ? `Defaults to ${defaultValue}` : ''}
-            `.trim()).join('\n');
-            propsBlock = `## Props\n${propsBlock}`;
-          }
-          let slotsBlock = '';
-          if (slots) {
-            slotsBlock = slots.map(({ name, description: slotDescription }) => `
-- \`${name}\`  
-  ${slotDescription}
-            `.trim()).join('\n');
-            slotsBlock = `## Slots\n${slotsBlock}`;
-          }
-          const content = `
-# &lt;${displayName}&gt;
-${description}
-
-${exampleBlock}
-
-${propsBlock}
-
-${slotsBlock}
-          `.trim();
-          return { path: path.join('/', outputPath, file.replace(/\.js$/, '.html')), content };
-        }),
-      ),
-    }), { componentDir: 'src', outputPath: 'components' }],
+    ['@vuepress/register-components', { componentsDir: ['src', 'examples'] }],
+    [docgen, {
+      componentDir: ['src', 'examples'],
+      outputPath: { src: 'components', examples: 'example-components' },
+    }],
   ],
   configureWebpack: {
     resolve: {
@@ -115,6 +71,12 @@ ${slotsBlock}
         'vue-gl$': path.resolve('src/index.js'),
         'vue-gl/dist/examples': path.resolve('examples'),
       },
+    },
+    module: {
+      rules: [{
+        test: /\.obj$/i,
+        use: [{ loader: 'file-loader' }],
+      }],
     },
   },
 };

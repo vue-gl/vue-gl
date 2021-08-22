@@ -1,4 +1,4 @@
-/* eslint-env browser */
+/* globals globalThis */
 import { OrthographicCamera, PerspectiveCamera, WebGLRenderer } from 'three';
 import VglSlot from '../core/private/vgl-slot';
 import {
@@ -42,8 +42,8 @@ function attrs(vm, slot) {
   };
 }
 
-const resizeHooks = window.ResizeObserver ? {
-  created() { this.resizeObserver = new ResizeObserver(this.render); },
+const resizeHooks = globalThis.ResizeObserver ? {
+  created() { this.resizeObserver = new globalThis.ResizeObserver(this.render); },
   mounted() { this.resizeObserver.observe(this.$el); },
   updated() {
     this.resizeObserver.disconnect();
