@@ -59,7 +59,7 @@ export default {
 };
 </script>
 ```
-<periodically-update-example />
+<ClientOnly><periodically-update-example /></ClientOnly>
 
 ## Handling form inputs
 To handle user inputs, simply bind datas to both forms and VueGL components.
@@ -125,4 +125,4 @@ export default {
 };
 </script>
 ```
-<interactive-update-example />
+<ClientOnly><interactive-update-example /></ClientOnly>
