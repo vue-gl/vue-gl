@@ -5,12 +5,6 @@
 
 [![NPM](https://nodei.co/npm/vue-gl.png?compact=true)](https://nodei.co/npm/vue-gl/
 )  
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fvue-gl%2Fvue-gl.svg?type=small)](https://app.fossa.io/projects/git%2Bgithub.com%2Fvue-gl%2Fvue-gl?ref=badge_small
-)  
-[![CircleCI](https://circleci.com/gh/vue-gl/vue-gl.svg?style=svg)](https://circleci.com/gh/vue-gl/vue-gl
-)  
-[![codecov](https://codecov.io/gh/vue-gl/vue-gl/branch/master/graph/badge.svg)](https://codecov.io/gh/vue-gl/vue-gl
-)  
 [![Financial Contributors on Open Collective](https://opencollective.com/vue-gl/all/badge.svg?label=financial+contributors)](https://opencollective.com/vue-gl)
 
 ## Usage
@@ -22,18 +16,27 @@
 <script src="https://unpkg.com/vue-gl"></script>
 
 <!-- Define canvas and objects -->
-<vgl-renderer id="vgl-canvas">
-  <vgl-sphere-geometry name="sphere"></vgl-sphere-geometry>
-  <vgl-scene>
-    <vgl-mesh geometry="sphere"></vgl-mesh>
-  </vgl-scene>
-  <vgl-perspective-camera orbit-position="5 0 0"></vgl-perspective-camera>
+<vgl-renderer id="my-canvas">
+  <template #scene>
+    <vgl-scene>
+      <vgl-mesh>
+        <template #geometry>
+          <vgl-sphere-geometry></vgl-sphere-geometry>
+        </template>
+        <template #material>
+          <vgl-mesh-basic-material></vgl-mesh-basic-material>
+        </template>
+      </vgl-mesh>
+    </vgl-scene>
+  </template>
+  <template #camera>
+    <vgl-perspective-camera position="spherical" :position-radius="5"></vgl-perspective-camera>
+  </template>
 </vgl-renderer>
 
 <!-- Register components and start vue -->
 <script>
-Object.keys(VueGL).forEach(name => Vue.component(name, VueGL[name]));
-new Vue({ el: "#vgl-canvas" });
+  new Vue({ el: "#my-canvas", components: VueGL });
 </script>
 ```
 
