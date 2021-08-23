@@ -1,224 +1,125 @@
+import { Texture } from 'three';
+import VglSlotable from '../core/private/vgl-slotable';
+import VglSlotHolder from '../core/private/vgl-slot-holder';
+import mappings from './constants/mappings';
+import wrappings from './constants/wrappings';
+import filters from './constants/filters';
+import formats from './constants/formats';
+import types from './constants/types';
+import encodings from './constants/encodings';
 import {
-  TextureLoader, UVMapping, CubeReflectionMapping, CubeRefractionMapping,
-  EquirectangularReflectionMapping, EquirectangularRefractionMapping,
-  CubeUVReflectionMapping, CubeUVRefractionMapping, RepeatWrapping, ClampToEdgeWrapping,
-  MirroredRepeatWrapping, NearestFilter, LinearFilter, NearestMipMapNearestFilter,
-  NearestMipMapLinearFilter, LinearMipMapNearestFilter, LinearMipMapLinearFilter, AlphaFormat,
-  RGBFormat, RGBAFormat, LuminanceFormat, LuminanceAlphaFormat, RGBEFormat, DepthFormat,
-  DepthStencilFormat, UnsignedByteType, ByteType, ShortType, UnsignedShortType, IntType,
-  UnsignedIntType, FloatType, HalfFloatType, UnsignedShort4444Type, UnsignedShort5551Type,
-  UnsignedShort565Type, UnsignedInt248Type, LinearEncoding, sRGBEncoding, GammaEncoding,
-  RGBEEncoding, LogLuvEncoding, RGBM7Encoding, RGBM16Encoding, RGBDEncoding, BasicDepthPacking,
-  RGBADepthPacking,
-} from 'three';
-import {
-  string, vector2, boolean, name, int, float,
-} from '../types';
-import { parseVector2 } from '../parsers';
-import { validateName, validateVector2 } from '../validators';
-
-const mapping = {
-  uv: UVMapping,
-  'cube-reflection': CubeReflectionMapping,
-  'cube-refraction': CubeRefractionMapping,
-  'equirectangular-reflection': EquirectangularReflectionMapping,
-  'equirectangular-refraction': EquirectangularRefractionMapping,
-  'cube-uv-reflection': CubeUVReflectionMapping,
-  'cube-uv-refraction': CubeUVRefractionMapping,
-};
-
-const wrapping = {
-  repeat: RepeatWrapping,
-  'clamp-to-edge': ClampToEdgeWrapping,
-  'mirrored-repeat': MirroredRepeatWrapping,
-};
-
-const filter = {
-  nearest: NearestFilter,
-  'nearest-mip-map-nearest': NearestMipMapNearestFilter,
-  'nearest-mip-map-linear': NearestMipMapLinearFilter,
-  linear: LinearFilter,
-  'linear-mip-map-nearest': LinearMipMapNearestFilter,
-  'linear-mip-map-linear': LinearMipMapLinearFilter,
-};
-
-const format = {
-  alpha: AlphaFormat,
-  rgb: RGBFormat,
-  rgba: RGBAFormat,
-  luminance: LuminanceFormat,
-  'luminance-alpha': LuminanceAlphaFormat,
-  rgbe: RGBEFormat,
-  depth: DepthFormat,
-  'depth-stencil': DepthStencilFormat,
-};
-
-const type = {
-  'unsigned-byte': UnsignedByteType,
-  byte: ByteType,
-  short: ShortType,
-  'unsigned-short': UnsignedShortType,
-  int: IntType,
-  'unsigned-int': UnsignedIntType,
-  float: FloatType,
-  'half-float': HalfFloatType,
-  'unsigned-short-4444': UnsignedShort4444Type,
-  'unsigned-short-5551': UnsignedShort5551Type,
-  'unsigned-short-565': UnsignedShort565Type,
-  'unsigned-int-248': UnsignedInt248Type,
-};
-
-const encoding = {
-  linear: LinearEncoding,
-  's-rgb': sRGBEncoding,
-  gamma: GammaEncoding,
-  rgbe: RGBEEncoding,
-  'log-luv': LogLuvEncoding,
-  rgbm7: RGBM7Encoding,
-  rgbm16: RGBM16Encoding,
-  rgbde: RGBDEncoding,
-  'basic-depth': BasicDepthPacking,
-  'rgba-depth': RGBADepthPacking,
-};
-
-/**
- * A texture to apply to a surface or as a reflection or refraction map,
- * corresponding [THREE.Texture](https://threejs.org/docs/index.html#api/textures/Texture).
- */
+  add, anisotropy, centerU, centerV, encoding, format, image, inst, magFilter, mapping, minFilter,
+  name, offsetU, offsetV, premultiplyAlpha, remove, repeatU, repeatV, rotation, type, noFlipY,
+  unpackAlignment, wrapS, wrapT, change,
+} from '../constants';
 
 export default {
-  inject: {
-    vglNamespace: {
-      default() { throw new Error('VueGL components must be wraped by VglNamespace component.'); },
-    },
-  },
+  mixins: [VglSlotable, VglSlotHolder],
   props: {
-    /** The path or URL to the file. This can also be a Data URI. */
-    src: string,
-    name: { type: name, required: true, validator: validateName },
-    mapping: { type: string, default: 'uv' },
-    wrapS: { type: string, default: 'clamp-to-edge' },
-    wrapT: { type: string, default: 'clamp-to-edge' },
-    magFilter: { type: string, default: 'linear' },
-    minFilter: { type: string, default: 'linear-mip-map-linear' },
-    anisotropy: { type: int, default: 1 },
-    format: string,
-    type: { type: string, default: 'unsigned-byte' },
-    offset: { type: vector2, validator: validateVector2 },
-    repeat: { type: vector2, validator: validateVector2 },
-    rotation: { type: float, default: 0 },
-    center: { type: vector2, validator: validateVector2 },
-    premultiplyAlpha: boolean,
-    unpackAlignment: { type: int, default: 4 },
-    encoding: { type: string, default: 'linear' },
+    /** An arbitrary name of the instance. */
+    [name]: { type: String, default: '' },
+    /**
+     * The image mapping mode.
+     * @values uv, cubeReflection, cubeRefraction, equirectangularReflection, cubeUVReflection,
+     *         equirectangularRefraction, cubeUVRefraction
+     */
+    [mapping]: { type: String, default: 'uv', validator: (m) => m in mappings },
+    /**
+     * The horizontal wrapping mode.
+     * @values repeat, clampToEdge, mirroredRepeat
+     */
+    [wrapS]: { type: String, default: 'clampToEdge', validator: (s) => s in wrappings },
+    /**
+     * The vertical wrapping mode.
+     * @values repeat, clampToEdge, mirroredRepeat
+     */
+    [wrapT]: { type: String, default: 'clampToEdge', validator: (t) => t in wrappings },
+    /**
+     * The texture magnification method.
+     * @values linear, nearest
+     */
+    [magFilter]: { type: String, default: 'linear', validator: (m) => m in filters },
+    /**
+     * The texture minification method.
+     * @values linear, nearest, nearestMipMapNearest, nearestMipMapLinear, linearMipMapNearest,
+     *         linearMipMapLinear
+     */
+    [minFilter]: { type: String, default: 'linearMipMapLinear', validator: (m) => m in filters },
+    [anisotropy]: { type: Number, default: 1, validator: Number.isInteger },
+    /** @values alpha, rgb, rgba, luminance, luminanceAlpha, rgbe, depth, depthStencil */
+    [format]: { type: String, validator: (f) => f in formats, default: 'rgba' },
+    /**
+     * @values unsignedByte, byte, short, unsignedShort, int, unsignedInt, float, halfFloat,
+     *        unsignedShort4444, unsignedShort5551, unsignedShort565, unsignedInt248
+     */
+    [type]: { type: String, default: 'unsignedByte', validator: (t) => t in types },
+    /** The offset along the U axis. */
+    [offsetU]: { type: Number, default: 0 },
+    /** The offset along the V axis. */
+    [offsetV]: { type: Number, default: 0 },
+    /** The repeating times along the U axis. */
+    [repeatU]: { type: Number, default: 1 },
+    /** The repeating times along the V axis. */
+    [repeatV]: { type: Number, default: 1 },
+    /** The rotation angle around the center in radians. */
+    [rotation]: { type: Number, default: 0 },
+    /** The coodinate of the rotating center point on the U axis. */
+    [centerU]: { type: Number, default: 0 },
+    /** The coodinate of the rotating center point on the V axis. */
+    [centerV]: { type: Number, default: 0 },
+    /** Wether premultiplying the alpha channel to the colors when uploading to GPU or not. */
+    [premultiplyAlpha]: Boolean,
+    /** Wether flipping the texture along the vertical axis in GPU or not. */
+    [noFlipY]: Boolean,
+    /** @values 1, 2, 4, 8 */
+    [unpackAlignment]: { type: Number, default: 4, validator: (v) => [1, 2, 4, 8].includes(v) },
+    /** @values linear, sRgb, gamma, rgbe, logLuv, rgbm7, rgbm16, rgbde, basicDepth, rgbaDepth */
+    [encoding]: { type: String, default: 'linear', validator: (e) => e in encodings },
   },
   computed: {
     /** The THREE.Texture instance. */
-    inst() {
-      return new TextureLoader().load(this.src, (texture) => {
-        if (this.format) Object.assign(texture, { format: format[this.format] });
-        this.update();
-      });
-    },
+    [inst]: () => new Texture(),
   },
   methods: {
-    /** Emit an event in the `textures` namespace. */
-    update() {
-      if (this.name !== undefined) this.vglNamespace.textures.emit(this.name, this.inst);
+    [add](slot, obj) {
+      if (slot === image) Object.assign(this[inst], { image: obj, needsUpdate: true });
+    },
+    [remove](slot, obj) {
+      if (slot === image && this[inst].image === obj) {
+        Object.assign(this[inst], { image: Texture.DEFAULT_IMAGE, needsUpdate: true });
+      }
+    },
+    [change](slot) {
+      if (slot === image) this[inst].needsUpdate = true;
+      VglSlotable.methods[change].call(this, slot);
     },
   },
-  beforeDestroy() {
-    if (this.name !== undefined) this.vglNamespace.textures.delete(this.name, this.inst);
-  },
+  beforeDestroy() { this[inst].dispose(); },
   watch: {
-    inst: {
-      handler(inst) {
-        Object.assign(inst, {
-          mapping: mapping[this.mapping],
-          wrapS: wrapping[this.wrapS],
-          wrapT: wrapping[this.wrapT],
-          magFilter: filter[this.magFilter],
-          minFilter: filter[this.minFilter],
-          anisotropy: parseInt(this.anisotropy, 10),
-          type: type[this.type],
-          rotation: parseFloat(this.rotation),
-          premultiplyAlpha: this.premultiplyAlpha,
-          unpackAlignment: parseInt(this.unpackAlignment, 10),
-          encoding: encoding[this.encoding],
-        });
-        if (this.offset) inst.offset.copy(parseVector2(this.offset));
-        if (this.repeat) inst.repeat.copy(parseVector2(this.repeat));
-        if (this.center) inst.center.copy(parseVector2(this.center));
-        if (this.name !== undefined) this.vglNamespace.textures.set(this.name, inst);
-      },
-      immediate: true,
-    },
-    name(newName, oldName) {
-      if (oldName !== undefined) this.vglNamespace.textures.delete(oldName, this.inst);
-      if (newName !== undefined) this.vglNamespace.textures.set(newName, this.inst);
-    },
-    mapping(mode) {
-      this.inst.mapping = mapping[mode];
-      this.update();
-    },
-    wrapS(mode) {
-      this.inst.wrapS = wrapping[mode];
-      this.update();
-    },
-    wrapT(mode) {
-      this.inst.wrapT = wrapping[mode];
-      this.update();
-    },
-    magFilter(mode) {
-      this.inst.magFilter = filter[mode];
-      this.update();
-    },
-    minFilter(mode) {
-      this.inst.minFilter = filter[mode];
-      this.update();
-    },
-    anisotropy(anisotropy) {
-      this.inst.anisotropy = parseInt(anisotropy, 10);
-      this.update();
-    },
-    format(mode) {
-      this.inst.format = format[mode];
-      this.update();
-    },
-    type(mode) {
-      this.inst.type = type[mode];
-      this.update();
-    },
-    offset(offset) {
-      this.inst.offset.copy(parseVector2(offset));
-      this.update();
-    },
-    repeat(repeat) {
-      this.inst.repeat.copy(parseVector2(repeat));
-      this.update();
-    },
-    rotation(rotation) {
-      this.inst.rotation = parseFloat(rotation);
-      this.update();
-    },
-    center(center) {
-      this.inst.center.copy(parseVector2(center));
-      this.update();
-    },
-    premultiplyAlpha(premultiplyAlpha) {
-      this.inst.premultiplyAlpha = premultiplyAlpha;
-      this.update();
-    },
-    unpackAlignment(unpackAlignment) {
-      this.inst.unpackAlignment = parseInt(unpackAlignment, 10);
-      this.update();
-    },
-    encoding(mode) {
-      this.inst.encoding = encoding[mode];
-      this.update();
-    },
+    [name]: { handler(n) { this[inst].name = n; }, immediate: true },
+    [mapping]: { handler(m) { this[inst].mapping = mappings[m]; }, immediate: true },
+    [wrapS]: { handler(s) { this[inst].wrapS = wrappings[s]; }, immediate: true },
+    [wrapT]: { handler(t) { this[inst].wrapT = wrappings[t]; }, immediate: true },
+    [magFilter]: { handler(f) { this[inst].magFilter = filters[f]; }, immediate: true },
+    [minFilter]: { handler(f) { this[inst].minFilter = filters[f]; }, immediate: true },
+    [anisotropy]: { handler(a) { this[inst].anisotropy = a; }, immediate: true },
+    [format]: { handler(f) { this[inst].format = formats[f]; }, immediate: true },
+    [type]: { handler(t) { this[inst].type = types[t]; }, immediate: true },
+    [offsetU]: { handler(u) { this[inst].offset.setX(u); }, immediate: true },
+    [offsetV]: { handler(v) { this[inst].offset.setY(v); }, immediate: true },
+    [repeatU]: { handler(u) { this[inst].repeat.setX(u); }, immediate: true },
+    [repeatV]: { handler(v) { this[inst].repeat.setY(v); }, immediate: true },
+    [rotation]: { handler(r) { this[inst].rotation = r; }, immediate: true },
+    [centerU]: { handler(u) { this[inst].center.setX(u); }, immediate: true },
+    [centerV]: { handler(v) { this[inst].center.setY(v); }, immediate: true },
+    [premultiplyAlpha]: { handler(p) { this[inst].premultiplyAlpha = p; }, immediate: true },
+    [noFlipY]: { handler(f) { this[inst].flipY = !f; }, immediate: true },
+    [unpackAlignment]: { handler(u) { this[inst].unpackAlignment = u; }, immediate: true },
+    [encoding]: { handler(e) { this[inst].encoding = encodings[e]; }, immediate: true },
   },
-  render(h) {
-    return this.$slots.default ? h('template', this.$slots.default) : undefined;
-  },
+  /**
+   * A `<vgl-image>` component to be used as the texture image.
+   * @slot image
+   */
+  render: undefined,
 };

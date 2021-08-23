@@ -1,30 +1,44 @@
 import { Mesh } from 'three';
-import { VglObject3dWithMatarialAndGeometry } from '../mixins';
-import { name, names } from '../types';
-import { validateName, validateNames } from '../validators';
-
-/**
- * A component representing triangular polygon mesh based objects,
- * corresponding [THREE.Mesh](https://threejs.org/docs/index.html#api/objects/Mesh).
- *
- * Properties of [VglObject3d](../core/vgl-object3d) are also available as mixin.
- */
+import VglObject3d from '../core/vgl-object3d';
+import { defaultGeometry, defaultMeshMaterial } from './defaults';
+import {
+  add, geometry, inst, material, remove,
+} from '../constants';
 
 export default {
-  mixins: [VglObject3dWithMatarialAndGeometry],
-  props: {
-    /** Name of the geometry, defining the object's structure. */
-    geometry: { type: name, validator: validateName },
-    /**
-     * A Material name or an array of Material name, defining the object's appearance.
-     *
-     * A single material will apply the material to all object's faces meanwhile
-     * an array of material will apply each material to the matching index object's face
-     */
-    material: { type: names, validator: validateNames },
-  },
+  mixins: [VglObject3d],
   computed: {
     /** The THREE.Mesh instance. */
-    inst: () => new Mesh(),
+    [inst]: () => new Mesh(defaultGeometry, defaultMeshMaterial),
   },
+  methods: {
+    [add](slot, obj) {
+      if (slot === geometry) this[inst].geometry = obj;
+      else if (slot === material) {
+        if (Array.isArray(this[inst].material)) this[inst].material.push(obj);
+        else if (this[inst].material === defaultMeshMaterial) this[inst].material = obj;
+        else this[inst].material = [this[inst].material, obj];
+      } else VglObject3d.methods[add].call(this, slot, obj);
+    },
+    [remove](slot, obj) {
+      if (slot === geometry) {
+        if (this[inst].geometry === obj) this[inst].geometry = defaultGeometry;
+      } else if (slot === material) {
+        if (Array.isArray(this[inst].material)) {
+          const index = this[inst].material.indexOf(obj);
+          if (index >= 0) {
+            this[inst].material.splice(index, 1);
+            if (this[inst].material.length === 1) [this[inst].material] = this[inst].material;
+          }
+        } else if (this[inst].material === obj) this[inst].material = defaultMeshMaterial;
+      } else VglObject3d.methods[remove].call(this, slot, obj);
+    },
+  },
+  /**
+   * @slot geometry
+   */
+  /**
+   * @slot material
+   */
+  render: undefined,
 };

@@ -1,52 +1,40 @@
 import { BoxHelper } from 'three';
-import VglObject3d from '../core/vgl-object3d';
-import { name, color } from '../types';
-import { validateName } from '../validators';
-
-/**
- * A helper component to show the world-axis-aligned bounding box around its parent,
- * corresponding [THREE.BoxHelper](https://threejs.org/docs/index.html#api/helpers/BoxHelper).
- *
- * Properties of [VglObject3d](../core/vgl-object3d) are also available as mixin.
- */
+import VglLineSegments from '../objects/vgl-line-segments';
+import {
+  add, color, inst, object, remove, change,
+} from '../constants';
+import { superMethod } from '../utilities';
 
 export default {
-  mixins: [VglObject3d],
+  extends: VglLineSegments,
   props: {
-    /** Size of the lines representing the axes. */
-    color: { type: color, default: '#ff0' },
-    /** Name of the object to show the world-axis-aligned boundingbox. */
-    object: { type: name, required: true, validator: validateName },
+    /** The color of box lines. */
+    [color]: { type: [String, Number], default: 0xffff00 },
   },
   computed: {
     /** The THREE.BoxHelper instance. */
-    inst() { return new BoxHelper(undefined, this.color); },
-  },
-  methods: {
-    /** Set the geometry of the helper box from given object. */
-    setFromObject(obj) { this.inst.setFromObject(obj); },
-  },
-  beforeDestroy() {
-    if (this.object !== undefined) {
-      this.vglNamespace.object3ds.unlisten(this.object, this.setFromObject);
-    }
+    [inst]: () => new BoxHelper(),
   },
   watch: {
-    inst() {
-      if (this.object !== undefined) {
-        this.setFromObject(this.vglNamespace.object3ds.get(this.object));
-      }
+    [color]: { handler(c) { this.inst.material.color.set(c); }, immediate: true },
+  },
+  methods: {
+    [add](slot, obj) {
+      if (slot === object) this.$nextTick(() => { this[inst].setFromObject(obj); });
+      else superMethod(VglLineSegments, add).call(this, slot, obj);
     },
-    object: {
-      handler(newName, oldName) {
-        const { vglNamespace: { object3ds }, setFromObject } = this;
-        if (oldName !== undefined) object3ds.unlisten(oldName, setFromObject);
-        if (newName !== undefined) {
-          object3ds.listen(newName, setFromObject);
-          setFromObject(this.vglNamespace.object3ds.get(newName));
-        }
-      },
-      immediate: true,
+    [remove](slot, obj) {
+      if (slot === object) {
+        this.$nextTick(() => { if (this.object === obj) this[inst].object = undefined; });
+      } else superMethod(VglLineSegments, remove).call(this, slot, obj);
+    },
+    [change](slot) {
+      if (slot === object) this.$nextTick(() => { this[inst].update(); });
+      else superMethod(VglLineSegments, change).call(this, slot);
     },
   },
+  /**
+   * @slot object
+   */
+  render: undefined,
 };

@@ -1,30 +1,21 @@
-import { ConeBufferGeometry } from 'three';
+import { ConeGeometry } from 'three';
 import VglCylinderGeometry from './vgl-cylinder-geometry';
-import { float } from '../types';
-
-/**
- * This is a component for generating cone geometries,
- * corresponding [THREE.ConeGeometry](https://threejs.org/docs/index.html#api/geometries/ConeGeometry).
- *
- * Properties of [VglCylinderGeometry](vgl-cylinder-geometry) are also available as mixin.
- */
+import {
+  height, heightSegments, openEnded, radialSegments, radius, thetaLength, thetaStart,
+} from '../constants';
 
 export default {
-  mixins: [VglCylinderGeometry],
+  extends: VglCylinderGeometry,
   props: {
-    /** Radius of the cone at the base. */
-    radius: { type: float, default: 1 },
+    /** The radius of the cone at its base. */
+    [radius]: { type: Number, default: 1 },
   },
   computed: {
+    /** The THREE.ConeGeometry instance. */
     inst() {
-      return new ConeBufferGeometry(
-        parseFloat(this.radius),
-        parseFloat(this.height),
-        parseInt(this.radialSegments, 10),
-        parseInt(this.heightSegments, 10),
-        this.openEnded,
-        parseFloat(this.thetaStart),
-        parseFloat(this.thetaLength),
+      return new ConeGeometry(
+        this[radius], this[height], this[radialSegments], this[heightSegments],
+        this[openEnded], this[thetaStart], this[thetaLength],
       );
     },
   },

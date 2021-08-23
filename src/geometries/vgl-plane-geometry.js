@@ -1,33 +1,26 @@
-import { PlaneBufferGeometry } from 'three';
+import { PlaneGeometry } from 'three';
 import VglGeometry from '../core/vgl-geometry';
-import { float, int } from '../types';
-
-/**
- * A component for generating plane geometries,
- * corresponding [THREE.PlaneGeometry](https://threejs.org/docs/index.html#api/geometries/PlaneGeometry).
- *
- * Properties of [VglGeometry](../core/vgl-geometry) are also available as mixin.
- */
+import {
+  height, heightSegments, inst, width, widthSegments,
+} from '../constants';
 
 export default {
-  mixins: [VglGeometry],
+  extends: VglGeometry,
   props: {
-    /** Width along the X axis. */
-    width: { type: float, default: 1 },
-    /** Height along the Y axis. */
-    height: { type: float, default: 1 },
-    /** Number of segments along the X axis. */
-    widthSegments: { type: int, default: 1 },
-    /** Number of segments along the Y axis. */
-    heightSegments: { type: int, default: 1 },
+    /** The width of the plane along the X axis. */
+    [width]: { type: Number, default: 1 },
+    /** The height of the plane along the Y axis. */
+    [height]: { type: Number, default: 1 },
+    /** The number of width segments along the X axis. */
+    [widthSegments]: { type: Number, default: 1, validator: Number.isInteger },
+    /** The number of height segments along the Y axis. */
+    [heightSegments]: { type: Number, default: 1, validator: Number.isInteger },
   },
   computed: {
-    inst() {
-      return new PlaneBufferGeometry(
-        parseFloat(this.width),
-        parseFloat(this.height),
-        parseInt(this.widthSegments, 10),
-        parseInt(this.heightSegments, 10),
+    /** The THREE.PlaneGeometry instance. */
+    [inst]() {
+      return new PlaneGeometry(
+        this[width], this[height], this[widthSegments], this[heightSegments],
       );
     },
   },

@@ -1,27 +1,22 @@
-import { ShapeBufferGeometry } from 'three';
-import { int, names } from '../types';
-import { VglGeometryWithShapes } from '../mixins';
-import { validateNames } from '../validators';
-
-/**
- * A component for creating an one-sided polygonal geometry from one or more path shapes,
- * corresponding [THREE.ShapeGeometry](https://threejs.org/docs/index.html#api/geometries/ShapeGeometry).
- *
- * Properties of [VglGeometry](../core/vgl-geometry) are also available as mixin.
- */
+import { ShapeGeometry } from 'three';
+import VglGeometry from '../core/vgl-geometry';
+import {
+  add, curveSegments, inst, remove, shapes,
+} from '../constants';
 
 export default {
-  mixins: [VglGeometryWithShapes],
+  extends: VglGeometry,
   props: {
-    /** The Shape names */
-    shapes: { type: names, validator: validateNames },
-    /** Number of segments per shape */
-    curveSegments: { type: int, default: 12 },
+    /** The number of segments per shape. */
+    [curveSegments]: { type: Number, default: 12, validator: Number.isInteger },
   },
+  data: () => ({ shapes: [] }),
   computed: {
-    /** The THREE.ShapeBufferGeometry instance */
-    inst() {
-      return new ShapeBufferGeometry(this.shapeObjects, parseInt(this.curveSegments, 10));
-    },
+    /** The THREE.ShapeGeometry instance */
+    [inst]() { return new ShapeGeometry(this.shapes, this[curveSegments]); },
+  },
+  methods: {
+    [add](slot, obj) { if (slot === shapes) this.shapes.push(obj); },
+    [remove](slot, obj) { if (slot === shapes) this.shapes.splice(this.shapes.indexOf(obj), 1); },
   },
 };

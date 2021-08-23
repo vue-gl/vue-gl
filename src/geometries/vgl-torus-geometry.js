@@ -1,36 +1,28 @@
-import { TorusBufferGeometry } from 'three';
+import { TorusGeometry } from 'three';
 import VglGeometry from '../core/vgl-geometry';
-import { float, int } from '../types';
-
-/**
- * A component for generating torus geometries,
- * corresponding [THREE.TorusGeometry](https://threejs.org/docs/index.html#api/geometries/TorusGeometry).
- *
- * Properties of [VglGeometry](../core/vgl-geometry) are also available as mixin.
- */
+import {
+  arc, radialSegments, radius, tube, tubularSegments,
+} from '../constants';
 
 export default {
-  mixins: [VglGeometry],
+  extends: VglGeometry,
   props: {
-    /** Radius of the torus. */
-    radius: { type: float, default: 1 },
-    /** Diamiter of the tube. */
-    tube: { type: float, default: 0.4 },
-    /** Number of segments of the tube's section. */
-    radialSegments: { type: int, default: 8 },
-    /** Number of segments along to the tube length direction. */
-    tubularSegments: { type: int, default: 6 },
-    /** The central angle. */
-    arc: { type: float, default: Math.PI * 2 },
+    /** The radius of the torus. */
+    [radius]: { type: Number, default: 1 },
+    /** The diamiter of the tube. */
+    [tube]: { type: Number, default: 0.4 },
+    /** The number of segments of the tube section. */
+    [radialSegments]: { type: Number, default: 8, validator: Number.isInteger },
+    /** The number of segments along to the tube length direction. */
+    [tubularSegments]: { type: Number, default: 6, validator: Number.isInteger },
+    /** The central angle of a part of torus. */
+    [arc]: { type: Number, default: Math.PI * 2 },
   },
   computed: {
+    /** The THREE.TorusGeometry instance. */
     inst() {
-      return new TorusBufferGeometry(
-        parseFloat(this.radius),
-        parseFloat(this.tube),
-        parseInt(this.radialSegments, 10),
-        parseInt(this.tubularSegments, 10),
-        parseFloat(this.arc),
+      return new TorusGeometry(
+        this[radius], this[tube], this[radialSegments], this[tubularSegments], this[arc],
       );
     },
   },

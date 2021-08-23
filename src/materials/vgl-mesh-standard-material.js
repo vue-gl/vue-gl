@@ -1,36 +1,28 @@
 import { MeshStandardMaterial } from 'three';
-import { VglMaterialWithMap } from '../mixins';
-import { color, name } from '../types';
-import { validateName } from '../validators';
-
-/**
- * A standard physically based material,
- * corresponding [THREE.MeshStandardMaterial](https://threejs.org/docs/index.html#api/materials/MeshStandardMaterial).
- * Using Metallic-Roughness workflow.
- *
- * Properties of [VglMaterial](vgl-material) are also available as mixin.
- */
+import VglMaterial from './vgl-material';
+import {
+  add, color, inst, map, remove,
+} from '../constants';
 
 export default {
-  mixins: [VglMaterialWithMap],
+  mixins: [VglMaterial],
   props: {
-    /** CSS style color of the material. */
-    color: { type: color, default: '#fff' },
-    /** The color map of the material. */
-    map: { type: name, validator: validateName },
+    /** The material color. */
+    [color]: { type: [String, Number], default: 0xffffff },
   },
   computed: {
     /** The THREE.MeshStandardMaterial instance. */
-    inst: () => new MeshStandardMaterial(),
+    [inst]: () => new MeshStandardMaterial(),
   },
   watch: {
-    inst: {
-      handler(inst) { inst.color.setStyle(this.color); },
-      immediate: true,
-    },
-    color(newColor) {
-      this.inst.color.setStyle(newColor);
-      this.update();
-    },
+    [color]: { handler(c) { this[inst].color.set(c); }, immediate: true },
   },
+  methods: {
+    [add](slot, obj) { if (slot === map) this[inst].map = obj; },
+    [remove](slot, obj) { if (slot === map && this[inst].map === obj) this[inst].map = null; },
+  },
+  /**
+   * @slot map
+   */
+  render: undefined,
 };

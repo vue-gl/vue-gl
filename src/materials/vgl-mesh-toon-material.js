@@ -1,37 +1,24 @@
 import { MeshToonMaterial } from 'three';
-import { VglMaterialWithMap } from '../mixins';
-import { color, name } from '../types';
-import { validateName } from '../validators';
-
-/**
- * An extension of the mesh phong material with toon shading,
- * corresponding [THREE.MeshToonMaterial](https://threejs.org/docs/index.html#api/materials/MeshToonMaterial).
- *
- * Properties of [VglMeshPhongMaterial](vgl-mesh-phong-material) are also available as mixin.
- */
+import VglMaterial from './vgl-material';
+import {
+  add, color, inst, map, remove,
+} from '../constants';
 
 export default {
-  mixins: [VglMaterialWithMap],
+  mixins: [VglMaterial],
   props: {
-    /** CSS style color of the material. */
-    color: { type: color, default: '#fff' },
-    /** The color map of the material. */
-    map: { type: name, validator: validateName },
+    /** The material color. */
+    [color]: { type: [String, Number], default: 0xffffff },
   },
   computed: {
     /** The THREE.MeshToonMaterial instance. */
-    inst: () => new MeshToonMaterial(),
+    [inst]: () => new MeshToonMaterial(),
   },
   watch: {
-    inst: {
-      handler(inst) {
-        inst.color.setStyle(this.color);
-      },
-      immediate: true,
-    },
-    color(newColor) {
-      this.inst.color.setStyle(newColor);
-      this.update();
-    },
+    [color]: { handler(c) { this[inst].color.set(c); }, immediate: true },
+  },
+  methods: {
+    [add](slot, obj) { if (slot === map) this[inst].map = obj; },
+    [remove](slot, obj) { if (slot === map && this[inst].map === obj) this[inst].map = null; },
   },
 };

@@ -1,76 +1,50 @@
-import { TextBufferGeometry, BufferGeometry, FontLoader } from 'three';
+import { BufferGeometry, TextGeometry } from 'three';
 import VglExtrudeGeometry from './vgl-extrude-geometry';
 import {
-  float, int, string, boolean,
-} from '../types';
-
-const fonts = Object.create(null);
-
-/**
- * A component for generating text as a single geometry,
- * corresponding [THREE.TextGeometry](https://threejs.org/docs/index.html#api/geometries/TextGeometry).
- *
- * Properties of [VglGeometry](../core/vgl-geometry) are also available as mixin.
- */
+  bevelEnabled, bevelOffset, bevelSegments, bevelSize, bevelThickness, curveSegments, depth,
+  extrudePath, font, inst, remove, size, steps, text, uvGenerator, add,
+} from '../constants';
 
 export default {
-  mixins: [VglExtrudeGeometry],
+  extends: VglExtrudeGeometry,
   props: {
-    /** The text that needs to be shown. */
-    text: { type: string, default: '' },
-    /** The path or URL to the facetype json file. This can also be a Data URI. */
-    font: string,
-    /** Size of the text. */
-    size: { type: float, default: 100 },
-    /** Thickness to extrude text. */
-    height: { type: float, default: 50 },
-    /** Number of points on the curves. */
-    curveSegments: { type: int, default: 12 },
-    /** Turn on bevel. */
-    bevelEnabled: boolean,
-    /** How deep into text bevel goes. */
-    bevelThickness: { type: float, default: 10 },
-    /** How far from text outline is bevel. */
-    bevelSize: { type: float, default: 8 },
-    /** Number of bevel segments. */
-    bevelSegments: { type: int, default: 3 },
+    /** The text to be shown. */
+    [text]: { type: String, default: '' },
+    /** The size of the text. */
+    [size]: { type: Number, default: 100 },
   },
-  data() { return { f: undefined }; },
+  data: () => ({ font: undefined }),
   computed: {
-    inst() {
-      return this.f !== undefined ? new TextBufferGeometry(this.text, {
-        font: fonts[this.f],
-        size: parseFloat(this.size),
-        height: parseFloat(this.height),
-        curveSegments: parseInt(this.curveSegments, 10),
-        bevelEnabled: this.bevelEnabled,
-        bevelThickness: parseFloat(this.bevelThickness),
-        bevelSize: parseFloat(this.bevelSize),
-        bevelSegments: parseInt(this.bevelSegments, 10),
-      }) : new BufferGeometry();
+    /** The THREE.TextGeometry instance. */
+    [inst]() {
+      if (!this.font) return new BufferGeometry();
+      return new TextGeometry(this[text], {
+        font: this.font,
+        size: this[size],
+        height: this[depth],
+        curveSegments: this[curveSegments],
+        steps: this[steps],
+        bevelEnabled: this[bevelEnabled],
+        bevelThickness: this[bevelThickness],
+        bevelSize: this[bevelSize],
+        bevelOffset: this[bevelOffset],
+        extrudePath: this.extrudePath,
+        bevelSegments: this[bevelSegments],
+        UVGenerator: this[uvGenerator],
+      });
     },
   },
-  watch: {
-    font: {
-      handler(src) {
-        if (!fonts[src]) {
-          fonts[src] = [() => {
-            if (src === this.font) this.f = src;
-          }];
-          new FontLoader().load(src, (font) => {
-            const queue = fonts[src];
-            fonts[src] = font;
-            queue.forEach((f) => { f(); });
-            this.vglNamespace.geometries.emit(this.name, this.inst);
-          });
-        } else if (fonts[src].isFont) {
-          this.f = src;
-        } else {
-          fonts[src].push(() => { if (src === this.font) this.f = src; });
-        }
-        this.vglNamespace.geometries.emit(this.name, this.inst);
-      },
-      immediate: true,
+  methods: {
+    [add](slot, obj) {
+      if (slot === font) this.font = obj;
+      else if (slot === extrudePath) this.extrudePath = obj;
+    },
+    [remove](slot, obj) {
+      if (slot === font) {
+        if (this.font === obj) this.font = undefined;
+      } else if (slot === extrudePath && this.extrudePath === obj) {
+        this.extrudePath = undefined;
+      }
     },
   },
 };

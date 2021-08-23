@@ -1,37 +1,29 @@
-import { PolyhedronBufferGeometry } from 'three';
+import { PolyhedronGeometry } from 'three';
 import VglGeometry from '../core/vgl-geometry';
 import {
-  float, int, floatArray, intArray,
-} from '../types';
-import { validateFloatArray, validateIntArray } from '../validators';
-import { parseFloatArray, parseIntArray } from '../parsers';
-
-/**
- * A component for generating a solid geometry with flat faces from vertices and face indices.
- * corresponding [THREE.PolyhedronGeometry](https://threejs.org/docs/index.html#api/geometries/PolyhedronGeometry).
- *
- * Properties of [VglGeometry](../core/vgl-geometry) are also available as mixin.
- */
+  detail, indices, inst, radius, vertices,
+} from '../constants';
 
 export default {
-  mixins: [VglGeometry],
+  extends: VglGeometry,
   props: {
-    /** Array of points of the form [x1, y1, z1, x2, y2, z2, ...] */
-    vertices: { type: floatArray, validator: validateFloatArray },
-    /** Array of indices that make up the faces of the form [0, 1, 2, 2, 3, 0, ...] */
-    indices: { type: intArray, validator: validateIntArray },
-    /** The radius of the final shape. */
-    radius: { type: float, default: 1 },
-    /** How many levels to subdivide the geometry. */
-    detail: { type: int, default: 0 },
+    /** An array of points of the form [x1, y1, z1, x2, y2, z2, ...] */
+    [vertices]: {
+      type: Array,
+      default: () => [],
+      validator: (array) => array.every((e) => typeof e === 'number' || e instanceof Number),
+    },
+    /** An array of face making indices of the form [0, 1, 2, 2, 3, 0, ...] */
+    [indices]: { type: Array, default: () => [], validator: (a) => a.every(Number.isInteger) },
+    /** The radius of the shape. */
+    [radius]: { type: Number, default: 1 },
+    /** The subdivision level of the shape. */
+    [detail]: { type: Number, default: 0, validator: Number.isInteger },
   },
   computed: {
-    inst() {
-      const vertices = parseFloatArray(this.vertices);
-      const indices = parseIntArray(this.indices);
-      const radius = parseFloat(this.radius);
-      const detail = parseInt(this.detail, 10);
-      return new PolyhedronBufferGeometry(vertices, indices, radius, detail);
+    /** The THREE.PolyhedronGeometry instance. */
+    [inst]() {
+      return new PolyhedronGeometry(this[vertices], this[indices], this[radius], this[detail]);
     },
   },
 };

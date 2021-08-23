@@ -1,77 +1,43 @@
 import { DirectionalLightHelper, Object3D } from 'three';
 import VglObject3d from '../core/vgl-object3d';
-import { name, float, color } from '../types';
-import { validateName } from '../validators';
-
-/**
- * A helper component to assist with visualizing a DirectionalLight's effect on the scene,
- * corresponding [THREE.DirectionalLightHelper](https://threejs.org/docs/index.html#api/helpers/DirectionalLightHelper).
- *
- * Properties of [VglObject3d](../core/vgl-object3d) are also available as mixin.
- */
+import {
+  add, color, inst, light, remove, size,
+} from '../constants';
 
 export default {
-  mixins: [VglObject3d],
+  extends: VglObject3d,
   props: {
     /** If this is not the set the helper will take the color of the light. */
-    color,
+    [color]: [String, Number],
     /** Dimensions of the plane. */
-    size: { type: float, default: 1 },
-    /** Name of the directional light being visualized. */
-    light: { type: name, required: true, validator: validateName },
+    [size]: { type: Number, default: 1 },
   },
-  data: () => ({
-    /**
-     * Light object's UUID. This would be null if light object is not specified by `light` prop. Do
-     * not set this data manually.
-     */
-    lightUuid: null,
-  }),
+  beforeDestroy() { this[inst].dispose(); },
+  data: () => ({ light: null }),
   computed: {
-    /**
-     * The THREE.DirectionalLightHelper instance. If any cameras specified by the name, it returns
-     * a THREE.Object3D instance.
-     */
-    inst() {
-      if (!this.lightUuid) return new Object3D();
-      const light = this.vglNamespace.object3ds.get(this.light);
-      return new DirectionalLightHelper(light, parseFloat(this.size));
+    /** The THREE.DirectionalLightHelper instance. */
+    [inst]() {
+      return this.light ? new DirectionalLightHelper(this.light, this[size]) : new Object3D();
     },
   },
   methods: {
-    /** Set `lightUuid` data to given object's UUID. */
-    setLightUuid(light) {
-      this.lightUuid = light ? light.uuid : null;
-      this.inst.update();
+    [add](slot, obj) {
+      if (slot === light) this.light = obj;
+      else VglObject3d.methods[add].call(this, slot, obj);
     },
-  },
-  beforeDestroy() {
-    if (this.light !== undefined) {
-      this.vglNamespace.object3ds.unlisten(this.light, this.setLightUuid);
-    }
+    [remove](slot, obj) {
+      if (slot === light) {
+        if (this.light === obj) this.light = null;
+      } else VglObject3d.methods[remove].call(this, slot, obj);
+    },
   },
   watch: {
-    inst(inst) {
-      if (this.lightUuid && this.color !== undefined) {
-        Object.assign(inst, { color: this.color }).update();
-      }
-    },
-    light: {
-      handler(newName, oldName) {
-        if (oldName !== undefined) this.vglNamespace.object3ds.unlisten(oldName, this.setLightUuid);
-        if (newName !== undefined) {
-          this.vglNamespace.object3ds.listen(newName, this.setLightUuid);
-          const light = this.vglNamespace.object3ds.get(this.light);
-          this.setLightUuid(light);
-        }
-      },
-      immediate: true,
-    },
-    color: {
-      handler(newColor) {
-        if (!this.lightUuid) return;
-        this.inst.color = newColor;
-        this.inst.update();
+    [inst](obj, { color: c }) { Object.assign(obj, { color: c }).update(); },
+    [color]: {
+      handler(c) {
+        if (!this.light) return;
+        this[inst].color = c;
+        this[inst].update();
       },
       immediate: true,
     },

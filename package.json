@@ -29,42 +29,34 @@
     "/src/"
   ],
   "scripts": {
-    "lint": "eslint . --ext .js,.vue",
-    "lint:md": "markdownlint \"**/*.md\" -c markdownlint.config.yml --ignore node_modules --ignore docs/components --ignore _site --ignore docs/examples/*/",
+    "lint": "eslint --ignore-path .gitignore .",
     "test": "jest",
-    "start": "rollup -c && bundle exec jekyll serve --source docs",
+    "start": "vuepress dev docs",
     "prepare": "rollup -c"
   },
   "devDependencies": {
-    "@babel/core": "^7.3.3",
-    "@babel/preset-env": "^7.0.0",
-    "@rollup/plugin-node-resolve": "^11.0.0",
+    "@babel/core": "^7.14.6",
+    "@babel/preset-env": "^7.14.7",
+    "@rollup/plugin-babel": "^5.3.0",
+    "@rollup/plugin-node-resolve": "^13.0.0",
     "eslint": "^7.10.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-jest": "^24.0.0",
-    "eslint-plugin-vue": "^7.0.0",
-    "fast-glob": "^3.1.1",
+    "eslint-plugin-markdown": "^2.2.0",
+    "eslint-plugin-vue": "^7.12.1",
+    "fast-glob": "^3.2.7",
     "jest": "^26.0.0",
-    "markdownlint-cli": "^0.28.1",
-    "nise": "^5.0.0",
-    "pascalcase": "^1.0.0",
-    "postcss": "^8.0.3",
     "rollup": "^2.26.6",
-    "rollup-plugin-babel": "^4.0.2",
-    "rollup-plugin-babel-minify": "^10.0.0",
-    "rollup-plugin-copy": "^3.0.0",
-    "rollup-plugin-delete": "^2.0.0",
-    "rollup-plugin-terser": "^7.0.1",
-    "rollup-plugin-vue": "^5.1.4",
-    "rollup-plugin-vuedoc": "^0.4.0",
-    "three": "^0.127.0",
-    "vue": "^2.2.0",
-    "vue-runtime-helpers": "^1.1.2",
-    "vue-template-compiler": "^2.6.11"
+    "rollup-plugin-terser": "^7.0.2",
+    "three": "^0.130.0",
+    "vue": "^2.6.0",
+    "vue-docgen-api": "^4.41.0",
+    "vuepress": "^1.8.2"
   },
   "peerDependencies": {
     "three": "^0.127.0",
-    "vue": "^2.2.0"
-  }
+    "vue": "^2.6.0"
+  },
+  "dependencies": {}
 }

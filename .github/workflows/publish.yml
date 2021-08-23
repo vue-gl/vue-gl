@@ -12,12 +12,22 @@ jobs:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
         with:
-          node-version: 12
+          node-version: 14
           registry-url: https://registry.npmjs.org/
-      - run: yarn install --frozen-lockfile
-      - run: yarn publish --non-interactive
+      - run: npm ci
+      - run: npm version ${GITHUB_REF:1}
+      - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.npm_token }}
+      - uses: TheDoctor0/zip-release@0.6
+        with:
+          type: zip
+          filename: vue-gl.zip
+          directory: dist
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: vue-gl.zip
+          token: ${{ secrets.GITHUB_TOKEN }}
 
   publish-docs:
     runs-on: ubuntu-latest
@@ -25,23 +35,16 @@ jobs:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
         with:
-          node-version: 12
+          node-version: 14
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
-      - name: Commit
-        run: |
-          rm docs/.gitignore
-          git config user.name "$GIT_USER_NAME"
-          git config user.email "$GIT_USER_EMAIL"
-          git add .
-          git commit -m "v$(node -pe require\(\"./package.json\"\).version)"
-        env:
-          GIT_USER_NAME: ${{ secrets.git_user_name }}
-          GIT_USER_EMAIL: ${{ secrets.git_user_email }}
-      - name: Filter
-        run: git filter-branch --prune-empty --subdirectory-filter docs HEAD
-      - name: Push
-        run: git push --force https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GH_PAGES_REPOSITORY}.git HEAD:${GH_PAGES_BRANCH}
+        run: npm ci
+      - run: |
+          npx vuepress build docs
+          cd docs/.vuepress/dist
+          git init
+          git add -A
+          git commit -m 'deploy'
+          git push -f https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GH_PAGES_REPOSITORY}.git ${GH_PAGES_BRANCH}
         env:
           GITHUB_TOKEN: ${{ secrets.gh_pages_token }}
           GH_PAGES_REPOSITORY: ${{ secrets.gh_pages_repository }}
