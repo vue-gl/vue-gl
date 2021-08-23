@@ -19,6 +19,15 @@ jobs:
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.npm_token }}
+      - uses: TheDoctor0/zip-release@0.6
+        with:
+          type: zip
+          filename: vue-gl.zip
+          directory: dist
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: vue-gl.zip
+          token: ${{ secrets.GITHUB_TOKEN }}
 
   publish-docs:
     runs-on: ubuntu-latest
