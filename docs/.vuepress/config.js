@@ -64,7 +64,12 @@ module.exports = {
         group(glob.sync(['**/vgl-*.js'], { cwd: 'examples' }).map((file) => file.slice(0, -3))),
         '/example-components',
       )],
-    }, ['https://vue-gl.github.io/v0.x-document', 'Documents for v0.x']],
+    }, {
+      title: 'Resources',
+      children: [
+        ['https://vue-gl.github.io/v0.x-document', 'Documentation for v0.x'],
+      ],
+    }],
   },
   plugins: [
     ['@vuepress/register-components', { componentsDir: ['src', 'examples'] }],
