@@ -32,7 +32,6 @@
     "lint": "eslint --ignore-path .gitignore .",
     "test": "jest",
     "start": "vuepress dev docs",
-    "doc": "vuepress build docs",
     "prepare": "rollup -c"
   },
   "devDependencies": {
