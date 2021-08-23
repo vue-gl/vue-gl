@@ -1,36 +1,25 @@
 import { GridHelper } from 'three';
-import VglObject3d from '../core/vgl-object3d';
-import { float, int, color } from '../types';
-
-/**
- * A component to define grids,
- * corresponding [THREE.GridHelper](https://threejs.org/docs/index.html#api/helpers/GridHelper).
- * Grids are two-dimensional arrays of lines.
- *
- * Properties of [VglObject3d](../core/vgl-object3d) are also available as mixin.
- */
+import VglLineSegments from '../objects/vgl-line-segments';
+import {
+  colorCenterLine, colorGrid, divisions, inst, size,
+} from '../constants';
 
 export default {
-  mixins: [VglObject3d],
+  extends: VglLineSegments,
   props: {
     /** The size of the grid. */
-    size: { type: float, default: 10 },
-    /** The number of divisions across the grid. */
-    divisions: { type: int, default: 10 },
-    /** The color of the centerline. */
-    colorCenterLine: { type: color, default: '#444444' },
-    /** The color of the lines of the grid. */
-    colorGrid: { type: color, default: '#888888' },
+    [size]: { type: Number, default: 10 },
+    /** The number of grid divisions. */
+    [divisions]: { type: Number, default: 10, validator: Number.isInteger },
+    /** The color of the center line. */
+    [colorCenterLine]: { type: [String, Number], default: 0x444444 },
+    /** The color of grid lines. */
+    [colorGrid]: { type: [String, Number], default: 0x888888 },
   },
   computed: {
     /** The THREE.GridHelper instance. */
-    inst() {
-      return new GridHelper(
-        parseFloat(this.size),
-        parseInt(this.divisions, 10),
-        this.colorCenterLine,
-        this.colorGrid,
-      );
+    [inst]() {
+      return new GridHelper(this[size], this[divisions], this[colorCenterLine], this[colorGrid]);
     },
   },
 };

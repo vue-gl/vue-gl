@@ -1,51 +1,53 @@
 import { OrthographicCamera } from 'three';
 import VglCamera from './vgl-camera';
-import { float } from '../types';
+import {
+  bottom, far, inst, left, near, right, top, zoom,
+} from '../constants';
+
+function assign(obj, assigns) {
+  const {
+    left: l, right: r, top: t, bottom: b,
+  } = Object.assign(obj, assigns);
+  if ([l, r, t, b].includes(undefined)) return;
+  obj.updateProjectionMatrix();
+}
 
 /**
- * Camera that uses orthographic projection,
- * corresponding [THREE.OrthographicCamera](https://threejs.org/docs/index.html#api/cameras/OrthographicCamera).
- * Camera frustum top, bottom, left, and right planes are automatically set to the renderer size.
+ * This camera projects the objects into constant size regardless of the distance.
  *
- * Properties of [VglCamera](vgl-camera) are also available as mixin.
+ * When more than 1 props of `left`, `right`, `top` or `bottom` are set, the camera frustum side
+ * planes will be at specified coordinates. Otherwise they will be automatically set to fit the
+ * canvas size.
  */
-
 export default {
-  mixins: [VglCamera],
+  extends: VglCamera,
   props: {
-    /** Zoom factor of the camera. */
-    zoom: { type: float, default: 1 },
-    /** Camera frustum near plane. */
-    near: { type: float, default: 0.1 },
-    /** Camera frustum far plane. */
-    far: { type: float, default: 2000 },
+    /** The zoom factor. */
+    [zoom]: { type: Number, default: 1 },
+    /** The camera frustum near plane. */
+    [near]: { type: Number, default: 0.1 },
+    /** The camera frustum far plane. */
+    [far]: { type: Number, default: 2000 },
+    /** The camera frustum left edge. */
+    [left]: Number,
+    /** The camera frustum right edge. */
+    [right]: Number,
+    /** The camera frustum top edge. */
+    [top]: Number,
+    /** The camera frustum bottom edge. */
+    [bottom]: Number,
   },
   computed: {
     /** The THREE.OrthographicCamera instance. */
-    inst: () => new OrthographicCamera(),
+    [inst]: () => new OrthographicCamera(),
   },
   watch: {
-    inst: {
-      handler(inst) {
-        Object.assign(inst, {
-          zoom: parseFloat(this.zoom),
-          near: parseFloat(this.near),
-          far: parseFloat(this.far),
-        });
-      },
-      immediate: true,
-    },
-    zoom(zoom) {
-      this.inst.zoom = parseFloat(zoom);
-      this.vglObject3d.emit();
-    },
-    near(near) {
-      this.inst.near = parseFloat(near);
-      this.vglObject3d.emit();
-    },
-    far(far) {
-      this.inst.far = parseFloat(far);
-      this.vglObject3d.emit();
-    },
+    [zoom]: { handler(z) { assign(this[inst], { zoom: z }); }, immediate: true },
+    [near]: { handler(n) { assign(this[inst], { near: n }); }, immediate: true },
+    [far]: { handler(f) { assign(this[inst], { far: f }); }, immediate: true },
+    [left]: { handler(l) { assign(this[inst], { left: l }); }, immediate: true },
+    [right]: { handler(r) { assign(this[inst], { right: r }); }, immediate: true },
+    [top]: { handler(t) { assign(this[inst], { top: t }); }, immediate: true },
+    [bottom]: { handler(b) { assign(this[inst], { bottom: b }); }, immediate: true },
   },
 };

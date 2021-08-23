@@ -1,39 +1,31 @@
-import { BoxBufferGeometry } from 'three';
+import { BoxGeometry } from 'three';
 import VglGeometry from '../core/vgl-geometry';
-import { float, int } from '../types';
-
-/**
- * This is the quadrilateral primitive geometry component,
- * corresponding [THREE.BoxGeometry](https://threejs.org/docs/index.html#api/geometries/BoxGeometry).
- *
- * Properties of [VglGeometry](../core/vgl-geometry) are also available as mixin.
- */
+import {
+  depth, depthSegments, height, heightSegments, width, widthSegments,
+} from '../constants';
 
 export default {
-  mixins: [VglGeometry],
+  extends: VglGeometry,
   props: {
-    /** Width of the sides on the X axis. */
-    width: { type: float, default: 1 },
-    /** Height of the sides on the Y axis. */
-    height: { type: float, default: 1 },
-    /** Depth of the sides on the Z axis. */
-    depth: { type: float, default: 1 },
-    /** Number of segmented faces along the width of the sides. */
-    widthSegments: { type: int, default: 1 },
-    /** Number of segmented faces along the height of the sides. */
-    heightSegments: { type: int, default: 1 },
-    /** Number of segmented faces along the depth of the sides. */
-    depthSegments: { type: int, default: 1 },
+    /** The width of the box, or the side length on the X axis. */
+    [width]: { type: Number, default: 1 },
+    /** The height of the box, or the side length on the Y axis. */
+    [height]: { type: Number, default: 1 },
+    /** The depth of the box, or the side length on the Z axis. */
+    [depth]: { type: Number, default: 1 },
+    /** The number of segmented faces along the width direction. */
+    [widthSegments]: { type: Number, default: 1, validator: Number.isInteger },
+    /** The number of segmented faces along the height direction. */
+    [heightSegments]: { type: Number, default: 1, validator: Number.isInteger },
+    /** The number of segmented faces along the depth direction. */
+    [depthSegments]: { type: Number, default: 1, validator: Number.isInteger },
   },
   computed: {
+    /** The THREE.BoxGeometry instance. */
     inst() {
-      return new BoxBufferGeometry(
-        parseFloat(this.width),
-        parseFloat(this.height),
-        parseFloat(this.depth),
-        parseInt(this.widthSegments, 10),
-        parseInt(this.heightSegments, 10),
-        parseInt(this.depthSegments, 10),
+      return new BoxGeometry(
+        this[width], this[height], this[depth],
+        this[widthSegments], this[heightSegments], this[depthSegments],
       );
     },
   },

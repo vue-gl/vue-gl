@@ -1,36 +1,24 @@
 import { MeshBasicMaterial } from 'three';
-import { VglMaterialWithMap } from '../mixins';
-import { name, color } from '../types';
-import { validateName } from '../validators';
-
-/**
- * A material for drawing geometries in a simple shaded (flat or wireframe) way,
- * corresponding [THREE.MeshBasicMaterial](https://threejs.org/docs/index.html#api/materials/MeshBasicMaterial).
- * This material is not affected by lights.
- *
- * Properties of [VglMaterial](vgl-material) are also available as mixin.
- */
+import VglMaterial from './vgl-material';
+import {
+  add, color, inst, map, remove,
+} from '../constants';
 
 export default {
-  mixins: [VglMaterialWithMap],
+  mixins: [VglMaterial],
   props: {
-    /** CSS style color of the material. */
-    color: { type: color, default: '#fff' },
-    /** The color map of the material. */
-    map: { type: name, validator: validateName },
+    /** The material color. */
+    [color]: { type: [String, Number], default: 0xffffff },
   },
   computed: {
     /** The THREE.MeshBasicMaterial instance. */
-    inst: () => new MeshBasicMaterial(),
+    [inst]: () => new MeshBasicMaterial(),
   },
   watch: {
-    inst: {
-      handler(inst) { inst.color.setStyle(this.color); },
-      immediate: true,
-    },
-    color(newColor) {
-      this.inst.color.setStyle(newColor);
-      this.update();
-    },
+    [color]: { handler(c) { this[inst].color.set(c); }, immediate: true },
+  },
+  methods: {
+    [add](slot, obj) { if (slot === map) this[inst].map = obj; },
+    [remove](slot, obj) { if (slot === map && this[inst].map === obj) this[inst].map = null; },
   },
 };

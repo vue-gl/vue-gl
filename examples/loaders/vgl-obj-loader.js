@@ -1,29 +1,24 @@
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
-import { Object3D } from 'three';
-import { VglObject3d } from '../../src/index';
-import { string } from '../../src/types';
+import { VglObject3d } from 'vue-gl';
 
-const loader = new OBJLoader();
-
+let loader;
 export default {
-  mixins: [VglObject3d],
-  props: {
-    src: string,
-  },
-  data: () => ({
-    objUuid: null,
-  }),
+  extends: VglObject3d,
+  beforeCreate() { if (!loader) loader = new OBJLoader(); },
+  data: () => ({ obj: null }),
   computed: {
-    inst() {
-      return this.objUuid ? this.obj : new Object3D();
-    },
+    inst() { return this.obj ? this.obj : VglObject3d.computed.inst.call(this); },
+  },
+  props: {
+    /** The path to the source OBJ file */
+    src: { type: String, required: true },
   },
   watch: {
     src: {
       handler(src) {
         loader.load(src, (obj) => {
           this.obj = obj;
-          this.objUuid = obj.uuid;
+          this.change();
         });
       },
       immediate: true,

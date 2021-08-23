@@ -1,35 +1,34 @@
 import { SpriteMaterial } from 'three';
-import { VglMaterialWithMap } from '../mixins';
-import { name, color } from '../types';
-import { validateName } from '../validators';
-
-/**
- * A material for a use with a [VglSprite](vgl-sprite) component,
- * corresponding [THREE.SpriteMaterial](https://threejs.org/docs/index.html#api/materials/SpriteMaterial).
- *
- * Properties of [VglMaterial](vgl-material) are also available as mixin.
- */
+import VglMaterial from './vgl-material';
+import {
+  add, alphaMap, color, inst, map, remove, rotation,
+} from '../constants';
 
 export default {
-  mixins: [VglMaterialWithMap],
+  mixins: [VglMaterial],
   props: {
-    /** CSS style color of the material. */
-    color: { type: color, default: '#fff' },
-    /** The texture map of the material. */
-    map: { type: name, validator: validateName },
+    /** The material color multiplication. */
+    [color]: { type: [String, Number], default: 0xffffff },
+    /** The sprite rotation in radians. */
+    [rotation]: { type: Number, default: 0 },
   },
   computed: {
     /** The THREE.SpriteMaterial instance. */
-    inst: () => new SpriteMaterial(),
+    [inst]: () => new SpriteMaterial(),
   },
   watch: {
-    inst: {
-      handler(inst) { inst.color.setStyle(this.color); },
-      immediate: true,
+    [color]: { handler(c) { this[inst].color.set(c); }, immediate: true },
+    [rotation]: { handler(r) { this[inst].rotation = r; }, immediate: true },
+  },
+  methods: {
+    [add](slot, obj) {
+      if (slot === map) this[inst].map = obj;
+      else if (slot === alphaMap) this[inst].alphaMap = obj;
     },
-    color(newColor) {
-      this.inst.color.setStyle(newColor);
-      this.update();
+    [remove](slot, obj) {
+      if (slot === map) {
+        if (this[inst].map === obj) this[inst].map = null;
+      } else if (slot === alphaMap && this[inst].alphaMap === obj) this[inst].alphaMap = null;
     },
   },
 };

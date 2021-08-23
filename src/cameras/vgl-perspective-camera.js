@@ -1,58 +1,42 @@
 import { PerspectiveCamera } from 'three';
 import VglCamera from './vgl-camera';
-import { float } from '../types';
+import {
+  aspect, far, fov, inst, near, zoom,
+} from '../constants';
+
+function assign(obj, assigns) {
+  const { aspect: a } = Object.assign(obj, assigns);
+  if (a !== undefined) obj.updateProjectionMatrix();
+}
 
 /**
- * Camera that uses perspective projection,
- * corresponding [THREE.PerspectiveCamera](https://threejs.org/docs/index.html#api/cameras/PerspectiveCamera).
- * Camera frustum aspect ratio is automatically set to the renderer aspect ratio.
+ * This camera mimics the human eyes sight.
  *
- * Properties of [VglCamera](vgl-camera) are also available as mixin.
+ * When the `aspect` prop is omitted, it will be automatically set to fit the canvas size.
  */
-
 export default {
-  mixins: [VglCamera],
+  extends: VglCamera,
   props: {
-    /** Zoom factor of the camera. */
-    zoom: { type: float, default: 1 },
-    /** Camera frustum near plane. */
-    near: { type: float, default: 0.1 },
-    /** Camera frustum far plane. */
-    far: { type: float, default: 2000 },
-    /** Camera frustum vertical field of view, from bottom to top of view, in degrees. */
-    fov: { type: float, default: 50 },
+    /** The zoom factor. */
+    [zoom]: { type: Number, default: 1 },
+    /** The camera frustum near plane. */
+    [near]: { type: Number, default: 0.1 },
+    /** The camera frustum far plane. */
+    [far]: { type: Number, default: 2000 },
+    /** The camera frustum vertical field in degrees. */
+    [fov]: { type: Number, default: 50 },
+    /** The camera frustum aspect ratio. */
+    [aspect]: Number,
   },
   computed: {
     /** The THREE.PerspectiveCamera instance. */
-    inst: () => new PerspectiveCamera(),
+    [inst]: () => new PerspectiveCamera(),
   },
   watch: {
-    inst: {
-      handler(inst) {
-        Object.assign(inst, {
-          zoom: parseFloat(this.zoom),
-          near: parseFloat(this.near),
-          far: parseFloat(this.far),
-          fov: parseFloat(this.fov),
-        });
-      },
-      immediate: true,
-    },
-    zoom(zoom) {
-      this.inst.zoom = parseFloat(zoom);
-      this.vglObject3d.emit();
-    },
-    near(near) {
-      this.inst.near = parseFloat(near);
-      this.vglObject3d.emit();
-    },
-    far(far) {
-      this.inst.far = parseFloat(far);
-      this.vglObject3d.emit();
-    },
-    fov(fov) {
-      this.inst.fov = parseFloat(fov);
-      this.vglObject3d.emit();
-    },
+    [zoom]: { handler(z) { assign(this[inst], { zoom: z }); }, immediate: true },
+    [near]: { handler(n) { assign(this[inst], { near: n }); }, immediate: true },
+    [far]: { handler(f) { assign(this[inst], { far: f }); }, immediate: true },
+    [fov]: { handler(f) { assign(this[inst], { fov: f }); }, immediate: true },
+    [aspect]: { handler(a) { assign(this[inst], { aspect: a }); }, immediate: true },
   },
 };

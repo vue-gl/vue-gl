@@ -1,75 +1,45 @@
 import {
   Material, FrontSide, BackSide, DoubleSide,
 } from 'three';
-import { string, name, boolean } from '../types';
-import { validateName } from '../validators';
+import VglSlotable from '../core/private/vgl-slotable';
+import VglSlotHolder from '../core/private/vgl-slot-holder';
+import {
+  defines, fog, inst, name, side, vertexColors,
+} from '../constants';
 
-const sides = {
-  front: FrontSide,
-  back: BackSide,
-  double: DoubleSide,
-};
-
-/**
- * Abstract mixin component for materials,
- * corresponding [THREE.Material](https://threejs.org/docs/index.html#api/materials/Material).
- */
+const sides = { front: FrontSide, back: BackSide, double: DoubleSide };
 
 export default {
-  inject: {
-    vglNamespace: {
-      default() { throw new Error('VueGL components must be wraped by VglNamespace component.'); },
-    },
-  },
+  mixins: [VglSlotable, VglSlotHolder],
   props: {
-    /** Name of the material. */
-    name: { type: name, required: true, validator: validateName },
-    /** Defines which side of faces will be rendered. front, back or double. */
-    side: { type: string, default: 'front' },
-    /** Defines whether vertex coloring is used. Other options are 'vertex' and 'face'. */
-    vertexColors: { type: boolean },
+    /** An arbitrary name of the instance. */
+    [name]: { type: String, default: '' },
+    /**
+     * Defines which side of faces will be rendered.
+     * @values front, back, double
+     */
+    [side]: { type: String, default: 'front', validator: (s) => s in sides },
+    /** Defines whether vertex coloring is used. */
+    [vertexColors]: Boolean,
+    /** Custom defines to be injected into the shader. */
+    [defines]: { type: Object, default: () => ({}) },
+    /** Whether the material color is affected by global fog settings. */
+    [fog]: Boolean,
   },
   computed: {
     /** The THREE.Material instance. */
-    inst: () => new Material(),
-  },
-  methods: {
-    /**
-     * Emit an event in `materials` namespace. Call this method after editing instance's
-     * properties.
-     */
-    update() {
-      if (this.name !== undefined) this.vglNamespace.materials.emit(this.name, this.inst);
-    },
+    [inst]: () => new Material(),
   },
   watch: {
-    inst: {
-      handler(inst) {
-        inst.setValues({
-          side: sides[this.side],
-          vertexColors: this.vertexColors,
-        });
-        this.vglNamespace.materials.set(this.name, inst);
-      },
-      immediate: true,
+    [name]: { handler(n) { this[inst].name = n; }, immediate: true },
+    [side]: { handler(s) { this[inst].side = sides[s]; }, immediate: true },
+    [vertexColors]: { handler(c) { this[inst].vertexColors = c; }, immediate: true },
+    [defines]: {
+      handler(d) { Object.assign(this[inst], { defines: d, needsUpdate: true }); }, immediate: true,
     },
-    name(newName, oldName) {
-      if (oldName !== undefined) this.vglNamespace.materials.delete(oldName, this.inst);
-      if (newName !== undefined) this.vglNamespace.materials.set(newName, this.inst);
-    },
-    side(side) {
-      this.inst.side = sides[side];
-      this.update();
-    },
-    vertexColors(vertexColors) {
-      this.inst.vertexColors = vertexColors;
-      this.update();
+    [fog]: {
+      handler(f) { Object.assign(this[inst], { fog: f, needsUpdate: true }); }, immediate: true,
     },
   },
-  beforeDestroy() {
-    if (this.name !== undefined) this.vglNamespace.materials.delete(this.name, this.inst);
-  },
-  render(h) {
-    return this.$slots.default ? h('template', this.$slots.default) : undefined;
-  },
+  beforeDestroy() { this[inst].dispose(); },
 };

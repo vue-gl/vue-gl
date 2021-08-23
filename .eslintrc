@@ -1,6 +1,23 @@
 {
+  "ignorePatterns": "!docs/.vuepress",
   "extends": [
     "airbnb-base",
-    "plugin:vue/recommended"
-  ]
+    "plugin:markdown/recommended"
+  ],
+  "overrides": [{
+    "files": ["*.vue"],
+    "extends": ["plugin:vue/recommended"]
+  }, {
+    "files": ["docs/**", "src/**/*.vue", "examples/**"],
+    "rules": {
+      "import/no-unresolved": [
+        "error", {"commonjs": true, "caseSensitive": true, "ignore": ["vue-gl"]}
+      ]
+    }
+  }, {
+    "files": ["docs/.vuepress/plugin-*.js", "docs/.vuepress/config.js"],
+    "rules": {
+      "import/no-extraneous-dependencies": ["error", {"devDependencies": true}]
+    }
+  }]
 }

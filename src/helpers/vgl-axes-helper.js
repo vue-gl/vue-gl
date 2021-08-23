@@ -1,23 +1,38 @@
 import { AxesHelper } from 'three';
-import VglObject3d from '../core/vgl-object3d';
-import { float } from '../types';
-
-/**
- * An axis object to visualize the the 3 axes in a simple way,
- * corresponding [THREE.AxesHelper](https://threejs.org/docs/index.html#api/helpers/AxesHelper).
- * The X axis is red. The Y axis is green. The Z axis is blue.
- *
- * Properties of [VglObject3d](../core/vgl-object3d) are also available as mixin.
- */
+import VglLineSegments from '../objects/vgl-line-segments';
+import {
+  inst, size, xAxisColor, yAxisColor, zAxisColor,
+} from '../constants';
 
 export default {
-  mixins: [VglObject3d],
+  extends: VglLineSegments,
   props: {
-    /** Size of the lines representing the axes. */
-    size: { type: float, default: 1 },
+    /** The size of axis lines. */
+    [size]: { type: Number, default: 1 },
+    [xAxisColor]: [String, Number],
+    [yAxisColor]: [String, Number],
+    [zAxisColor]: [String, Number],
   },
   computed: {
     /** The THREE.AxesHelper instance. */
-    inst() { return new AxesHelper(parseFloat(this.size)); },
+    [inst]() { return new AxesHelper(this[size]); },
+    colors() { return [this[xAxisColor], this[yAxisColor], this[zAxisColor]]; },
   },
+  watch: {
+    [inst](obj, { geometry }) {
+      obj.geometry.getAttribute('color').set(geometry.getAttribute('color').array);
+    },
+    colors: {
+      handler(colors, prevColors) {
+        if (colors.includes(undefined)) {
+          if (!prevColors) return;
+          const attr = this[inst].geometry.getAttribute('color');
+          attr.set([1, 0, 0, 1, 0.6, 0, 0, 1, 0, 0.6, 1, 0, 0, 0, 1, 0, 0.6, 1]);
+          attr.needsUpdate = true;
+        } else this[inst].setColors(...colors);
+      },
+      immediate: true,
+    },
+  },
+  beforeDestroy() { this[inst].dispose(); },
 };

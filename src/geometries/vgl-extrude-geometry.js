@@ -1,76 +1,58 @@
-import { ExtrudeBufferGeometry } from 'three';
+import { ExtrudeGeometry } from 'three';
+import VglGeometry from '../core/vgl-geometry';
 import {
-  boolean, float, int, names,
-} from '../types';
-import { validateNames } from '../validators';
-import { VglGeometryWithShapes } from '../mixins';
-
-/**
- * A component for creating extruded geometry from a path shape,
- * corresponding [THREE.ExtrudeGeometry](https://threejs.org/docs/index.html#api/geometries/ExtrudeGeometry).
- *
- * Properties of [VglGeometry](../core/vgl-geometry) are also available as mixin.
- */
+  add, bevelEnabled, bevelOffset, bevelSegments, bevelSize, bevelThickness, curveSegments, depth,
+  extrudePath, inst, remove, shapes, steps, uvGenerator,
+} from '../constants';
 
 export default {
-  mixins: [VglGeometryWithShapes],
+  extends: VglGeometry,
   props: {
-    /** The Shape names */
-    shapes: { type: names, validator: validateNames },
-    /** int. Number of points on the curves */
-    curveSegments: int,
-    /** int. Number of points used for subdividing segments
-     * along the depth of the extruded spline
-     */
-    steps: int,
-    /** float. Depth to extrude the shape */
-    depth: float,
-    /** Apply beveling to the shape */
-    bevelEnabled: boolean,
-    /** float. How deep into the original shape the bevel goes */
-    bevelThickness: float,
-    /** float. Distance from the shape outline that the bevel extends */
-    bevelSize: float,
-    /** float. Distance from the shape outline that the bevel starts */
-    bevelOffset: float,
-    /** int. Number of bevel layers */
-    bevelSegments: int,
-    /** THREE.Curve. A 3D spline path along which the shape should be extruded */
-    extrudePath: Object,
-    /**  Object that provides UV generator functions */
-    uvGenerator: Object,
+    /** The number of points on the curves. */
+    [curveSegments]: { type: Number, default: 12, validator: Number.isInteger },
+    /** The number of segments along to the extruded spline depth. */
+    [steps]: { type: Number, default: 1, validator: Number.isInteger },
+    /** The depth of the extrusion. */
+    [depth]: { type: Number, default: 50 },
+    /** Wether to enable beveling or not. */
+    [bevelEnabled]: Boolean,
+    /** The bevel depth going into the shape. */
+    [bevelThickness]: { type: Number, default: 10 },
+    /** The distance from the shape outline that the bevel extends. */
+    [bevelSize]: Number,
+    /** The distance from the shape outline that the bevel starts. */
+    [bevelOffset]: { type: Number, default: 0 },
+    /** The number of bevel layers. */
+    [bevelSegments]: { type: Number, default: 3, validator: Number.isInteger },
+    /** An object that provides UV generator functions. */
+    [uvGenerator]: Object,
   },
+  data: () => ({ shapes: [], extrudePath: undefined }),
   computed: {
-    /** The object containing the parameters to be passed to ExtrudeBufferGeometry constructor */
-    options() {
-      const {
-        curveSegments,
-        steps,
-        depth,
-        bevelEnabled,
-        bevelThickness,
-        bevelSize,
-        bevelOffset,
-        bevelSegments,
-        extrudePath,
-        uvGenerator,
-      } = this;
-      return {
-        ...(curveSegments != null && { curveSegments: parseInt(curveSegments, 10) }),
-        ...(steps != null && { steps: parseInt(steps, 10) }),
-        ...(depth != null && { depth: parseFloat(depth) }),
-        ...(bevelEnabled != null && { bevelEnabled }),
-        ...(bevelThickness != null && { bevelThickness: parseFloat(bevelThickness) }),
-        ...(bevelSize != null && { bevelSize: parseFloat(bevelSize) }),
-        ...(bevelOffset != null && { bevelOffset: parseFloat(bevelOffset) }),
-        ...(bevelSegments != null && { bevelSegments: parseInt(bevelSegments, 10) }),
-        ...(extrudePath != null && { extrudePath }),
-        ...(uvGenerator != null && { UVGenerator: uvGenerator }),
-      };
+    /** The THREE.ExtrudeGeometry instance */
+    [inst]() {
+      return new ExtrudeGeometry(this.shapes, {
+        curveSegments: this[curveSegments],
+        steps: this[steps],
+        depth: this[depth],
+        bevelEnabled: this[bevelEnabled],
+        bevelThickness: this[bevelThickness],
+        bevelSize: this[bevelSize],
+        bevelOffset: this[bevelOffset],
+        bevelSegments: this[bevelSegments],
+        extrudePath: this.extrudePath,
+        UVGenerator: this[uvGenerator],
+      });
     },
-    /** The THREE.ExtrudeBufferGeometry instance */
-    inst() {
-      return new ExtrudeBufferGeometry(this.shapeObjects, this.options);
+  },
+  methods: {
+    [add](slot, obj) {
+      if (slot === shapes) this.shapes.push(obj);
+      else if (slot === extrudePath) this.extrudePath = obj;
+    },
+    [remove](slot, obj) {
+      if (slot === shapes) this.shapes.splice(this.shapes.indexOf(obj), 1);
+      else if (slot === extrudePath && this.extrudePath === obj) this.extrudePath = undefined;
     },
   },
 };

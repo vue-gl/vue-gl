@@ -1,45 +1,30 @@
-import { TorusKnotBufferGeometry } from 'three';
+import { TorusKnotGeometry } from 'three';
 import VglGeometry from '../core/vgl-geometry';
-import { float, int } from '../types';
-
-/**
- * A component for generating torus knot geometries,
- * corresponding [THREE.TorusKnotGeometry](https://threejs.org/docs/index.html#api/geometries/TorusKnotGeometry).
- *
- * Properties of [VglGeometry](../core/vgl-geometry) are also available as mixin.
- */
+import {
+  p, q, radialSegments, radius, tube, tubularSegments,
+} from '../constants';
 
 export default {
-  mixins: [VglGeometry],
+  extends: VglGeometry,
   props: {
-    /** Radius of the torus. */
-    radius: { type: float, default: 1 },
-    /** Diamiter of the tube. */
-    tube: { type: float, default: 0.4 },
-    /** Number of segments of the tube's section. */
-    radialSegments: { type: int, default: 8 },
-    /** Number of segments along to the tube length direction. */
-    tubularSegments: { type: int, default: 64 },
-    /**
-     * This value determines how many times the geometry winds
-     * around its axis of rotational symmetry.
-     */
-    p: { type: int, default: 2 },
-    /**
-     * This value determines how many times the geometry winds
-     * around a circle in the interior of the torus.
-     */
-    q: { type: int, default: 3 },
+    /** The radius of the torus. */
+    [radius]: { type: Number, default: 1 },
+    /** The diamiter of the tube. */
+    [tube]: { type: Number, default: 0.4 },
+    /** The number of segments of the tube section. */
+    [radialSegments]: { type: Number, default: 8, validator: Number.isInteger },
+    /** The number of segments along to the tube length direction. */
+    [tubularSegments]: { type: Number, default: 64, validator: Number.isInteger },
+    /** The winding times around the axis of rotational symmetry. */
+    [p]: { type: Number, default: 2, validator: Number.isInteger },
+    /** The winding times around a circle in the interior of the torus. */
+    [q]: { type: Number, default: 3, validator: Number.isInteger },
   },
   computed: {
+    /** The THREE.TorusKnotGeometry instance. */
     inst() {
-      return new TorusKnotBufferGeometry(
-        parseFloat(this.radius),
-        parseFloat(this.tube),
-        parseInt(this.tubularSegments, 10),
-        parseInt(this.radialSegments, 10),
-        parseInt(this.p, 10),
-        parseInt(this.q, 10),
+      return new TorusKnotGeometry(
+        this[radius], this[tube], this[tubularSegments], this[radialSegments], this[p], this[q],
       );
     },
   },
