@@ -144,7 +144,7 @@ Here is a simple example to draw a cube on the WebGL canvas.
   new Vue({ components: VueGL, el: '#canvas' });
 </script>
 ```
-<simple-cube-example />
+<ClientOnly><simple-cube-example /></ClientOnly>
 &lt;VglRenderer&gt; initializes a canvas for our drawings. It requires `scene` and `camera` slots to be defined.
 
 The example scene has a mesh object and a directional light.
