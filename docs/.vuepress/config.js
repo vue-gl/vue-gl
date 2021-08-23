@@ -55,7 +55,8 @@ module.exports = {
     }, {
       title: 'Components',
       children: sidebarGroup(
-        group(glob.sync(['**/vgl-*.js'], { cwd: 'src' }).map((file) => file.slice(0, -3))),
+        group(glob.sync(['**/vgl-*.js'], { cwd: 'src', ignore: ['**/private/*'] })
+          .map((file) => file.slice(0, -3))),
         '/components',
       ),
     }, {
@@ -76,6 +77,7 @@ module.exports = {
     [docgen, {
       componentDir: ['src', 'examples'],
       outputPath: { src: 'components', examples: 'example-components' },
+      ignore: ['**/private/*'],
     }],
   ],
   configureWebpack: {

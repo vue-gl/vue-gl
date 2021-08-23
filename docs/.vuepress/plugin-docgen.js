@@ -3,11 +3,11 @@ const fs = require('fs');
 const path = require('path');
 const glob = require('fast-glob');
 
-module.exports = ({ componentDir, outputPath }) => ({
+module.exports = ({ componentDir, outputPath, ignore }) => ({
   name: '@vuepress/plugin-docgen',
   additionalPages: async () => Promise.all(await Promise.all(
     (!Array.isArray(componentDir) ? [componentDir] : componentDir)
-      .map(async (cwd) => (await glob(['**/vgl-*.js'], { cwd })).map(async (file) => {
+      .map(async (cwd) => (await glob(['**/vgl-*.js'], { cwd, ignore })).map(async (file) => {
         const doc = await parse(path.resolve(cwd, file));
         const exampleFile = file.replace(/\.js$/, '-example.vue');
         const examplePath = path.resolve(cwd, exampleFile);
