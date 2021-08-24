@@ -41,6 +41,8 @@ jobs:
       - run: |
           npx vuepress build docs
           cd docs/.vuepress/dist
+          git config --global user.email $GIT_USER_EMAIL
+          git config --global user.name $GIT_USER_NAME
           git init
           git add -A
           git commit -m 'deploy'
@@ -49,3 +51,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.gh_pages_token }}
           GH_PAGES_REPOSITORY: ${{ secrets.gh_pages_repository }}
           GH_PAGES_BRANCH: master
+          GIT_USER_NAME: ${{ secrets.git_user_name }}
+          GIT_USER_EMAIL: ${{ secrets.git_user_email }}
