@@ -19,7 +19,7 @@ jobs:
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.npm_token }}
-      - uses: TheDoctor0/zip-release@0.6
+      - uses: TheDoctor0/zip-release@master
         with:
           type: zip
           filename: vue-gl.zip
