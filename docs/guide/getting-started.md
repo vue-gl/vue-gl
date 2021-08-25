@@ -49,11 +49,11 @@ You can also load scripts from CDNs. To load them, just replace src attribute of
 <script src="https://cdn.jsdelivr.net/npm/vue-gl"></script>
 ```
 
-### Building a script to be loaded with a module bundler
+### Building scripts with a module bundler
 VueGL and its dependencies are also available on [npm](//www.npmjs.com). If you build your app with
 a module bundler such as [Webpack](//webpack.js.org) or [rollup.js](//rollupjs.org), it is easy to integrate VueGL to your app.
 
-Note that Vue.js and Three.js are peer dependencies of VueGL, then you have to explicitly install
+Note that Vue.js and Three.js are peer dependencies of VueGL, so that you have to explicitly install
 them.
 
 ```sh
