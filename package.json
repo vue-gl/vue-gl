@@ -46,7 +46,7 @@
     "eslint-plugin-markdown": "^2.2.0",
     "eslint-plugin-vue": "^7.12.1",
     "fast-glob": "^3.2.7",
-    "jest": "^26.0.0",
+    "jest": "^27.0.6",
     "rollup": "^2.26.6",
     "rollup-plugin-terser": "^7.0.2",
     "three": "^0.132.0",
