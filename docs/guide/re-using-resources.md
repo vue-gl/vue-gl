@@ -73,7 +73,7 @@ export default {
 };
 </script>
 ```
-<re-using-geometry-example />
+<ClientOnly><re-using-geometry-example /></ClientOnly>
 
 
 ## Sharing resources between multiple renderers
@@ -161,7 +161,7 @@ export default {
 }
 </style>
 ```
-<multiple-renderers-example />
+<ClientOnly><multiple-renderers-example /></ClientOnly>
 
 ## When you have to take exact that instance
 Some VueGL components need to get instances used in other component tree.
@@ -261,4 +261,4 @@ export default {
 };
 </script>
 ```
-<exact-same-instance-example />
+<ClientOnly><exact-same-instance-example /></ClientOnly>
