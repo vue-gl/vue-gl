@@ -49,7 +49,7 @@
     "jest": "^27.0.6",
     "rollup": "^2.26.6",
     "rollup-plugin-terser": "^7.0.2",
-    "three": "^0.133.0",
+    "three": "^0.137.5",
     "vue": "^2.6.0",
     "vue-docgen-api": "^4.41.0",
     "vuepress": "^1.8.2"
