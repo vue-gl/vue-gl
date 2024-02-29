@@ -23,5 +23,8 @@
   "license": "MIT",
   "devDependencies": {
     "vite": "^5.1.4"
+  },
+  "scripts": {
+    "build": "vite build"
   }
 }
